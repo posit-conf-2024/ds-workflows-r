@@ -3,7 +3,7 @@ Data Science Workflows with Posit Tools — R Focus
 
 ### posit::conf(2024)
 
-by INSTRUCTOR_NAME
+by Katie Masiello, Ryan Johnson
 
 -----
 
