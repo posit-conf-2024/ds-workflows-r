@@ -1,0 +1,40 @@
+---
+title: "Exploring WA State Ferry Data"
+output: html_document
+format:
+  html:
+    table-of-contents: true
+    anchor-sections: true
+    code-fold: true
+    code-overflow: wrap
+    code-summary: "Show Code"
+    code-tools: true
+    code-link: true
+---
+
+## Download ferry data
+
+```{r}
+library(httr)
+library(tidyverse)
+
+
+base_url <- "https://www.wsdot.wa.gov/ferries/api/"
+alerts_ep <- "schedule/rest/alerts"
+bulletins_ep <- "ferries/api/terminals/rest/terminalbulletins"
+terminalsailingspace_ep <- "ferries/api/terminals/rest/terminalsailingspace"
+terminalwaittimes_ep <- "ferries/api/terminals/rest/terminalwaittimes"
+vesselbasics_ep <- "vessels/rest/vesselbasics"
+vesselhistory_ep <- "vessels/rest/vesselhistory"
+vessellocations_ep <- "vessels/rest/vessellocations"
+vesselstats_ep <- "vessels/rest/vesselstats"
+vesselverbose_ep <- "vessels/rest/vesselverbose"
+
+
+alerts <- GET(paste0(base_url,alerts_ep,"?apiaccesscode=", Sys.getenv("WSDOT_API_KEY"))) |> content(as = "text") |> jsonlite::fromJSON() |> as_tibble()
+
+bulletins <- GET(paste0(base_url,bulletins_ep,"?apiaccesscode=", Sys.getenv("WSDOT_API_KEY"))) |> content(as = "text") |> jsonlite::fromJSON() |> as_tibble()
+
+
+
+```
