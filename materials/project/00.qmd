@@ -10,6 +10,8 @@ format:
     code-summary: "Show Code"
     code-tools: true
     code-link: true
+editor_options: 
+  chunk_output_type: console
 ---
 
 ## Download ferry data
@@ -19,8 +21,8 @@ library(httr)
 library(tidyverse)
 
 
-base_url <- "https://www.wsdot.wa.gov/ferries/api/"
-alerts_ep <- "schedule/rest/alerts"
+base_url <- "https://www.wsdot.wa.gov"
+alerts_ep <- "ferries/api/schedule/rest/alerts"
 bulletins_ep <- "ferries/api/terminals/rest/terminalbulletins"
 terminalsailingspace_ep <- "ferries/api/terminals/rest/terminalsailingspace"
 terminalwaittimes_ep <- "ferries/api/terminals/rest/terminalwaittimes"
@@ -31,10 +33,34 @@ vesselstats_ep <- "vessels/rest/vesselstats"
 vesselverbose_ep <- "vessels/rest/vesselverbose"
 
 
-alerts <- GET(paste0(base_url,alerts_ep,"?apiaccesscode=", Sys.getenv("WSDOT_API_KEY"))) |> content(as = "text") |> jsonlite::fromJSON() |> as_tibble()
+(alerts1 <- GET(paste0(base_url,alerts_ep,"?apiaccesscode=", Sys.getenv("WSDOT_API_KEY"))) |> content(as = "text") |> jsonlite::fromJSON() |> as_tibble())
 
-bulletins <- GET(paste0(base_url,bulletins_ep,"?apiaccesscode=", Sys.getenv("WSDOT_API_KEY"))) |> content(as = "text") |> jsonlite::fromJSON() |> as_tibble()
+(bulletins <- GET(paste0(base_url,bulletins_ep,"?apiaccesscode=", Sys.getenv("WSDOT_API_KEY"))) |> content(as = "text") |> jsonlite::fromJSON() |> as_tibble())
 
 
+library(httr2)
+
+alerts <- request(base_url) |> req_url_path(alerts_ep) |> req_url_query(apiaccesscode = Sys.getenv("WSDOT_API_KEY")) |> req_perform()
+
+httr::with_verbose(req |> req_perform() )
 
 ```
+
+
+-> GET /ferries/api/schedule/rest/alerts?apiaccesscode=dda1e83e-4c10-468a-ab37-c3671c5210d3 HTTP/1.1
+-> Host: www.wsdot.wa.gov
+-> User-Agent: libcurl/7.81.0 r-curl/5.2.1 httr/1.4.7
+-> Accept-Encoding: deflate, gzip, br, zstd
+-> Accept: application/json, text/xml, application/xml, */*
+-> 
+<- HTTP/1.1 200 OK
+<- Cache-Control: private
+<- Content-Type: application/json; charset=utf-8
+<- Server: Microsoft-IIS/10.0
+<- X-AspNet-Version: 4.0.30319
+<- X-Powered-By: ASP.NET
+<- Date: Fri, 24 May 2024 21:10:46 GMT
+<- Content-Length: 13047
+<- Set-Cookie: NSC_MC_WT_XTGBqqt=ffffffff093a0ed345525d5f4f58455e445a4a423660;expires=Fri, 24-May-2024 21:12:46 GMT;path=/;secure;httponly
+<- 
+> 
