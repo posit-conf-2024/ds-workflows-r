@@ -1,0 +1,93 @@
+---
+format:
+  html
+toc-depth: 4
+---
+## Workshop Resources
+
+We cover a lot of ground in this workshop. Below is a summary of the packages and references that you may find helpful to revisit.
+
+### Data Exploration 
+
+- [`pointblank::scan_data()`](https://rstudio.github.io/pointblank/reference/scan_data.html)
+
+### Working with databases
+
+- [Best practices in working with databases](https://solutions.posit.co/connections/db/)
+- [Connect to a database](https://solutions.posit.co/connections/db/getting-started/connect-to-database/)
+- [Query a database table](https://solutions.posit.co/connections/db/getting-started/database-queries/)
+- [Securing credentials](https://solutions.posit.co/connections/db/best-practices/managing-credentials/)
+- [Making scripts portable](https://solutions.posit.co/connections/db/best-practices/portable-code/)
+
+### Data Validation and Reporting
+
+- [`pointblank`](https://rstudio.github.io/pointblank/)
+- Try the pointblank [test drive](https://posit.cloud/project/3411822) on Posit Cloud to see all the features
+- Pointblank [data dictionary](https://rstudio.github.io/pointblank/reference/incorporate.html) (a.k.a. the informant)
+- Monitor data quality over time with the pointblank [`multiagent`](https://rstudio.github.io/pointblank/reference/create_multiagent.html)
+
+### Conditional Alerting 
+
+- [`blastula`](https://pkgs.rstudio.com/blastula/)
+- [Email customization](https://pkgs.rstudio.com/blastula/) from the Connect User Guide
+
+### Modeling and MLOps
+
+- [`tidymodels`](https://www.tidymodels.org/)
+- [`vetiver`](https://vetiver.rstudio.com)
+- [`pins`](https://pins.rstudio.com/)
+- [`plumber`](https://www.rplumber.io/)
+
+### Shiny
+
+#### Creating Shiny apps and dashboards
+
+- [Get started with Shiny](https://shiny.posit.co/getstarted) (R or Python!) 
+- [Gallery of examples](https://shiny.posit.co/r/gallery/)
+- The authoritative reference, [*Mastering Shiny*](https://mastering-shiny.org) (Don't let the title fool you, it's great for beginners!)
+- [`bslib`](https://rstudio.github.io/bslib/) - add themes, components, and layouts to your dashboard with ease
+- [`thematic`](https://rstudio.github.io/thematic/) - extends your Shiny theme to plots
+- [`shinyuieditor`](https://rstudio.github.io/shinyuieditor/) - a visual tool to help create the UI portion of your Shiny app
+
+#### Shiny in production
+
+- Start here 👉 Joe Cheng's [Shiny in Production](https://youtu.be/Wy3TY0gOmJw) talk at 2019 rstudio::conf
+- The [Performance chapter](https://mastering-shiny.org/performance.html) of *Mastering Shiny*
+- Add logging to app with [`log4r`](https://github.com/johnmyleswhite/log4r) 
+- Use [`shinyloadtest`](https://rstudio.github.io/shinyloadtest/) to simulate app performance under load
+- Use [`profvis`](https://rstudio.github.io/profvis/) to profile your app to identify bottlenecks
+
+
+### Curating and Managing Content on Connect
+
+- Use of [Tags on Connect](https://docs.posit.co/connect/admin/content-management/index.html#tags)
+- [`connectwidgets`](https://rstudio.github.io/connectwidgets/)
+- Posit Connect Server API
+  - [Reference ](https://docs.posit.co/connect/api/)
+  - [API Cookbook](https://docs.posit.co/connect/cookbook/)
+  - [Example reports and apps](https://solutions.posit.co/operations/connect-apis/)
+  - [`connectapi`](https://pkgs.rstudio.com/connectapi/) R package that is a wrapper around the API
+
+### Managing Environments
+
+#### Package environments
+
+- [Understanding Repositories and Libraries](https://solutions.posit.co/envs-pkgs/repos_and_libs/)
+- [`renv`](https://rstudio.github.io/renv/)
+
+#### Promoting code to different environments
+
+- [Deployment methods for Connect](https://solutions.posit.co/operations/deploy-methods)
+- [Publishing Workflows for Connect](https://solutions.posit.co/operations/publishing-wkflow/)
+- [Dev/Test/Prod with Posit Team:](https://solutions.posit.co/operations/code-promotion/)
+- Connect User Guide for [Git-backed deployment](https://docs.posit.co/connect/user/git-backed/)
+- [Git-backed publishing](https://solutions.posit.co/operations/deploy-methods/#git-backed-publishing) patterns
+- [Examples of CI/CD deployment patterns](https://solutions.posit.co/operations/deploy-methods/ci-cd/) for:
+  - GitHub Actions
+  - GitLab CI/CD
+  - Azure Pipelines
+  - Bitbucket Pipelines
+  - Jenkins
+
+
+

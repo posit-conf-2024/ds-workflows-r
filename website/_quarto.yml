@@ -1,0 +1,67 @@
+project:
+  type: website
+  # render:
+  #   - "*.qmd"
+  output-dir: docs
+
+
+website:
+  title: "Data Science Workflows with Posit Tools - R focus"
+  description: "This one-day workshop provides an introduction to building Data Science workflows in Python using Posit's professional products."
+  repo-actions: [edit, issue]
+
+
+  page-footer:
+    left: "This page was built with ❤️ and [Quarto](https://quarto.org/)."
+  navbar:
+    background: "#447098"
+    left:
+      - href: index.qmd
+        text: Home
+      - text: Slides
+        menu: 
+          - href: workshop-slides/01_workshop_and_project_intro.qmd
+            text: "01 - Workshop and Project Intro"
+          - href: workshop-slides/02_data_exploration_and_databases.qmd
+            text: "02 - Data Exploration and Database Essentials"
+          - href: workshop-slides/03_data_validation_and_alerting.qmd
+            text: "03 - Data Validation and Alerting"
+          - href: workshop-slides/04_tidymodels_and_vetiver.qmd
+            text: "04 - Modeling and MLOps"
+          - href: workshop-slides/05_delivery.qmd
+            text: "05 - Delivering Insights Effectively"
+          - href: workshop-slides/06_managing_environments.qmd
+            text: "06 - Managing Environments"
+      - href: /about.html#schedule
+        text: "Schedule"
+      - href: https://github.com/posit-conf-2023/ds-workflows-r
+        icon: github
+        text: Workshop Materials
+    right: 
+      - icon: github
+        href: https://github.com/posit-conf-2023/ds-workflows-r
+  sidebar: 
+    style: docked
+    contents: 
+      - section: "Slides"
+        contents: 
+          - href: workshop-slides/01_workshop_and_project_intro.qmd
+            text: "01 - Workshop and Project Intro"
+          - href: workshop-slides/02_data_exploration_and_databases.qmd
+            text: "02 - Data Exploration and Database Essentials"
+          - href: workshop-slides/03_data_validation_and_alerting.qmd
+            text: "03 - Data Validation and Alerting"
+          - href: workshop-slides/04_tidymodels_and_vetiver.qmd
+            text: "04 - Modeling and MLOps"
+          - href: workshop-slides/05_delivery.qmd
+            text: "05 - Delivering Insights Effectively"
+          - href: workshop-slides/06_managing_environments.qmd
+            text: "06 - Managing Environments"            
+format:
+  html:
+    theme:
+      - sandstone
+    toc: true
+    
+fig-format: svg   
+

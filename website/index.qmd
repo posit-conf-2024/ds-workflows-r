@@ -1,0 +1,50 @@
+---
+format:
+  html
+---
+
+## Welcome
+
+These are the materials for a one-day workshop on <b>Building Data Science Workflows in R Using Posit Tools</b> on Sunday, 17 Sept 2023 at [posit::conf 2023](http://pos.it/conf)!
+
+In this R-focused workshop, we will discuss ways to improve your data science workflows. During the course, we will review packages for data validation, alerting, modeling, and more. We’ll use Posit’s open source and professional tools to string all the pieces together for an efficient workflow. We’ll discuss environments, managing deployed content, working with databases, and interoperability across data products.
+ 
+For additional details see [About](/about.html)
+
+## Workshop Materials
+
+Hands on activities and the assets for the completed Food Inspections project are available at: 
+
+<https://github.com/posit-conf-2023/ds-workflows-r>
+
+## Resources
+
+We cover a lot of ground. See the [list of resources](/resources.html) for references to come back to.
+
+## Instructors
+
+**Ryan Johnson**, Data Science Advisor, Posit
+
+<img src="https://static.rainfocus.com/posit/positconf23/att/1677178604739001JAiJ/attprofile/ryan-johnson_1677178699411001Jhx9.jpeg" alt="Ryan Johnson" width="150" height="150">
+
+Ryan Johnson is a Data Science Advisor at Posit with a background in Microbiology and Bioinformatics. He obtained his PhD from the Uniformed Services University in Maryland and did his postdoctoral training at the National Human Genome Research Institute, NIH. The only thing that rivals his love for infectious diseases is generating 'super cool' visualizations from large data sets using R and RStudio. In his free time, you can find Ryan running marathons/ultramarathons in the DC area or hiking miles along the Appalachian Trail. Ryan resides in Gaithersburg with his wife and two feline co-workers.
+
+**Katie Masiello**, Solutions Engineer, Posit
+
+<img src="https://static.rainfocus.com/posit/positconf23/att/1677178634814001OIcK/attprofile/katie-masiello_1677178747298001qORW.jpeg" alt="Katie Masiello" width="150" height="150">
+
+Katie Masiello is a Solutions Engineer at Posit. A mechanical engineer by training, she found her calling in data science while working statistical analysis in the aerospace industry. A good cup of coffee, reproducibility, and making life easier for the next user are three things she loves most. Katie is an avid knitter and knitr, and she can often be found trying to tame her ridiculously overgrown garden, collecting pebbles, or thinking about taking up running as a hobby.
+
+
+## Acknowledgments {.appendix}
+
+This website, including the slides, is made with [Quarto](https://quarto.org/). Please [submit an issue](https://github.com/posit-conf-2023/ds-workflows-r/issues) on the GitHub repo for this workshop if you find something that could be fixed or improved.
+
+## Notice {.appendix}
+The sample data science project used for this workshop provides applications using data that has been modified for use from its original source, [www.cityofchicago.org](https://www.cityofchicago.org), the official website of the City of Chicago. The City of Chicago makes no claims as to the content, accuracy, timeliness, or completeness of any of the data provided at this site. The data provided at this site is subject to change at any time. It is understood that the data provided at this site is being used at one’s own risk.
+
+## Reuse and licensing {.appendix}
+
+![](https://i.creativecommons.org/l/by/4.0/88x31.png) This work is
+licensed under a [Creative Commons Attribution 4.0 International
+License](https://creativecommons.org/licenses/by/4.0/).

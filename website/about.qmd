@@ -1,0 +1,58 @@
+---
+format:
+  html
+---
+
+## About this workshop
+
+## Is this workshop for me? 
+
+This workshop is for you if you...
+
+-   Build finished data products starting from raw data and are looking to improve your workflow
+-   Are looking to expand your knowledge of Posit open source and professional tools
+-   Want to improve interoperability between data products in your work or on your team
+-   Have experience developing in R. An [analogous course with a Python focus](https://posit-conf-2023.github.io/ds-workflows-python/) is also offered
+
+## Prework
+
+This workshop requires that you bring your own laptop. 
+
+So we can hit the ground running, please view the video below before the Workshop:
+
+  👉 <https://rstudio.wistia.com/medias/uaettrtu1j>
+
+
+Written instructions for registering with Posit Connect are also below:
+
+1. Visit <https://connect.conf23workflows.training.posit.co>.
+1. Click the “Sign Up” button at the top right.
+1. Sign up with your personal email.
+1. Make your username the prefix of your personal email. 
+1. Check your email to confirm your account. The email will be from “conf23workflows@training.rstudio.com” (check your junk folder)
+
+
+We will be using Discord as our main communication method! To make the process go smoothly:
+
+- Please [sign up for an account](https://discord.com/) if you don’t already have one.
+- Make sure your [display name](https://support.discord.com/hc/en-us/articles/12620128861463-New-Usernames-Display-Names#h_01GXPQABMYGEHGPRJJXJMPHF5C) is the one you used to register for the conference.
+- In your “About Me,” put the name of your workshop: “Data Science Workflows with Posit Tools — R Focus”
+
+
+Closer to the start of the conference, we will invite you to the posit::conf Discord server. Once you’ve accepted the invite, we will add you to the channel(s) for your conf workshop(s).
+
+If you have questions in advance of the workshop, please reach out to either Ryan (ryan@posit.co) and/or Katie (katie.masiello@posit.co).
+
+## Schedule
+
+
+| Time          | Activity         |
+| :------------ | :--------------- |
+| 09:00 - 10:30 | Session 1       |
+| 10:30 - 11:00 | *Coffee break*   |
+| 11:00 - 12:30 | Session 2        |
+| 12:30 - 13:30 | *Lunch break*    |
+| 13:30 - 15:00 | Session 3   |
+| 15:00 - 15:30 | *Coffee break*   |
+| 15:30 - 17:00 | Session 4      |
+
