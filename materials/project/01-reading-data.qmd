@@ -1,0 +1,122 @@
+---
+title: "Read and Save Raw Washington State Ferry Data"
+output: html_document
+format:
+  html:
+    table-of-contents: true
+    anchor-sections: true
+    code-fold: true
+    code-overflow: wrap
+    code-summary: "Show Code"
+    code-tools: true
+    code-link: true
+editor_options: 
+  chunk_output_type: console
+---
+
+## Retrieve vessel verbose data
+
+```{r}
+library(httr2)
+library(tidyverse)
+
+base_url <- "https://www.wsdot.wa.gov/Ferries/API/Vessels/rest"
+
+vesselverbose_ep <- "vesselverbose"
+
+req <- request(base_url) |> req_url_query(apiaccesscode = Sys.getenv("WSDOT_ACCESS_CODE"))
+
+vesselverbose <- req |> 
+  req_url_path_append(vesselverbose_ep) |> 
+  req_perform() |> 
+  resp_body_string() |> 
+  jsonlite::fromJSON() |> 
+  as_tibble()
+
+
+
+```
+
+## Helper Functions
+
+```{r}
+# Convert time stamp (e.g., /Date(1716553800000-0700)/) to actual datetime
+convert_timestamp <- function(timestamp) {
+  # Define timestamp and timezone offset
+  timestamp_ms <- as.numeric(str_extract(timestamp, "(?<=/Date\\()\\d+(?=[-+])"))
+  
+  # Convert the timestamp to seconds
+  timestamp_sec <- timestamp_ms / 1000
+  
+  # Convert to datetime object
+  as.POSIXct(timestamp_sec, origin = "1970-01-01", tz = "US/Pacific")
+}
+
+```
+
+
+## Retrieve vessel history
+
+```{r}
+
+start_date <- as.character(today() - months(1))
+end_date <- as.character(today())
+vesselnames <- vesselverbose |> pull(VesselName)
+
+
+get_vesselhistory <- function(vesselname, start_date, end_date) {
+  cat(glue::glue("Getting vessel history for {vesselname}..."))
+  vesselhistory <- request("https://www.wsdot.wa.gov/Ferries/API/Vessels/rest") |> 
+    req_url_path_append("vesselhistory", vesselname, start_date, end_date) |> 
+    req_url_query(apiaccesscode = Sys.getenv("WSDOT_ACCESS_CODE")) |> 
+    req_perform() |> 
+    resp_body_string() |> 
+    jsonlite::fromJSON() |> 
+    as_tibble()
+
+  cat(glue::glue("\n\t{nrow(vesselhistory)} records retrieved for {vesselname}."))
+  vesselhistory
+  }
+
+get_vesselhistory <- function(vesselname, start_date, end_date) {
+  
+  cat(glue::glue("Getting vessel history for {vesselname}...\n"))
+  vesselhistory <- request("https://www.wsdot.wa.gov/Ferries/API/Vessels/rest") |> 
+    req_url_path_append("vesselhistory", URLencode(vesselname), start_date, end_date) |> 
+    req_url_query(apiaccesscode = Sys.getenv("WSDOT_ACCESS_CODE")) |> 
+    req_perform() |> 
+    resp_body_string() |> 
+    jsonlite::fromJSON() |> 
+    as_tibble()
+
+  cat(glue::glue("\t{nrow(vesselhistory)} records retrieved for {vesselname}"),"\n")
+  vesselhistory
+  }
+
+
+data_list <- map(vesselnames, get_vesselhistory, start_date, end_date)
+
+vessel_history <- bind_rows(data_list) |> 
+  mutate_at(c("ScheduledDepart", "ActualDepart", "EstArrival", "Date"), convert_timestamp)
+
+
+```
+
+## Pin data 
+For lack of a database for now. 
+
+```{r}
+library(pins)
+
+board <- board_connect()
+
+pin_write(board, vesselverbose, 
+          title="`vesselverbose` data from WSDOT", 
+          description="from `Ferries/API/Vessels/rest/vesselverbose`")
+
+pin_write(board, vesselhistory,
+          title="`vesselhistory` data from WSDOT",
+          description="from `Ferries/API/Vessels/rest/vesselhistory`")
+
+```
+
