@@ -1,5 +1,5 @@
 ---
-title: "Read and Save Raw Washington State Ferry Data"
+title: "Read, Explore, and Write Raw Washington State Ferry Data"
 output: html_document
 format:
   html:
@@ -33,9 +33,29 @@ vesselverbose <- req |>
   jsonlite::fromJSON() |> 
   as_tibble()
 
-
+# the results include a nested dataframe of Class information. Unnest this.
+vesselverbose <- vesselverbose |> unnest(Class)
 
 ```
+
+## Explore the data
+```{r}
+
+str(vesselverbose)
+summary(vesselverbose)
+
+
+
+library(skimr)
+skim(vesselverbose)
+
+library(pointblank)
+vessel_scan <- scan_data(vesselverbose, sections = "OVMS")
+vessel_scan
+```
+
+
+
 
 ## Helper Functions
 
