@@ -1,0 +1,84 @@
+---
+title: "Read, Explore, and Write Raw Washington State Ferry Data"
+output: html_document
+format:
+  html:
+    table-of-contents: true
+    anchor-sections: true
+    code-fold: true
+    code-overflow: wrap
+    code-summary: "Show Code"
+    code-tools: true
+    code-link: true
+editor_options: 
+  chunk_output_type: console
+---
+
+
+# Overview
+
+1.  Pull data from database (`vesseldata_raw` and `vesselhistory_raw`)
+1.  Run a few transforms, mutations, cleanups and finalize dataset processing (``)
+1.  Validate and pass only passing data (``)
+1.  Write pins
+
+## Read in raw data
+
+```{r}
+library(pins)
+
+board <- board_connect()
+
+vesseldata_raw <- pin_read(board, "katie.masiello/vesseldata")
+
+vesselhistory_raw <- pin_read(board, "katie.masiello/vesselhistory")
+
+weather_terminal_history <- pin_read(board, "katie.masiello/weather_terminal_history")
+
+```
+
+
+## Clean and validate
+
+## Helper Functions
+
+```{r}
+# Convert time stamp (e.g., /Date(1716553800000-0700)/) to actual datetime
+convert_timestamp <- function(timestamp) {
+  # Define timestamp and timezone offset
+  timestamp_ms <- as.numeric(str_extract(timestamp, "(?<=/Date\\()\\d+(?=[-+])"))
+  
+  # Convert the timestamp to seconds
+  timestamp_sec <- timestamp_ms / 1000
+  
+  # Convert to datetime object
+  as.POSIXct(timestamp_sec, origin = "1970-01-01", tz = "US/Pacific")
+}
+
+```
+
+
+### Clean vesseldata
+```{r}
+# 
+vesseldata
+```
+
+
+
+### Clean vesselhistory
+```{r}
+
+vesselhistory <- vesselhistory_raw |> 
+  mutate_at(c("ScheduledDepart", "ActualDepart", "EstArrival", "Date"), convert_timestamp)
+```
+
+## Clean weather data
+
+```{r}
+
+weather_terminal_history <- weather_terminal_raw |> 
+  mutate(time = ymd_hm(time, tz = "America/Los_Angeles"))
+
+```
+

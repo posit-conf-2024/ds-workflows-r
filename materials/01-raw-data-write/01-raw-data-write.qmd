@@ -26,7 +26,7 @@ vesselverbose_ep <- "vesselverbose"
 
 req <- request(base_url) |> req_url_query(apiaccesscode = Sys.getenv("WSDOT_ACCESS_CODE"))
 
-vesselverbose <- req |> 
+vesseldata <- req |> 
   req_url_path_append(vesselverbose_ep) |> 
   req_perform() |> 
   resp_body_string() |> 
@@ -34,45 +34,26 @@ vesselverbose <- req |>
   as_tibble()
 
 # the results include a nested dataframe of Class information. Unnest this.
-vesselverbose <- vesselverbose |> unnest(Class)
+vesseldata <- vesseldata |> unnest(Class)
 
 ```
 
 ## Explore the data
 ```{r}
 
-str(vesselverbose)
-summary(vesselverbose)
+str(vesseldata)
+summary(vesseldata)
 
 
 
 library(skimr)
-skim(vesselverbose)
+skim(vesseldata)
 
 library(pointblank)
-vessel_scan <- scan_data(vesselverbose, sections = "OVMS")
+vessel_scan <- scan_data(vesseldata, sections = "OVMS")
 vessel_scan
 ```
 
-
-
-
-## Helper Functions
-
-```{r}
-# Convert time stamp (e.g., /Date(1716553800000-0700)/) to actual datetime
-convert_timestamp <- function(timestamp) {
-  # Define timestamp and timezone offset
-  timestamp_ms <- as.numeric(str_extract(timestamp, "(?<=/Date\\()\\d+(?=[-+])"))
-  
-  # Convert the timestamp to seconds
-  timestamp_sec <- timestamp_ms / 1000
-  
-  # Convert to datetime object
-  as.POSIXct(timestamp_sec, origin = "1970-01-01", tz = "US/Pacific")
-}
-
-```
 
 
 ## Retrieve vessel history
@@ -81,26 +62,14 @@ convert_timestamp <- function(timestamp) {
 
 start_date <- as.character(today() - months(1))
 end_date <- as.character(today())
-vesselnames <- vesselverbose |> pull(VesselName)
+vesselnames <- vesseldata |> pull(VesselName)
 
 
-get_vesselhistory <- function(vesselname, start_date, end_date) {
-  cat(glue::glue("Getting vessel history for {vesselname}..."))
-  vesselhistory <- request("https://www.wsdot.wa.gov/Ferries/API/Vessels/rest") |> 
-    req_url_path_append("vesselhistory", vesselname, start_date, end_date) |> 
-    req_url_query(apiaccesscode = Sys.getenv("WSDOT_ACCESS_CODE")) |> 
-    req_perform() |> 
-    resp_body_string() |> 
-    jsonlite::fromJSON() |> 
-    as_tibble()
 
-  cat(glue::glue("\n\t{nrow(vesselhistory)} records retrieved for {vesselname}."))
-  vesselhistory
-  }
 
 get_vesselhistory <- function(vesselname, start_date, end_date) {
   
-  cat(glue::glue("Getting vessel history for {vesselname}...\n"))
+  cat(glue::glue("Getting vessel history for {vesselname}..."))
   vesselhistory <- request("https://www.wsdot.wa.gov/Ferries/API/Vessels/rest") |> 
     req_url_path_append("vesselhistory", URLencode(vesselname), start_date, end_date) |> 
     req_url_query(apiaccesscode = Sys.getenv("WSDOT_ACCESS_CODE")) |> 
@@ -116,11 +85,14 @@ get_vesselhistory <- function(vesselname, start_date, end_date) {
 
 data_list <- map(vesselnames, get_vesselhistory, start_date, end_date)
 
-vessel_history <- bind_rows(data_list) |> 
-  mutate_at(c("ScheduledDepart", "ActualDepart", "EstArrival", "Date"), convert_timestamp)
+vesselhistory <- bind_rows(data_list) 
 
 
 ```
+
+
+##TODO: 
+We will want to do an append write on the database to add vesselhistory and could also append weather data?
 
 ## Pin data 
 For lack of a database for now. 
@@ -130,12 +102,12 @@ library(pins)
 
 board <- board_connect()
 
-pin_write(board, vesselverbose, 
-          title="`vesselverbose` data from WSDOT", 
+pin_write(board, vesseldata, 
+          title="Raw `vesselverbose` data from WSDOT", 
           description="from `Ferries/API/Vessels/rest/vesselverbose`")
 
 pin_write(board, vesselhistory,
-          title="`vesselhistory` data from WSDOT",
+          title="Raw `vesselhistory` data from WSDOT",
           description="from `Ferries/API/Vessels/rest/vesselhistory`")
 
 ```
