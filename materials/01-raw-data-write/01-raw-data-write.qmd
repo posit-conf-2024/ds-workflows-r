@@ -2,7 +2,7 @@
 title: "Read, Explore, and Write Raw Washington State Ferry Data"
 output: html_document
 format:
-  html:
+  email:
     table-of-contents: true
     anchor-sections: true
     code-fold: true
@@ -12,13 +12,23 @@ format:
     code-link: true
 editor_options: 
   chunk_output_type: console
+execute: 
+  eval: true
 ---
+
+## Are we in test mode?
+```{r}
+# set TEST_MODE=TRUE to preview the alert email. Logic is written such that if TEST_MODE is any value other than TRUE (including not set), it behaves as if it is FALSE.
+test_mode <- Sys.getenv("TEST_MODE")
+```
+
 
 ## Retrieve vessel verbose data
 
 ```{r}
 library(httr2)
 library(tidyverse)
+library(janitor)
 
 base_url <- "https://www.wsdot.wa.gov/Ferries/API/Vessels/rest"
 
@@ -26,7 +36,7 @@ vesselverbose_ep <- "vesselverbose"
 
 req <- request(base_url) |> req_url_query(apiaccesscode = Sys.getenv("WSDOT_ACCESS_CODE"))
 
-vesseldata <- req |> 
+vesseldata_raw <- req |> 
   req_url_path_append(vesselverbose_ep) |> 
   req_perform() |> 
   resp_body_string() |> 
@@ -34,23 +44,25 @@ vesseldata <- req |>
   as_tibble()
 
 # the results include a nested dataframe of Class information. Unnest this.
-vesseldata <- vesseldata |> unnest(Class)
+# Also use `janitor` to clean column names
+vesseldata_raw <- vesseldata_raw |> unnest(Class) |> clean_names()
 
 ```
 
 ## Explore the data
 ```{r}
+#| eval: !expr 'test_mode != TRUE'
 
-str(vesseldata)
-summary(vesseldata)
+str(vesseldata_raw)
+summary(vesseldata_raw)
 
 
 
 library(skimr)
-skim(vesseldata)
+skim(vesseldata_raw)
 
 library(pointblank)
-vessel_scan <- scan_data(vesseldata, sections = "OVMS")
+vessel_scan <- scan_data(vesseldata_raw, sections = "OVMS")
 vessel_scan
 ```
 
@@ -60,9 +72,9 @@ vessel_scan
 
 ```{r}
 
-start_date <- as.character(today() - months(1))
-end_date <- as.character(today())
-vesselnames <- vesseldata |> pull(VesselName)
+start_date <- "2023-05-31"
+end_date <- "2024-05-31"
+vesselnames <- vesseldata_raw |> pull(vessel_name)
 
 
 
@@ -85,30 +97,60 @@ get_vesselhistory <- function(vesselname, start_date, end_date) {
 
 data_list <- map(vesselnames, get_vesselhistory, start_date, end_date)
 
-vesselhistory <- bind_rows(data_list) 
+vesselhistory_raw <- bind_rows(data_list) |> clean_names()
 
+num_records_vesselhistory <- nrow(vesselhistory_raw)
+
+# set alert
+if(num_records_vesselhistory < 10 | test_mode == TRUE){
+  alert_message <- glue::glue("There was a problem with the vessel history data retrieved. {num_records_vesselhistory} rows were retrieved.")
+send_email <- TRUE
+}
 
 ```
 
 
-##TODO: 
+## TODO: 
 We will want to do an append write on the database to add vesselhistory and could also append weather data?
+Change vesselhistory to a date range
+Make the weather lookup more robust if date not found
+
 
 ## Pin data 
 For lack of a database for now. 
 
 ```{r}
+#| eval: false
+
 library(pins)
 
 board <- board_connect()
 
-pin_write(board, vesseldata, 
+pin_write(board, vesseldata_raw, 
           title="Raw `vesselverbose` data from WSDOT", 
           description="from `Ferries/API/Vessels/rest/vesselverbose`")
 
-pin_write(board, vesselhistory,
+pin_write(board, vesselhistory_raw,
           title="Raw `vesselhistory` data from WSDOT",
           description="from `Ferries/API/Vessels/rest/vesselhistory`")
 
 ```
+
+
+
+
+::: {.email}
+
+::: {.email-scheduled}
+`{r} send_email`
+:::
+
+::: {.subject}
+⚠️ Ferry Project: There was an issue with the raw data.
+:::
+
+Fewer rows of raw data were retrieved than expected.  The number of records are `{r} num_records_vesselhistory`.
+
+
+:::
 
