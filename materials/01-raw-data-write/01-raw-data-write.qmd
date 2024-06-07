@@ -18,14 +18,31 @@ execute:
 
 ## Are we in test mode?
 ```{r}
-# set TEST_MODE=TRUE to preview the alert email. Logic is written such that if TEST_MODE is any value other than TRUE (including not set), it behaves as if it is FALSE.
-test_mode <- Sys.getenv("TEST_MODE")
+#| label: identify test mode
+
+# set TEST_MODE=TRUE to preview the alert email. 
+if(Sys.getenv("TEST_MODE") == TRUE){
+  test_mode <- TRUE
+  }else test_mode <- FALSE
+```
+
+`r if(test_mode == TRUE) { "<h3>❗❗ Report generated in test mode. Data scan omitted for speed, raw data not written to pin, and an email alert is sent regardless of record count ❗❗</h3>\n" }`
+
+## Setup
+```{r}
+#| label: setup
+ 
+library(httr2)
+library(tidyverse)
+library(janitor)
 ```
 
 
 ## Retrieve vessel verbose data
 
 ```{r}
+#| label: download raw vessel data
+ 
 library(httr2)
 library(tidyverse)
 library(janitor)
@@ -51,6 +68,7 @@ vesseldata_raw <- vesseldata_raw |> unnest(Class) |> clean_names()
 
 ## Explore the data
 ```{r}
+#| label: data exploration
 #| eval: !expr 'test_mode != TRUE'
 
 str(vesseldata_raw)
@@ -71,12 +89,11 @@ vessel_scan
 ## Retrieve vessel history
 
 ```{r}
+#| label: download raw vessel history
 
 start_date <- "2023-05-31"
 end_date <- "2024-05-31"
 vesselnames <- vesseldata_raw |> pull(vessel_name)
-
-
 
 
 get_vesselhistory <- function(vesselname, start_date, end_date) {
@@ -120,7 +137,8 @@ Make the weather lookup more robust if date not found
 For lack of a database for now. 
 
 ```{r}
-#| eval: false
+#| label: write raw data
+#| eval: !expr 'test_mode != TRUE'
 
 library(pins)
 
