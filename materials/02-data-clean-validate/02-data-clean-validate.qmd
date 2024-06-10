@@ -1,6 +1,8 @@
 ---
 title: "Validate and clean data"
 output: html_document
+keep-yaml: true
+keep-md: true
 format:
   email:
     table-of-contents: true
@@ -45,6 +47,7 @@ Data not written but an email for condition {Sys.getenv('CONDITION_OVERRIDE')} i
 library(pointblank)
 library(tidyverse)
 library(glue)
+library(gt)
 ```
 
 ## Read in raw data
@@ -225,9 +228,9 @@ vesselhistory <- vesselhistory_raw |>
     .default = .x
     ))) |> 
   # identify the route
-  mutate(route = str_c(departing,arriving, sep = "-")) |> 
-  # date column is redundant to scheduled_depart
-  select(-date)
+  mutate(route = str_c(departing,arriving, sep = " -> ")) |> 
+  # convert date column to a `date` format for validation step
+  mutate(date = as_date(date))
   
 
 ```
@@ -270,6 +273,10 @@ vesselhistory_w_weather <- vesselhistory |>
 #| eval: !expr 'stop_notice != TRUE'
 
 main_agent <- create_agent(vesselhistory_w_weather) |> 
+  # sailing date is prior to today
+  col_vals_lte(columns = date, today()-30,
+               label = "Sailing date prior to today",
+               actions = action_levels(warn_at = 0.01)) |> 
   # vessel_name is one known from vesseldata
   col_vals_in_set(columns =  vessel, 
                   set = vesseldata$vessel_name, 
@@ -318,12 +325,46 @@ modeldata_fail_validation <- get_sundered_data(main_agent, type = "fail")
 
 ```
 
+## Create some summaries
+```{r}
+#| label: summarize data
+#| eval: !expr 'stop_notice != TRUE'
+
+# summary_table <- modeldata_validated |> 
+# select(route, vessel,scheduled_depart, delay) |> 
+# group_by(route, vessel) |> 
+# mutate(avg_delay = mean(delay)) |> 
+# ungroup() |> 
+# pivot_wider(names_from = scheduled_depart, values_from = delay ) |>
+# gt(rowname_col = "vessel", groupname_col = "route") |> 
+# cols_nanoplot(
+# columns = starts_with("202"),
+# plot_type = "boxplot",
+# new_col_name = "nanoplots",
+# new_col_label = "delay"
+# ) |>
+# fmt_number(columns = avg_delay, decimal = 0) |> 
+# # opt_all_caps("row_groups") |> 
+# summary_rows(
+# groups = everything(),
+# columns = avg_delay,
+# funs = list(
+# )
+# )
+# 
+
+
+```
+
+
 
 ## Pin clean data
 
 ```{r}
 #| label: write data
 #| eval: !expr 'stop_notice != TRUE | !Sys.getenv("CONDITION_OVERRIDE") %in% c(1:3)'
+
+stop_notice != TRUE | !Sys.getenv("CONDITION_OVERRIDE") %in% c(1:3)
 
 board <- board_connect()
 
@@ -441,6 +482,39 @@ weather_df_integrity_agent
 
 The ferry data for modeling has been cleaned, validated, and written but there were warnings set with the validation.
 
+The following validation(s) triggered a warning flag:
+See attached extract files for failing records.
+
+```{r}
+#| eval: false
+
+step <- x_list$i[which(x_list$warn)]
+
+failures <- purrr::map(step, ~{get_data_extracts(main_agent, .x)})
+
+purrr::map2(failures, step, ~{write_csv(.x, file = glue("extracts_step_{.y}.csv"))})
+
+filenames_yaml <- glue(" - extracts_step_{step}.csv") |> str_c(collapse = "\n")
+
+```
+
+Add the attachments as metadata entries
+```{r}
+#| eval: false
+#| label: add email attachment metadata
+#| output: asis
+
+cat(
+  "---",
+  paste0("email-attachments: \n", filenames_yaml),
+  "---",
+  sep = "\n"
+)
+
+
+```
+
+Review the validation results below for more details. 
 
 
 :::
@@ -457,7 +531,18 @@ The ferry data for modeling has been cleaned, validated, and written but there w
     
 ## ⛴️ Ferry data validation complete for `{r} today()`
 
-The ferry data for modeling has been cleaned, validated, and written.
+The ferry data for modeling has been cleaned, validated, and `{r} nrow(modeldata_validated)` records were written to the database.
+
+A summary of the data is shown below. 
+
+```{r}
+#| label: summary of data
+#| echo: false
+
+
+
+
+```
 
 
 :::
