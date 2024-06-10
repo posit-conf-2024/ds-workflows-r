@@ -585,8 +585,6 @@ glue("Data integrity validation failed. Data processing for the model training d
 
 if (condition == 2){
 
-condition
-
 glue("Vessel history and weather data was validated and sundered, however a warning was triggered due to one or more validation steps exceeding the threshold for allowed failures.
 
 Records removed that failed validation: {nrow(modeldata_fail_validation)}
