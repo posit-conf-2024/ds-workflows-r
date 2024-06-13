@@ -1,7 +1,5 @@
 ---
 title: "Validate and clean data"
-keep-yaml: true
-keep-md: true
 format:
   email:
     table-of-contents: true
@@ -15,7 +13,7 @@ editor_options:
   chunk_output_type: console
 ---
 
-# Overview
+## Overview
 
 1.  Pull data from database (`vesseldata_raw` and `vesselhistory_raw`)
 2.  Validate and pass only passing data (\`\`)
@@ -207,6 +205,8 @@ vesseldata <- vesseldata_raw |>
 #| eval: !expr 'stop_notice != TRUE'
 
 vesselhistory <- vesselhistory_raw |> 
+  # drop vessel_id, an unreliable value
+  select(-vessel_id) |> 
   # convert character date to datetimes
   mutate_at(c("scheduled_depart", "actual_depart", "est_arrival", "date"), convert_timestamp) |> 
   # vessel, departing, and arriving to lower
@@ -214,7 +214,7 @@ vesselhistory <- vesselhistory_raw |>
   # remove spaces
   mutate(across(c(vessel, departing, arriving), ~ str_replace_all(.x, " ","_"))) |> 
   # calculate delay in departure (minutes)
-  mutate(delay = difftime(actual_depart,scheduled_depart, units="mins")) |> 
+  mutate(delay = as.numeric(difftime(actual_depart,scheduled_depart, units="mins"))) |> 
   # rename some terminals to more familiar names
   mutate(across(c(departing, arriving), ~ case_when(
     .x == "bainbridge" ~ "bainbridge_island",
@@ -228,12 +228,45 @@ vesselhistory <- vesselhistory_raw |>
     .default = .x
     ))) |> 
   # identify the route
-  mutate(route = str_c(departing,arriving, sep = " -> ")) |> 
+  mutate(route = str_c(departing,arriving, sep = "-")) |> 
   # convert date column to a `date` format for validation step
-  mutate(date = as_date(date))
-  
+  mutate(date = as_date(date)) |> 
+  # add a route identifier so out and back routes can be grouped
+  rowwise() |> 
+  mutate(pair = list(c(departing, arriving))) |> 
+  ungroup() |> 
+  mutate(sorted = map(pair, str_sort)) |> 
+  mutate(sorted_pair = map_chr(sorted, str_c, collapse = "-")) |> 
+  group_by(sorted_pair) |> 
+  mutate(route_id = cur_group_id()) |> 
+  ungroup() |> 
+  select(-pair, -sorted, -sorted_pair)
+   
 
 ```
+
+### Make a route table for reference
+```{r}
+#| label: route table
+#| eval: !expr 'stop_notice != TRUE'
+
+# 
+# 
+# route_table <- vesselhistory |> select(departing, arriving) |> 
+#   # filter(!is.na(arriving)) |> 
+#   distinct() |> rowwise() |> 
+#   mutate(pair = list(c(departing, arriving))) |> 
+#   ungroup() |> 
+#   mutate(sorted = map(pair, str_sort)) |> 
+#   mutate(sorted_pair = map_chr(sorted, str_c, collapse = "-")) |> 
+#   arrange(sorted_pair) |> 
+#   group_by(sorted_pair) |> 
+#   mutate(route_id = cur_group_id()) |> 
+#   select(-pair, -sorted)
+
+
+```
+
 
 ### Clean weather data
 
@@ -262,7 +295,8 @@ This data will be what we use for the model.
 
 vesselhistory_w_weather <- vesselhistory |> 
   mutate(closest_hour = round_date(scheduled_depart, "hour")) |> 
-  left_join(weather_terminal_history, by = c("departing" = "terminal", "closest_hour" = "time"))
+  left_join(weather_terminal_history, by = c("departing" = "terminal", "closest_hour" = "time")) 
+
 
 ```
 
@@ -274,7 +308,7 @@ vesselhistory_w_weather <- vesselhistory |>
 
 main_agent <- create_agent(vesselhistory_w_weather) |> 
   # sailing date is prior to today
-  col_vals_lte(columns = date, today()-30,
+  col_vals_lte(columns = date, today(),
                label = "Sailing date prior to today",
                actions = action_levels(warn_at = 0.01)) |> 
   # vessel_name is one known from vesseldata
@@ -292,6 +326,10 @@ main_agent <- create_agent(vesselhistory_w_weather) |>
                   actions = action_levels(warn_at = 0.1)) |> 
   # calculated delay is not null
   col_vals_not_null(columns = delay) |> 
+  # a departure more than 20 minutes early is likely bad data
+  col_vals_gte(columns = delay, -20,
+               label = "Departed no more than 20 minutes early",
+               actions = action_levels(warn_at = 0.01)) |> 
   # weather code is valid
   col_vals_between(columns = weather_code, 0, 99, na_pass = TRUE,
                    actions = action_levels(warn_at = 0.01)) |> 
@@ -314,7 +352,7 @@ if(Sys.getenv("CONDITION_OVERRIDE") %in% c(2,3)){
 
 ```
 
-# Sunder the data to remove failed rows
+## Sunder the data to remove failed rows
 
 ```{r}
 #| label: sunder data
@@ -325,35 +363,159 @@ modeldata_fail_validation <- get_sundered_data(main_agent, type = "fail")
 
 ```
 
-## Create some summaries
+## Create a summary of records
 ```{r}
 #| label: summarize data
 #| eval: !expr 'stop_notice != TRUE'
 
-# summary_table <- modeldata_validated |>
-# select(route, vessel,scheduled_depart, delay) |>
-# group_by(route, vessel) |>
-# mutate(avg_delay = mean(delay)) |>
-# ungroup() |>
-# pivot_wider(names_from = scheduled_depart, values_from = delay ) |>
-# gt(rowname_col = "vessel", groupname_col = "route") |>
-# cols_nanoplot(
-# columns = starts_with("202"),
-# plot_type = "boxplot",
-# new_col_name = "nanoplots",
-# new_col_label = "delay"
-# ) |>
-# fmt_number(columns = avg_delay, decimal = 0) |>
-# # opt_all_caps("row_groups") |>
-# summary_rows(
-# groups = everything(),
-# columns = avg_delay,
-# funs = list(
-# )
-# )
-#
+
+summary_table <- modeldata_validated |> filter(route_id %in% c(1:5)) |>
+  select(route, vessel,date, delay, route_id) |>
+  arrange(route_id) |> 
+  group_by(route) |>
+  mutate(delay = as.numeric(delay), 
+         avg_delay = as.numeric(mean(delay)), 
+       num_vessels = n_distinct(vessel),
+       num_sailings = n()) |>
+  ungroup() |> select(-vessel) |> 
+  pivot_wider(names_from = date, values_from = delay, values_fn = list) |> 
+  gt(rowname_col = "route", groupname_col = "route_id") |>
+  tab_header(
+    title = "Departure Delays Summary",
+    subtitle = glue::glue("{min(modeldata_validated$date)} 
+                          to {max(modeldata_validated$date)}")) |>
+  tab_source_note(source_note = md("Data sourced from [WSDOT Traveler Information API](https://wsdot.wa.gov/traffic/api/) and modified for use from its original source.")) |> 
+  cols_label(
+    avg_delay = md("Average delay (min)"),
+    num_vessels = "Vessels on route", 
+    num_sailings = "Sailings in period"
+  ) |> 
+  cols_nanoplot(
+    columns = starts_with("202"),
+    plot_type = "boxplot",
+    new_col_name = "nanoplots",
+    new_col_label = "delay",
+    plot_height = "3em",
+    options = nanoplot_options(
+      # show_data_points = FALSE
+    )) |> 
+  fmt_number(columns = avg_delay, decimals = 1) |>
+  fmt_number(columns = num_sailings, use_seps = TRUE, decimals = 0) |> 
+  opt_all_caps()  |> 
+  text_transform(
+    locations = cells_stub(),
+    fn = function(x) {
+      x <- gsub("-", " → ", x)
+      x <- gsub("_", " ", x)
+      x
+    }) |> 
+  text_transform(
+    locations = cells_group(),
+    fn = function(x) " ") |> 
+  opt_vertical_padding(scale = 0.2) |> 
+  opt_horizontal_padding(scale = 1.5)
+
+summary_table
+  
+
+```
 
 
+## create a data dictionary
+
+```{r}
+#| label: data dictionary
+#| eval: !expr 'stop_notice != TRUE'
+
+create_informant(
+  tbl = modeldata_validated,
+  label = md("Data Dictionary - Validated Data from [WSDOT Traveler Information API](https://wsdot.wa.gov/traffic/api/) and [Open Meteo](https://open-meteo.com/), Processed for Model Training")) |> 
+  info_tabular(
+    description = "This table defines the columns in the validated dataset. This data is used for ferry departure delay model training."
+  ) |> 
+  info_section(
+    section_name = "further information",
+    `sources` = md("Data from [WSDOT Traveler Information API](https://wsdot.wa.gov/traffic/api/) and [Open Meteo](https://open-meteo.com/)"),
+    `🔄 updates` = "This table last updated {Sys.Date()}.",
+    `ℹ️ note` = md("This example material uses data that has been modified for use from their original sources, [WSDOT Traveler Information API](https://wsdot.wa.gov/traffic/api/) and [Open Meteo](https://open-meteo.com/), and is used for educational purposes. The authors and original sources make no claims as to the content, accuracy, timeliness, or completeness of any of the data provided.")
+  ) |> 
+  info_columns(
+    columns = vessel,
+    `ℹ️` = "The name of the vessel"
+  ) |> 
+  info_columns(
+    columns = departing,
+    `ℹ️` = "The name of the departure terminal"
+  ) |> 
+  info_columns(
+    columns = arriving,
+    `ℹ️` = "The name of the arrival terminal"
+  ) |> 
+  info_columns(
+    columns = scheduled_depart,
+    `ℹ️` = "The scheduled departure time, Pacific Time"
+  ) |> 
+  info_columns(
+    columns = actual_depart,
+    `ℹ️` = "The actual departure time, Pacific Time"
+  ) |> 
+  info_columns(
+    columns = est_arrival,
+    `ℹ️` = "The scheduled arrival time, Pacific Time"
+  ) |> 
+  info_columns(
+    columns = date,
+    `ℹ️` = "Sailing date"
+  ) |> 
+  info_columns(
+    columns = delay,
+    `ℹ️` = "Calculated departure delay as `actual_depart` - `scheduled_depart`. Departures more than 20 minutes early were presumed to be bad data and were removed",
+    "unit" = "minutes"
+  ) |> 
+  info_columns(
+    columns = route,
+    `ℹ️` = "Concatenated string of `departing`-`arriving``"
+  ) |> 
+  info_columns(
+    columns = route_id,
+    `ℹ️` = "Arbitrary numeric identifier to allow route pairs to be grouped together"
+  ) |> 
+  info_columns(
+    columns = closest_hour,
+    `ℹ️` = "`scheduled_depart` rounded to the nearest hour, Pacific Time. Used to join historical weather data to the vessel sailing history data"
+  ) |> 
+  info_columns(
+    columns = lat,
+    `ℹ️` = "Latitude of the departing terminal"
+  ) |> 
+  info_columns(
+    columns = long,
+    `ℹ️` = "Longitude of the departing terminal"
+  ) |> 
+  info_columns(
+    columns = precipitation,
+    `ℹ️` = "Total precipitation (rain, showers, snow) during the preceding hour",
+    "unit" = "inches"
+  ) |> 
+  info_columns(
+    columns = weather_code,
+    `ℹ️` = "Weather condition as a numeric code. Follow WMO weather interpretation codes"
+  ) |> 
+  info_columns(
+    columns = cloud_cover_low,
+    `ℹ️` = "Low level clouds and fog up to 2 km altitude",
+    "unit" = "Percentage"
+  ) |> 
+  info_columns(
+    columns = wind_speed_10m,
+    `ℹ️` = "Wind speed at 10 meters above ground",
+    "unit" = "mph"
+  ) |> 
+  info_columns(
+    columns = wind_gusts_10m,
+    `ℹ️` = "Gusts at 10 meters above ground of the indicated hour",
+    "unit" = "mph") |> 
+    incorporate()
 ```
 
 
@@ -455,6 +617,7 @@ The results of the data frame validation are shown below:
 ```{r}
 #| echo: false
 #| eval: !expr 'condition == 1'
+#| output: asis
 
 vesselhistory_df_integrity_agent
 
@@ -485,13 +648,16 @@ The table below summarizes the validation step(s) that triggered warnings.
 ```{r}
 #| label: get failing validations details
 #| eval: !expr 'condition == 2'
+#| echo: false
 
 step <- x_list$i[which(x_list$warn)]
 desc <- x_list$briefs[which(x_list$warn)]
+fails <- x_list$f_failed[which(x_list$warn)]
+threshold <- purrr::map(step, ~{x_list$validation_set$actions[[.x]]$warn_fraction}) |> unlist()
 
-warnings_table <- data.frame(step, desc) |> gt() |> cols_label(step="Validation Step",desc="Description")
+warnings_table <- data.frame(step, desc,threshold,fails) |> gt() |> cols_label(step="Validation Step",desc="Description",fails="Fraction Failed", threshold="Threshold") |> fmt_number(columns = c(fails, threshold),decimal = 2)
 
-warnings_table
+warnings_table |> as_raw_html() 
 ```
 
 Review the associated extract files to see the records that failed validation.
@@ -499,21 +665,22 @@ Review the associated extract files to see the records that failed validation.
 ```{r}
 #| label: get extracts
 #| eval: !expr 'condition == 2'
+#| echo: false
 
 
 failures <- purrr::map(step, ~{get_data_extracts(main_agent, .x)})
 
-purrr::map2(failures, step, ~{write_csv(.x, file = glue("extracts_step_{.y}.csv"))})
+purrr::walk2(failures, step, ~{write_csv(.x, file = glue("extracts_step_{.y}.csv"))})
 
 filenames_yaml <- glue(" - extracts_step_{step}.csv") |> str_c(collapse = "\n")
 
 ```
 
-Add the attachments as metadata entries
 ```{r}
 #| label: add email attachment metadata
 #| eval: !expr 'condition == 2'
 #| output: asis
+#| echo: false
 
 cat(
   "---",
@@ -529,8 +696,11 @@ cat(
 
 The table below summarizes the data written.   
 ```{r}
-#| label: datat summary table
+#| label: data summary table
+#| eval: !expr 'condition == 2'
+#| echo: false
 
+summary_table
 
 ```
 
@@ -556,9 +726,11 @@ A summary of the data is shown below.
 
 ```{r}
 #| label: summary of data
+#| eval: !expr 'condition == 3'
 #| echo: false
 
 
+summary_table |> as_raw_html() 
 
 
 ```
@@ -579,24 +751,24 @@ Report run `{r} today()`
 #| output: asis
 
 
+
 if (condition == 1){
-glue("Data integrity validation failed. Data processing for the model training did not proceed. An email notification of the failure was sent.")
-} 
+print(glue("Data integrity validation failed. Data processing for the model training did not proceed. An email notification of the failure was sent."))
+}
 
 if (condition == 2){
 
-glue("Vessel history and weather data was validated and sundered, however a warning was triggered due to one or more validation steps exceeding the threshold for allowed failures.
+print(glue("Vessel history and weather data was validated and sundered, however a warning was triggered due to one or more validation steps exceeding the threshold for allowed failures.
 
 Records removed that failed validation: {nrow(modeldata_fail_validation)}
 
 Records written to database: {nrow(modeldata_validated)}
 
-Warnings triggered for validation step(s) listed below:")
+Warnings triggered for validation step(s) listed below:"))
 
 warnings_table
 
 }
-
 
 if (condition == 3){
 glue("Vessel history and weather data was validated and sundered.
