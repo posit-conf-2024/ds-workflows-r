@@ -1,0 +1,255 @@
+---
+title: "Download initial bulk data for vessel history and weather"
+output: html_document
+format:
+  html:
+    table-of-contents: true
+    anchor-sections: true
+    code-fold: true
+    code-overflow: wrap
+    code-summary: "Show Code"
+    code-tools: true
+    code-link: true
+editor_options: 
+  chunk_output_type: console
+---
+
+
+## Purpose
+
+This document downloads a bulk amount of data for vessel history and historical weather to provide an initial set of data for our model. 
+
+From this, we will schedule periodic data pulls to append to these datasets. 
+
+## Setup
+```{r}
+#| label: setup
+ 
+library(httr2)
+library(tidyverse)
+library(janitor)
+library(glue)
+```
+
+
+## Retrieve vessel history
+
+### Get vessel data
+
+This provides the list of vessels
+
+```{r}
+#| label: download raw vessel data
+ 
+base_url <- "https://www.wsdot.wa.gov/Ferries/API/Vessels/rest"
+
+vesselverbose_ep <- "vesselverbose"
+
+req <- request(base_url) |> req_url_query(apiaccesscode = Sys.getenv("WSDOT_ACCESS_CODE"))
+
+vesseldata_raw <- req |> 
+  req_url_path_append(vesselverbose_ep) |> 
+  req_perform() |> 
+  resp_body_string() |> 
+  jsonlite::fromJSON() |> 
+  as_tibble()
+
+# the results include a nested dataframe of Class information. Unnest this.
+# Also use `janitor` to clean column names
+vesseldata_raw <- vesseldata_raw |> unnest(Class) |> clean_names()
+
+```
+
+### Make a helper function to download historical vessel data 
+
+This is nicer than a raw API call because there we include helpful print statements for status.
+
+```{r}
+#| label: helper function get_vesselhistory
+
+get_vesselhistory <- function(vesselname, start_date, end_date) {
+  
+  cat(glue::glue("Getting vessel history for {vesselname}..."))
+  vesselhistory <- request("https://www.wsdot.wa.gov/Ferries/API/Vessels/rest") |> 
+    req_url_path_append("vesselhistory", URLencode(vesselname), start_date, end_date) |> 
+    req_url_query(apiaccesscode = Sys.getenv("WSDOT_ACCESS_CODE")) |> 
+    req_perform() |> 
+    resp_body_string() |> 
+    jsonlite::fromJSON() |> 
+    as_tibble()
+
+  cat(glue::glue("\t{nrow(vesselhistory)} records retrieved for {vesselname}"),"\n")
+  vesselhistory
+}
+
+```
+
+### Download raw vessel history
+
+```{r}
+#| label: download raw vessel history
+
+# Will plan on making the scheduled data pull capture 1 month back and run on a cadence more frequent than 1 month to ensure completeness in data.
+
+start_date <- "2021-01-01"
+end_date <- "2024-05-31"
+
+vesselnames <- vesseldata_raw |> pull(vessel_name)
+
+data_list <- map(vesselnames, get_vesselhistory, start_date, end_date)
+
+vesselhistory_raw <- bind_rows(data_list) |> clean_names()
+
+num_records_vesselhistory <- nrow(vesselhistory_raw)
+
+```
+
+## Get historical weather data
+
+### Make a helper function to download historical weather data
+
+This is nicer than a raw API call because there we include helpful print statements for status.
+
+```{r}
+#| label: helper function get_terminal_weather_history
+
+get_terminal_weather_history <- function(terminal, start_date, end_date, pause=0) {
+  # note: pause is specified in number of seconds. Inject a delay if the API rejects requests for too many at once. One year of data for one location is equivalent to about 16 API calls and there is a limit of 600 per minute so for 20 terminals, add a pause.
+  lat <- terminallocations |> filter(TerminalName == terminal) |> pull(Latitude)
+  long <- terminallocations |> filter(TerminalName == terminal) |> pull(Longitude)
+  
+  cat(glue::glue("Getting weather history for {terminal} terminal...\n"))
+
+  
+  req <- request("https://archive-api.open-meteo.com/v1/archive") |> 
+    req_url_query(latitude=lat, longitude=long,
+                  start_date=start_date, end_date=end_date,
+                  hourly=c("precipitation","weather_code","cloud_cover_low",
+                           "wind_speed_10m","wind_gusts_10m"),
+                  temperature_unit="fahrenheit",
+                  wind_speed_unit="mph",
+                  precipitation_unit="inch", 
+                  timezone="America/Los_Angeles",
+                  .multi = "comma")
+  
+  resp <- req |> 
+    req_perform() |> 
+    resp_body_string() |> 
+    jsonlite::fromJSON() |> 
+    as_tibble()
+
+  hourly_data <- bind_cols(
+    terminal=terminal,
+    lat=resp$latitude[1],
+    long=resp$longitude[1],
+    resp$hourly) 
+    
+  cat(glue::glue("\t{nrow(hourly_data)} records retrieved for {terminal}"),"\n")
+  
+  Sys.sleep(pause)
+  
+  hourly_data
+  
+}
+
+```
+
+### Get terminal locations
+
+```{r}
+
+base_url <- "https://www.wsdot.wa.gov"
+
+terminallocations_ep <- "ferries/api/terminals/rest/terminallocations"
+
+req <- request(base_url) |> req_url_query(apiaccesscode = Sys.getenv("WSDOT_ACCESS_CODE"))
+
+terminallocations_raw <- req |> 
+  req_url_path_append(terminallocations_ep) |> 
+  req_perform() |> 
+  resp_body_string() |> 
+  jsonlite::fromJSON() |> 
+  as_tibble()
+
+terminallocations <- terminallocations_raw |> 
+  select(TerminalID, TerminalName, Latitude, Longitude)
+
+```
+
+### Download historical weather data
+
+```{r}
+
+# note the website says this is equivalent to about 45 API calls in one to go this far back. Limit is 600 per min, 5k per hour, 10k per day. need to throttle the requests because there are 20 locations, so add a pause value. 
+
+# and do in pieces in case it fails with a 504 timeout
+
+terminals_p1 <- terminallocations$TerminalName[1:10]
+terminals_p2 <- terminallocations$TerminalName[11:nrow(terminallocations)]
+
+weather_terminal_history_raw_p1 <- map(terminals_p1, 
+                                    get_terminal_weather_history, 
+                                    start_date, 
+                                    end_date, 
+                                    pause=10) |> bind_rows() 
+
+weather_terminal_history_raw_p2 <- map(terminals_p2, 
+                                    get_terminal_weather_history, 
+                                    start_date, 
+                                    end_date, 
+                                    pause=10) |> bind_rows() 
+
+weather_terminal_history_raw <- bind_rows(weather_terminal_history_raw_p1,
+                                          weather_terminal_history_raw_p2)
+```
+
+## Write data to ~~database~~ pin (for now)
+
+### Helper Functions
+
+```{r}
+#| label: helper function convert_timestamp
+
+# Convert time stamp (e.g., /Date(1716553800000-0700)/) to actual datetime
+convert_timestamp <- function(timestamp) {
+  # Define timestamp and timezone offset
+  timestamp_ms <- as.numeric(str_extract(timestamp, "(?<=/Date\\()\\d+(?=[-+])"))
+  
+  # Convert the timestamp to seconds
+  timestamp_sec <- timestamp_ms / 1000
+  
+  # Convert to datetime object
+  as.POSIXct(timestamp_sec, origin = "1970-01-01", tz = "US/Pacific")
+}
+
+```
+
+### Determine date spans
+```{r}
+vh_dates <- vesselhistory_raw |> pull(date) |> convert_timestamp() |> as.Date() |> unique() |> sort()
+vh_start <- vh_dates[1]
+vh_end <- vh_dates[length(vh_dates)]
+
+wx_dates <- weather_terminal_history_raw |> select(time) |> mutate(time = ymd_hm(time, tz = "America/Los_Angeles")) |> pull(time) |> as.Date() |> unique() |> sort()
+wx_start <- wx_dates[1]
+wx_end <- wx_dates[length(wx_dates)]
+
+```
+
+
+```{r}
+library(pins)
+
+pin_write(board, vesselhistory_raw,
+          title="Raw `vesselhistory` data from WSDOT",
+          description=glue("from `Ferries/API/Vessels/rest/vesselhistory` spanning {vh_start} to {vh_end}"))
+
+pin_write(board, weather_terminal_history_raw,
+          type = "csv",
+          title = "Raw historical weather data at ferry terminals",
+          description = glue("From `open-meteo.com` spanning {wx_start} to {wx_end}"))
+
+
+```
+
+
