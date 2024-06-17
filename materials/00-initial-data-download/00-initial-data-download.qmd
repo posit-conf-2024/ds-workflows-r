@@ -91,17 +91,18 @@ get_vesselhistory <- function(vesselname, start_date, end_date) {
 
 # Will plan on making the scheduled data pull capture 1 month back and run on a cadence more frequent than 1 month to ensure completeness in data.
 
-start_date <- "2021-01-01"
-end_date <- "2024-05-31"
+start_date <- "2020-01-01"
+end_date <- "2024-06-07"
 
 vesselnames <- vesseldata_raw |> pull(vessel_name)
-
+start <- Sys.time()
 data_list <- map(vesselnames, get_vesselhistory, start_date, end_date)
 
 vesselhistory_raw <- bind_rows(data_list) |> clean_names()
+end <- Sys.time()
 
 num_records_vesselhistory <- nrow(vesselhistory_raw)
-
+duration <- end - start
 ```
 
 ## Get historical weather data
@@ -237,6 +238,38 @@ wx_end <- wx_dates[length(wx_dates)]
 ```
 
 
+```{r}
+library(sparklyr)
+library(dbplyr)
+
+sc <- spark_connect(
+    cluster_id = "0605-141252-8r7zwtxd",
+    version = "14.2",
+    method = "databricks_connect"
+)
+
+
+copy_to(dest = sc, 
+        df = vesselhistory_raw, 
+        name = in_catalog("sol_eng_ds_workflows_workshop", "default","vessel_history_raw"),
+        overwrite = TRUE
+        )
+
+copy_to(dest = sc,
+        df = weather_terminal_history_raw,
+        name = in_catalog("sol_eng_ds_workflows_workshop", "default","terminal_wx_history_raw"),
+        overwrite = TRUE
+)
+# spark_write_table(vesselhistory_raw,
+#     name = in_catalog("sol_eng_ds_workflows_workshop", "default","vessel_history_raw"),
+#     mode = "overwrite"
+#   )
+df <- tbl(sc, in_catalog("sol_eng_ds_workflows_workshop", "default","terminal_wx_history_raw"))
+```
+
+
+
+tbl(sc, in_catalog("samples", "nyctaxi", "trips"))
 ```{r}
 library(pins)
 
