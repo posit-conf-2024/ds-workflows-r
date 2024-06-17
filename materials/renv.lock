@@ -4,7 +4,7 @@
     "Repositories": [
       {
         "Name": "CRAN",
-        "URL": "http://pm.internal/all/latest"
+        "URL": "https://packagemanager.posit.co/cran/__linux__/jammy/latest"
       }
     ]
   },
