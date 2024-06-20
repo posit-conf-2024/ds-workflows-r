@@ -1,174 +1,585 @@
 ---
-title: "Read, Explore, and Write Raw Washington State Ferry Data"
-output: html_document
+title: "Raw Data Download"
 format:
   email:
     table-of-contents: true
     anchor-sections: true
-    code-fold: true
+    code-fold: false
     code-overflow: wrap
     code-summary: "Show Code"
     code-tools: true
     code-link: true
 editor_options: 
   chunk_output_type: console
-execute: 
-  eval: true
+  canonical: true
+execute:
+  eval: false
 ---
 
-## Are we in test mode?
-```{r}
-#| label: identify test mode
+------------------------------------------------------------------------
 
-# set TEST_MODE=TRUE to preview the alert email. 
-if(Sys.getenv("TEST_MODE") == TRUE){
-  test_mode <- TRUE
-  }else test_mode <- FALSE
-```
+## General Workshop Activity Notes
 
-`r if(test_mode == TRUE) { "<h3>❗❗ Report generated in test mode. Data scan omitted for speed, raw data not written to pin, and an email alert is sent regardless of record count ❗❗</h3>\n" }`
+Welcome to the first Activity! A few points relevant to this, and all
+other Activities in the workshop:
+
+1.  The Activities are Quarto documents, presented by default in the
+    Visual Editor for readability
+2.  The intention is to run through the document from top to bottom,
+    running each code chunk interactively rather than rendering the
+    document
+3.  Run the chunk by either clicking the green Play Button in the
+    chunk's top right corner, or use the cmd+enter keyboard shortcut to
+    run the current line or selected text
+4.  We'll work through these activities mostly as a group, code-along
+    style because our focus in this workshop is less about code
+    development and more about around processes, tools, and learning
+    concepts. We can best teach this if we do it together!
+5.  **Where's my output?** Are you a `Chunk Output Inline` kind of
+    person? Sorry. For this activity, it's set by default to go the
+    console because the HTML renderings from Pointblank get very
+    squished otherwise. It might be like this for other activities too,
+    so don't get surprised 😉
+
+------------------------------------------------------------------------
+
+## Goals
+
+The goals of this activity are to:
+
+-   Use `{httr2}` to download the raw Washington State Ferries data and
+    weather data, which is used throughout this Workshop
+-   Write the raw data to a database
+
+✏️ There will be placeholders (`____`) in the code cells below that you
+will need to fill in!
 
 ## Setup
+
 ```{r}
 #| label: setup
  
 library(httr2)
 library(tidyverse)
 library(janitor)
+library(DBI)
+library(RPostgres)
+library(glue)
+
 ```
 
+## Data sources
 
-## Retrieve vessel verbose data
+We are using data sets from two main sources
+
+### From WSDOT Traveler Information API
+
+(<https://wsdot.wa.gov/traffic/api/>)
+
+| Endpoint               | Description                                                                | API                                                                                                                                     |
+|------------------------|----------------------------------------------------------------------------|-----------------------------------------------------------------------------------------------------------------------------------------|
+| **Vessel verbose**     | Details about each ferry in the fleet, including name, model, and capacity | `https://www.wsdot.wa.gov/ferries/api/vessels/ rest/vesselverbose?apiaccesscode={WSDOT_ACCESS_CODE}`                                    |
+| **Vessel history**     | Historical sailings, including scheduled actual departure time             | `https://www.wsdot.wa.gov/ferries/api/vessels/ rest/vesselhistory/{VESSELNAME}/{DATESTART}/{DATEEND}?apiaccesscode={WSDOT_ACCESS_CODE}` |
+| **Terminal locations** | Terminal names and locations, including latitude and longitude             | `https://www.wsdot.wa.gov/ferries/api/terminals/ rest/terminallocations?apiaccesscode={WSDOT_ACCESS_CODE}`                              |
+
+### From Open Meteo
+
+([https://open-meteo.com/en/docs/](https://open-meteo.com/en/docs/historical-weather-api/))
+
+| Endpoint               | Description                                                                       | API                                                       |
+|------------------------|-----------------------------------------------------------------------------------|-----------------------------------------------------------|
+| **Historical weather** | Historical hourly weather at a specified latitude and longitude over a date range | `https://archive-api.open-meteo.com/v1/ archive?{params}` |
+
+We will use the `{httr2}` package to download the data from these API
+sources.
+
+Note we are using an environment variable to access the WSDOT API called
+**`WSDOT_ACCESS_CODE`**. This has been preconfigured for you for the
+purposes of this workshop.
+
+## Task 1 - Download vessel verbose data
+
+🔄 Task
+
+Get the following data set:
+
+-   **Vessel Verbose**: the
+    `https://www.wsdot.wa.gov/Ferries/API/Vessels/rest/vesselverbose`
+    endpoint contains data about the ferries in the fleet.
+
+Use `{httr2}` to download the vessel verbose data set from the WSDOT
+API.
+
+This API takes the form:
+
+`https://www.wsdot.wa.gov/ferries/api/vessels/rest/vesselverbose?apiaccesscode={WSDOT_ACCESS_CODE}`
+
+With `{httr2}` we compose the API request as
+`<base url>/<path (aka endpoint)>/<query parameters>`
+
+💡 Don't split hairs over what part of your string is captured as the
+base URL versus the path. Do what makes you happy.
 
 ```{r}
 #| label: download raw vessel data
  
-library(httr2)
-library(tidyverse)
-library(janitor)
+base_url <- "https://www.wsdot.wa.gov"
 
-base_url <- "https://www.wsdot.wa.gov/Ferries/API/Vessels/rest"
+endpoint <- "ferries/api/vessels/rest/vesselverbose"
 
-vesselverbose_ep <- "vesselverbose"
+# Compose the API request 
+req <- request(base_url) |> 
+  req_url_path_append(endpoint) |> 
+  req_url_query(apiaccesscode = Sys.getenv("WSDOT_ACCESS_CODE")) 
+  
+# perform the request
+response <- req |> 
+  req_perform()
+response
 
-req <- request(base_url) |> req_url_query(apiaccesscode = Sys.getenv("WSDOT_ACCESS_CODE"))
-
-vesseldata_raw <- req |> 
-  req_url_path_append(vesselverbose_ep) |> 
-  req_perform() |> 
+# convert the body of the response to a tibble
+response_body <- response |> 
   resp_body_string() |> 
   jsonlite::fromJSON() |> 
   as_tibble()
+response_body
 
-# the results include a nested dataframe of Class information. Unnest this.
-# Also use `janitor` to clean column names
-vesseldata_raw <- vesseldata_raw |> unnest(Class) |> clean_names()
-
+# Sometimes special characters or spaces in column names are not
+# database-friendly, so the only cleaning we'll do now is to use `janitor::clean_names` to
+# clean column names so there are no issues writing the data.
+vesseldata_raw <- response_body |>  clean_names()
+vesseldata_raw
 ```
 
-## Explore the data
+## Task 2 - Connect to the database
+
+🔄 Task
+
+Create a database connection using the database connection details
+defined for you by your IT Admin (Workshop Instructors). Avoid
+hard-coding in any credentials. We're using environment variables here.
+
+The `RPostgres` package is DBI-compliant and is built specifically for
+PosgreSQL databases. Performance may be faster (particularly for writing
+data!) than using the generic `odbc` package, and there are more
+translations available, meaning more dplyr verbs will be available.
+
 ```{r}
-#| label: data exploration
-#| eval: !expr 'test_mode != TRUE'
+#| label: make database connection
 
-str(vesseldata_raw)
-summary(vesseldata_raw)
+# Run this code as-is 
+con <- dbConnect(RPostgres::Postgres(), 
+                 host = Sys.getenv("CONF24_DB_HOST"), 
+                 port = "5432", 
+                 dbname = "conf23_r", 
+                 user = Sys.getenv("CONF24_DB_USER"), 
+                 password = Sys.getenv("CONF24_DB_PASSWORD"))
 
+con
 
-
-library(skimr)
-skim(vesseldata_raw)
-
-library(pointblank)
-vessel_scan <- scan_data(vesseldata_raw, sections = "OVMS")
-vessel_scan
 ```
 
+## Task 3 - Write to the database
+
+🔄 Task
+
+-   Use `dbWriteTable` to write `vesseldata_raw` into the database
+-   Use a time stamp to provide informational logging
+
+```{r}
+#| label: database write
+my_username <- "____"
+
+my_df_name <- paste0("vesseldata_raw_", my_username)
 
 
-## Retrieve vessel history
+# Insert your start time stamp
+start_time <- Sys.time()
+
+DBI::dbWriteTable(conn = con, # the connection
+                  name = my_df_name, # the name of the table you will create in the DB
+                  value = vesseldata_raw,
+                  append = TRUE)
+
+
+# Insert your end time stamp
+end_time <- Sys.time()
+duration <- end_time - start_time
+
+
+print(glue::glue("ℹ️ Info: Writing {my_df_name} to database took",  round(duration[[1]], 2),  units(duration)))
+```
+
+## Task 4 - Get other data sets
+
+Get the following additional data sets:
+
+-   **Vessel History**: the
+    `https://www.wsdot.wa.gov/Ferries/API/Vessels/rest/vesselhistory`
+    endpoint contains historical data about sailings.
+
+-   **Terminal locations**: the
+    `https://www.wsdot.wa.gov/Ferries/API/terminals/rest/terminallocations`
+    endpoint contains information about ferry terminals locations.
+
+-   **Weather data**: the
+    `https://archive-api.open-meteo.com/v1/archive?{params}` endpoint
+    contains historical hourly weather information for a location and
+    date, including things that may affect the timeliness of our ferry
+    departure, such as wind speed, cloud cover, and precipitation.
+
+### Vessel history
+
+This API takes the form:
+
+`http://www.wsdot.wa.gov/Ferries/API/Vessels/rest/vesselhistory/{VESSELNAME}/{DATESTART}/{DATEEND}?apiaccesscode={WSDOT_ACCESS_CODE}`
+
+We'll query 30 days looking back from today's date, and use the vessel
+names we retrieved from the Vessel Verbose endpoint.
+
+Rather than manually repeating the API call for each vessel though,
+we'll turn the API call into a reusable function and then iterate over
+the list of vessel names using `purrr::map`.
 
 ```{r}
 #| label: download raw vessel history
 
-start_date <- "2023-05-31"
-end_date <- "2024-05-31"
-vesselnames <- vesseldata_raw |> pull(vessel_name)
-
-
+# Create a function to query the API for a specified vessel name and date range
 get_vesselhistory <- function(vesselname, start_date, end_date) {
+  # print out an information statement
+  print(glue::glue("Getting vessel history for {vesselname}..."))
   
-  cat(glue::glue("Getting vessel history for {vesselname}..."))
-  vesselhistory <- request("https://www.wsdot.wa.gov/Ferries/API/Vessels/rest") |> 
-    req_url_path_append("vesselhistory", URLencode(vesselname), start_date, end_date) |> 
+  vesselhistory <- request("https://www.wsdot.wa.gov/ferries/api/vessels/rest") |> 
+    req_url_path_append("vesselhistory", 
+                        URLencode(vesselname), 
+                        as.character(start_date), 
+                        as.character(end_date)) |> 
     req_url_query(apiaccesscode = Sys.getenv("WSDOT_ACCESS_CODE")) |> 
     req_perform() |> 
     resp_body_string() |> 
     jsonlite::fromJSON() |> 
     as_tibble()
-
-  cat(glue::glue("\t{nrow(vesselhistory)} records retrieved for {vesselname}"),"\n")
+  
+  # print out an information statement
+  print(glue::glue("\t{nrow(vesselhistory)} records retrieved for {vesselname}"),"\n")
+  
   vesselhistory
+}
+
+# Specify our parameters:
+start_date <- today()-30
+end_date <- today()
+vesselnames <- vesseldata_raw |> pull(vessel_name)
+
+# Use `purrr::map` to iterate over all of the vessels. The results will be a list, with each vessel's history as a list item. 
+data_list <- map(vesselnames, get_vesselhistory, start_date, end_date)
+
+# Convert the list into a data frame and clean the column names
+vesselhistory_raw <- bind_rows(data_list) |> clean_names()
+
+```
+
+### Terminal locations
+
+```{r}
+#| label: download terminal locations data
+
+base_url <- "https://www.wsdot.wa.gov"
+
+endpoint <- "ferries/api/terminals/rest/terminallocations"
+
+# Compose the API request 
+req <- request(base_url) |> 
+  req_url_path_append(endpoint) |> 
+  req_url_query(apiaccesscode = Sys.getenv("WSDOT_ACCESS_CODE")) 
+  
+# perform the request
+response <- req |> 
+  req_perform()
+response
+
+# convert the body of the response to a tibble
+response_body <- response |> 
+  resp_body_string() |> 
+  jsonlite::fromJSON() |> 
+  as_tibble()
+response_body
+
+terminallocations_raw <- response_body |> clean_names()
+
+# we only need the terminal name, latitude, and longitude
+terminallocations <- terminallocations_raw |> 
+  select(terminal_name, 
+         latitude, 
+         longitude)
+```
+
+### Weather data
+
+Similart to the approach used for retrieving Vessel History, we will
+define a function to call the weather API and iterate over all of the
+departing terminal locations.
+
+The API allows us to specify the data and format we want in the query.
+We will include:
+
+-   precipitation (inches)
+
+-   weather code
+
+-   cloud cover at 10 m
+
+-   wind speed at 10 m (as mph)
+
+-   wind gusts at 10 m (as mph)
+
+-   Timezone: US/Pacific
+
+The Open Meteo API is available to use without an API key when used for
+educational purposes according to their [Terms of
+Use](https://open-meteo.com/en/terms). As such, queries are limited to
+less than 10,000 API calls per day, 5,000 per hour and 600 per minute.
+
+```{r}
+#| label: download weather data
+
+# Create a function to query the API for a specified vessel name and date range
+get_terminal_weather_history <- function(terminal, start_date, end_date) {
+  # get lat/long from terminal locations data
+  lat <- terminallocations |> 
+    filter(terminal_name == terminal) |> 
+    pull(latitude)
+  long <- terminallocations |> 
+    filter(terminal_name == terminal) |> 
+    pull(longitude)
+  
+  # print out an information statement
+  print(glue::glue("Getting weather history for {terminal} terminal...\n"))
+
+  req <- request("https://archive-api.open-meteo.com/v1/archive") |> 
+    req_url_query(latitude=lat, 
+                  longitude=long,
+                  start_date=as.character(start_date), 
+                  end_date=as.character(end_date),
+                  hourly=c("precipitation","weather_code","cloud_cover_low",
+                           "wind_speed_10m","wind_gusts_10m"),
+                  wind_speed_unit="mph",
+                  precipitation_unit="inch", 
+                  timezone="US/Pacific",
+                  .multi = "comma")
+  
+  response <- req |> 
+    req_perform() |> 
+    resp_body_string() |> 
+    jsonlite::fromJSON() |> 
+    as_tibble()
+
+  hourly_data <- bind_cols(
+    terminal=terminal,
+    lat=response$latitude[1],
+    long=response$longitude[1],
+    response$hourly) 
+    
+  # print out an information statement
+  print(glue::glue("\t{nrow(hourly_data)} records retrieved for {terminal}"),"\n")
+
+  hourly_data
   }
 
 
-data_list <- map(vesselnames, get_vesselhistory, start_date, end_date)
+# Use `purrr::map` to iterate over all of the terminals. The results will be a list, with each terminal as a list item. 
+data_list <- map(terminallocations$terminal_name, 
+                 get_terminal_weather_history, 
+                 start_date, end_date)
 
-vesselhistory_raw <- bind_rows(data_list) |> clean_names()
+# Convert the list into a data frame and clean the column names
+weather_terminal_history_raw <- bind_rows(data_list) 
 
-num_records_vesselhistory <- nrow(vesselhistory_raw)
-
-# set alert
-if(num_records_vesselhistory < 10 | test_mode == TRUE){
-  alert_message <- glue::glue("There was a problem with the vessel history data retrieved. {num_records_vesselhistory} rows were retrieved.")
-send_email <- TRUE
-}
 
 ```
 
+## Task 5 - Write the remaining data sets to the database
 
-## TODO: 
-We will want to do an append write on the database to add vesselhistory and could also append weather data?
-Change vesselhistory to a date range
-Make the weather lookup more robust if date not found
+🔄 Task
 
-
-## Pin data 
-For lack of a database for now. 
+-   Use `dbWriteTable` to write `vessel_history_raw`,
+    `terminallocations` and `weather_terminal_history_raw` into the
+    database
+-   Use a time stamp to provide informational logging
 
 ```{r}
-#| label: write raw data
-#| eval: !expr 'test_mode != TRUE'
+#| label: write remaining data to database
 
-library(pins)
+# we should make a function for this
+write_df_to_db <- function(df, name_suffix, con, append = FALSE, overwrite = FALSE) {
+  
+  tablename <- paste0(deparse(substitute(df)), name_suffix)
+  
+  # print informational statement
+  print(glue::glue("Writing df {tablename} to database ..."),"\n")
+  
+  # Insert your start time stamp
+  start_time <- Sys.time()
+  
+  DBI::dbWriteTable(conn = con, # the connection
+                    name = tablename, # the name of the table you will create in the DB
+                    value = df,
+                    append = append,
+                    overwrite = overwrite)
+  
+  # Insert your end time stamp
+  end_time <- Sys.time()
+  duration <- end_time - start_time
+  
+  print(glue::glue("ℹ️ Info: Writing {tablename} to database took",  
+                   round(duration[[1]], 2),  units(duration)))
+  
+}
 
-board <- board_connect()
+write_df_to_db(vesselhistory_raw, my_username, con, append = TRUE)
 
-pin_write(board, vesseldata_raw, 
-          title="Raw `vesselverbose` data from WSDOT", 
-          description="from `Ferries/API/Vessels/rest/vesselverbose`")
+write_df_to_db(terminallocations, my_username, con, overwrite = TRUE)
 
-pin_write(board, vesselhistory_raw,
-          title="Raw `vesselhistory` data from WSDOT",
-          description="from `Ferries/API/Vessels/rest/vesselhistory`")
+write_df_to_db(weather_terminal_history_raw, my_username, con, append = TRUE)
 
 ```
 
+## Task 6 - Add logging information to make our scheduled report informative
 
+🔄 Task
 
+Make your scheduled reports work harder for you! Include information
+that you'll find useful to refer back to. Logging can be as basic or
+elaborate as you need.
 
-::: {.email}
+Lets include:
 
-::: {.email-scheduled}
-`{r} send_email`
+-   A nicely formatted time stamp.
+
+-   A summary the main actions taken in the report, such as how many
+    rows of data were downloaded, how many rows of data were written to
+    the database
+
+Hint: The `glue` package is helpful for combining text and variables.
+It's less work than stringing things together with `paste`. With
+`glue::glue()`, the syntax is
+`glue("Text with {<r expression or variable>}")`
+
+```{r}
+#| label: logging
+
+stamp <- format(as.POSIXct(Sys.time(),tz="US/Pacific"),'%A, %B %d, %Y %H:%M:%S')
+glue("Report run {stamp}")
+
+glue("Wrote the following to the database: 
+     
+     {nrow(vesseldata_raw)} rows of raw vessel data
+     {nrow(vesselhistory_raw)} rows of raw vessel history
+     {nrow(terminallocations)} terminal location records
+     {nrow(weather_terminal_history_raw)} rows of weather data")
+
+```
+
+## Task 7 - Send an email alert if something is fishy 🐟
+
+🔄 Task
+
+We will publish this document and schedule it to run daily. However,
+what if there's something wrong with the data? We want to know about it!
+
+Posit Connect has support for sending emails with Quarto:
+<https://docs.posit.co/connect/user/quarto/#email-customization>.
+
+The email subject and body are enclosed within `:::` divs and we specify
+that this document should render an email in the Quarto YAML block at
+the top of the document using `format: email`.
+
+💡 Consider `format: email` as an extension of the more general
+`format: html`. This means other YAML options pertinent to html outputs
+like `toc` and `code-fold` can still be used.
+
+-   Assume that if fewer than 10 records are returned from any of the
+    API calls, there's an issue with the upstream data source and we
+    want to receive an email alert about it.
+-   Do this by setting `send_email` to `TRUE` within a block called
+    `::: {email-scheduled}`. When the boolean is true, the email will be
+    sent; otherwise, it will be suppressed. See
+    <https://docs.posit.co/connect/user/quarto/#suppressing-email>
+
+::: callout
+❗❗ When viewing this portion of the code in the Workshop, switch from
+"Visual Editor" mode to "Source Mode" to more easily see the Quarto divs
+that control the email generation.
+
+![](00-initial-data-download/mode_switch.png)
 :::
 
-::: {.subject}
+### Define conditionality
+
+```{r}
+#| label: set conditions for sending email
+
+records_threshold <- 10
+
+if(nrow(vesseldata_raw) < records_threshold | 
+   nrow(vesselhistory_raw) < records_threshold | 
+   nrow(terminallocations) < records_threshold | 
+   nrow(weather_terminal_history_raw) < records_threshold){
+  send_email <- TRUE
+} else send_email <- FALSE
+```
+
+### Compose email
+
+The email below will send if the alert condition is set.
+
+::: email
+::: email-scheduled
+```{r}
+send_email
+```
+:::
+
+::: subject
 ⚠️ Ferry Project: There was an issue with the raw data.
 :::
 
-Fewer rows of raw data were retrieved than expected.  The number of records are `{r} num_records_vesselhistory`.
+Fewer rows of raw data were retrieved than expected. The number of
+records are:
 
+```{r}
+glue("The following number of records were retrieved from the API sources: 
+     
+     {nrow(vesseldata_raw)} rows of raw vessel data
+     {nrow(vesselhistory_raw)} rows of raw vessel history
+     {nrow(terminallocations)} terminal location records
+     {nrow(weather_terminal_history_raw)} rows of weather data
+     
+     A minumum of {records_threshold} records are expected from each source. Please review the source data.")
 
+```
 :::
 
+## Task 8 - Publish and schedule on Posit Connect
+
+🔄 Task
+
+-   Connect your account on Posit Connect to Workbench (Tools \> Global
+    Options \> Publishing)
+-   Use push-button publishing to publish this document, with source
+    code, to Connect
+-   Schedule it to run on a timescale that seems appropriate for the
+    data update cycle
+
+Note: Recall we specified our database connection details with
+environment variables. Typically when you publish content to Connect,
+you will also need to supply the environment variables using the "Vars"
+pane in Connect. For this workshop, these environment variables have
+already been stored on the Connect server for you so you won't need to
+do this step for this activity.
+
+We'll do this task together as a group.
+
+For reference, the Connect User Guide provides instructions for
+publishing:
+<https://docs.posit.co/connect/user/publishing/#publishing-general>
