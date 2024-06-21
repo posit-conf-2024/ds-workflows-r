@@ -7,6 +7,10 @@ toc-depth: 4
 
 We cover a lot of ground in this workshop. Below is a summary of the packages and references that you may find helpful to revisit.
 
+### Making API requests
+
+- [`httr2`](https://httr2.r-lib.org/)
+
 ### Data Exploration 
 
 - [`pointblank::scan_data()`](https://rstudio.github.io/pointblank/reference/scan_data.html)
