@@ -12,8 +12,6 @@ format:
 editor_options: 
   chunk_output_type: console
   canonical: true
-execute:
-  eval: false
 ---
 
 ------------------------------------------------------------------------
@@ -50,6 +48,14 @@ The goals of this activity are to:
 -   Use `{httr2}` to download the raw Washington State Ferries data and
     weather data, which is used throughout this Workshop
 -   Write the raw data to a database
+-   Learn some general logging tips to make your scheduled reports more
+    useful
+-   Use a simple threshold alert to trigger a notification email
+-   Publish this notebook to Posit Connect and put it on a rendering
+    schedule so database updates happen automatically
+
+This will give you experience setting up a repeatable workflow for
+populating production data sources.
 
 ✏️ There will be placeholders (`____`) in the code cells below that you
 will need to fill in!
@@ -147,8 +153,10 @@ response_body
 # Sometimes special characters or spaces in column names are not
 # database-friendly, so the only cleaning we'll do now is to use `janitor::clean_names` to
 # clean column names so there are no issues writing the data.
-vesseldata_raw <- response_body |>  clean_names()
-vesseldata_raw
+# Additionally, the results include a nested dataframe of Class information - 
+# we will unnest this.
+vesselinfo_raw <- response_body |> unnest(class) |>  clean_names() 
+vesselinfo_raw
 ```
 
 ## Task 2 - Connect to the database
@@ -183,14 +191,14 @@ con
 
 🔄 Task
 
--   Use `dbWriteTable` to write `vesseldata_raw` into the database
+-   Use `dbWriteTable` to write `vesselinfo_raw` into the database
 -   Use a time stamp to provide informational logging
 
 ```{r}
 #| label: database write
 my_username <- "____"
 
-my_df_name <- paste0("vesseldata_raw_", my_username)
+my_df_name <- paste0("vesselinfo_raw_", my_username)
 
 
 # Insert your start time stamp
@@ -198,7 +206,7 @@ start_time <- Sys.time()
 
 DBI::dbWriteTable(conn = con, # the connection
                   name = my_df_name, # the name of the table you will create in the DB
-                  value = vesseldata_raw,
+                  value = vesselinfo_raw,
                   append = TRUE)
 
 
@@ -269,7 +277,7 @@ get_vesselhistory <- function(vesselname, start_date, end_date) {
 # Specify our parameters:
 start_date <- today()-30
 end_date <- today()
-vesselnames <- vesseldata_raw |> pull(vessel_name)
+vesselnames <- vesselinfo_raw |> pull(vessel_name)
 
 # Use `purrr::map` to iterate over all of the vessels. The results will be a list, with each vessel's history as a list item. 
 data_list <- map(vesselnames, get_vesselhistory, start_date, end_date)
@@ -344,7 +352,7 @@ less than 10,000 API calls per day, 5,000 per hour and 600 per minute.
 #| label: download weather data
 
 # Create a function to query the API for a specified vessel name and date range
-get_terminal_weather_history <- function(terminal, start_date, end_date) {
+get_terminal_weather_history <- function(terminal, start_date, end_date, pause=0) {
   # get lat/long from terminal locations data
   lat <- terminallocations |> 
     filter(terminal_name == terminal) |> 
@@ -354,7 +362,7 @@ get_terminal_weather_history <- function(terminal, start_date, end_date) {
     pull(longitude)
   
   # print out an information statement
-  print(glue::glue("Getting weather history for {terminal} terminal...\n"))
+  print(glue::glue("Getting weather history for {terminal} terminal..."))
 
   req <- request("https://archive-api.open-meteo.com/v1/archive") |> 
     req_url_query(latitude=lat, 
@@ -375,13 +383,18 @@ get_terminal_weather_history <- function(terminal, start_date, end_date) {
     as_tibble()
 
   hourly_data <- bind_cols(
+    # add a column identifying the terminal
     terminal=terminal,
+    # add the lat/long
     lat=response$latitude[1],
     long=response$longitude[1],
     response$hourly) 
     
   # print out an information statement
-  print(glue::glue("\t{nrow(hourly_data)} records retrieved for {terminal}"),"\n")
+  print(glue::glue("\t{nrow(hourly_data)} records retrieved for {terminal}"))
+  
+  # In case some buffering is required to avoid API rate limits, define a pause (in seconds)
+  Sys.sleep(pause)
 
   hourly_data
   }
@@ -399,6 +412,25 @@ weather_terminal_history_raw <- bind_rows(data_list)
 ```
 
 ## Task 5 - Write the remaining data sets to the database
+
+```{r}
+##TODO: delete this when database is available
+library(pins)
+
+board <- board_connect()
+pin_write(board, vesselinfo_raw, 
+          title="Raw `vesselinfo` data from WSDOT `vesselverbose` endpoint", 
+          description="from `Ferries/API/Vessels/rest/vesselverbose`")
+
+pin_write(board, vesselhistory_raw,
+          title="Raw `vesselhistory` data from WSDOT",
+          description="from `Ferries/API/Vessels/rest/vesselhistory`")
+
+pin_write(board, weather_terminal_history_raw,
+          title="Raw hourly weather at terminal locations from Open Meteo",
+          description="from `archive-api.open-meteo.com/v1/archive`",
+          type = "csv")
+```
 
 🔄 Task
 
@@ -442,6 +474,10 @@ write_df_to_db(terminallocations, my_username, con, overwrite = TRUE)
 
 write_df_to_db(weather_terminal_history_raw, my_username, con, append = TRUE)
 
+# We're done here with the database, so we can close the connection
+dbDisconnect(con)
+
+
 ```
 
 ## Task 6 - Add logging information to make our scheduled report informative
@@ -473,7 +509,7 @@ glue("Report run {stamp}")
 
 glue("Wrote the following to the database: 
      
-     {nrow(vesseldata_raw)} rows of raw vessel data
+     {nrow(vesselinfo_raw)} rows of raw vessel data
      {nrow(vesselhistory_raw)} rows of raw vessel history
      {nrow(terminallocations)} terminal location records
      {nrow(weather_terminal_history_raw)} rows of weather data")
@@ -521,7 +557,7 @@ that control the email generation.
 
 records_threshold <- 10
 
-if(nrow(vesseldata_raw) < records_threshold | 
+if(nrow(vesselinfo_raw) < records_threshold | 
    nrow(vesselhistory_raw) < records_threshold | 
    nrow(terminallocations) < records_threshold | 
    nrow(weather_terminal_history_raw) < records_threshold){
@@ -550,7 +586,7 @@ records are:
 ```{r}
 glue("The following number of records were retrieved from the API sources: 
      
-     {nrow(vesseldata_raw)} rows of raw vessel data
+     {nrow(vesselinfo_raw)} rows of raw vessel data
      {nrow(vesselhistory_raw)} rows of raw vessel history
      {nrow(terminallocations)} terminal location records
      {nrow(weather_terminal_history_raw)} rows of weather data

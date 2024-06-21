@@ -14,14 +14,16 @@ editor_options:
   chunk_output_type: console
 ---
 
-
 ## Purpose
 
-This document downloads a bulk amount of data for vessel history and historical weather to provide an initial set of data for our model. 
+This document downloads a bulk amount of data for vessel history and
+historical weather to provide an initial set of data for our model.
 
-From this, we will schedule periodic data pulls to append to these datasets. 
+From this, we will schedule periodic data pulls to append to these
+datasets.
 
 ## Setup
+
 ```{r}
 #| label: setup
  
@@ -30,7 +32,6 @@ library(tidyverse)
 library(janitor)
 library(glue)
 ```
-
 
 ## Retrieve vessel history
 
@@ -47,7 +48,7 @@ vesselverbose_ep <- "vesselverbose"
 
 req <- request(base_url) |> req_url_query(apiaccesscode = Sys.getenv("WSDOT_ACCESS_CODE"))
 
-vesseldata_raw <- req |> 
+vesselinfo_raw <- req |> 
   req_url_path_append(vesselverbose_ep) |> 
   req_perform() |> 
   resp_body_string() |> 
@@ -56,13 +57,14 @@ vesseldata_raw <- req |>
 
 # the results include a nested dataframe of Class information. Unnest this.
 # Also use `janitor` to clean column names
-vesseldata_raw <- vesseldata_raw |> unnest(Class) |> clean_names()
+vesselinfo_raw <- vesselinfo_raw |> unnest(Class) |> clean_names()
 
 ```
 
-### Make a helper function to download historical vessel data 
+### Make a helper function to download historical vessel data
 
-This is nicer than a raw API call because there we include helpful print statements for status.
+This is nicer than a raw API call because there we include helpful print
+statements for status.
 
 ```{r}
 #| label: helper function get_vesselhistory
@@ -91,10 +93,10 @@ get_vesselhistory <- function(vesselname, start_date, end_date) {
 
 # Will plan on making the scheduled data pull capture 1 month back and run on a cadence more frequent than 1 month to ensure completeness in data.
 
-start_date <- "2020-01-01"
-end_date <- "2024-06-07"
+start_date <- "2021-01-01"
+end_date <- "2024-06-20"
 
-vesselnames <- vesseldata_raw |> pull(vessel_name)
+vesselnames <- vesselinfo_raw |> pull(vessel_name)
 start <- Sys.time()
 data_list <- map(vesselnames, get_vesselhistory, start_date, end_date)
 
@@ -109,17 +111,18 @@ duration <- end - start
 
 ### Make a helper function to download historical weather data
 
-This is nicer than a raw API call because there we include helpful print statements for status.
+This is nicer than a raw API call because there we include helpful print
+statements for status.
 
 ```{r}
 #| label: helper function get_terminal_weather_history
 
 get_terminal_weather_history <- function(terminal, start_date, end_date, pause=0) {
   # note: pause is specified in number of seconds. Inject a delay if the API rejects requests for too many at once. One year of data for one location is equivalent to about 16 API calls and there is a limit of 600 per minute so for 20 terminals, add a pause.
-  lat <- terminallocations |> filter(TerminalName == terminal) |> pull(Latitude)
-  long <- terminallocations |> filter(TerminalName == terminal) |> pull(Longitude)
+  lat <- terminallocations |> filter(terminal_name == terminal) |> pull(latitude)
+  long <- terminallocations |> filter(terminal_name == terminal) |> pull(longitude)
   
-  cat(glue::glue("Getting weather history for {terminal} terminal...\n"))
+  print(glue::glue("Getting weather history for {terminal} terminal..."))
 
   
   req <- request("https://archive-api.open-meteo.com/v1/archive") |> 
@@ -127,10 +130,9 @@ get_terminal_weather_history <- function(terminal, start_date, end_date, pause=0
                   start_date=start_date, end_date=end_date,
                   hourly=c("precipitation","weather_code","cloud_cover_low",
                            "wind_speed_10m","wind_gusts_10m"),
-                  temperature_unit="fahrenheit",
                   wind_speed_unit="mph",
                   precipitation_unit="inch", 
-                  timezone="America/Los_Angeles",
+                  timezone="US/Pacific",
                   .multi = "comma")
   
   resp <- req |> 
@@ -145,7 +147,7 @@ get_terminal_weather_history <- function(terminal, start_date, end_date, pause=0
     long=resp$longitude[1],
     resp$hourly) 
     
-  cat(glue::glue("\t{nrow(hourly_data)} records retrieved for {terminal}"),"\n")
+  print(glue::glue("\t{nrow(hourly_data)} records retrieved for {terminal}"))
   
   Sys.sleep(pause)
   
@@ -173,7 +175,7 @@ terminallocations_raw <- req |>
   as_tibble()
 
 terminallocations <- terminallocations_raw |> 
-  select(TerminalID, TerminalName, Latitude, Longitude)
+  select(TerminalID, TerminalName, Latitude, Longitude) |> clean_names()
 
 ```
 
@@ -185,20 +187,20 @@ terminallocations <- terminallocations_raw |>
 
 # and do in pieces in case it fails with a 504 timeout
 
-terminals_p1 <- terminallocations$TerminalName[1:10]
-terminals_p2 <- terminallocations$TerminalName[11:nrow(terminallocations)]
+terminals_p1 <- terminallocations$terminal_name[1:10]
+terminals_p2 <- terminallocations$terminal_name[11:nrow(terminallocations)]
 
 weather_terminal_history_raw_p1 <- map(terminals_p1, 
                                     get_terminal_weather_history, 
                                     start_date, 
                                     end_date, 
-                                    pause=10) |> bind_rows() 
+                                    pause=7) |> bind_rows() 
 
 weather_terminal_history_raw_p2 <- map(terminals_p2, 
                                     get_terminal_weather_history, 
                                     start_date, 
                                     end_date, 
-                                    pause=10) |> bind_rows() 
+                                    pause=7) |> bind_rows() 
 
 weather_terminal_history_raw <- bind_rows(weather_terminal_history_raw_p1,
                                           weather_terminal_history_raw_p2)
@@ -226,6 +228,7 @@ convert_timestamp <- function(timestamp) {
 ```
 
 ### Determine date spans
+
 ```{r}
 vh_dates <- vesselhistory_raw |> pull(date) |> convert_timestamp() |> as.Date() |> unique() |> sort()
 vh_start <- vh_dates[1]
@@ -236,7 +239,6 @@ wx_start <- wx_dates[1]
 wx_end <- wx_dates[length(wx_dates)]
 
 ```
-
 
 ```{r}
 library(sparklyr)
@@ -267,9 +269,8 @@ copy_to(dest = sc,
 df <- tbl(sc, in_catalog("sol_eng_ds_workflows_workshop", "default","terminal_wx_history_raw"))
 ```
 
-
-
 tbl(sc, in_catalog("samples", "nyctaxi", "trips"))
+
 ```{r}
 library(pins)
 
@@ -284,5 +285,3 @@ pin_write(board, weather_terminal_history_raw,
 
 
 ```
-
-
