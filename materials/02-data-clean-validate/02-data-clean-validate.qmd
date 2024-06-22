@@ -209,6 +209,9 @@ head(vesselinfo_raw)
 
 # how many different vessels and terminals do we have info for?
 vesselinfo_raw |> pull(vessel_name) |> unique()
+
+# get to know the ferries
+vesselinfo_raw |> select(vessel_name, vessel_name_desc)
 ```
 
 Maybe you're already familiar with `glimpse` and `summary` for
@@ -383,11 +386,11 @@ if(any(Sys.getenv("CONDITION_OVERRIDE") == 1,
 }
 
 # set a boolean that will stop additional data processing if there are any data integrity issues
-stop_alert <- any((exists("condition") & condition == 1), Sys.getenv("CONDITION_OVERRIDE") == 1)
-#########LEFT OFF HERE. REWORKING STOP+ALERT
+stop_alert <- any((if(exists("condition")){condition == 1}), Sys.getenv("CONDITION_OVERRIDE") == 1)
+
 ```
 
-## Task 2 - Clean and transform data
+## Task 3 - Clean and transform data
 
 🔄 Task
 
@@ -396,29 +399,15 @@ This will include: - convert dates into a usable format - convert
 terminal names and vessel names to lowercase - bring terminal names into
 agreement across data frames - calculate departure delay - create
 route-pairs for grouping related records - join the weather data with
-the sailing history, which will become our training data
+the sailing history, which will become our training data. 
 
-### Helper function for timestamp conversion
-
-```{r}
-# Convert time stamp (e.g., /Date(1716553800000-0700)/) to actual datetime
-convert_timestamp <- function(timestamp) {
-  # Define timestamp and timezone offset
-  timestamp_ms <- as.numeric(str_extract(timestamp, "(?<=/Date\\()\\d+(?=[-+])"))
-  
-  # Convert the timestamp to seconds
-  timestamp_sec <- timestamp_ms / 1000
-  
-  # Convert to datetime object
-  as.POSIXct(timestamp_sec, origin = "1970-01-01", tz = "US/Pacific")
-}
-
-```
+Notice that in the quarto code chunks, we have set `#| eval: !expr 'stop_alert != TRUE'` to prevent the code from running if there is a data integrity issue. This will save computation time by not bothering to render code chunks with questionable data.
 
 ### Clean weather data
 
 ```{r}
 #| label: Clean weather data
+#| eval: !expr 'stop_alert != TRUE'
 
 weather_terminal_history <- weather_terminal_history_raw |> 
   # remove any duplicates, which may occur because we are appending data each write
@@ -447,15 +436,36 @@ vesselinfo <- vesselinfo_raw |>
          vessel_history,
          drawing_img, 
          silhouette_img) |>
-  # vessel_names to lower
+  # vessel_names to lowercase
   mutate(vessel_name = tolower(vessel_name))
+
+```
+
+
+### Helper function for timestamp conversion
+
+```{r}
+# Convert time stamp (e.g., /Date(1716553800000-0700)/) to actual datetime
+convert_timestamp <- function(timestamp) {
+  # Define timestamp and timezone offset
+  timestamp_ms <- as.numeric(str_extract(timestamp, "(?<=/Date\\()\\d+(?=[-+])"))
+  
+  # Convert the timestamp to seconds
+  timestamp_sec <- timestamp_ms / 1000
+  
+  # Convert to datetime object
+  as.POSIXct(timestamp_sec, origin = "1970-01-01", tz = "US/Pacific")
+}
 
 ```
 
 ### Clean and transform `vesselhistory_raw`
 
+Our heaviest transformations happen here.
+
 ```{r}
 #| label: clean and shape vesselhistory
+#| eval: !expr 'stop_alert != TRUE'
 
 vesselhistory <- vesselhistory_raw |> 
   # remove any duplicates, which may occur because we are appending data each write
@@ -472,7 +482,7 @@ vesselhistory <- vesselhistory_raw |>
   mutate(across(c(vessel, departing, arriving), ~ str_replace_all(.x, " ","_"))) |> 
   # calculate delay in departure (minutes)
   mutate(delay = as.numeric(difftime(actual_depart,scheduled_depart, units="mins"))) |> 
-  # rename some terminals to more familiar names and match with weather data
+  # rename some terminals to more familiar names to match with weather data
   mutate(across(c(departing, arriving), ~ case_when(
     .x == "bainbridge" ~ "bainbridge_island",
     .x == "colman" ~ "seattle",
@@ -521,9 +531,15 @@ vesselhistory_w_weather <- vesselhistory |>
 vesselhistory_w_weather
 ```
 
-## Task 2 - Validate the model data
+## Task 4 - Validate the model data
 
 🔄 Task
+
+Use `pointblank` to create a validation agent and interrogate.  
+
+Sometimes it's okay to have records fail a validation. Perhaps a value is out of range or there was an error in data entry. A reasonable number of failing records may be expected, however, if a large amount of records are failing validation, this could be an indicator of larger data quality problems.  
+
+We will set "action levels" for each validation step in this agent. Exceeding the action level threshold will set a flag for that step. A validation step can have one or more ation levels for "notify," "warn," or "stop." We will then use the presence of this warning flag to conditionally send an email alert if a larger fraction of our data failed validation than we expected.
 
 ## Validate to remove errant data before modeling
 
@@ -532,13 +548,15 @@ vesselhistory_w_weather
 #| eval: !expr 'stop_alert != TRUE'
 
 main_agent <- create_agent(vesselhistory_w_weather) |> 
+  # all records are distinct
+  rows_distinct() |> 
   # sailing date is prior to today
   col_vals_lte(columns = date, today(),
                label = "Sailing date prior to today",
                actions = action_levels(warn_at = 0.01)) |> 
   # vessel_name is one known from vesseldata
   col_vals_in_set(columns =  vessel, 
-                  set = vesseldata$vessel_name, 
+                  set = vesselinfo$vessel_name, 
                   label = "Vessel name is known",
                   actions = action_levels(warn_at = 0.01)) |>
   # a departure and arrival must be specified
@@ -567,7 +585,8 @@ main_agent <- create_agent(vesselhistory_w_weather) |>
 
 x_list <- get_agent_x_list(main_agent)
 
-# condition=2 will be set if it is in override or if any warnings are set, otherwise condition=3
+
+# condition<-2 will be set if it is in override or if any warnings are set, otherwise condition<-3
 
 if(Sys.getenv("CONDITION_OVERRIDE") %in% c(2,3)){
   condition <- Sys.getenv("CONDITION_OVERRIDE")
@@ -577,7 +596,19 @@ if(Sys.getenv("CONDITION_OVERRIDE") %in% c(2,3)){
 
 ```
 
-## Sunder the data to remove failed rows
+## Task 5 - Remove failed records from dataset
+
+🔄 Task
+
+Pointblank has identified all of the rows of `vesselhistory_w_weather` that
+passed and failed validation. Now remove those that failed so the data
+that is passed downstream to our modeling step is squeaky clean.
+
+Pointblank provides a number of [post-interrogation functions](#0) to
+work with intel gathered from the validation. For this task, we will
+"sunder" the data using `pointblank::get_sundered_data()`.
+
+> **💡 sunder** /sun·der / ˈsən-dər / *verb* \| to split apart
 
 ```{r}
 #| label: sunder data
@@ -588,65 +619,76 @@ modeldata_fail_validation <- get_sundered_data(main_agent, type = "fail")
 
 ```
 
-## Create a summary of records
+
+## Task 6 - Write cleaned and validated data to database
+
+🔄 Task
+
+Write cleaned data to database
 
 ```{r}
-#| label: summarize data
-#| eval: !expr 'stop_alert != TRUE'
+#| label: write validated data to database
+#| eval: !expr 'stop_alert != TRUE & !Sys.getenv("CONDITION_OVERRIDE") %in% c(1:3)'
 
 
-summary_table <- modeldata_validated |> filter(route_id %in% c(1:5)) |>
-  select(route, vessel,date, delay, route_id) |>
-  arrange(route_id) |> 
-  group_by(route) |>
-  mutate(delay = as.numeric(delay), 
-         avg_delay = as.numeric(mean(delay)), 
-       num_vessels = n_distinct(vessel),
-       num_sailings = n()) |>
-  ungroup() |> select(-vessel) |> 
-  pivot_wider(names_from = date, values_from = delay, values_fn = list) |> 
-  gt(rowname_col = "route", groupname_col = "route_id") |>
-  tab_header(
-    title = "Departure Delays Summary",
-    subtitle = glue::glue("{min(modeldata_validated$date)} 
-                          to {max(modeldata_validated$date)}")) |>
-  tab_source_note(source_note = md("Data sourced from [WSDOT Traveler Information API](https://wsdot.wa.gov/traffic/api/) and modified for use from its original source.")) |> 
-  cols_label(
-    avg_delay = md("Average delay (min)"),
-    num_vessels = "Vessels on route", 
-    num_sailings = "Sailings in period"
-  ) |> 
-  cols_nanoplot(
-    columns = starts_with("202"),
-    plot_type = "boxplot",
-    new_col_name = "nanoplots",
-    new_col_label = "delay",
-    plot_height = "3em",
-    options = nanoplot_options(
-      # show_data_points = FALSE
-    )) |> 
-  fmt_number(columns = avg_delay, decimals = 1) |>
-  fmt_number(columns = num_sailings, use_seps = TRUE, decimals = 0) |> 
-  opt_all_caps()  |> 
-  text_transform(
-    locations = cells_stub(),
-    fn = function(x) {
-      x <- gsub("-", " → ", x)
-      x <- gsub("_", " ", x)
-      x
-    }) |> 
-  text_transform(
-    locations = cells_group(),
-    fn = function(x) " ") |> 
-  opt_vertical_padding(scale = 0.2) |> 
-  opt_horizontal_padding(scale = 1.5)
+my_username <- "____"
 
-summary_table
-  
+my_df_name <- paste0("modeldata_validated_", my_username)
+
+
+# Insert your start time stamp
+start_time <- Sys.time()
+
+DBI::dbWriteTable(conn = con, # the connection
+                  name = my_df_name, # the name of the table you will create in the DB
+                  value = modeldata_validated,
+                  append = TRUE)
+
+
+# Insert your end time stamp
+end_time <- Sys.time()
+duration <- end_time - start_time
+
+
+print(glue::glue("ℹ️ Info: Writing {my_df_name} to database took",  round(duration[[1]], 2),  units(duration)))
 
 ```
 
-## create a data dictionary
+```{r}
+#| label: write data
+#| eval: !expr 'stop_alert != TRUE & !Sys.getenv("CONDITION_OVERRIDE") %in% c(1:3)'
+
+board <- board_connect()
+
+pin_write(board, vesseldata,
+          title="Cleaned and validated `vesselverbose` data from WSDOT",
+          description="from `Ferries/API/Vessels/rest/vesselverbose`")
+
+pin_write(board, vesselhistory,
+          title="Cleaned and validated `vesselhistory` data from WSDOT",
+          description="from `Ferries/API/Vessels/rest/vesselhistory`")
+
+
+pin_write(board, weather_terminal_history,
+          type = "csv",
+          title = "Cleaned and validated historical weather data at ferry terminals",
+          description = "From `open-meteo.com`, dates 2023-05-31 to 2024-05-31")
+
+pin_write(board, vesselhistory_w_weather,
+          type = "csv",
+          title = "Vessel sailing history with weather data")
+
+pin_write(board, modeldata_validated,
+          type = "csv",
+          title = "Cleaned and validated vessel sailing history with weather data for model consumption")
+```
+
+
+## Task 7 - Create a data dictionary
+
+🔄 Task
+
+Pointblank helps us to document and provide context about our validated data. We will use an "Informant" to create a data dictionary, which will accompany our model data in reporting.
 
 ```{r}
 #| label: data dictionary
@@ -743,35 +785,67 @@ create_informant(
     incorporate()
 ```
 
-## Pin clean data
+
+## Task 7 - Create a summary of records
+
+🔄 Task
+
+Let's take a look at the data
 
 ```{r}
-#| label: write data
-#| eval: !expr 'stop_alert != TRUE & !Sys.getenv("CONDITION_OVERRIDE") %in% c(1:3)'
-
-board <- board_connect()
-
-pin_write(board, vesseldata,
-          title="Cleaned and validated `vesselverbose` data from WSDOT",
-          description="from `Ferries/API/Vessels/rest/vesselverbose`")
-
-pin_write(board, vesselhistory,
-          title="Cleaned and validated `vesselhistory` data from WSDOT",
-          description="from `Ferries/API/Vessels/rest/vesselhistory`")
+#| label: summarize data
+#| eval: !expr 'stop_alert != TRUE'
 
 
-pin_write(board, weather_terminal_history,
-          type = "csv",
-          title = "Cleaned and validated historical weather data at ferry terminals",
-          description = "From `open-meteo.com`, dates 2023-05-31 to 2024-05-31")
+summary_table <- modeldata_validated |> filter(route_id %in% c(1:5)) |>
+  select(route, vessel,date, delay, route_id) |>
+  arrange(route_id) |> 
+  group_by(route) |>
+  mutate(delay = as.numeric(delay), 
+         avg_delay = as.numeric(mean(delay)), 
+       num_vessels = n_distinct(vessel),
+       num_sailings = n()) |>
+  ungroup() |> select(-vessel) |> 
+  pivot_wider(names_from = date, values_from = delay, values_fn = list) |> 
+  gt(rowname_col = "route", groupname_col = "route_id") |>
+  tab_header(
+    title = "Departure Delays Summary",
+    subtitle = glue::glue("{min(modeldata_validated$date)} 
+                          to {max(modeldata_validated$date)}")) |>
+  tab_source_note(source_note = md("Data sourced from [WSDOT Traveler Information API](https://wsdot.wa.gov/traffic/api/) and modified for use from its original source.")) |> 
+  cols_label(
+    avg_delay = md("Average delay (min)"),
+    num_vessels = "Vessels on route", 
+    num_sailings = "Sailings in period"
+  ) |> 
+  cols_nanoplot(
+    columns = starts_with("202"),
+    plot_type = "boxplot",
+    new_col_name = "nanoplots",
+    new_col_label = "delay",
+    plot_height = "3em",
+    options = nanoplot_options(
+      # show_data_points = FALSE
+    )) |> 
+  fmt_number(columns = avg_delay, decimals = 1) |>
+  fmt_number(columns = num_sailings, use_seps = TRUE, decimals = 0) |> 
+  opt_all_caps()  |> 
+  text_transform(
+    locations = cells_stub(),
+    fn = function(x) {
+      x <- gsub("-", " → ", x)
+      x <- gsub("_", " ", x)
+      x
+    }) |> 
+  text_transform(
+    locations = cells_group(),
+    fn = function(x) " ") |> 
+  opt_vertical_padding(scale = 0.2) |> 
+  opt_horizontal_padding(scale = 1.5)
 
-pin_write(board, vesselhistory_w_weather,
-          type = "csv",
-          title = "Vessel sailing history with weather data")
+summary_table
+  
 
-pin_write(board, modeldata_validated,
-          type = "csv",
-          title = "Cleaned and validated vessel sailing history with weather data for model consumption")
 ```
 
 ## Prep for email
@@ -960,7 +1034,7 @@ summary_table |> as_raw_html()
 :::
 :::
 
-# Logging information
+## Logging information
 
 Report run `{r} today()`
 
