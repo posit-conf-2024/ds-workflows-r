@@ -13,8 +13,8 @@ editor_options:
   chunk_output_type: console
 ---
 
-
 ## Create a summary of records
+
 ```{r}
 #| label: summarize data
 #| eval: !expr 'stop_notice != TRUE'
@@ -71,15 +71,14 @@ summary_table
 
 ```
 
-
 ```{r}
 
 delays <- modeldata_validated |> select(vessel, date, route, route_id, delay) |> filter(route =="seattle-bainbridge_island") |> filter(year(date) == 2023)
 
 # make a ggplot of delays with months on the x axis and delay on the y. each year a different color.
 ggplot(filter(delays,month(date) <4), aes(x = date, y = delay, color = factor(year(date)))) +
-  geom_line() +
-  geom_smooth(method = "lm", se = FALSE) +
+  # geom_line() +
+  geom_smooth(method = "loess", se = TRUE) +
   labs(title = "Departure Delays by Route",
        x = "Date",
        y = "Delay (min)",
@@ -88,5 +87,12 @@ ggplot(filter(delays,month(date) <4), aes(x = date, y = delay, color = factor(ye
 
 
 delays$date |> month()
+
+```
+
+```{r}
+
+ggplot(filter(modeldata_validated, delay < 40)) + geom_histogram(aes(x = delay), bins = 30) + labs(title = "Departure Delays Distribution", x = "Delay (min)", y = "Frequency") + theme_minimal()
+
 
 ```

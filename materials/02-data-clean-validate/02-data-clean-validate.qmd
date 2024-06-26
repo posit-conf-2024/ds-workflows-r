@@ -399,9 +399,12 @@ This will include: - convert dates into a usable format - convert
 terminal names and vessel names to lowercase - bring terminal names into
 agreement across data frames - calculate departure delay - create
 route-pairs for grouping related records - join the weather data with
-the sailing history, which will become our training data. 
+the sailing history, which will become our training data.
 
-Notice that in the quarto code chunks, we have set `#| eval: !expr 'stop_alert != TRUE'` to prevent the code from running if there is a data integrity issue. This will save computation time by not bothering to render code chunks with questionable data.
+Notice that in the quarto code chunks, we have set
+`#| eval: !expr 'stop_alert != TRUE'` to prevent the code from running
+if there is a data integrity issue. This will save computation time by
+not bothering to render code chunks with questionable data.
 
 ### Clean weather data
 
@@ -440,7 +443,6 @@ vesselinfo <- vesselinfo_raw |>
   mutate(vessel_name = tolower(vessel_name))
 
 ```
-
 
 ### Helper function for timestamp conversion
 
@@ -535,11 +537,20 @@ vesselhistory_w_weather
 
 🔄 Task
 
-Use `pointblank` to create a validation agent and interrogate.  
+Use `pointblank` to create a validation agent and interrogate.
 
-Sometimes it's okay to have records fail a validation. Perhaps a value is out of range or there was an error in data entry. A reasonable number of failing records may be expected, however, if a large amount of records are failing validation, this could be an indicator of larger data quality problems.  
+Sometimes it's okay to have records fail a validation. Perhaps a value
+is out of range or there was an error in data entry. A reasonable number
+of failing records may be expected, however, if a large amount of
+records are failing validation, this could be an indicator of larger
+data quality problems.
 
-We will set "action levels" for each validation step in this agent. Exceeding the action level threshold will set a flag for that step. A validation step can have one or more ation levels for "notify," "warn," or "stop." We will then use the presence of this warning flag to conditionally send an email alert if a larger fraction of our data failed validation than we expected.
+We will set "action levels" for each validation step in this agent.
+Exceeding the action level threshold will set a flag for that step. A
+validation step can have one or more ation levels for "notify," "warn,"
+or "stop." We will then use the presence of this warning flag to
+conditionally send an email alert if a larger fraction of our data
+failed validation than we expected.
 
 ## Validate to remove errant data before modeling
 
@@ -569,9 +580,9 @@ main_agent <- create_agent(vesselhistory_w_weather) |>
                   actions = action_levels(warn_at = 0.1)) |> 
   # calculated delay is not null
   col_vals_not_null(columns = delay) |> 
-  # a departure more than 20 minutes early is likely bad data
-  col_vals_gte(columns = delay, -20,
-               label = "Departed no more than 20 minutes early",
+  # a departure more than 5 minutes early is likely bad data
+  col_vals_gte(columns = delay, -5,
+               label = "Departed no more than 5 minutes early",
                actions = action_levels(warn_at = 0.01)) |> 
   # weather code is valid
   col_vals_between(columns = weather_code, 0, 99, na_pass = TRUE,
@@ -600,9 +611,9 @@ if(Sys.getenv("CONDITION_OVERRIDE") %in% c(2,3)){
 
 🔄 Task
 
-Pointblank has identified all of the rows of `vesselhistory_w_weather` that
-passed and failed validation. Now remove those that failed so the data
-that is passed downstream to our modeling step is squeaky clean.
+Pointblank has identified all of the rows of `vesselhistory_w_weather`
+that passed and failed validation. Now remove those that failed so the
+data that is passed downstream to our modeling step is squeaky clean.
 
 Pointblank provides a number of [post-interrogation functions](#0) to
 work with intel gathered from the validation. For this task, we will
@@ -618,7 +629,6 @@ modeldata_validated <- get_sundered_data(main_agent, type = "pass")
 modeldata_fail_validation <- get_sundered_data(main_agent, type = "fail")
 
 ```
-
 
 ## Task 6 - Write cleaned and validated data to database
 
@@ -683,12 +693,13 @@ pin_write(board, modeldata_validated,
           title = "Cleaned and validated vessel sailing history with weather data for model consumption")
 ```
 
-
 ## Task 7 - Create a data dictionary
 
 🔄 Task
 
-Pointblank helps us to document and provide context about our validated data. We will use an "Informant" to create a data dictionary, which will accompany our model data in reporting.
+Pointblank helps us to document and provide context about our validated
+data. We will use an "Informant" to create a data dictionary, which will
+accompany our model data in reporting.
 
 ```{r}
 #| label: data dictionary
@@ -784,7 +795,6 @@ create_informant(
     "unit" = "mph") |> 
     incorporate()
 ```
-
 
 ## Task 7 - Create a summary of records
 
