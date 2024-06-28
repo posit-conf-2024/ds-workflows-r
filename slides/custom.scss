@@ -1,0 +1,110 @@
+// Also see css in _extensions/positconfslides/custom.scss
+
+// colors 
+$silver:          #c2c2c4;
+$lightgray:       #949494;
+$lightgray3:      #707073;
+$positbluedark2:  #213d4f;
+$positblue:       #447099;
+$positbluelt2:    #a2b8cb;
+$positteal:       #419599;
+$positteallt3:    #70a3a6; 
+$positburg:       #9A4665;
+$positgreendark2: #3b4f29;
+$positgreen:      #72994E;
+$positgreenlt2:   #adbf99;
+$positorange:     #ee6331;
+$positorangelt3:  #e58066;
+$positreddark2:   #7D1A03;
+$positred:        #d44000;
+$positredlt3:     #db593b;
+$posityellow:     #e7b10a;
+$posityellowlt3:  #f4c540;
+$posityellowlt2:  #f5d487;
+
+/*-- scss:rules --*/
+  
+// slide formats
+.figcaption2 {
+  color: $silver;
+  font-size: x-small;
+  font-family: 'Barlow Condensed', sans-serif;
+
+}
+  
+// font sizes
+.smallest{font-size:x-small}
+
+.smaller{font-size:smaller}
+
+.medium{font-size:medium}
+
+.large{font-size:150%;}
+
+.larger{font-size:250%;}
+
+.largest{font-size:500%;}
+
+// images
+.hello-image {
+  margin-top: 20px;
+  width: 350px;
+  height: 350px;
+  border-radius: 100%;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.center{
+  margin-left: auto;
+  margin-right: auto;
+  text-align: center;
+}
+
+.middle{
+  position: absolute;
+  top: 50%;
+  transform: translate(0, -50%);
+}
+
+.section-title-dark{
+  vertical-align: middle;
+  text-align: center;
+  margin-top: 350px;
+  font-size: 90px;
+  font-weight: 500;
+  color: $dark-bg-text-color;
+}
+
+.section-title{
+  vertical-align: middle;
+  text-align: center;
+  margin-top: 350px;
+  font-size: 90px;
+  font-weight: 500;
+}
+
+
+
+// Custom Color Region
+.white {color: #FFFFFF;}
+.silver {color: $silver;}
+.lightgray {color: $lightgray;}
+.lightgray3 {color: $lightgray3;}
+.positbluedark2 {color: $positbluedark2;}
+.positblue {color: $positblue;}
+.positbluelt2 {color: $positbluelt2;}
+.positteal {color: $positteal;}
+.positteallt3 {color: $positteallt3;}
+.positburg {color: $positburg;}
+.positgreendark2 {color: $positgreendark2;}
+.positgreen {color: $positgreen;}
+.positgreenlt2 {color: $positgreenlt2;}
+.positorange {color: $positorange;}
+.positorangelt3 {color: $positorangelt3;}
+.positreddark2 {color: $positreddark2;}
+.positred {color: $positred;}
+.positredlt3 {color: $positredlt3;}
+.posityellow {color: $posityellow;}
+.posityellowlt3 {color: $posityellowlt3;}
+.posityellowlt2 {color: $posityellowlt2;}
