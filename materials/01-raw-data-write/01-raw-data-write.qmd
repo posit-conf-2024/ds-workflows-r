@@ -18,26 +18,13 @@ editor_options:
 
 ## General Workshop Activity Notes
 
-Welcome to the first Activity! A few points relevant to this, and all
-other Activities in the workshop:
+Welcome to the first Activity! A few points relevant to this, and all other Activities in the workshop:
 
-1.  The Activities are Quarto documents, presented by default in the
-    Visual Editor for readability
-2.  The intention is to run through the document from top to bottom,
-    running each code chunk interactively rather than rendering the
-    document
-3.  Run the chunk by either clicking the green Play Button in the
-    chunk's top right corner, or use the cmd+enter keyboard shortcut to
-    run the current line or selected text
-4.  We'll work through these activities mostly as a group, code-along
-    style because our focus in this workshop is less about code
-    development and more about around processes, tools, and learning
-    concepts. We can best teach this if we do it together!
-5.  **Where's my output?** Are you a `Chunk Output Inline` kind of
-    person? Sorry. For this activity, it's set by default to go the
-    console because the HTML renderings from Pointblank get very
-    squished otherwise. It might be like this for other activities too,
-    so don't get surprised 😉
+1.  The Activities are Quarto documents, presented by default in the Visual Editor for readability
+2.  The intention is to run through the document from top to bottom, running each code chunk interactively rather than rendering the document
+3.  Run the chunk by either clicking the green Play Button in the chunk's top right corner, or use the cmd+enter keyboard shortcut to run the current line or selected text
+4.  We'll work through these activities mostly as a group, code-along style because our focus in this workshop is less about code development and more about around processes, tools, and learning concepts. We can best teach this if we do it together!
+5.  **Where's my output?** Are you a `Chunk Output Inline` kind of person? Sorry. For this activity, it's set by default to go the console because the HTML renderings from Pointblank get very squished otherwise. It might be like this for other activities too, so don't get surprised 😉
 
 ------------------------------------------------------------------------
 
@@ -45,20 +32,15 @@ other Activities in the workshop:
 
 The goals of this activity are to:
 
--   Use `{httr2}` to download the raw Washington State Ferries data and
-    weather data, which is used throughout this Workshop
+-   Use `{httr2}` to download the raw Washington State Ferries data and weather data, which is used throughout this Workshop
 -   Write the raw data to a database
--   Learn some general logging tips to make your scheduled reports more
-    useful
+-   Learn some general logging tips to make your scheduled reports more useful
 -   Use a simple threshold alert to trigger a notification email
--   Publish this notebook to Posit Connect and put it on a rendering
-    schedule so database updates happen automatically
+-   Publish this notebook to Posit Connect and put it on a rendering schedule so database updates happen automatically
 
-This will give you experience setting up a repeatable workflow for
-populating production data sources.
+This will give you experience setting up a repeatable workflow for populating production data sources.
 
-✏️ There will be placeholders (`____`) in the code cells below that you
-will need to fill in!
+✏️ There will be placeholders (`____`) in the code cells below that you will need to fill in!
 
 ## Setup
 
@@ -83,7 +65,7 @@ We are using data sets from two main sources
 (<https://wsdot.wa.gov/traffic/api/>)
 
 | Endpoint               | Description                                                                | API                                                                                                                                     |
-|------------------------|----------------------------------------------------------------------------|-----------------------------------------------------------------------------------------------------------------------------------------|
+|---------------|--------------------|-------------------------------------|
 | **Vessel verbose**     | Details about each ferry in the fleet, including name, model, and capacity | `https://www.wsdot.wa.gov/ferries/api/vessels/ rest/vesselverbose?apiaccesscode={WSDOT_ACCESS_CODE}`                                    |
 | **Vessel history**     | Historical sailings, including scheduled actual departure time             | `https://www.wsdot.wa.gov/ferries/api/vessels/ rest/vesselhistory/{VESSELNAME}/{DATESTART}/{DATEEND}?apiaccesscode={WSDOT_ACCESS_CODE}` |
 | **Terminal locations** | Terminal names and locations, including latitude and longitude             | `https://www.wsdot.wa.gov/ferries/api/terminals/ rest/terminallocations?apiaccesscode={WSDOT_ACCESS_CODE}`                              |
@@ -93,38 +75,53 @@ We are using data sets from two main sources
 ([https://open-meteo.com/en/docs/](https://open-meteo.com/en/docs/historical-weather-api/))
 
 | Endpoint               | Description                                                                       | API                                                       |
-|------------------------|-----------------------------------------------------------------------------------|-----------------------------------------------------------|
+|----------------|---------------------------------|-----------------------|
 | **Historical weather** | Historical hourly weather at a specified latitude and longitude over a date range | `https://archive-api.open-meteo.com/v1/ archive?{params}` |
 
-We will use the `{httr2}` package to download the data from these API
-sources.
+We will use the `{httr2}` package to download the data from these API sources.
 
-Note we are using an environment variable to access the WSDOT API called
-**`WSDOT_ACCESS_CODE`**. This has been preconfigured for you for the
-purposes of this workshop.
+## Task 1 - Get and set WSDOT environment variable
 
-## Task 1 - Download vessel verbose data
+🔄 Task
+
+Note we are using an environment variable to access the WSDOT API called **`WSDOT_ACCESS_CODE`**. Visit <https://wsdot.wa.gov/traffic/api/> to get an API key for the use during this workshop.
+
+To set this environment variable in your local development environment, add it to your `.Renviron` file. To do this, run the following command in your R console:
+
+``` r
+usethis::edit_r_environ("project")
+```
+
+``` {.bash filename=".Renviron"}
+# file: either ~/.Renviron or .Renviron in the project root
+WSDOT_ACCESS_CODE=PASTE_VALUE_HERE
+```
+
+💡 Remember, the `.Renviron` file does not get deployed with this content, and you should not commit it to git. It is a local file that sets environment variables for your R session. You will be able to set this variable in the "Vars" pane on Connect when you deploy.
+
+Get an API key from <https://wsdot.wa.gov/traffic/api/> and save it to your `.Renviron` file using
+
+``` r
+usethis::edit_r_environ()
+```
+
+## Task 2 - Download vessel verbose data
 
 🔄 Task
 
 Get the following data set:
 
--   **Vessel Verbose**: the
-    `https://www.wsdot.wa.gov/Ferries/API/Vessels/rest/vesselverbose`
-    endpoint contains data about the ferries in the fleet.
+-   **Vessel Verbose**: the `https://www.wsdot.wa.gov/Ferries/API/Vessels/rest/vesselverbose` endpoint contains data about the ferries in the fleet.
 
-Use `{httr2}` to download the vessel verbose data set from the WSDOT
-API.
+Use `{httr2}` to download the vessel verbose data set from the WSDOT API.
 
 This API takes the form:
 
 `https://www.wsdot.wa.gov/ferries/api/vessels/rest/vesselverbose?apiaccesscode={WSDOT_ACCESS_CODE}`
 
-With `{httr2}` we compose the API request as
-`<base url>/<path (aka endpoint)>/<query parameters>`
+With `{httr2}` we compose the API request as `<base url>/<path (aka endpoint)>/<query parameters>`
 
-💡 Don't split hairs over what part of your string is captured as the
-base URL versus the path. Do what makes you happy.
+💡 Don't split hairs over what part of your string is captured as the base URL versus the path. Do what makes you happy.
 
 ```{r}
 #| label: download raw vessel data
@@ -151,26 +148,21 @@ response_body <- response |>
 response_body
 
 # Sometimes special characters or spaces in column names are not
-# database-friendly, so the only cleaning we'll do now is to use `janitor::clean_names` to
+# database-friendly, so we will use `janitor::clean_names` to
 # clean column names so there are no issues writing the data.
 # Additionally, the results include a nested dataframe of Class information - 
-# we will unnest this.
-vesselinfo_raw <- response_body |> unnest(class) |>  clean_names() 
+# we will unnest this so there are no errors with our database interpreting this.
+vesselinfo_raw <- response_body |> unnest(Class) |>  clean_names() 
 vesselinfo_raw
 ```
 
-## Task 2 - Connect to the database
+## Task 3 - Connect to the database
 
 🔄 Task
 
-Create a database connection using the database connection details
-defined for you by your IT Admin (Workshop Instructors). Avoid
-hard-coding in any credentials. We're using environment variables here.
+Create a database connection using the database connection details defined for you by your IT Admin (Workshop Instructors). Avoid hard-coding in any credentials. We're using environment variables here.
 
-The `RPostgres` package is DBI-compliant and is built specifically for
-PosgreSQL databases. Performance may be faster (particularly for writing
-data!) than using the generic `odbc` package, and there are more
-translations available, meaning more dplyr verbs will be available.
+The `RPostgres` package is DBI-compliant and is built specifically for PosgreSQL databases. Performance may be faster (particularly for writing data!) than using the generic `odbc` package, and there are more translations available, meaning more dplyr verbs will be available.
 
 ```{r}
 #| label: make database connection
@@ -187,18 +179,21 @@ con
 
 ```
 
-## Task 3 - Write to the database
+## Task 4 - Write to the database
 
 🔄 Task
 
 -   Use `dbWriteTable` to write `vesselinfo_raw` into the database
 -   Use a time stamp to provide informational logging
 
+For the purposes of the Workshop, each participant will write a version of the data to the database with a suffix of <dataframe>\_<username>. For the production project however, we will write the data with a suffix of `production`, and our production project will use this dataframe for all downstream work. We're using the `{config}` under the hood to easily swap out the suffix depending on whether we are in local development (Posit Workbench) or in production (Posit Connect). Peek at the file `config.yml` in the file pane to see how this is set up.
+
 ```{r}
 #| label: database write
-my_username <- "____"
 
-my_df_name <- paste0("vesselinfo_raw_", my_username)
+df_suffix <- config::get("suffix")
+
+my_df_name <- paste0("vesselinfo_raw_", df_suffix)
 
 
 # Insert your start time stamp
@@ -215,26 +210,22 @@ end_time <- Sys.time()
 duration <- end_time - start_time
 
 
-print(glue::glue("ℹ️ Info: Writing {my_df_name} to database took",  round(duration[[1]], 2),  units(duration)))
+print(glue("ℹ️ Info: Writing `{my_df_name}` to database took", round(duration[[1]], 2), units(duration), .sep = " "))
 ```
 
-## Task 4 - Get other data sets
+## Task 5 - Get and write the other data sets
+
+::: callout-note
+This task is similar to Tasks 2-4 from a Workshop perspective. We will speed through this code and pick up again on the next Task for new material.
+:::
 
 Get the following additional data sets:
 
--   **Vessel History**: the
-    `https://www.wsdot.wa.gov/Ferries/API/Vessels/rest/vesselhistory`
-    endpoint contains historical data about sailings.
+-   **Vessel History**: the `https://www.wsdot.wa.gov/Ferries/API/Vessels/rest/vesselhistory` endpoint contains historical data about sailings.
 
--   **Terminal locations**: the
-    `https://www.wsdot.wa.gov/Ferries/API/terminals/rest/terminallocations`
-    endpoint contains information about ferry terminals locations.
+-   **Terminal locations**: the `https://www.wsdot.wa.gov/Ferries/API/terminals/rest/terminallocations` endpoint contains information about ferry terminals locations.
 
--   **Weather data**: the
-    `https://archive-api.open-meteo.com/v1/archive?{params}` endpoint
-    contains historical hourly weather information for a location and
-    date, including things that may affect the timeliness of our ferry
-    departure, such as wind speed, cloud cover, and precipitation.
+-   **Weather data**: the `https://archive-api.open-meteo.com/v1/archive?{params}` endpoint contains historical hourly weather information for a location and date, including things that may affect the timeliness of our ferry departure, such as wind speed, cloud cover, and precipitation.
 
 ### Vessel history
 
@@ -242,12 +233,9 @@ This API takes the form:
 
 `http://www.wsdot.wa.gov/Ferries/API/Vessels/rest/vesselhistory/{VESSELNAME}/{DATESTART}/{DATEEND}?apiaccesscode={WSDOT_ACCESS_CODE}`
 
-We'll query 30 days looking back from today's date, and use the vessel
-names we retrieved from the Vessel Verbose endpoint.
+We'll query 30 days looking back from today's date, and use the vessel names we retrieved from the Vessel Verbose endpoint.
 
-Rather than manually repeating the API call for each vessel though,
-we'll turn the API call into a reusable function and then iterate over
-the list of vessel names using `purrr::map`.
+Rather than manually repeating the API call for each vessel though, we'll turn the API call into a reusable function and then iterate over the list of vessel names using `purrr::map`.
 
 ```{r}
 #| label: download raw vessel history
@@ -324,12 +312,9 @@ terminallocations <- terminallocations_raw |>
 
 ### Weather data
 
-Similart to the approach used for retrieving Vessel History, we will
-define a function to call the weather API and iterate over all of the
-departing terminal locations.
+Similart to the approach used for retrieving Vessel History, we will define a function to call the weather API and iterate over all of the departing terminal locations.
 
-The API allows us to specify the data and format we want in the query.
-We will include:
+The API allows us to specify the data and format we want in the query. We will include:
 
 -   precipitation (inches)
 
@@ -343,10 +328,7 @@ We will include:
 
 -   Timezone: US/Pacific
 
-The Open Meteo API is available to use without an API key when used for
-educational purposes according to their [Terms of
-Use](https://open-meteo.com/en/terms). As such, queries are limited to
-less than 10,000 API calls per day, 5,000 per hour and 600 per minute.
+The Open Meteo API is available to use without an API key when used for educational purposes according to their [Terms of Use](https://open-meteo.com/en/terms). As such, queries are limited to less than 10,000 API calls per day, 5,000 per hour and 600 per minute.
 
 ```{r}
 #| label: download weather data
@@ -411,13 +393,14 @@ weather_terminal_history_raw <- bind_rows(data_list)
 
 ```
 
-## Task 5 - Write the remaining data sets to the database
+### Write the data to the database
 
 ```{r}
 ##TODO: delete this when database is available
 library(pins)
 
 board <- board_connect()
+## PRODUCTION
 pin_write(board, vesselinfo_raw, 
           title="Raw `vesselinfo` data from WSDOT `vesselverbose` endpoint", 
           description="from `Ferries/API/Vessels/rest/vesselverbose`")
@@ -430,14 +413,24 @@ pin_write(board, weather_terminal_history_raw,
           title="Raw hourly weather at terminal locations from Open Meteo",
           description="from `archive-api.open-meteo.com/v1/archive`",
           type = "csv")
+
+## DEV
+pin_write(board, vesselinfo_raw, 
+          name="vesselinfo_raw_katiemasiello",
+          title="Raw `vesselinfo` data from WSDOT `vesselverbose` endpoint", 
+          description="from `Ferries/API/Vessels/rest/vesselverbose`")
+
+pin_write(board, vesselhistory_raw,
+          name="vesselhistory_raw_katiemasiello",
+          title="Raw `vesselhistory` data from WSDOT",
+          description="from `Ferries/API/Vessels/rest/vesselhistory`")
+
+pin_write(board, weather_terminal_history_raw,
+          name="weather_terminal_history_raw_katiemasiello",
+          title="Raw hourly weather at terminal locations from Open Meteo",
+          description="from `archive-api.open-meteo.com/v1/archive`",
+          type = "csv")
 ```
-
-🔄 Task
-
--   Use `dbWriteTable` to write `vessel_history_raw`,
-    `terminallocations` and `weather_terminal_history_raw` into the
-    database
--   Use a time stamp to provide informational logging
 
 ```{r}
 #| label: write remaining data to database
@@ -477,29 +470,21 @@ write_df_to_db(weather_terminal_history_raw, my_username, con, append = TRUE)
 # We're done here with the database, so we can close the connection
 dbDisconnect(con)
 
-
 ```
 
 ## Task 6 - Add logging information to make our scheduled report informative
 
 🔄 Task
 
-Make your scheduled reports work harder for you! Include information
-that you'll find useful to refer back to. Logging can be as basic or
-elaborate as you need.
+Make your scheduled reports work harder for you! Include information that you'll find useful to refer back to. Logging can be as basic or elaborate as you need.
 
 Lets include:
 
 -   A nicely formatted time stamp.
 
--   A summary the main actions taken in the report, such as how many
-    rows of data were downloaded, how many rows of data were written to
-    the database
+-   A summary the main actions taken in the report, such as how many rows of data were downloaded, how many rows of data were written to the database
 
-Hint: The `glue` package is helpful for combining text and variables.
-It's less work than stringing things together with `paste`. With
-`glue::glue()`, the syntax is
-`glue("Text with {<r expression or variable>}")`
+Hint: The `glue` package is helpful for combining text and variables. It's less work than stringing things together with `paste`. With `glue::glue()`, the syntax is `glue("Text with {<r expression or variable>}")`
 
 ```{r}
 #| label: logging
@@ -520,34 +505,21 @@ glue("Wrote the following to the database:
 
 🔄 Task
 
-We will publish this document and schedule it to run daily. However,
-what if there's something wrong with the data? We want to know about it!
+We will publish this document and schedule it to run daily. However, what if there's something wrong with the data? We want to know about it!
 
-Posit Connect has support for sending emails with Quarto:
-<https://docs.posit.co/connect/user/quarto/#email-customization>.
+Posit Connect has support for sending emails with Quarto: <https://docs.posit.co/connect/user/quarto/#email-customization>.
 
-The email subject and body are enclosed within `:::` divs and we specify
-that this document should render an email in the Quarto YAML block at
-the top of the document using `format: email`.
+The email subject and body are enclosed within `:::` divs and we specify that this document should render an email in the Quarto YAML block at the top of the document using `format: email`.
 
-💡 Consider `format: email` as an extension of the more general
-`format: html`. This means other YAML options pertinent to html outputs
-like `toc` and `code-fold` can still be used.
+💡 Consider `format: email` as an extension of the more general `format: html`. This means other YAML options pertinent to html outputs like `toc` and `code-fold` can still be used.
 
--   Assume that if fewer than 10 records are returned from any of the
-    API calls, there's an issue with the upstream data source and we
-    want to receive an email alert about it.
--   Do this by setting `send_email` to `TRUE` within a block called
-    `::: {email-scheduled}`. When the boolean is true, the email will be
-    sent; otherwise, it will be suppressed. See
-    <https://docs.posit.co/connect/user/quarto/#suppressing-email>
+-   Assume that if fewer than 10 records are returned from any of the API calls, there's an issue with the upstream data source and we want to receive an email alert about it.
+-   Do this by setting `send_email` to `TRUE` within a block called `::: {email-scheduled}`. When the boolean is true, the email will be sent; otherwise, it will be suppressed. See <https://docs.posit.co/connect/user/quarto/#suppressing-email>
 
 ::: callout
-❗❗ When viewing this portion of the code in the Workshop, switch from
-"Visual Editor" mode to "Source Mode" to more easily see the Quarto divs
-that control the email generation.
+❗❗ When viewing this portion of the code in the Workshop, switch from "Visual Editor" mode to "Source Mode" to more easily see the Quarto divs that control the email generation.
 
-![](00-initial-data-download/mode_switch.png)
+![](mode_switch.png)
 :::
 
 ### Define conditionality
@@ -580,8 +552,7 @@ send_email
 ⚠️ Ferry Project: There was an issue with the raw data.
 :::
 
-Fewer rows of raw data were retrieved than expected. The number of
-records are:
+Fewer rows of raw data were retrieved than expected. The number of records are:
 
 ```{r}
 glue("The following number of records were retrieved from the API sources: 
@@ -600,22 +571,12 @@ glue("The following number of records were retrieved from the API sources:
 
 🔄 Task
 
--   Connect your account on Posit Connect to Workbench (Tools \> Global
-    Options \> Publishing)
--   Use push-button publishing to publish this document, with source
-    code, to Connect
--   Schedule it to run on a timescale that seems appropriate for the
-    data update cycle
+-   Connect your account on Posit Connect to Workbench (Tools \> Global Options \> Publishing)
+-   Use push-button publishing to publish this document, with source code, to Connect
+-   Schedule it to run on a timescale that seems appropriate for the data update cycle
 
-Note: Recall we specified our database connection details with
-environment variables. Typically when you publish content to Connect,
-you will also need to supply the environment variables using the "Vars"
-pane in Connect. For this workshop, these environment variables have
-already been stored on the Connect server for you so you won't need to
-do this step for this activity.
+Note: Recall we specified our database connection details with environment variables. Typically when you publish content to Connect, you will also need to supply the environment variables using the "Vars" pane in Connect. For this workshop, these environment variables have already been stored on the Connect server for you so you won't need to do this step for this activity.
 
 We'll do this task together as a group.
 
-For reference, the Connect User Guide provides instructions for
-publishing:
-<https://docs.posit.co/connect/user/publishing/#publishing-general>
+For reference, the Connect User Guide provides instructions for publishing: <https://docs.posit.co/connect/user/publishing/#publishing-general>
