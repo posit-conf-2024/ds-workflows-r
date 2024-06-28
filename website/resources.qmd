@@ -31,7 +31,7 @@ We cover a lot of ground in this workshop. Below is a summary of the packages an
 - Monitor data quality over time with the pointblank [`multiagent`](https://rstudio.github.io/pointblank/reference/create_multiagent.html)
 
 ### Conditional Alerting 
-
+<!-- TODO: update this with quarto -->
 - [`blastula`](https://pkgs.rstudio.com/blastula/)
 - [Email customization](https://pkgs.rstudio.com/blastula/) from the Connect User Guide
 

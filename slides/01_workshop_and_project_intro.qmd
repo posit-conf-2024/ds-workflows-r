@@ -10,7 +10,7 @@ format:
   positconfslides-revealjs: 
     chalkboard: true
     slide-number: c/t
-    footer: "[Data Science Workflows with Posit Tools - R Focus](https://katie.quarto.pub/ds-workflows-r/)"
+    footer: "Back to [Data Science Workflows with Posit Tools - R Focus](https://posit-conf-2024.github.io/ds-workflows-r/) website"
     code-copy: true
     center-title-slide: false
     code-link: true
