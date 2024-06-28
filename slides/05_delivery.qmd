@@ -1,25 +1,6 @@
 ---
-format:
-  positconfslides-revealjs: 
-    chalkboard: true
-    slide-number: c/t
-    footer: "Back to [Data Science Workflows with Posit Tools - R Focus](https://posit-conf-2024.github.io/ds-workflows-r/) website"
-    code-copy: true
-    center-title-slide: false
-    code-link: true
-    code-overflow: wrap
-    code-annotations: hover
-    highlight-style: a11y
-    width: "1600"
-    height: "900"
-    filters:
-      - positconfslides
 execute: 
   eval: true
-  echo: true
-editor: 
-  markdown: 
-    wrap: 72
 ---
 
 ## Effective Delivery of Insights{.toc2-light}

@@ -1,25 +1,9 @@
 ---
-format:
-  positconfslides-revealjs: 
-    chalkboard: true
-    slide-number: c/t
-    footer: "Back to [Data Science Workflows with Posit Tools - R Focus](https://posit-conf-2024.github.io/ds-workflows-r/) website"
-    code-copy: true
-    center-title-slide: false
-    code-link: true
-    code-overflow: wrap
-    code-annotations: hover
-    highlight-style: a11y
-    width: "1600"
-    height: "900"
-    filters:
-      - positconfslides
 execute: 
   eval: true
-  echo: true
 ---
 
-## Data Exploration and {.toc2-light}
+## Data Exploration and {.title-light}
 <h2>Working with Databases</h2>
 ![](https://github.com/rstudio/pointblank/raw/main/man/figures/logo.svg){.absolute top="200" left="50" width="260"} ![](slide_resources/db.png){.absolute top="200" left="310" width="260"}
 
