@@ -1,0 +1,11 @@
+.Rproj.user
+.Rhistory
+.RData
+.Ruserdata
+.Renviron
+*.DS_Store
+/**/*.html
+
+/.luarc.json
+
+/.quarto/
