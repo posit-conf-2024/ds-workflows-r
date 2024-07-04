@@ -29,16 +29,26 @@ ferry_model_data <- ferry_data |>
   # Select for columns of interest
   #  Removed vessel but kept departing, since this would cause a rank
   #  deficient fit (all vessels don't depart from all places)
-  select(departing, closest_hour, date, precipitation, weather_code, cloud_cover_low, wind_speed_10m, wind_gusts_10m, delay) |> 
-  
-  # Take log of depart. Need to add constant so all values are positive
-  #mutate(delay = log(delay + abs(min(delay)) + 1)) |> 
+  select(departing, closest_hour, date, weather_code, wind_speed_10m, wind_gusts_10m, delay) |> 
   
   # Convert delay to classification
   mutate(delay_status = case_when(
     delay <= 3 ~ "on-time",
     delay > 3 ~ "delayed" 
   )) |> 
+  
+  # Convert wind to classification
+  mutate(wind_status = case_when(
+    wind_speed_10m >= 10 ~ "windy",
+    wind_speed_10m < 10 ~ "calm"
+  )) |> 
+  select(-wind_speed_10m) |> 
+  
+  mutate(gust_status = case_when(
+    wind_gusts_10m >= 15 ~ "gusty",
+    wind_gusts_10m < 15 ~ "calm"
+  )) |> 
+  select(-wind_gusts_10m) |>
   
   # Convert dates
   mutate(date = ymd(date)) |> 
@@ -82,11 +92,7 @@ ferry_rec <-
   step_rm(delay) |> 
   
   # Extract predictors like day of week and month from date
-  # Also indicate if a holiday
-  step_date(date, features = c("dow", "month")) |> 
-  step_holiday(date, 
-               holidays = timeDate::listHolidays("US"),
-               keep_original_cols = FALSE) |>
+  step_date(date, features = c("dow", "month"), keep_original_cols = FALSE) |> 
   
   # Convert all factors to binary "dummy variables"
   step_dummy(all_nominal_predictors())
