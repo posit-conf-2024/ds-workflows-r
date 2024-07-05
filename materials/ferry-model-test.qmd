@@ -63,7 +63,10 @@ ferry_model_data <- ferry_data |>
   mutate_if(is.character, as.factor) |> 
   
   # Exclude missing data
-  na.omit()
+  na.omit() |> 
+  
+  # Clean departing column
+  mutate(departing = str_to_title(str_replace_all(departing, "_", " ")))
 
 skimr::skim(ferry_model_data)
 ```
@@ -225,10 +228,10 @@ predict(endpoint, new_ferry_data, httr::add_headers(Authorization = paste("Key",
 new_ferry_data <- tail(ferry_model_data, 500)
 
 # Pull in specific version of model
-v_model_monitor <- vetiver_pin_read(board, "ryan/ferry_model", version = "557746")
+v_model_monitor <- vetiver_pin_read(board, "ryan/ferry_model")
 
 new_ferry_data_metrics <-
-    augment(v_model_monitor, new_data = monitoring_data) |> 
+    augment(v_model_monitor, new_data = new_ferry_data) |> 
     vetiver_compute_metrics(date, "week", delay_status, .pred_class)
 
 vetiver_plot_metrics(new_ferry_data_metrics) +
