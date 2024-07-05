@@ -7,6 +7,7 @@ library(pins)
 library(vetiver)
 library(leaflet)
 library(leaflet.extras2)
+library(thematic)
 
 # Read Ferry Data Pin
 board <- board_connect(auth = "envvar")
@@ -107,16 +108,16 @@ ui <- page_sidebar(
   
   navset_underline(
     nav_panel(title = "Overview",
-              layout_columns(
-                value_box("Total Trips", ferry_data |> nrow()),
-                value_box("Dealy Status",
-                          value = textOutput("delay"),)),
-              
+              br(),
+              uiOutput("delay_status_box"),
+
               # Map
               card("Map",
                    leafletOutput("map")
               )),
-    nav_panel(title = "Delay History")
+    nav_panel(title = "Delay History",
+              br(),
+              plotOutput("delay_hist"))
   )
 
 )
@@ -173,6 +174,14 @@ server <- function(input, output, session) {
                                                     Sys.getenv("CONNECT_API_KEY"))))$.pred_class
   })
   
+  delay_color <- reactive({
+    if (delay_status() == "delayed") {
+      "danger"
+    } else {
+      "success"
+    }
+  })
+  
   # Create a leaflet map
   output$map <- renderLeaflet({
     leaflet() |> 
@@ -191,10 +200,50 @@ server <- function(input, output, session) {
   })
   
   # Output value box value for delay status
-  output$delay <- renderText({
-    delay_status()
+  output$delay_status_box <- renderUI({
+    
+    value_box(title = "Predicted Delay Status",
+              value = str_to_title(delay_status()),
+              theme = delay_color())
   })
   
+  # Create delay histogram
+  avg_delay <- reactive({
+    ferry_data |> 
+      filter(departing == input$departing) |> 
+      filter(arriving == input$arriving) |> 
+      filter(delay > 0) |> 
+      pull(delay) |> 
+      mean()
+  })
+  
+  output$delay_hist <- renderPlot({
+    ferry_data |> 
+      filter(departing == input$departing) |> 
+      filter(arriving == input$arriving) |>
+      filter(delay > 0) |> 
+      ggplot(aes(x = delay)) +
+      geom_histogram(bins = 50, fill = "#56cc9d", color = "black") +
+      geom_vline(xintercept = avg_delay(), 
+                 color = "#ff7851", 
+                 linewidth = 1.5, 
+                 linetype = "dashed") +
+      annotate("text", x = avg_delay(), y = Inf, hjust = -0.1, vjust = 2,
+               label = glue("Avg Delay: {round(avg_delay(), 2)} min"), 
+               color = "#ff7851", size = 6, ) +
+      labs(title = "Delay Distribution",
+           subtitle = glue("{input$departing} --> {input$arriving}"),
+           x = "Delay (minutes)",
+           y = "Frequency") +
+      xlim(0, 60) +
+      theme_minimal() +
+      theme(
+        plot.title = element_text(size = 25),
+        axis.title = element_text(size = 20),
+        axis.text = element_text(size = 15),
+        plot.subtitle = element_text(size = 20)
+      )
+  })
 }
 
 # Run the app ----
