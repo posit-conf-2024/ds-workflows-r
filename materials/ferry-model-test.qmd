@@ -208,13 +208,11 @@ endpoint <- vetiver_endpoint(paste0("https://connect.posit.it/content/0b0a63a0-e
 new_ferry_data <- tibble(
   departing = "seattle",
   date = "2023-05-14",
-  precipitation = 0.001,
   weather_code = "3",
-  cloud_cover_low = 55,
-  wind_speed_10m = 2,
-  wind_gusts_10m = 8,
-  delay = 4,
-  hour = "11"
+  wind_status = "windy",
+  gust_status = "gusty",
+  hour = "11",
+  delay = 0
 )
 
 predict(endpoint, new_ferry_data, httr::add_headers(Authorization = paste("Key", Sys.getenv("CONNECT_API_KEY"))))
