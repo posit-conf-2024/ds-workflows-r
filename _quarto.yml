@@ -24,7 +24,7 @@ website:
         menu: 
           - href: slides/01_workshop_and_project_intro.qmd
             text: "01 - Workshop and Project Intro"
-          - href: slides/02_data_exploration_and_databases.qmd
+          - href: slides/02_data_download_and_databases.qmd
             text: "02 - Data Exploration and Database Essentials"
           - href: slides/03_data_validation_and_alerting.qmd
             text: "03 - Data Validation and Alerting"
@@ -51,7 +51,7 @@ website:
         contents: 
           - href: slides/01_workshop_and_project_intro.qmd
             text: "01 - Workshop and Project Intro"
-          - href: slides/02_data_exploration_and_databases.qmd
+          - href: slides/02_data_download_and_databases.qmd
             text: "02 - Data Exploration and Database Essentials"
           - href: slides/03_data_validation_and_alerting.qmd
             text: "03 - Data Validation and Alerting"

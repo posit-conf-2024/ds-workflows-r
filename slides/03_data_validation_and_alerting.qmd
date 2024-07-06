@@ -15,10 +15,58 @@ execute:
 
 ## Section Agenda {.brackets-light}
 
-
+-   Ad-hoc data exploration
 -   Ensure quality data is flowing through the pipeline
 -   Get alerts via automation
 
+
+## What is this Data?
+
+
+Our first introduction to `pointblank`
+
+
+
+:::{.fragment}
+
+::: columns
+::: {.column width="15%"}
+![](https://github.com/rstudio/pointblank/raw/main/man/figures/logo.svg){style="padding-right: 15px;"}
+:::
+
+::: {.column width="75%"}
+<br>`pointblank` provides data quality assessment and metadata reporting for data frames and database tables. <https://github.com/rstudio/pointblank>
+:::
+:::
+
+:::
+
+:::{.fragment}
+🧰 The `pointblank::scan_data()` function provides a HTML report of the input data to help you understand your data. 
+:::
+
+## Sample data scan
+
+```r
+pointblank::scan_data(palmerpenguins::penguins)
+```
+<br>
+
+
+<iframe src="slide_resources/scan_penguins.html" width=100% height="650"></iframe>
+ 
+## 
+
+:::{.center}
+<h2> <br>**Activity Time!**</h2>
+:::
+
+:::{.callout-note icon=false}
+## Activity
+👉 Open the file `materials/activities/activity-01_raw_data_exploration.qmd`
+
+Activity objective: explore our Chicago Food Inspections data to get familiar with our data
+:::
 
 
 ## How can I ensure the data in my pipeline is quality data?

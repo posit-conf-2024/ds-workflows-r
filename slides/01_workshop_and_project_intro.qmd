@@ -69,7 +69,7 @@ https://posit.co/code-of-conduct/
 :::
 
 ::: {.column width="33%"}
-![](https://avatars.githubusercontent.com/u/18248949?v=4){.hello-image}
+![](https://avatars.githubusercontent.com/u/180123?v=4){.hello-image}
 
 [**Trevor Nederlof**]{.positgreen}
 
@@ -184,11 +184,22 @@ help(function_name_here)
 ```
 :::
 
-##  {.brackets-green}
+##  {background-image="_extensions/positconfslides/assets/backgrounds/brackets-dark-teal.svg" background-size="contain" auto-animate="true" auto-animate-duration="4"}
 
 ::: section-title-dark
 ⛴️ Ready to set sail? 🌊
 :::
+
+![](slide_resources/wenatchee.png){.absolute bottom=200 left=-1100 width="1000"}
+
+##  {background-image="_extensions/positconfslides/assets/backgrounds/brackets-dark-teal.svg" background-size="contain" auto-animate="true" auto-animate-duration="4"}
+
+::: section-title-dark
+⛴️ Ready to set sail? 🌊
+:::
+
+![](slide_resources/wenatchee.png){.absolute bottom=200 right=-1100 width="1000"}
+
 
 ## Washington State Ferry Depature Delays Project
 
@@ -196,23 +207,19 @@ help(function_name_here)
 
 🐋 [21 ferries across Puget Sound and the Salish Sea]{.posityellow}
 
-::::::::: columns
-::::::: {.column width="50%"}
-![](slide_resources/ferry-whales.png)
-[<https://i.pinimg.com/originals/c9/8b/3a/c98b3a997df52b6c8ad681590557c6bc.jpg>]{.figcaption2}
-
-
-:::::::
+::::: columns
+::: {.column width="50%"}
+![](slide_resources/ferry-whales.png) [<https://i.pinimg.com/originals/c9/8b/3a/c98b3a997df52b6c8ad681590557c6bc.jpg>]{.figcaption2}
+:::
 
 ::: {.column width="50%"}
-![[<https://wsdot.com/ferries/vesselwatch/default.aspx>]{.figcaption2}](slide_resources/real-time-ferry.png){height="500"}
+![](slide_resources/route_map.png){height="600"}
 :::
-:::::::::
+:::::
 
 ## Washington State Ferry Depature Delays Project
 
 ::: {.callout-caution icon="false"}
-
 ## The Question
 
 Can we predict departure delay for a given route and date?
@@ -226,39 +233,36 @@ Use the historical (validated) delay, location, and weather data to create a mod
 
 ## Project Data {.content-light}
 
-This workshop will use data from two primary data sources: 
+This workshop will use data from two primary data sources:
 
-- ⛴︎ Ferry data (<https://wsdot.wa.gov/traffic/api/>)
+-   ⛴︎ Ferry data (<https://wsdot.wa.gov/traffic/api/>)
 
-- 🌤️ Weather data (<https://open-meteo.com/en/docs/historical-weather-api/>)
+-   🌤️ Weather data (<https://open-meteo.com/en/docs/historical-weather-api/>)
 
-## Project Data Details 
+## Project Data Details
 
-:::{.smaller}
-<br>
-⛴︎ Ferry data (<https://wsdot.wa.gov/traffic/api/>)
+::: smaller
+<br> ⛴︎ Ferry data (<https://wsdot.wa.gov/traffic/api/>)
 
-| Data Set               | Description                                                                | API                                                                                                                                     |
-|---------------|--------------------|-------------------------------------|
-| **Vessel verbose**     | Details about each ferry in the fleet, including name, model, and capacity | `https://www.wsdot.wa.gov/ferries/api/ vessels/rest/vesselverbose? apiaccesscode={WSDOT_ACCESS_CODE}`                                    |
-| **Vessel history**     | Historical sailings, including scheduled actual departure time             | `https://www.wsdot.wa.gov/ferries/api/ vessels/rest/vesselhistory/ {VESSELNAME}/{DATESTART}/{DATEEND}? apiaccesscode={WSDOT_ACCESS_CODE}` |
-| **Terminal locations** | Terminal names and locations, including latitude and longitude             | `https://www.wsdot.wa.gov/ferries/ api/terminals/rest/terminallocations? apiaccesscode={WSDOT_ACCESS_CODE}`                              |
-: {tbl-colwidths="[20,35,65]"}
+| Data Set | Description | API |
+|-----------------|-------------------|------------------------------------|
+| **Vessel verbose** | Details about each ferry in the fleet, including name, model, and capacity | `https://www.wsdot.wa.gov/ferries/api/ vessels/rest/vesselverbose? apiaccesscode={WSDOT_ACCESS_CODE}` |
+| **Vessel history** | Historical sailings, including scheduled actual departure time | `https://www.wsdot.wa.gov/ferries/api/ vessels/rest/vesselhistory/ {VESSELNAME}/{DATESTART}/{DATEEND}? apiaccesscode={WSDOT_ACCESS_CODE}` |
+| **Terminal locations** | Terminal names and locations, including latitude and longitude | `https://www.wsdot.wa.gov/ferries/ api/terminals/rest/terminallocations? apiaccesscode={WSDOT_ACCESS_CODE}` |
 
+: {tbl-colwidths="\[20,35,65\]"}
 :::
 
-## Project Data Details 
+## Project Data Details
 
-:::{.smaller}
-<br>
-🌤️ Weather data (<https://open-meteo.com/en/docs/historical-weather-api/>)
+::: smaller
+<br> 🌤️ Weather data (<https://open-meteo.com/en/docs/historical-weather-api/>)
 
-| Endpoint               | Description                                                                       | API                                                       |
-|----------------|---------------------------------|-----------------------|
+| Endpoint | Description | API |
+|------------------|--------------------------------|----------------------|
 | **Historical weather** | Historical hourly weather at a specified latitude and longitude over a date range | `https://archive-api.open-meteo.com/v1/ archive?{params}` |
-: {tbl-colwidths="[20,35,65]"}
 
-
+: {tbl-colwidths="\[20,35,65\]"}
 :::
 
 ## Project Objective
@@ -344,8 +348,6 @@ Visit: <https://dev.ferryland.ptd.posit.co>
 
 Your account has already been created!
 
-
-
 ## Workbench Setup // Step 2
 
 ::::: columns
@@ -366,13 +368,12 @@ Your account has already been created!
 ## Project Navigation
 
 -   📁 `materials` : Contains the project files that we/you will work through during the workshop.
-    - 💡 Within each directory, there is a `.Rproj` file. Open the folder's project file to work on that portion of the materials.
+
+    -   💡 Within each directory, there is a `.Rproj` file. Open the folder's project file to work on that portion of the materials.
+
 -   📁 `slides` : Quarto slides for the workshop, broken up by section.
 
 -   📁 `website` : Source material for the workshop website. Rendered slides are hosted here for your reference.
-
-
-
 
 ## Saving your work 💾 {.content-light}
 
