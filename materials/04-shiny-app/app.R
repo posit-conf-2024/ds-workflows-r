@@ -52,6 +52,9 @@ weather_codes <- list(
 "Heavy Hailstorm" = "99"
 )
 
+# Only include weather codes found in data
+weather_codes_ferry_data <- weather_codes[weather_codes %in% as.character(unique(ferry_data$weather_code))]
+
 # Define UI ----------------------------------------
 ui <- page_sidebar(
   theme = bs_theme(bootswatch = "minty"),
@@ -86,7 +89,7 @@ ui <- page_sidebar(
                     selectInput(
                       "weather_code",
                       "Select Weather Conditions",
-                      choices = weather_codes,
+                      choices = weather_codes_ferry_data,
                       selected = "0"
                     ),
                     
