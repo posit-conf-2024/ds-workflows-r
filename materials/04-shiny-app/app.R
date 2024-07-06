@@ -8,6 +8,7 @@ library(vetiver)
 library(leaflet)
 library(leaflet.extras2)
 library(thematic)
+library(shinycssloaders)
 
 # Read Ferry Data Pin
 board <- board_connect(auth = "envvar")
@@ -109,7 +110,11 @@ ui <- page_sidebar(
   navset_underline(
     nav_panel(title = "Overview",
               br(),
-              uiOutput("delay_status_box"),
+              withSpinner(
+                uiOutput("delay_status_box"),
+                proxy.height = "10px",
+                type = 7
+                ),
 
               # Map
               card("Map",
@@ -201,6 +206,8 @@ server <- function(input, output, session) {
   
   # Output value box value for delay status
   output$delay_status_box <- renderUI({
+    
+    Sys.sleep(1)
     
     value_box(title = "Predicted Delay Status",
               value = str_to_title(delay_status()),
