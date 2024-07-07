@@ -53,6 +53,7 @@ library(janitor)
 library(DBI)
 library(RPostgres)
 library(glue)
+library(ferryfairy)
 
 ```
 
@@ -64,18 +65,18 @@ We are using data sets from two main sources
 
 (<https://wsdot.wa.gov/traffic/api/>)
 
-| Endpoint               | Description                                                                | API                                                                                                                                     |
-|---------------|--------------------|-------------------------------------|
-| **Vessel verbose**     | Details about each ferry in the fleet, including name, model, and capacity | `https://www.wsdot.wa.gov/ferries/api/vessels/ rest/vesselverbose?apiaccesscode={WSDOT_ACCESS_CODE}`                                    |
-| **Vessel history**     | Historical sailings, including scheduled actual departure time             | `https://www.wsdot.wa.gov/ferries/api/vessels/ rest/vesselhistory/{VESSELNAME}/{DATESTART}/{DATEEND}?apiaccesscode={WSDOT_ACCESS_CODE}` |
-| **Terminal locations** | Terminal names and locations, including latitude and longitude             | `https://www.wsdot.wa.gov/ferries/api/terminals/ rest/terminallocations?apiaccesscode={WSDOT_ACCESS_CODE}`                              |
+| Endpoint | Description | API |
+|------------------|-------------------|------------------------------------|
+| **Vessel verbose** | Details about each ferry in the fleet, including name, model, and capacity | `https://www.wsdot.wa.gov/ferries/api/vessels/ rest/vesselverbose?apiaccesscode={WSDOT_ACCESS_CODE}` |
+| **Vessel history** | Historical sailings, including scheduled actual departure time | `https://www.wsdot.wa.gov/ferries/api/vessels/ rest/vesselhistory/{VESSELNAME}/{DATESTART}/{DATEEND}?apiaccesscode={WSDOT_ACCESS_CODE}` |
+| **Terminal locations** | Terminal names and locations, including latitude and longitude | `https://www.wsdot.wa.gov/ferries/api/terminals/ rest/terminallocations?apiaccesscode={WSDOT_ACCESS_CODE}` |
 
 ### From Open Meteo
 
 ([https://open-meteo.com/en/docs/](https://open-meteo.com/en/docs/historical-weather-api/))
 
-| Endpoint               | Description                                                                       | API                                                       |
-|----------------|---------------------------------|-----------------------|
+| Endpoint | Description | API |
+|------------------|--------------------------------|-----------------------|
 | **Historical weather** | Historical hourly weather at a specified latitude and longitude over a date range | `https://archive-api.open-meteo.com/v1/ archive?{params}` |
 
 We will use the `{httr2}` package to download the data from these API sources.
@@ -179,9 +180,10 @@ con
 
 ```
 
-:::{.callout-tip icon=false}
+::: {.callout-tip icon="false"}
 ## Heads Up
-If you're working through this document in the Workshop, pause here. 
+
+If you're working through this document in the Workshop, pause here.
 :::
 
 ## Task 4 - Write to the database
@@ -234,45 +236,19 @@ Get the following additional data sets:
 
 ### Vessel history
 
-This API takes the form:
-
-`http://www.wsdot.wa.gov/Ferries/API/Vessels/rest/vesselhistory/{VESSELNAME}/{DATESTART}/{DATEEND}?apiaccesscode={WSDOT_ACCESS_CODE}`
-
 We'll query 30 days looking back from today's date, and use the vessel names we retrieved from the Vessel Verbose endpoint.
 
-Rather than manually repeating the API call for each vessel though, we'll turn the API call into a reusable function and then iterate over the list of vessel names using `purrr::map`.
+Rather than manually repeating the API call for each vessel though, we'll use a function we wrote into the `ferryfairy` package that iterates over the list of vessel names.
 
 ```{r}
 #| label: download raw vessel history
-
-# Create a function to query the API for a specified vessel name and date range
-get_vesselhistory <- function(vesselname, start_date, end_date) {
-  # print out an information statement
-  print(glue::glue("Getting vessel history for {vesselname}..."))
-  
-  vesselhistory <- request("https://www.wsdot.wa.gov/ferries/api/vessels/rest") |> 
-    req_url_path_append("vesselhistory", 
-                        URLencode(vesselname), 
-                        as.character(start_date), 
-                        as.character(end_date)) |> 
-    req_url_query(apiaccesscode = Sys.getenv("WSDOT_ACCESS_CODE")) |> 
-    req_perform() |> 
-    resp_body_string() |> 
-    jsonlite::fromJSON() |> 
-    as_tibble()
-  
-  # print out an information statement
-  print(glue::glue("\t{nrow(vesselhistory)} records retrieved for {vesselname}"),"\n")
-  
-  vesselhistory
-}
 
 # Specify our parameters:
 start_date <- today()-30
 end_date <- today()
 vesselnames <- vesselinfo_raw |> pull(vessel_name)
 
-# Use `purrr::map` to iterate over all of the vessels. The results will be a list, with each vessel's history as a list item. 
+# Use `ferryfairy::get_vesselhistory` to iterate over all of the vessels. The results will be a list, with each vessel's history as a list item. 
 data_list <- map(vesselnames, get_vesselhistory, start_date, end_date)
 
 # Convert the list into a data frame and clean the column names
@@ -282,44 +258,19 @@ vesselhistory_raw <- bind_rows(data_list) |> clean_names()
 
 ### Terminal locations
 
+Again, to simplify things, we use a function in `ferryfairy` to retrieve latitude and longitudes for each terminal.
+
 ```{r}
 #| label: download terminal locations data
 
-base_url <- "https://www.wsdot.wa.gov"
-
-endpoint <- "ferries/api/terminals/rest/terminallocations"
-
-# Compose the API request 
-req <- request(base_url) |> 
-  req_url_path_append(endpoint) |> 
-  req_url_query(apiaccesscode = Sys.getenv("WSDOT_ACCESS_CODE")) 
-  
-# perform the request
-response <- req |> 
-  req_perform()
-response
-
-# convert the body of the response to a tibble
-response_body <- response |> 
-  resp_body_string() |> 
-  jsonlite::fromJSON() |> 
-  as_tibble()
-response_body
-
-terminallocations_raw <- response_body |> clean_names()
-
-# we only need the terminal name, latitude, and longitude
-terminallocations <- terminallocations_raw |> 
-  select(terminal_name, 
-         latitude, 
-         longitude)
+terminallocations <- ferryfairy::get_terminalinfo()
 ```
 
 ### Weather data
 
-Similart to the approach used for retrieving Vessel History, we will define a function to call the weather API and iterate over all of the departing terminal locations.
+Similar to the approach used for retrieving Vessel History, we use a function in `ferryfairy` to call the weather API and iterate over all of the departing terminal locations.
 
-The API allows us to specify the data and format we want in the query. We will include:
+The weather API allows us to specify the data and format we want in the query. We will include:
 
 -   precipitation (inches)
 
@@ -338,58 +289,9 @@ The Open Meteo API is available to use without an API key when used for educatio
 ```{r}
 #| label: download weather data
 
-# Create a function to query the API for a specified vessel name and date range
-get_terminal_weather_history <- function(terminal, start_date, end_date, pause=0) {
-  # get lat/long from terminal locations data
-  lat <- terminallocations |> 
-    filter(terminal_name == terminal) |> 
-    pull(latitude)
-  long <- terminallocations |> 
-    filter(terminal_name == terminal) |> 
-    pull(longitude)
-  
-  # print out an information statement
-  print(glue::glue("Getting weather history for {terminal} terminal..."))
-
-  req <- request("https://archive-api.open-meteo.com/v1/archive") |> 
-    req_url_query(latitude=lat, 
-                  longitude=long,
-                  start_date=as.character(start_date), 
-                  end_date=as.character(end_date),
-                  hourly=c("precipitation","weather_code","cloud_cover_low",
-                           "wind_speed_10m","wind_gusts_10m"),
-                  wind_speed_unit="mph",
-                  precipitation_unit="inch", 
-                  timezone="US/Pacific",
-                  .multi = "comma")
-  
-  response <- req |> 
-    req_perform() |> 
-    resp_body_string() |> 
-    jsonlite::fromJSON() |> 
-    as_tibble()
-
-  hourly_data <- bind_cols(
-    # add a column identifying the terminal
-    terminal=terminal,
-    # add the lat/long
-    lat=response$latitude[1],
-    long=response$longitude[1],
-    response$hourly) 
-    
-  # print out an information statement
-  print(glue::glue("\t{nrow(hourly_data)} records retrieved for {terminal}"))
-  
-  # In case some buffering is required to avoid API rate limits, define a pause (in seconds)
-  Sys.sleep(pause)
-
-  hourly_data
-  }
-
-
 # Use `purrr::map` to iterate over all of the terminals. The results will be a list, with each terminal as a list item. 
 data_list <- map(terminallocations$terminal_name, 
-                 get_terminal_weather_history, 
+                 ferryfairy::get_terminal_weather_history, 
                  start_date, end_date)
 
 # Convert the list into a data frame and clean the column names
@@ -477,9 +379,10 @@ dbDisconnect(con)
 
 ```
 
-:::{.callout-tip icon=false}
+::: {.callout-tip icon="false"}
 ## Heads Up
-If you're working through this document in the Workshop, pause here. 
+
+If you're working through this document in the Workshop, pause here.
 :::
 
 ## Task 6 - Add logging information to make our scheduled report informative
@@ -551,7 +454,7 @@ if(nrow(vesselinfo_raw) < records_threshold |
 
 The email below will send if the alert condition is set.
 
-::: email
+::::: email
 ::: email-scheduled
 ```{r}
 send_email
@@ -575,7 +478,7 @@ glue("The following number of records were retrieved from the API sources:
      A minumum of {records_threshold} records are expected from each source. Please review the source data.")
 
 ```
-:::
+:::::
 
 ## Task 8 - Publish and schedule on Posit Connect
 
