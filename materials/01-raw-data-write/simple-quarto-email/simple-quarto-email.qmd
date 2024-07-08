@@ -1,0 +1,38 @@
+---
+title: Something wonderful 
+format: email
+echo: false
+---
+
+Some of the content in this document makes its way to the rendered HTML
+and some of it is destined for a custom email message. The 'email' block
+customizes the subject and the body of the email message, while the
+rendered HTML contains only this paragraph.
+
+```{r}
+# Optionally define a Boolean that will suppress email sending when FALSE
+send_email <- sample(c("TRUE", "FALSE"), 1)
+```
+
+:::: email
+
+::: email-scheduled
+<!-- An optional block that suppresses email sending when evaluated as "FALSE" -->
+`{r} send_email`
+:::
+
+::: subject
+Buy groceries 🛒
+:::
+
+Remember to pick up groceries on you way home. Tonight is "breakfast for
+dinner" and we're having waffles!
+
+-   Bacon
+-   Eggs
+-   Butter
+-   Milk
+
+![](waffles.jpg){width="50%"}
+
+::::
