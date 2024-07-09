@@ -703,7 +703,7 @@ create_informant(
     section_name = "further information",
     `sources` = md("Data from [WSDOT Traveler Information API](https://wsdot.wa.gov/traffic/api/) and [Open Meteo](https://open-meteo.com/)"),
     `🔄 updates` = "This table last updated {Sys.Date()}.",
-    `ℹ️ note` = md("This example material uses data that has been modified for use from their original sources, [WSDOT Traveler Information API](https://wsdot.wa.gov/traffic/api/) and [Open Meteo](https://open-meteo.com/), and is used for educational purposes. The authors and original sources make no claims as to the content, accuracy, timeliness, or completeness of any of the data provided.")
+    `ℹ️ note` = md("This example material uses data that have been modified for use from their original sources, [WSDOT Traveler Information API](https://wsdot.wa.gov/traffic/api/) and [Open Meteo](https://open-meteo.com/), and is used for educational purposes. The authors and original sources make no claims as to the content, accuracy, timeliness, or completeness of any of the data provided.")
   ) |> 
   info_columns(
     columns = vessel,
