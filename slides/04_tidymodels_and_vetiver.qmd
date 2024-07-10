@@ -159,13 +159,13 @@ model_fit <- parsnip::fit(model_wflow, your-data)
 ::: {.callout-note icon="false"}
 ## Activity
 
-👉 Open the file `materials/activities/activity-05_TidymodelsVetiver.qmd`
+👉 Open the file `materials/03-idymodels-vetiver.qmd`
 
 **Complete Task 1 only!**
 :::
 
 ::: callout-important
-We will be using the `diamonds` dataset for this activity!
+Build a model using `tidymodels`.
 :::
 
 ## We have a model...now what 🤷 ?
@@ -216,7 +216,7 @@ We have two questions:
 ::: {.callout-note icon="false"}
 ## Activity
 
-👉 Open the file `materials/activities/activity-05_TidymodelsVetiver.qmd`
+👉 Open the file `materials/03-tidymodels-vetiver/03-tidymodels-vetiver.qmd`
 
 **Complete Task 2 only!**
 :::
