@@ -1,0 +1,5 @@
+default:
+  suffix: !expr Sys.getenv("USER")
+
+rsconnect:
+  suffix: "production"
