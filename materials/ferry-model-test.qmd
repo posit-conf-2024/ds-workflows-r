@@ -8,6 +8,10 @@ library(tidyverse)
 library(pins)
 library(tidymodels)
 library(lubridate)
+library(skimr)
+library(vetiver)
+library(xgboost)
+library(plumber)
 ```
 
 
@@ -23,7 +27,28 @@ ferry_data <- pin_read(board, "katie.masiello/vesselhistory_w_weather") |>
 ferry_model_data <- ferry_data |> 
   
   # Select for columns of interest
-  select(vessel, departing, closest_hour, date, precipitation, weather_code, cloud_cover_low, wind_speed_10m, wind_gusts_10m, delay) |> 
+  #  Removed vessel but kept departing, since this would cause a rank
+  #  deficient fit (all vessels don't depart from all places)
+  select(departing, closest_hour, date, weather_code, wind_speed_10m, wind_gusts_10m, delay) |> 
+  
+  # Convert delay to classification
+  mutate(delay_status = case_when(
+    delay <= 3 ~ "on-time",
+    delay > 3 ~ "delayed" 
+  )) |> 
+  
+  # Convert wind to classification
+  mutate(wind_status = case_when(
+    wind_speed_10m >= 10 ~ "windy",
+    wind_speed_10m < 10 ~ "calm"
+  )) |> 
+  select(-wind_speed_10m) |> 
+  
+  mutate(gust_status = case_when(
+    wind_gusts_10m >= 15 ~ "gusty",
+    wind_gusts_10m < 15 ~ "calm"
+  )) |> 
+  select(-wind_gusts_10m) |>
   
   # Convert dates
   mutate(date = ymd(date)) |> 
@@ -38,7 +63,10 @@ ferry_model_data <- ferry_data |>
   mutate_if(is.character, as.factor) |> 
   
   # Exclude missing data
-  na.omit()
+  na.omit() |> 
+  
+  # Clean departing column
+  mutate(departing = str_to_title(str_replace_all(departing, "_", " ")))
 
 skimr::skim(ferry_model_data)
 ```
@@ -61,95 +89,152 @@ test_data  <- testing(data_split)
 ferry_rec <- 
   
   # Add recipe
-  recipe(delay ~ ., data = train_data) |> 
+  recipe(delay_status ~ ., data = train_data) |> 
+  
+  # Remove delay from modeling
+  step_rm(delay) |> 
   
   # Extract predictors like day of week and month from date
-  # Also indicate if a holiday
-  step_date(date, features = c("dow", "month")) |> 
-  step_holiday(date, 
-               holidays = timeDate::listHolidays("US"),
-               keep_original_cols = FALSE) |>
+  step_date(date, features = c("dow", "month"), keep_original_cols = FALSE) |> 
   
   # Convert all factors to binary "dummy variables"
   step_dummy(all_nominal_predictors())
-  
-
-prepared_recipe <- prep(ferry_rec, training = train_data)
-transformed_data <- bake(prepared_recipe, new_data = NULL)
 ```
 
 ```{r}
 # Specify model using parsnip
-ferry_mod_lm <- 
-  linear_reg() |> 
-  set_engine("lm")
+ferry_mod_lr <- 
+  logistic_reg() |> 
+  set_engine("glm")
 
 # Bundle parsnip model with recipe
-ferry_workflow_lm <- 
+ferry_workflow_lr <- 
   workflow() |> 
-  add_model(ferry_mod_lm) |> 
+  add_model(ferry_mod_lr) |> 
   add_recipe(ferry_rec)
 
 # Train the model
-ferry_fit_lm <- 
-  ferry_workflow_lm |> 
+ferry_fit_lr <- 
+  ferry_workflow_lr |> 
   fit(data = train_data)
 ```
 
 
 ```{r}
 # Make Prediction
-predictions_lm <- predict(ferry_fit_lm, test_data) |> 
-  bind_cols(test_data)
+predictions_lr <- augment(ferry_fit_lr, test_data)
 
 # Evaluate the model
-metrics_lm <- predictions_lm %>%
-  metrics(truth = delay, estimate = .pred)
+metrics_lr <- predictions_lr %>%
+  metrics(truth = delay_status, estimate = .pred_class)
 
-metrics_lm
+metrics_lr
 
-ggplot(predictions_lm, aes(x = delay, y = .pred)) +
-  geom_abline(linetype = 2) +
-  geom_point(alpha = 0.25) + 
-  labs(title = "LM", y = "Prediction", x = "actual") +
-  xlim(0, 25) +
-  ylim(0, 25)
+# Confusion Metrics
+predictions_lr |> 
+  conf_mat(delay_status, .pred_class)
 ```
 
+## Create & Write Vetiver Model
+
 ```{r}
-# Try random forests
-ferry_model_rf <- 
-  rand_forest(trees = 1000, min_n = 5) |> 
-  set_engine("ranger", verbose = TRUE) |> 
-  set_mode("regression")
+# Create Vetiver Model
+v_model <- vetiver_model(ferry_fit_lr, "ferry_model")
+
+# Write Vetiver Model
+board |> 
+  vetiver_pin_write(v_model)
+```
+## Try XGBoost
+
+```{r}
+# Specify model using parsnip
+ferry_mod_xgb <- 
+  boost_tree() |> 
+  set_engine("xgboost") |> 
+  set_mode("classification")
 
 # Bundle parsnip model with recipe
-ferry_workflow_rf <- 
+ferry_workflow_xgb <- 
   workflow() |> 
-  add_model(ferry_model_rf) |> 
+  add_model(ferry_mod_xgb) |> 
   add_recipe(ferry_rec)
 
 # Train the model
-ferry_fit_rf <- 
-  ferry_workflow_rf |> 
+ferry_fit_xgb <- 
+  ferry_workflow_xgb |> 
   fit(data = train_data)
 ```
 
 ```{r}
 # Make Prediction
-predictions_rf <- predict(ferry_fit_rf, test_data) |> 
-  bind_cols(test_data)
+predictions_xgb <- augment(ferry_fit_xgb, test_data)
 
 # Evaluate the model
-metrics_rf <- predictions_rf %>%
-  metrics(truth = delay, estimate = .pred)
+metrics_xgb <- predictions_xgb %>%
+  metrics(truth = delay_status, estimate = .pred_class)
 
-metrics_rf
+metrics_xgb
 
-ggplot(predictions_rf, aes(x = delay, y = .pred)) +
-  geom_abline(linetype = 2) +
-  geom_point(alpha = 0.25) + 
-  labs(title = "RF", y = "Prediction", x = "actual") +
-  xlim(0, 25) +
-  ylim(0, 25)
+# Confusion Metrics
+predictions_xgb |> 
+  conf_mat(delay_status, .pred_class)
 ```
+
+```{r}
+# Create Vetiver Model
+v_model <- vetiver_model(ferry_fit_xgb, "ferry_model")
+
+# Write Vetiver Model
+board |> 
+  vetiver_pin_write(v_model)
+```
+
+## Check versions
+
+```{r}
+board |> pin_versions("ferry_model")
+```
+## Deploy to Posit Connect
+
+```{r}
+# authenticates via environment variables:
+vetiver_deploy_rsconnect(board, "ryan/ferry_model")
+```
+
+## Make a fake prediction
+```{r}
+# Create vetiver endpoint
+endpoint <- vetiver_endpoint(paste0("https://connect.posit.it/content/0b0a63a0-ec5b-4ecb-bee3-4e7256249981", "/predict"))
+
+# New ferry data point
+new_ferry_data <- tibble(
+  departing = "seattle",
+  date = "2023-05-14",
+  weather_code = "3",
+  wind_status = "windy",
+  gust_status = "gusty",
+  hour = "11",
+  delay = 0
+)
+
+predict(endpoint, new_ferry_data, httr::add_headers(Authorization = paste("Key", Sys.getenv("CONNECT_API_KEY"))))
+```
+
+## Monitor
+
+```{r}
+# Create "new" ferry data
+new_ferry_data <- tail(ferry_model_data, 500)
+
+# Pull in specific version of model
+v_model_monitor <- vetiver_pin_read(board, "ryan/ferry_model")
+
+new_ferry_data_metrics <-
+    augment(v_model_monitor, new_data = new_ferry_data) |> 
+    vetiver_compute_metrics(date, "week", delay_status, .pred_class)
+
+vetiver_plot_metrics(new_ferry_data_metrics) +
+  scale_size(range = c(2, 4))
+```
+
