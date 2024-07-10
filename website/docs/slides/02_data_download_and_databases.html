@@ -7,7 +7,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
 
-<title>resources – Data Science Workflows with Posit Tools - R focus</title>
+<title>data_download_and_databases – Data Science Workflows with Posit Tools - R focus</title>
 <style>
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
@@ -19,6 +19,40 @@ ul.task-list li input[type="checkbox"] {
   width: 0.8em;
   margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
   vertical-align: middle;
+}
+/* CSS for syntax highlighting */
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { display: inline-block; text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+  }
+pre.numberSource { margin-left: 3em;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
 }
 </style>
 
@@ -39,6 +73,7 @@ ul.task-list li input[type="checkbox"] {
 <script src="../site_libs/bootstrap/bootstrap.min.js"></script>
 <link href="../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
 <link href="../site_libs/bootstrap/bootstrap.min.css" rel="stylesheet" id="quarto-bootstrap" data-mode="light">
+<link href="../site_libs/quarto-contrib/bootstrap-icons-1.9.1/all.css" rel="stylesheet">
 <script id="quarto-search-options" type="application/json">{
   "location": "navbar",
   "copy-button": false,
@@ -153,7 +188,7 @@ ul.task-list li input[type="checkbox"] {
       <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" role="button" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
         <i class="bi bi-layout-text-sidebar-reverse"></i>
       </button>
-        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"></ol></nav>
+        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../slides/01_workshop_and_project_intro.html">Slides</a></li><li class="breadcrumb-item"><a href="../slides/02_data_download_and_databases.html">02 - Data Exploration and Database Essentials</a></li></ol></nav>
         <a class="flex-grow-1" role="navigation" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
         </a>
     </div>
@@ -182,7 +217,7 @@ ul.task-list li input[type="checkbox"] {
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../slides/02_data_download_and_databases.html" class="sidebar-item-text sidebar-link">
+  <a href="../slides/02_data_download_and_databases.html" class="sidebar-item-text sidebar-link active">
  <span class="menu-text">02 - Data Exploration and Database Essentials</span></a>
   </div>
 </li>
@@ -225,28 +260,27 @@ ul.task-list li input[type="checkbox"] {
     <h2 id="toc-title">On this page</h2>
    
   <ul>
-  <li><a href="#workshop-resources" id="toc-workshop-resources" class="nav-link active" data-scroll-target="#workshop-resources">Workshop Resources</a>
-  <ul>
-  <li><a href="#making-api-requests" id="toc-making-api-requests" class="nav-link" data-scroll-target="#making-api-requests">Making API requests</a></li>
-  <li><a href="#data-exploration" id="toc-data-exploration" class="nav-link" data-scroll-target="#data-exploration">Data Exploration</a></li>
-  <li><a href="#working-with-databases" id="toc-working-with-databases" class="nav-link" data-scroll-target="#working-with-databases">Working with databases</a></li>
-  <li><a href="#data-validation-and-reporting" id="toc-data-validation-and-reporting" class="nav-link" data-scroll-target="#data-validation-and-reporting">Data Validation and Reporting</a></li>
-  <li><a href="#conditional-alerting" id="toc-conditional-alerting" class="nav-link" data-scroll-target="#conditional-alerting">Conditional Alerting</a></li>
-  <li><a href="#modeling-and-mlops" id="toc-modeling-and-mlops" class="nav-link" data-scroll-target="#modeling-and-mlops">Modeling and MLOps</a></li>
-  <li><a href="#shiny" id="toc-shiny" class="nav-link" data-scroll-target="#shiny">Shiny</a>
-  <ul class="collapse">
-  <li><a href="#creating-shiny-apps-and-dashboards" id="toc-creating-shiny-apps-and-dashboards" class="nav-link" data-scroll-target="#creating-shiny-apps-and-dashboards">Creating Shiny apps and dashboards</a></li>
-  <li><a href="#shiny-in-production" id="toc-shiny-in-production" class="nav-link" data-scroll-target="#shiny-in-production">Shiny in production</a></li>
-  </ul></li>
-  <li><a href="#curating-and-managing-content-on-connect" id="toc-curating-and-managing-content-on-connect" class="nav-link" data-scroll-target="#curating-and-managing-content-on-connect">Curating and Managing Content on Connect</a></li>
-  <li><a href="#managing-environments" id="toc-managing-environments" class="nav-link" data-scroll-target="#managing-environments">Managing Environments</a>
-  <ul class="collapse">
-  <li><a href="#package-environments" id="toc-package-environments" class="nav-link" data-scroll-target="#package-environments">Package environments</a></li>
-  <li><a href="#promoting-code-to-different-environments" id="toc-promoting-code-to-different-environments" class="nav-link" data-scroll-target="#promoting-code-to-different-environments">Promoting code to different environments</a></li>
-  </ul></li>
-  </ul></li>
+  <li><a href="#raw-data-retrieval-and" id="toc-raw-data-retrieval-and" class="nav-link active" data-scroll-target="#raw-data-retrieval-and">Raw Data Retrieval and</a></li>
+  <li><a href="#section-agenda" id="toc-section-agenda" class="nav-link" data-scroll-target="#section-agenda">Section Agenda</a></li>
+  <li><a href="#project-overview" id="toc-project-overview" class="nav-link" data-scroll-target="#project-overview">Project Overview</a></li>
+  <li><a href="#download-raw-data-from-an-api-endpoint" id="toc-download-raw-data-from-an-api-endpoint" class="nav-link" data-scroll-target="#download-raw-data-from-an-api-endpoint">Download raw data from an API endpoint</a></li>
+  <li><a href="#example-httr2-request" id="toc-example-httr2-request" class="nav-link" data-scroll-target="#example-httr2-request">Example <code>httr2</code> request</a></li>
+  <li><a href="#section" id="toc-section" class="nav-link" data-scroll-target="#section"></a></li>
+  <li><a href="#where-should-i-put-the-data" id="toc-where-should-i-put-the-data" class="nav-link" data-scroll-target="#where-should-i-put-the-data">Where should I put the data?</a></li>
+  <li><a href="#database-connection-essentials" id="toc-database-connection-essentials" class="nav-link" data-scroll-target="#database-connection-essentials">Database Connection Essentials</a></li>
+  <li><a href="#interacting-with-databases" id="toc-interacting-with-databases" class="nav-link" data-scroll-target="#interacting-with-databases">Interacting with Databases</a></li>
+  <li><a href="#more-on-databases" id="toc-more-on-databases" class="nav-link" data-scroll-target="#more-on-databases">More on databases</a></li>
+  <li><a href="#section-1" id="toc-section-1" class="nav-link" data-scroll-target="#section-1"></a></li>
+  <li><a href="#how-do-i-automate-this-process" id="toc-how-do-i-automate-this-process" class="nav-link" data-scroll-target="#how-do-i-automate-this-process">How do I automate this process?</a></li>
+  <li><a href="#introduction-to-emailing-with-posit-connect" id="toc-introduction-to-emailing-with-posit-connect" class="nav-link" data-scroll-target="#introduction-to-emailing-with-posit-connect">Introduction to Emailing with Posit Connect</a></li>
+  <li><a href="#introduction-to-emailing-with-and-connect" id="toc-introduction-to-emailing-with-and-connect" class="nav-link" data-scroll-target="#introduction-to-emailing-with-and-connect">Introduction to Emailing with <img src="slide_resources/quarto-logo-trademark.svg" class="img-fluid" style="vertical-align:middle" width="350"> and Connect</a></li>
+  <li><a href="#a-basic-quarto-email" id="toc-a-basic-quarto-email" class="nav-link" data-scroll-target="#a-basic-quarto-email">A Basic Quarto Email</a></li>
+  <li><a href="#our-first-exposure-to-conditionality" id="toc-our-first-exposure-to-conditionality" class="nav-link" data-scroll-target="#our-first-exposure-to-conditionality">Our First Exposure to Conditionality</a></li>
+  <li><a href="#project-example" id="toc-project-example" class="nav-link" data-scroll-target="#project-example">Project example</a></li>
+  <li><a href="#section-2" id="toc-section-2" class="nav-link" data-scroll-target="#section-2"></a></li>
+  <li><a href="#section-3" id="toc-section-3" class="nav-link" data-scroll-target="#section-3"></a></li>
   </ul>
-</nav>
+<div class="quarto-alternate-formats"><h2>Other Formats</h2><ul><li><a href="02_data_download_and_databases.html"><i class="bi bi-file-slides"></i>RevealJS (positconfslides)</a></li></ul></div></nav>
     </div>
 <!-- main -->
 <main class="content" id="quarto-document-content">
@@ -254,125 +288,295 @@ ul.task-list li input[type="checkbox"] {
 
 
 
-<section id="workshop-resources" class="level2">
-<h2 class="anchored" data-anchor-id="workshop-resources">Workshop Resources</h2>
-<p>We cover a lot of ground in this workshop. Below is a summary of the packages and references that you may find helpful to revisit.</p>
-<section id="making-api-requests" class="level3">
-<h3 class="anchored" data-anchor-id="making-api-requests">Making API requests</h3>
+<section id="raw-data-retrieval-and" class="level2 title-slide-light">
+<h2 class="title-slide-light anchored" data-anchor-id="raw-data-retrieval-and">Raw Data Retrieval and</h2>
+<h2 class="anchored">
+Working with Databases
+</h2>
+<p><img src="https://httr2.r-lib.org/logo.png" class="absolute img-fluid" data-top="200" data-left="50" width="260"> <img src="slide_resources/db.png" class="absolute img-fluid" data-top="200" data-left="310" width="260"></p>
+</section>
+<section id="section-agenda" class="level2 brackets-dark-teal">
+<h2 class="brackets-dark-teal anchored" data-anchor-id="section-agenda">Section Agenda</h2>
 <ul>
-<li><a href="https://httr2.r-lib.org/"><code>httr2</code></a></li>
+<li>Downloading data from sources</li>
+<li>Writing production data to a database</li>
+<li>Introduction to alerting</li>
+<li>Automating the pipeline</li>
 </ul>
 </section>
-<section id="data-exploration" class="level3">
-<h3 class="anchored" data-anchor-id="data-exploration">Data Exploration</h3>
-<ul>
-<li><a href="https://rstudio.github.io/pointblank/reference/scan_data.html"><code>pointblank::scan_data()</code></a></li>
-</ul>
+<section id="project-overview" class="level2 minimal">
+<h2 class="minimal anchored" data-anchor-id="project-overview">Project Overview</h2>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="slide_resources/workflow_diagram.jpg" class="img-fluid quarto-figure quarto-figure-center figure-img"></p>
+</figure>
+</div>
 </section>
-<section id="working-with-databases" class="level3">
-<h3 class="anchored" data-anchor-id="working-with-databases">Working with databases</h3>
+<section id="download-raw-data-from-an-api-endpoint" class="level2">
+<h2 class="anchored" data-anchor-id="download-raw-data-from-an-api-endpoint">Download raw data from an API endpoint</h2>
+<p>Your first instinct for retrieving raw data may be to download the data as a csv file. <br><br></p>
+<div class="fragment">
+<p>💡 There’s a better way!</p>
+</div>
+<div class="incremental">
+<ul class="incremental">
+<li>Many data sources offer an API endpoint for downloading data</li>
+<li><code>{httr2}</code> provides wrapper functions around <code>curl</code> requests for easier querying and handling of responses</li>
+</ul>
+</div>
+<div class="fragment">
+<p><i class="bi-sign-turn-right-fill " style="color: orange;" role="img" aria-hidden="true"></i> <code>{httr2}</code> is a ground-up rewrite of <code>{httr}</code> that is pipeable! It implements an explicit <code>request</code> object that solves common problems such as built-in rate-limiting, retries, OAuth, secure secrets, and more.</p>
+</div>
+</section>
+<section id="example-httr2-request" class="level2">
+<h2 class="anchored" data-anchor-id="example-httr2-request">Example <code>httr2</code> request</h2>
+<p>Here’s how we will query the <code>vesselverbose</code> endpoint at</p>
+<p><code>https://www.wsdot.wa.gov/ferries/api/vessels/rest/vesselverbose?apiaccesscode={WSDOT_ACCESS_CODE}</code></p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb1"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1"></a>base_url <span class="ot">&lt;-</span> <span class="st">"https://www.wsdot.wa.gov"</span></span>
+<span id="cb1-2"><a href="#cb1-2"></a>endpoint <span class="ot">&lt;-</span> <span class="st">"ferries/api/vessels/rest/vesselverbose"</span></span>
+<span id="cb1-3"><a href="#cb1-3"></a></span>
+<span id="cb1-4"><a href="#cb1-4"></a><span class="co"># Compose the API request </span></span>
+<span id="cb1-5"><a href="#cb1-5"></a>req <span class="ot">&lt;-</span> <span class="fu">request</span>(base_url) <span class="sc">|&gt;</span> </span>
+<span id="cb1-6"><a href="#cb1-6"></a>  <span class="fu">req_url_path_append</span>(endpoint) <span class="sc">|&gt;</span> </span>
+<span id="cb1-7"><a href="#cb1-7"></a>  <span class="fu">req_url_query</span>(<span class="at">apiaccesscode =</span> <span class="fu">Sys.getenv</span>(<span class="st">"WSDOT_ACCESS_CODE"</span>)) </span>
+<span id="cb1-8"><a href="#cb1-8"></a>  </span>
+<span id="cb1-9"><a href="#cb1-9"></a><span class="co"># perform the request</span></span>
+<span id="cb1-10"><a href="#cb1-10"></a>response <span class="ot">&lt;-</span> req <span class="sc">|&gt;</span> </span>
+<span id="cb1-11"><a href="#cb1-11"></a>  <span class="fu">req_perform</span>()</span>
+<span id="cb1-12"><a href="#cb1-12"></a></span>
+<span id="cb1-13"><a href="#cb1-13"></a><span class="co"># convert the body of the response to a tibble</span></span>
+<span id="cb1-14"><a href="#cb1-14"></a>response_body <span class="ot">&lt;-</span> response <span class="sc">|&gt;</span> </span>
+<span id="cb1-15"><a href="#cb1-15"></a>  <span class="fu">resp_body_string</span>() <span class="sc">|&gt;</span> </span>
+<span id="cb1-16"><a href="#cb1-16"></a>  jsonlite<span class="sc">::</span><span class="fu">fromJSON</span>() <span class="sc">|&gt;</span> </span>
+<span id="cb1-17"><a href="#cb1-17"></a>  <span class="fu">as_tibble</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+</section>
+<section id="section" class="level2">
+<h2 class="anchored" data-anchor-id="section"></h2>
+<div class="center">
+<h2 class="anchored">
+<br><strong>Activity Time!</strong>
+</h2>
+</div>
+<div class="callout callout-style-default callout-note no-icon callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon no-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Activity
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>👉 Open the project <code>materials/01-raw-data-write/01-raw-data-write.Rproj</code></p>
+<p>Activity objective: Download the <code>vesselverbose</code> data from the WSDOT API endpoint.</p>
+<p>🛑 Work through <strong>Task 1 - Task 3</strong> only.</p>
+</div>
+</div>
+</section>
+<section id="where-should-i-put-the-data" class="level2">
+<h2 class="anchored" data-anchor-id="where-should-i-put-the-data">Where should I put the data?</h2>
+<div class="fragment middle r-fit-text">
+<p>📣 Production data belongs in a database.</p>
+</div>
+</section>
+<section id="database-connection-essentials" class="level2">
+<h2 class="anchored" data-anchor-id="database-connection-essentials">Database Connection Essentials</h2>
+<div class="smaller">
+<div class="incremental">
+<ul class="incremental">
+<li>Use <code>{DBI}</code> to make a connection with <code>DBI::dbConnect()</code></li>
+<li>The first argument to <code>{DBI}</code> is your DBI-compliant R package</li>
+</ul>
+</div>
+<div class="columns">
+<div class="column fragment">
+<p><span class="positgreen"><strong>Best case:</strong></span> one of the DBI-compliant db-specific packages</p>
+<p><img src="slide_resources/con_sans_odbc.png" class="absolute img-fluid" style="width:47.0%" data-bottom="180" data-left="30"></p>
+</div><div class="column fragment">
+<p><span class="posityellow"><strong>Alternative:</strong></span> <code>odbc::odbc()</code> + an ODBC driver installed on your system <img src="slide_resources/con_w_odbc.png" class="absolute img-fluid" style="width:47.0%" data-bottom="180" data-right="30"></p>
+</div>
+</div>
+<div class="fragment absolute" data-bottom="30">
+<p>📣 When possible, use a database-specific R package (e.g., <code>RPostgres</code>, <code>RMariaDB</code>, <code>RSQLite</code>, <code>bigrquery</code>, etc.) instead of <code>odbc</code> + a driver. In many cases, they are more performant (especially in writing data) and may have more translations available for query types.</p>
+</div>
+</div>
+</section>
+<section id="interacting-with-databases" class="level2">
+<h2 class="anchored" data-anchor-id="interacting-with-databases">Interacting with Databases</h2>
+<div class="incremental">
+<ul class="incremental">
+<li><p>What tables are in a database? <code>DBI::dbListTables(con)</code></p></li>
+<li><p>Use <code>dplyr</code> to interact with the database table in the same manner you would a local data frame</p>
+<div class="sourceCode" id="cb2"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a>df <span class="ot">&lt;-</span> dplyr<span class="sc">::</span><span class="fu">tbl</span>(con, <span class="st">"my_table"</span>)</span>
+<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a>df <span class="sc">|&gt;</span> <span class="fu">filter</span>(...) <span class="sc">|&gt;</span> <span class="fu">mutate</span>(...) <span class="sc">|&gt;</span> <span class="fu">group_by</span>(...) <span class="sc">|&gt;</span> <span class="fu">summarise</span>(...)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div></li>
+<li><p>📣 Do as much work as possible in the database to save time and resources before bringing the table into local memory.</p></li>
+<li><p>Use <code>dplyr::collect()</code> to bring the table into memory. Try to use <code>collect</code> as late as possible in your queries / transformations</p>
+<div class="sourceCode" id="cb3"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a>df <span class="sc">|&gt;</span> ... <span class="sc">|&gt;</span> <span class="fu">collect</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div></li>
+</ul>
+</div>
+</section>
+<section id="more-on-databases" class="level2 content-light">
+<h2 class="content-light anchored" data-anchor-id="more-on-databases">More on databases</h2>
+<div class="callout callout-style-default callout-tip no-icon callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon no-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<i class="bi-sign-turn-right-fill " style="color: orange;" role="img" aria-hidden="true"></i> Best practices in working with databases
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p><a href="https://solutions.posit.co/connections/db/" class="uri">https://solutions.posit.co/connections/db/</a></p>
+<p>Specific resources:</p>
+<div class="{columns}">
+<div class="column" style="width:40%;">
 <ul>
-<li><a href="https://solutions.posit.co/connections/db/">Best practices in working with databases</a></li>
 <li><a href="https://solutions.posit.co/connections/db/getting-started/connect-to-database/">Connect to a database</a></li>
 <li><a href="https://solutions.posit.co/connections/db/getting-started/database-queries/">Query a database table</a></li>
+</ul>
+</div>
+<div class="column" style="width:60%;">
+<ul>
 <li><a href="https://solutions.posit.co/connections/db/best-practices/managing-credentials/">Securing credentials</a></li>
 <li><a href="https://solutions.posit.co/connections/db/best-practices/portable-code/">Making scripts portable</a></li>
 </ul>
+</div>
+</div>
+</div>
+</div>
 </section>
-<section id="data-validation-and-reporting" class="level3">
-<h3 class="anchored" data-anchor-id="data-validation-and-reporting">Data Validation and Reporting</h3>
-<ul>
-<li><a href="https://rstudio.github.io/pointblank/"><code>pointblank</code></a></li>
-<li>Try the pointblank <a href="https://posit.cloud/project/3411822">test drive</a> on Posit Cloud to see all the features</li>
-<li>Pointblank <a href="https://rstudio.github.io/pointblank/reference/incorporate.html">data dictionary</a> (a.k.a. the informant)</li>
-<li>Monitor data quality over time with the pointblank <a href="https://rstudio.github.io/pointblank/reference/create_multiagent.html"><code>multiagent</code></a></li>
-</ul>
+<section id="section-1" class="level2">
+<h2 class="anchored" data-anchor-id="section-1"></h2>
+<div class="center">
+<h2 class="anchored">
+<br><strong>Activity Time!</strong>
+</h2>
+</div>
+<div class="callout callout-style-default callout-note no-icon callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon no-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Activity
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>👉 Return to the project <code>materials/01-raw-data-write/01-raw-data-write.Rproj</code></p>
+<p>Activity objective: Write the <code>vesselverbose</code> data to the database.</p>
+<p>🛑 Work through <strong>Task 4 - Task 5</strong> only.</p>
+</div>
+</div>
 </section>
-<section id="conditional-alerting" class="level3">
-<h3 class="anchored" data-anchor-id="conditional-alerting">Conditional Alerting</h3>
-<!-- TODO: update this with quarto -->
-<ul>
-<li><a href="https://pkgs.rstudio.com/blastula/"><code>blastula</code></a></li>
-<li><a href="https://pkgs.rstudio.com/blastula/">Email customization</a> from the Connect User Guide</li>
-</ul>
+<section id="how-do-i-automate-this-process" class="level2">
+<h2 class="anchored" data-anchor-id="how-do-i-automate-this-process">How do I automate this process?</h2>
+<div class="fragment">
+<p>🧰 Deploy and schedule your ETL and reports on Posit Connect</p>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="slide_resources/scheduling.png" class="quarto-figure quarto-figure-center figure-img" height="700"></p>
+</figure>
+</div>
+</div>
 </section>
-<section id="modeling-and-mlops" class="level3">
-<h3 class="anchored" data-anchor-id="modeling-and-mlops">Modeling and MLOps</h3>
-<ul>
-<li><a href="https://www.tidymodels.org/"><code>tidymodels</code></a></li>
-<li><a href="https://vetiver.rstudio.com"><code>vetiver</code></a></li>
-<li><a href="https://pins.rstudio.com/"><code>pins</code></a></li>
-<li><a href="https://www.rplumber.io/"><code>plumber</code></a></li>
-</ul>
+<section id="introduction-to-emailing-with-posit-connect" class="level2">
+<h2 class="anchored" data-anchor-id="introduction-to-emailing-with-posit-connect">Introduction to Emailing with Posit Connect</h2>
+<p>Posit Connect can send an email when a report or notebook renders</p>
+<div class="columns">
+<div class="column" style="width:25%;">
+<div class="fragment">
+<p><img src="slide_resources/email_option.png" style="padding-left: 25px;" height="700"></p>
+</div>
+</div><div class="column fragment" style="width:18%;">
+<p><span class="largest middle"><i class="bi-arrow-right " style="" role="img" aria-hidden="true"></i></span></p>
+</div><div class="column" style="width:50%;">
+<div class="fragment">
+<p><img src="slide_resources/html_email.png" class="img-fluid" style="padding-top: 50px;"></p>
+</div>
+</div>
+</div>
+<div class="fragment absolute" style="background: #F5EF94; width: 600px; height: 400px; padding: 30px; box-shadow: 0 18px 18px -9px lightgray; margin-left: auto; margin-right: auto;" data-top="350" data-right="220">
+<p><span class="larger">🚫</span></p>
+<p>🥱 This email is non-informative</p>
+<p>🔊 Creates noise in the inbox</p>
+<p>🙈 Does not compel anyone to look at it</p>
+</div>
 </section>
-<section id="shiny" class="level3">
-<h3 class="anchored" data-anchor-id="shiny">Shiny</h3>
-<section id="creating-shiny-apps-and-dashboards" class="level4">
-<h4 class="anchored" data-anchor-id="creating-shiny-apps-and-dashboards">Creating Shiny apps and dashboards</h4>
-<ul>
-<li><a href="https://shiny.posit.co/getstarted">Get started with Shiny</a> (R or Python!)</li>
-<li><a href="https://shiny.posit.co/r/gallery/">Gallery of examples</a></li>
-<li>The authoritative reference, <a href="https://mastering-shiny.org"><em>Mastering Shiny</em></a> (Don’t let the title fool you, it’s great for beginners!)</li>
-<li><a href="https://rstudio.github.io/bslib/"><code>bslib</code></a> - add themes, components, and layouts to your dashboard with ease</li>
-<li><a href="https://rstudio.github.io/thematic/"><code>thematic</code></a> - extends your Shiny theme to plots</li>
-<li><a href="https://rstudio.github.io/shinyuieditor/"><code>shinyuieditor</code></a> - a visual tool to help create the UI portion of your Shiny app</li>
-</ul>
+<section id="introduction-to-emailing-with-and-connect" class="level2">
+<h2 class="anchored" data-anchor-id="introduction-to-emailing-with-and-connect">Introduction to Emailing with <img src="slide_resources/quarto-logo-trademark.svg" class="img-fluid" style="vertical-align:middle" width="350"> and Connect</h2>
+<div class="columns">
+<div class="column" style="width:25%;">
+<p><img src="slide_resources/email_option.png" style="padding-left: 25px;" height="700"></p>
+</div><div class="column" style="width:10%;">
+<p><span class="largest middle">+</span></p>
+</div><div class="column" style="width:25%;">
+<p><img src="slide_resources/quarto-icon.svg" class="middle img-fluid" width="370"></p>
+</div><div class="column" style="width:10%;">
+<p><span class="largest middle">=</span></p>
+</div><div class="column" style="width:30%;">
+<p><span class="large middle">🧰 Customized, conditional emails</span></p>
+</div>
+</div>
 </section>
-<section id="shiny-in-production" class="level4">
-<h4 class="anchored" data-anchor-id="shiny-in-production">Shiny in production</h4>
-<ul>
-<li>Start here 👉 Joe Cheng’s <a href="https://youtu.be/Wy3TY0gOmJw">Shiny in Production</a> talk at 2019 rstudio::conf</li>
-<li>The <a href="https://mastering-shiny.org/performance.html">Performance chapter</a> of <em>Mastering Shiny</em></li>
-<li>Add logging to app with <a href="https://github.com/johnmyleswhite/log4r"><code>log4r</code></a></li>
-<li>Use <a href="https://rstudio.github.io/shinyloadtest/"><code>shinyloadtest</code></a> to simulate app performance under load</li>
-<li>Use <a href="https://rstudio.github.io/profvis/"><code>profvis</code></a> to profile your app to identify bottlenecks</li>
-</ul>
+<section id="a-basic-quarto-email" class="level2">
+<h2 class="anchored" data-anchor-id="a-basic-quarto-email">A Basic Quarto Email</h2>
+<p>From one Quarto document, we produce the rendered report and an email ✨</p>
+<p><img src="slide_resources/quarto_email_intro.png" class="img-fluid"></p>
 </section>
+<section id="our-first-exposure-to-conditionality" class="level2">
+<h2 class="anchored" data-anchor-id="our-first-exposure-to-conditionality">Our First Exposure to Conditionality</h2>
+<div class="fragment center">
+<p><br></p>
+<p><img src="slide_resources/unread_email.png" class="img-fluid"></p>
+</div>
+<div class="fragment center">
+<p>Please don’t send me an email unless it’s really necessary.</p>
+</div>
 </section>
-<section id="curating-and-managing-content-on-connect" class="level3">
-<h3 class="anchored" data-anchor-id="curating-and-managing-content-on-connect">Curating and Managing Content on Connect</h3>
-<ul>
-<li>Use of <a href="https://docs.posit.co/connect/admin/content-management/index.html#tags">Tags on Connect</a></li>
-<li><a href="https://rstudio.github.io/connectwidgets/"><code>connectwidgets</code></a></li>
-<li>Posit Connect Server API
-<ul>
-<li><a href="https://docs.posit.co/connect/api/">Reference</a></li>
-<li><a href="https://docs.posit.co/connect/cookbook/">API Cookbook</a></li>
-<li><a href="https://solutions.posit.co/operations/connect-apis/">Example reports and apps</a></li>
-<li><a href="https://pkgs.rstudio.com/connectapi/"><code>connectapi</code></a> R package that is a wrapper around the API</li>
-</ul></li>
-</ul>
+<section id="project-example" class="level2">
+<h2 class="anchored" data-anchor-id="project-example">Project example</h2>
+<div class="columns">
+<div class="column" style="width:50%;">
+<p>⚠️ There was a problem with the data download</p>
+<p><img src="slide_resources/custom_email_alert.png" class="img-fluid"></p>
+</div><div class="column" style="width:50%;">
+<p>✅ All looks great, here’s a relevant summary</p>
+<p><img src="slide_resources/custom_email.png" class="img-fluid"></p>
+</div>
+</div>
 </section>
-<section id="managing-environments" class="level3">
-<h3 class="anchored" data-anchor-id="managing-environments">Managing Environments</h3>
-<section id="package-environments" class="level4">
-<h4 class="anchored" data-anchor-id="package-environments">Package environments</h4>
-<ul>
-<li><a href="https://solutions.posit.co/envs-pkgs/repos_and_libs/">Understanding Repositories and Libraries</a></li>
-<li><a href="https://rstudio.github.io/renv/"><code>renv</code></a></li>
-</ul>
+<section id="section-2" class="level2">
+<h2 class="anchored" data-anchor-id="section-2"></h2>
+<div class="center">
+<h2 class="anchored">
+<br><strong>Activity Time!</strong>
+</h2>
+</div>
+<div class="callout callout-style-default callout-note no-icon callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon no-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Activity
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>👉 Open the file <code>materials/activities/activity-02_publish_and_schedule_data_pull.Rmd</code></p>
+<p>Activity objective: Write production data to database, then deploy and schedule this work on Posit Connect so it runs automatically.</p>
+</div>
+</div>
 </section>
-<section id="promoting-code-to-different-environments" class="level4">
-<h4 class="anchored" data-anchor-id="promoting-code-to-different-environments">Promoting code to different environments</h4>
-<ul>
-<li><a href="https://solutions.posit.co/operations/deploy-methods">Deployment methods for Connect</a></li>
-<li><a href="https://solutions.posit.co/operations/publishing-wkflow/">Publishing Workflows for Connect</a></li>
-<li><a href="https://solutions.posit.co/operations/code-promotion/">Dev/Test/Prod with Posit Team:</a></li>
-<li>Connect User Guide for <a href="https://docs.posit.co/connect/user/git-backed/">Git-backed deployment</a></li>
-<li><a href="https://solutions.posit.co/operations/deploy-methods/#git-backed-publishing">Git-backed publishing</a> patterns</li>
-<li><a href="https://solutions.posit.co/operations/deploy-methods/ci-cd/">Examples of CI/CD deployment patterns</a> for:
-<ul>
-<li>GitHub Actions</li>
-<li>GitLab CI/CD</li>
-<li>Azure Pipelines</li>
-<li>Bitbucket Pipelines</li>
-<li>Jenkins</li>
-</ul></li>
-</ul>
+<section id="section-3" class="level2 brackets-dark">
+<h2 class="brackets-dark anchored" data-anchor-id="section-3"></h2>
+<div class="section-title-dark">
+
+</div>
 
 
-</section>
-</section>
 </section>
 
 </main> <!-- /main -->
