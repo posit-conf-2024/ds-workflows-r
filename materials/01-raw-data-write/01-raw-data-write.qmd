@@ -179,6 +179,11 @@ con
 
 ```
 
+:::{.callout-tip icon=false}
+## Heads Up
+If you're working through this document in the Workshop, pause here. 
+:::
+
 ## Task 4 - Write to the database
 
 🔄 Task
@@ -471,6 +476,11 @@ write_df_to_db(weather_terminal_history_raw, my_username, con, append = TRUE)
 dbDisconnect(con)
 
 ```
+
+:::{.callout-tip icon=false}
+## Heads Up
+If you're working through this document in the Workshop, pause here. 
+:::
 
 ## Task 6 - Add logging information to make our scheduled report informative
 
