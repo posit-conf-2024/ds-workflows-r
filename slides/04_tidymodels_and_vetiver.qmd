@@ -165,6 +165,7 @@ model_fit <- parsnip::fit(model_wflow, your-data)
 :::
 
 ::: callout-important
+## Goal
 Build a model using `tidymodels`.
 :::
 
@@ -221,6 +222,11 @@ We have two questions:
 **Complete Task 2 only!**
 :::
 
+::: callout-important
+## Goal
+Use `vetiver` to **pin** model to Posit Connect.
+:::
+
 ## 🧰 Plumber
 
 ![](https://github.com/rstudio/hex-stickers/blob/main/PNG/plumber.png?raw=true){fig-align="center" width="120"}
@@ -238,9 +244,14 @@ We have two questions:
 ::: {.callout-note icon="false"}
 ## Activity
 
-👉 Open the file `materials/activities/activity-05_TidymodelsVetiver.qmd`
+👉 Open the file `materials/03-tidymodels-vetiver/03-tidymodels-vetiver.qmd`
 
 **Complete Tasks 3 & 4 only!**
+:::
+
+::: callout-important
+## Goal
+Use `vetiver` to **serve** the pinned model as an **API** to Posit Connect.
 :::
 
 ## Version and Monitor your models
@@ -257,9 +268,14 @@ We have two questions:
 ::: {.callout-note icon="false"}
 ## Activity
 
-👉 Open the file `materials/activities/activity-05_TidymodelsVetiver.qmd`
+👉 Open the file `materials/03-tidymodels-vetiver/03-tidymodels-vetiver.qmd`
 
 **Complete Task 5**
+:::
+
+::: callout-important
+## Goal
+Use `vetiver` to version and monitor your ferry predict model.
 :::
 ::::
 
