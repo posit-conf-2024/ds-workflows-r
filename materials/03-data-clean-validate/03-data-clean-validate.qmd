@@ -663,6 +663,12 @@ pin_write(board, modeldata_validated,
 
 🔄 Task
 
+- for the Workshop, change the value of `CONDITION_OVERRIDE` in the `.Renviron` file to 1, 2, or 3 to preview the conditional responses. 
+- Be certain to restart your R session after changing the `.Renviron` file, then "Render" this document to see the results.
+- Look in the folder `email-preview` to see the HTML email preview.
+
+Below is how we generate the emails.
+
 We have three scenarios:
 
 1.  `condition <- 1`: the size and shape of the data is not as expected; something is wrong with the input data so the processing of data is stopped and no production data is updated

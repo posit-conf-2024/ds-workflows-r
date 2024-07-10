@@ -63,9 +63,12 @@ pointblank::scan_data(palmerpenguins::penguins)
 
 :::{.callout-note icon=false}
 ## Activity
-👉 Open the project `materials/02-data-exploration/02-data-exploration.Rproj`
+👉 Activity objective: exploring our data
 
-Activity objective: exploring our data
+- Open the project `materials/02-data-exploration/02-data-exploration.Rproj`
+- Open the file `02-data-exploration.qmd`
+- We will work through all the tasks in the notebook
+
  
 :::
 
@@ -193,11 +196,11 @@ Activity objective: exploring our data
 
 :::{.callout-note icon=false}
 ## Activity
-👉 Open to the project `materials/03-data-clean-validate/03-data-clean-validate.Rproj`
+👉 Activity objective: Use `pointblank` to validate data, remove non-compliant records, and document the data.
 
-Activity objective: Use `pointblank` to validate data, remove non-compliant records, and document the data.
-
-🛑 Work through **Task 1 - Task 8** only. 
+- Open the project `materials/03-data-clean-validate/03-data-clean-validate.Rproj`
+- Open the file `03-data-clean-validate.qmd`
+- 🛑 We will work through **Task 1 - Task 8** only
 
 :::
 
@@ -255,8 +258,145 @@ Image of the conditions we want to send.
 
 ## The Secret Sauce of Conditionality
 
-1. yaml
-1. include based on metadata
+::::: {.columns .smaller}
+
+:::: {.column width="35%"}
+
+:::{.fragment .fade-in-then-out .absolute top=100 fragment-index=1 width="33%"}
+1. Quarto emails are defined by content divs
+
+:::
+
+:::{.fragment .fade-in-then-out .absolute top=100 fragment-index=2 width="33%"}
+1. [Quarto emails are defined by content divs]{.silver}
+2. Include conditional content divs with `.content-visible when-meta=`
+
+:::
+
+:::{.fragment .fade-in-then-out .absolute top=100 fragment-index=3 width="33%"}
+1. [Quarto emails are defined by content divs]{.silver}
+2. [Include conditional content divs with `.content-visible when-meta=`]{.silver}
+3. Set the metadata by injecting YAML into the rendering. Quarto will interpret YAML blocks _no matter where they appear in the document_ 
+
+:::
+
+::::
+
+:::: {.column}
+
+:::{.fragment .fade-in-then-out .absolute top=100 fragment-index=1 width="65%"}
+```{r}
+#| eval: false
+#| code-line-numbers: false
+:::: {email}
+
+This email was sent from Quarto! 
+
+::: {subject}
+subject
+:::
+
+::::
+```
+
+:::
+
+:::{.fragment .fade-in-then-out .absolute top=100 fragment-index=2 width="65%"}
+```{r}
+#| eval: false
+#| code-line-numbers: false
+#| class-source: longest_code_block
+#| classes: longest_code_block
+::::: {email}
+
+This email was sent using condition `r variant`
+
+:::: {.content-visible when-meta="is_email_variant_1"}
+rest of email body 1
+
+::: {subject}
+subject 1
+:::
+::::
+
+:::: {.content-visible when-meta="is_email_variant_2"}
+rest email body 2 
+
+::: {subject}
+subject 2
+:::
+::::
+
+:::::
+
+```
+
+:::
+
+:::{.fragment .fade-in-then-out .absolute top=100 fragment-index=3 width="65%"}
+
+````{markdown}
+#| class-source: longer_code_block
+#| classes: longer_code_block
+---
+title: Something wonderful
+format: email
+---
+
+```{.r}
+variant <- sample(1:2, 1)
+```
+
+```{.r}
+#| output: asis
+cat(
+  "---",
+  paste0("is_email_variant_",variant,": true"),
+  "---",
+  sep = "\n"
+)
+```
+
+````
+
+writes the YAML metadata in-place:
+```{r}
+#| eval: true
+#| code-line-numbers: false
+#| echo: false
+cat(
+  "---",
+  paste0("is_email_variant_",1,": true"),
+  "---",
+  sep = "\n"
+)
+```
+
+:::
+
+::::
+
+:::::
+
+## 
+
+:::{.center}
+<h2> <br>**Activity Time!**</h2>
+:::
+
+:::{.callout-note icon=false}
+## Activity
+👉 Activity objective: Change the `CONDITION_OVERRIDE` environment variable in `.Renviron` and see the output for Conditions 1, 2, and 3. Look in the `email_preview` folder for the email output after each rendering.
+
+- Return to the file `03-data-clean-validate.qmd` 
+- We will work through **Task 9 to the end of the notebook**
+
+
+
+:::
+
+
+
 
 ## Be aware...
 
@@ -264,22 +404,18 @@ Image of the conditions we want to send.
 ⚠️ Common mistakes when creating emails
 
 - There is no interactive runtime for an email
-- Javascript-dependent content will generally not render when emailed -- not due to a limitation of blastula, but as result of how email clients process HTML
+- Javascript-dependent content will generally not render when emailed because of how email clients process HTML
 
 :::{.fragment}
 🧰 Best practices for embedding objects an email:
 
-- ggplot2 output can be included in the blastula email output directly 
-- Create nicely formatted tables with the `gt` package. (Just remember, no interactivity!)
-- If you'd like to include a rendering of a widget (e.g., a dial or info box), use the `webshot2` package to take a capture of the widget and embed it as an image
+- ggplot2 output can be included in the email
+- Create nicely formatted tables with the `{gt}` package. (Just remember, no interactivity!)
+- If you'd like to include a rendering of a widget (e.g., a dial or info box), use the `{webshot2}` package to take a capture of the widget and embed it as an image
 - If your email recipient wants more information or interactivity, direct them to a report or dashboard deployed to Connect
 
 
 :::
-
-## {.brackets-light}
-
-
 
 
 
@@ -287,6 +423,4 @@ Image of the conditions we want to send.
 
 {{< bi sign-turn-right-fill color=orange >}} Send alerts to a Slack channel or MS Teams, or via text message:
 <https://rviews.rstudio.com/2020/06/18/how-to-have-r-notify-you/>
-
-
 

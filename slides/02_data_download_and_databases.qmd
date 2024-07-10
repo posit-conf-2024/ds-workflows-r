@@ -74,11 +74,11 @@ response_body <- response |>
 
 :::{.callout-note icon=false}
 ## Activity
-👉 Open the project `materials/01-raw-data-write/01-raw-data-write.Rproj`
+👉 Activity objective: Download the `vesselverbose` data from the WSDOT API endpoint.
 
-Activity objective: Download the `vesselverbose` data from the WSDOT API endpoint.
-
-🛑 Work through **Task 1 - Task 3** only. 
+- Open the project `materials/01-raw-data-write/01-raw-data-write.Rproj`
+- Open the file `01-raw-data-write.qmd`
+- 🛑 We will work through **Task 1 - Task 3** only 
 
 :::
 
@@ -171,11 +171,10 @@ Specific resources:
 
 :::{.callout-note icon=false}
 ## Activity
-👉 Return to the project `materials/01-raw-data-write/01-raw-data-write.Rproj`
+👉 Activity objective: Write the `vesselverbose` data to the database.
 
-Activity objective: Write the `vesselverbose` data to the database.
-
-🛑 Work through **Task 4 - Task 5** only. 
+- Return to the file `01-raw-data-write.qmd`
+- 🛑 We will work through **Task 4 - Task 5** only 
 
 :::
 
@@ -328,11 +327,10 @@ One Quarto document produces the rendered report and an [optional]{.positburg} e
 
 
 ## Activity
-👉 Return to the project `materials/01-raw-data-write/01-raw-data-write.Rproj`
+👉 Activity objective: deploy and schedule this work on Posit Connect so it runs automatically and sends an email only if there's something amiss with the raw data.
 
-Activity objective: deploy and schedule this work on Posit Connect so it runs automatically and sends an email only if there's something amiss with the raw data.
-
-🛑 Work **Task 6 to the end of the document**. 
+- Return to the file `01-raw-data-write.qmd`
+- 🛑 We will work **Task 6 to the end of the document**
 
 :::
 
