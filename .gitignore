@@ -6,3 +6,4 @@
 .output_metadata.json
 
 /.quarto/
+*_files/

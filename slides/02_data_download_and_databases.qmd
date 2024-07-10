@@ -10,7 +10,7 @@ execute:
 ## Section Agenda {.brackets-dark-teal}
 
 -   Downloading data from sources
--   Writing production data to a database 
+-   Writing production data to a database
 -   Introduction to alerting 
 -   Automating the pipeline
 
@@ -179,11 +179,41 @@ Activity objective: Write the `vesselverbose` data to the database.
 
 :::
 
+## A brief {{< bi sign-turn-right-fill color=orange >}} on managing environments
+
+🧰 `{config}` can help you manage your development, test, and production environments without modifying your code
+
+::: {.columns}
+::: {.column}
+
+```{.yaml filename="config.yml"}
+default:
+  dataset: "data_development.csv"
+
+rsconnect:
+  dataset: "data.csv"
+```
+
+:::
+::: {.column}
+
+```{.r filename="my_file.qmd"}
+read_csv(config::get("dataset"))
+```
+:::
+::: 
+
+🧰 Similarly, update environment variables to change behavior in development and production 
+```{.r}
+if (Sys.getenv("TEST_MODE") == TRUE){
+  override_some_variable_for_testing <- TRUE} 
+```
 
 ## How do I automate this process?
 
 :::{.fragment}
 🧰 Deploy and schedule your ETL and reports on Posit Connect
+<br>
 
 ![](slide_resources/scheduling.png){height="700" fig-align="center"}
 
@@ -242,6 +272,9 @@ Posit Connect can send an email when a report or notebook renders
 
 ## Introduction to Emailing with ![](slide_resources/quarto-logo-trademark.svg){width=350 style="vertical-align:middle"} and Connect
 
+Posit Connect can send (or suppress) custom Quarto-generated emails when a report or notebook renders
+
+
 :::{.columns}
 
 :::{.column width=25%}
@@ -254,7 +287,7 @@ Posit Connect can send an email when a report or notebook renders
 
 
 :::{.column width=25%}
-![](slide_resources/quarto-icon.svg){.middle width=370}
+![](slide_resources/qmd_email.png){.middle width=370}
 :::
 
 :::{.column width=10%}
@@ -269,55 +302,19 @@ Posit Connect can send an email when a report or notebook renders
 
 :::
 
-## A Basic Quarto Email
+## A Basic Quarto Email with [Conditional Send]{.positburg}
 
-From one Quarto document, we produce the rendered report and an email ✨
+One Quarto document produces the rendered report and an [optional]{.positburg} email ✨
 
-![](slide_resources/quarto_email_intro.png)
+![](slide_resources/quarto_email_intro.png){fig-align="right"}
 
-## Our First Exposure to Conditionality
 
-:::{.fragment .center}
 
-<br>
+:::{.absolute bottom="20" left="20" width="900" .smaller}
 
-![](slide_resources/unread_email.png)
+🧰 Include a conditional value that expresses `TRUE`|`FALSE` within a div called `::: {email-scheduled}` to send or suppress the email.
 
 :::
-
-:::{.fragment .center}
-
-Please don't send me an email unless it's really necessary.
-:::
-
-
-
-
-
-## Project example
-
-:::{.columns}
-
-:::{.column width=50%}
-
-⚠️ There was a problem with the data download
-
-![](slide_resources/custom_email_alert.png)
-
-:::
-
-:::{.column width=50%}
-
-✅ All looks great, here's a relevant summary
-
-![](slide_resources/custom_email.png)
-
-
-:::
-
-
-::: 
-
 
 
 ## 
@@ -331,18 +328,15 @@ Please don't send me an email unless it's really necessary.
 
 
 ## Activity
-👉 Open the file `materials/activities/activity-02_publish_and_schedule_data_pull.Rmd`
+👉 Return to the project `materials/01-raw-data-write/01-raw-data-write.Rproj`
 
-Activity objective: Write production data to database, then deploy and schedule this work on Posit Connect so it runs automatically. 
+Activity objective: deploy and schedule this work on Posit Connect so it runs automatically and sends an email only if there's something amiss with the raw data.
 
-:::
-
-##  {.brackets-dark}
-
-::: section-title-dark
-
+🛑 Work **Task 6 to the end of the document**. 
 
 :::
+
+
 
 
 
