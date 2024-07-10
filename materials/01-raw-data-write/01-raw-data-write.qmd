@@ -33,14 +33,12 @@ Welcome to the first Activity! A few points relevant to this, and all other Acti
 The goals of this activity are to:
 
 -   Use `{httr2}` to download the raw Washington State Ferries data and weather data, which is used throughout this Workshop
--   Write the raw data to a database
+-   Write the raw data to a database, using `{config}` to control whether we are writing data for production or for development and testing 
 -   Learn some general logging tips to make your scheduled reports more useful
 -   Use a simple threshold alert to trigger a notification email
 -   Publish this notebook to Posit Connect and put it on a rendering schedule so database updates happen automatically
 
 This will give you experience setting up a repeatable workflow for populating production data sources.
-
-✏️ There will be placeholders (`____`) in the code cells below that you will need to fill in!
 
 ## Setup
 
@@ -193,7 +191,7 @@ If you're working through this document in the Workshop, pause here.
 -   Use `dbWriteTable` to write `vesselinfo_raw` into the database
 -   Use a time stamp to provide informational logging
 
-For the purposes of the Workshop, each participant will write a version of the data to the database with a suffix of <dataframe>\_<username>. For the production project however, we will write the data with a suffix of `production`, and our production project will use this dataframe for all downstream work. We're using the `{config}` under the hood to easily swap out the suffix depending on whether we are in local development (Posit Workbench) or in production (Posit Connect). Peek at the file `config.yml` in the file pane to see how this is set up.
+For the purposes of the Workshop, each participant will write a version of the data to the database with a suffix of <dataframe>_<username>. For the production project however, we will write the data with a suffix of `production`, and our production project will use this dataframe for all downstream work. We're using the `{config}` under the hood to easily swap out the suffix depending on whether we are in local development (Posit Workbench) or in production (Posit Connect). Peek at the file `config.yml` in the file pane to see how this is set up.
 
 ```{r}
 #| label: database write

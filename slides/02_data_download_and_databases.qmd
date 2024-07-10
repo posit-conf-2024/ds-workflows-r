@@ -10,7 +10,7 @@ execute:
 ## Section Agenda {.brackets-dark-teal}
 
 -   Downloading data from sources
--   Writing production data to a database 
+-   Writing production data to a database
 -   Introduction to alerting 
 -   Automating the pipeline
 
@@ -179,11 +179,41 @@ Activity objective: Write the `vesselverbose` data to the database.
 
 :::
 
+## A brief {{< bi sign-turn-right-fill color=orange >}} on managing environments
+
+🧰 `{config}` can help you manage your development, test, and production environments without modifying your code
+
+::: {.columns}
+::: {.column}
+
+```{.yaml filename="config.yml"}
+default:
+  dataset: "data_development.csv"
+
+rsconnect:
+  dataset: "data.csv"
+```
+
+:::
+::: {.column}
+
+```{.r filename="my_file.qmd"}
+read_csv(config::get("dataset"))
+```
+:::
+::: 
+
+🧰 Similarly, update environment variables to change behavior in development and production 
+```{.r}
+if (Sys.getenv("TEST_MODE") == TRUE){
+  override_some_variable_for_testing <- TRUE} 
+```
 
 ## How do I automate this process?
 
 :::{.fragment}
 🧰 Deploy and schedule your ETL and reports on Posit Connect
+<br>
 
 ![](slide_resources/scheduling.png){height="700" fig-align="center"}
 
