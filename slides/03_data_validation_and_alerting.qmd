@@ -3,9 +3,9 @@ execute:
   eval: false
 ---
 
-## Data Validation and Alerting{.toc-light}
+## Data Exploration, Validation and Alerting{.title-slide-light}
 
-![](https://github.com/rstudio/pointblank/raw/main/man/figures/logo.svg){.absolute top="200" left="50" width="260"} ![](https://github.com/rstudio/blastula/raw/master/man/figures/logo.svg){.absolute top="200" left="310" width="260"}
+![](https://github.com/rstudio/pointblank/raw/main/man/figures/logo.svg){.absolute top="200" left="50" width="260"} ![](slide_resources/quarto-icon.svg){.absolute top="200" left="310" height="300"}
 
 ## Where are we
 
@@ -17,7 +17,7 @@ execute:
 
 -   Ad-hoc data exploration
 -   Ensure quality data is flowing through the pipeline
--   Get alerts via automation
+-   Conditional alerts via automation
 
 
 ## What is this Data?
@@ -63,9 +63,10 @@ pointblank::scan_data(palmerpenguins::penguins)
 
 :::{.callout-note icon=false}
 ## Activity
-👉 Open the file `materials/activities/activity-01_raw_data_exploration.qmd`
+👉 Open the project `materials/02-data-exploration/02-data-exploration.Rproj`
 
-Activity objective: explore our Chicago Food Inspections data to get familiar with our data
+Activity objective: exploring our data
+ 
 :::
 
 
@@ -192,10 +193,11 @@ Activity objective: explore our Chicago Food Inspections data to get familiar wi
 
 :::{.callout-note icon=false}
 ## Activity
-👉 Open the file `materials/activities/activity-03_data_validation.qmd`
+👉 Open to the project `materials/03-data-clean-validate/03-data-clean-validate.Rproj`
 
 Activity objective: Use `pointblank` to validate data, remove non-compliant records, and document the data.
 
+🛑 Work through **Task 1 - Task 8** only. 
 
 :::
 
@@ -247,140 +249,14 @@ Activity objective: Use `pointblank` to validate data, remove non-compliant reco
 :::::
 
 
-## How will I know if my data has issues?
+## Conditional Emails with Quarto 
 
-:::::{.columns}
+Image of the conditions we want to send. 
 
+## The Secret Sauce of Conditionality
 
-:::{.column width=25%}
-::::{.fragment}
-![](slide_resources/email_option.png){height=700 style="padding-left: 25px;"}
-::::
-:::
-
-
-:::{.column width=18% .fragment}
-
-
-[{{< bi arrow-right >}}]{.largest .middle}
-:::
-
-:::{.column width=50%}
-
-::::{.fragment}
-
-![](slide_resources/html_email.png){style="padding-top: 50px;"}
-
-::::
-
-:::
-
-
-:::::
-
-
-::: {.fragment .absolute style="background: #F5EF94; width: 600px; height: 400px; padding: 30px; box-shadow: 0 18px 18px -9px lightgray; margin-left: auto; margin-right: auto;" top="350" right="220"}
-
-[🚫]{.larger}
-
-
-🥱 This email is non-informative
-
-🔊 Creates noise in the inbox
-
-🙈 Does not compel anyone to look at it
-:::
-
-
-
-
-
-
-## How will I know if my data has issues?
-
-:::{.columns}
-
-:::{.column width=25%}
-![](slide_resources/email_option.png){height=700 style="padding-left: 25px;"}
-:::
-
-:::{.column width=10%}
-[+]{.largest .middle}
-:::
-
-
-:::{.column width=25%}
-![](https://github.com/rstudio/blastula/raw/master/man/figures/logo.svg){.middle height=400}
-:::
-
-:::{.column width=10%}
-[=]{.largest .middle}
-:::
-
-:::{.column width=30%}
-
-[🧰 Customized, conditional emails]{.large .middle}
-
-:::
-
-:::
-
-## Project example
-
-:::{.columns}
-
-:::{.column width=50%}
-
-⚠️ There was a problem with the data validation
-
-![](slide_resources/custom_email_alert.png)
-
-:::
-
-:::{.column width=50%}
-
-✅ All looks great, here's a relevant summary
-
-![](slide_resources/custom_email.png)
-
-
-:::
-
-
-:::
-
-## How `blastula` works with Connect
-
-![](slide_resources/blastula_process.png){.absolute top=130}
-
-
-:::{.absolute bottom=40 .smaller}
-
-**Key functions:**
-
-🧶 `blastula::render_connect_email`
-
-✉️ `blastula::attach_connect_email`
-
-⛔ `blastula::suppress_scheduled_email`
-:::
-
-
-
-:::{.absolute bottom="60" left="780" .larger}
-{{< bi arrow-left >}}
-:::
-
-::: {.absolute style="margin-left: 900px; margin-right: auto;" bottom="40" right="150" .smaller}
-🧰 couple these with logic statements to send (or suppress) condition-based emails
-:::
-
-
-
-
-## Project example
-
-![](slide_resources/conditional_email_example.png)
+1. yaml
+1. include based on metadata
 
 ## Be aware...
 
@@ -403,12 +279,6 @@ Activity objective: Use `pointblank` to validate data, remove non-compliant reco
 
 ## {.brackets-light}
 
-:::{.section-title}
-<h3>**Demo Time**</h3>
-
-[conditional email example](https://connect.conf23workflows.training.posit.co/connect/#/apps/da11710e-40c3-400c-a0c4-a8174bc9a563/info/35)
-
-:::
 
 
 

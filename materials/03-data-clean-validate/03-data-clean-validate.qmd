@@ -1,5 +1,5 @@
 ---
-title: "Explore, Clean, and Validate Data"
+title: "Clean and Validate Data"
 format:
   email:
     toc: true
@@ -20,26 +20,17 @@ html-table-processing: none
 
 The goals of this activity are to:
 
--   gain experience using `{DBI}` and `{dplyr}` commands to interact with a database
--   get familiar with the Washington State Ferries data and weather data
--   use `skimr::skim` and `pointblank::scan_data` to explore data
+-   use a environment variable to toggle state for development and testing
 -   perform data cleaning and validation to prepare data for our model
 -   define thresholds for alerting in data validation and send condition-based email alerts based on those thresholds
--   bonus: implement a means to override data processing and condition set for troubleshooting and development
 
-✏️ There will be placeholders (`____`) in the code cells below that you will need to fill in!
-
-## Overview
-
-1.  Pull raw data from database
-2.  Validate that the raw data is the anticipated schema
-3.  Run a few transforms, mutations, cleanups to prepare model data
-4.  Validate model data and remove records that fail validation
-5.  Write validated data to database
-6.  Send an email based on the output:
+Our conditions will send an email based on the the following:
     1.  `condition <- 1`: the size and shape of the data is not as expected; something is wrong with the input data so the processing of data is stopped and no production data is updated
     2.  `condition <- 2`: data validation complete but had warnings
     3.  `condition <- 3`: no issues
+
+
+✏️ There will be placeholders (`____`) in the code cells below that you will need to fill in!
 
 ## Setup
 
@@ -48,15 +39,15 @@ The goals of this activity are to:
 
 library(DBI)
 library(RPostgres)
-library(skimr)
 library(pointblank)
 library(tidyverse)
 library(glue)
 library(gt)
+library(ferryfairy)
 
 ```
 
-## Task 0 - (Bonus) Define a "condition override" so we can manually trigger a condition and see the resulting email
+## Task 1 - Define a "condition override" so we can manually trigger a condition and see the resulting email
 
 🔄 Task
 
@@ -66,6 +57,8 @@ Use an environment variable called `CONDITION_OVERRIDE` to be used during develo
 -   send the corresponding conditional email based on the value set
 
 The benefit of using an environment variable is that it can be set / modified in the "Vars" pane on Connect, meaning you can test different conditions without changing the deployed code.
+
+Our conditions are: 1. `condition <- 1`: the size and shape of the data is not as expected; something is wrong with the input data so the processing of data is stopped and no production data is updated 2. `condition <- 2`: data validation complete but had warnings 3. `condition <- 3`: no issues
 
 ### Set environment variable locally
 
@@ -98,7 +91,7 @@ Data not written to database but an email for condition {Sys.getenv('CONDITION_O
 
 ```
 
-## Task 1 - Read in raw data
+## Task 2 - Read in raw data
 
 🔄 Task
 
@@ -148,142 +141,202 @@ weather_terminal_history_raw <- pin_read(board, "katie.masiello/weather_terminal
 
 ```
 
-## Task 2 - Explore the data
+## Task 3 - Introduction to data validation
 
 🔄 Task
 
-Begin exploring the data. You will want to understand:
+-   Use the `pointblank` package to perform data validation on a sample data frame
+-   Define thresholds in data validation to be used for alerting
 
--   What columns exist in the data?
--   How do the data sets relate to one another?
--   What is the type of each column (e.g. string, number, category, date)?
--   Which columns could be useful for the model.
--   Is all of the data in scope?
--   What steps will I need to perform to clean the data?
+### Create a sample data frame for experimentation
 
-### Weather data
+We will toy with a simple data frame in the Workshop, then see the validation steps for our project below. Note that the code chunks in this section are set to `eval: false` so they will not be executed when we deploy this document to Posit Connect.
 
 ```{r}
-# preview the data
-head(weather_terminal_history_raw)
-
-# What terminals do we have data for? 
-weather_terminal_history_raw |> pull(terminal) |> unique() |> sort()
-```
-
-When we pulled the weather data, we added the terminal name and lat/long data that came from our terminal locations lookup. We'll want to be certain the terminal names are consistent with the terminal names in the vessel history data.
-
-### Vessel history
-
-```{r}
-# preview the data
-head(vesselhistory_raw)
-
-# What terminals do we have data for?
-vesselhistory_raw |> pull(departing) |> unique() |> sort()
-```
-
-We see that the dates are in an awkward format. We'll need to convert them when we clean the data. And as suspected, we'll need to align the terminal names in the weather data with those in the sailing history data.
-
-### Vessel Info
-
-```{r}
-# preview the data
-head(vesselinfo_raw)
-
-# how many different vessels and terminals do we have info for?
-vesselinfo_raw |> pull(vessel_name) |> unique()
-
-# get to know the ferries
-vesselinfo_raw |> select(vessel_name, vessel_name_desc)
-```
-
-There's a lot of information in this data frame. Let's use some tools to explore more. Maybe you're already familiar with `glimpse` and `summary` for preliminary data exploration. Do you know `skimr::skim()`?
-
-```{r}
-
-glimpse(vesselinfo_raw)
-
-skim(vesselinfo_raw)
-
-```
-
-`skim` provides a compact view of column schemas, missing values, and a profile of the values. This data frame looks to be rather complete. For our modeling and reporting work, we'll be most interested in the `vessel_name` column and the `max_passenger_count` and `reg_deck_space` columns, which provide an indicator of overall ferry capacity.
-
-There's another data exploration tool for the toolbox. The `pointblank::scan_data()` function provides a HTML report of the input data to help you understand your data. It contains 6 sections:
-
--   **Overview (O)**: Table dimensions, duplicate row counts, column types, and reproducibility information
--   **Variables (V)**: A summary for each table variable and further statistics and summaries depending on the variable type
--   **Interactions (I)**: A matrix plot that shows interactions between variables
--   **Correlations (C)**: A set of correlation matrix plots for numerical variables
--   **Missing Values (M)**: A summary figure that shows the degree of missingness across variables
--   **Sample (S)**: A table that provides the head and tail rows of the data set
-
-The scan can take a little while to run on a large data set, but you can also omit sections that are not needed.
-
-First run this example on a small data frame, such as `penguins` from the `palmerpenguins` package 🐧:
-
-```{r}
-#| label: Data scan on penguins
 #| eval: false
 
-pointblank::scan_data(palmerpenguins::penguins) 
+df <- dplyr::tibble(
+    a = c(5, 7, 6, 5, NA, 7),
+    b = c(6, 1, NA, 6,  0, 7),
+    fruits = fruit[1:6],
+    date = seq(today()-2, today()+3, 1)
+  )
 
 ```
 
-⚠️ The "Correlations" and "Interactions" sections take the longest to run, especially on a larger data set.
+### Validatate the sample data frame
 
-Now let's scan `vesselinfo_raw`. To make this faster for processing during the Workshop, let's drop some of the unneeded columns for faster processing.
+The first step in the `pointblank` workflow is to create an **agent.**
 
 ```{r}
-#| label: abbreviated vesselinfo_raw
+#| label: create agent 
 #| eval: false
 
-vesselinfo_raw_abbreviated <- vesselinfo_raw |> 
-  select(vessel_name, 
-         status, 
-         city_built, 
-         speed_in_knots, 
-         engine_count, 
-         horsepower, 
-         length,  
-         max_passenger_count, 
-         passenger_only, 
-         propulsion_info, 
-         reg_deck_space, 
-         year_built, 
-         year_rebuilt, 
-         solas_certified
-         )
-  
-
+agent <- pointblank::create_agent(____)
+agent
 ```
 
-Run the `data_scan` on `vesselinfo_raw_abbreviated`, but omit "Correlations (C)" and "Interactions (I)" because they are time consuming and not relevant for this data, i.e., only do sections "OVMS".
+On its own, the agent is not informative. It's waiting for validations to be defined and an interrogation action to be performed.
+
+Now we define our **data validation functions**. A few have been started for you as examples. It's up to you to fill in the suggested validations or create your own. Refer to the package documentation for the validation function reference: <https://rstudio.github.io/pointblank/reference/index.html#validation-expectation-and-test-functions>
 
 ```{r}
-#| label: Data scan on `vesselinfo_raw_abbreviated`
+#| label: define validations for df
 #| eval: false
 
-scan <- vesselinfo_raw_abbreviated |> 
-  scan_data(sections = "OVMS")
+agent <- create_agent(df) |>
+  col_vals_between(
+    columns = a, 1, 9,
+    na_pass = TRUE
+  ) |> 
+  col_vals_lt(
+    columns = new_column, 12,
+    preconditions = ~ . %>% dplyr::mutate(new_column = a + b)
+  ) |> 
+  col_vals_in_set(
+    columns = fruits, c("apple", "avocado", "blueberry", "mango", "plum", "tangerine")
+  ) |> 
+  # Now add the following:
+  # verify the numeric columns do not have NA values 
+  # (hint: use `columns = c(a,b)` to apply the validation to multiple columns)
+  ____ |> 
+  # verify that the date is before today
+  ____ |> 
+  # would you like to add more?
+  ____ |> 
 
-scan <- pointblank::scan_data(____, sections = "____")
-scan
+
+agent
 
 ```
 
-Let's explore the results. Can you identify:
+If we look at the output of `agent`, it shows our validation plan, but the action is yet to come when we **interrogate**.
 
--   Are there any duplicate rows?
+```{r}
+#| label: interrogate the df agent
 
--   Where were most of the vessels built? (Hint: Click the "Toggle details" button)
+agent |> interrogate()
 
--   Very roughly speaking, the Boeing 737 (another Seattle native) has *on the order of* 15-20,000 horsepower while cruising. Are there any WSDOT ferries with comparable horsepower?
+```
 
--   Where in the data frame are there missing values?
+Explore the validation report. Can you:
 
-## Task 2 - Validate raw data schema
+1.  Identify what fail percentage each validation had?
+2.  Identify how many rows failed each validation?
+3.  View the CSV extracts of failed data?
+
+Change the parameters of your validations to trigger more failures just to see the consequence.
+
+### Add Action Levels
+
+Iterate on your agent created above to add action levels. Action levels behave like tags. You can decide what threshold you want to put for `notify`, `warn`, and `stop`. At a minimum, the tag will provide a visual indicator of threshold exceedance in the validation table. You can also use these tags post-interrogation to take actions.
+
+The action levels can be set as an **integer**, representing the threshold number of failing units, or a **fraction**, representing the fraction of failing units.
+
+Use `actions = action_levels(warn_at = ____, stop_at = ____, notify_at = ____)` to add action levels to one, some, or all of your validations and rerun the interrogation to see the output. Some samples have been provided.
+
+```{r}
+#| label: validation of df with action levels
+#| eval: false
+
+agent <- create_agent(df) |>
+  col_vals_between(
+    columns = a, 1, 9,
+    na_pass = TRUE,
+    actions = action_levels(warn_at = 0.2, stop_at = 0.3)
+  ) |> 
+    col_vals_lt(
+  columns = new_column, 12,
+    preconditions = ~ . %>% dplyr::mutate(new_column = a + b),
+    label = "the sum of a+b must be than 12",
+    actions = action_levels(warn_at = 0.005)
+  ) |> 
+  col_vals_in_set(
+    columns = fruits, c("apple", "avocado", "blueberry", "mango", "plum", "tangerine"),
+    label = "only serve my favorite fruits"
+    # actions = ____
+  ) |> 
+  col_vals_not_null(
+    columns = c(a,b)
+    # actions = ____
+  ) |> 
+  col_vals_lt(
+    date, today()
+  ) |> 
+interrogate()
+
+
+agent
+
+```
+
+### Remove failing data from the data set
+
+Pointblank has identified all of the rows of `df` that passed and failed validation. Now remove those that failed so the data that is passed downstream is squeaky clean.
+
+Pointblank provides a number of [post-interrogation functions](https://rstudio.github.io/pointblank/reference/index.html#post-interrogation) to work with intel gathered from the validation. For this task, we will "sunder" the data using `pointblank::get_sundered_data()`.
+
+> **💡 sunder** /sun·der / ˈsən-dər / *verb* \| to split apart
+
+```{r}
+#| label: sunder data
+#| eval: false
+
+# Passed data
+df_validated <- get_sundered_data(agent = ____,
+                                  type = "____")
+
+# Failed data
+df_failed_validation <- get_sundered_data(agent = ____,
+                                          type = "____")
+
+```
+
+### Post-interrogation logicals
+
+Pointblank interrogation provides multiple layers of information about our data. We can take advantage of this with logical TRUE / FALSE statements that drive downstream tasks or effects.
+
+-   Use `pointblank::all_passed()` to determine if all validation steps passed
+-   Use `pointblank::get_agent_x_list` to determine if any warnings were set
+
+```{r}
+#| label: All validations passed?
+#| eval: false
+
+# Did all validations pass?
+pointblank::____
+
+
+```
+
+A broad all passed / failed for the entire validation plan might not provide enough granularity for a downstream task. We can drill into more details about each step of the validation and the results using the agent "x_list".
+
+First we will see what the x_list contains.
+
+```{r}
+#| label: get agent x list
+#| eval: false
+
+xlist <- pointblank::get_agent_x_list(agent)
+
+xlist
+
+```
+
+The output is like a gold mine! The resulting list includes the pass / fail statistics (`$n_passed`, `$n_failed`, `$f_passed`, `$f_failed`) and what we are after -- the validations with warnings. Let's take a look.
+
+```{r}
+#| label: Any warning flags set?
+#| eval: false
+
+xlist$____
+
+```
+
+Extracting these basic TRUE / FALSE values can be powerful for next steps. We'll see how we can send conditional emails in the next section of the workshop.
+
+
+## Task 4 - Validate raw production data schema
 
 🔄 Task
 
@@ -293,12 +346,10 @@ All of our downstream tasks depend on our raw data coming in with the expected c
 -   If the data is not as expected, stop processing and set a data integrity alert.
 -   If the data is as expected, proceed with cleaning, transforming, and preparing the data for the model.
 
+### Define a column schema so we can check data is as expected
+
 ```{r}
 #| label: define expected schemas
-
-# Define a column schema so we can check data is as expected
-# Fun fact, also use .tbl argument in col_schema to compare the dataframe to an ideal table.
-# troubleshooting, if this fails, look at the x_list$col_types and $col_names to see the discrepancy
 
 schema_vesselhistory <- col_schema(
                                   vessel_id = "integer",
@@ -326,12 +377,17 @@ schema_weather <- col_schema(
 
 ```
 
+### Validate the raw data column schemas
+
+If either raw data schema fail validation, it will generate a stop notice and prevent downstream processing.
+
 ```{r}
-#| label: vessel history schema validation
+#| label: data schema validations
 
-#VALIDATION 1: Data set integrity validations. All of these trigger a stop notice under fail conditions.
+# These are our data set integrity validations. All of these trigger a stop notice under fail conditions.
+# Troubleshooting: if either of these fail, look at the x_list$col_types and $col_names to see the discrepancy
 
-# validate history data frame integrity
+# validate integrity of vessel history data frame
 vesselhistory_df_integrity_agent <- 
   create_agent(vesselhistory_raw, label = "Inital validation of the vessel history set to confirm overall schema and size. If there are issues with this validation, further processing stops and an alert is triggered.") |> 
   # verify column schema 
@@ -348,13 +404,10 @@ vesselhistory_df_integrity_agent <-
                preconditions = ~. %>% tally,
                label = "Are there more than 10k rows in the data?") |>
   interrogate()
+
 vesselhistory_df_integrity_agent
 
-```
-
-```{r}
-#| label: weather schema validation
-
+# validate integrity of weather data frame
 weather_df_integrity_agent <- 
   create_agent(weather_terminal_history_raw, label = "Inital validation of the station weather history data to confirm overall schema and size. If there are issues with this validation, further processing stops and an alert is triggered.") |> 
   # verify column schema 
@@ -378,6 +431,15 @@ weather_df_integrity_agent <-
                label = "Are there more than 100k rows in the data?") |>
   interrogate()
 weather_df_integrity_agent
+```
+
+### Set `condition <- 1` or `stop_alert` if there are any issues
+
+Condition 1 will result in an alert email indicating there was a data integrity issue. 
+`stop_alert` will prevent future code chunks from rendering, including preventing writes to the database
+
+```{r}
+#| label: set condition or stop alert
 
 # condition<-1 will be set if CONDITION_OVERRIDE is set to 1, or if either data frame integrity validations failed. This specifies which email will be sent.
 if(any(Sys.getenv("CONDITION_OVERRIDE") == 1,
@@ -391,11 +453,11 @@ stop_alert <- any((if(exists("condition")){condition == 1}), Sys.getenv("CONDITI
 
 ```
 
-## Task 3 - Clean and transform data
+## Task 5 - Clean and transform data
 
 🔄 Task
 
-Clean and transform the data to prepare it for validation and modeling. This will include:
+As long as the raw data integrity validations passed, clean and transform the data to prepare it for additional validation and modeling. Cleaning will include:
 
 -   convert dates into a usable format
 -   convert terminal names and vessel names to lowercase
@@ -405,116 +467,27 @@ Clean and transform the data to prepare it for validation and modeling. This wil
 
 Notice that in the quarto code chunks, we have set `#| eval: !expr 'stop_alert != TRUE'` to prevent the code from running during rendering if there is a data integrity issue. This will save computation time by not bothering to render code chunks with questionable data.
 
-### Clean weather data
+### Clean data
 
+Data cleaning steps are extraneous to the learning objectives of the Workshop. To simply this document, cleaning steps have been wrapped in a function in the `ferryfairy` package.
+.
 ```{r}
-#| label: Clean weather data
+#| label: Clean data sets
 #| eval: !expr 'stop_alert != TRUE'
 
-weather_terminal_history <- weather_terminal_history_raw |> 
-  # remove any duplicates, which may occur because we are appending data each write
-  distinct() |>
-  # change time to datetime
-  mutate(time = ymd_hm(time, tz = "US/Pacific")) |> 
-  # change terminal to lowercase, remove spaces
-  mutate(terminal = tolower(terminal), 
-         terminal = str_trim(terminal),
-         terminal = str_replace_all(terminal, " ","_")) |> 
-  # convert to tibble for nicer viewing
-  as_tibble()
+weather_terminal_history <- clean_weather_terminal(weather_terminal_history_raw)
+weather_terminal_history
 
+vesselinfo <- clean_vesselinfo(vesselinfo_raw)
+vesselinfo
+
+vesselhistory <- clean_vesselhistory(vesselhistory_raw)
+vesselhistory
 
 ```
 
-### Clean and transform `vesselinfo_raw`
 
-```{r}
-#| label: clean and shape vesselinfo
-
-vesselinfo <- vesselinfo_raw |> 
-  # select columns of interest for modeling or summary info
-  select(vessel_name, 
-         max_passenger_count, 
-         reg_deck_space, 
-         vessel_name_desc,
-         vessel_history,
-         drawing_img, 
-         silhouette_img) |>
-  # vessel_names to lowercase
-  mutate(vessel_name = tolower(vessel_name))
-
-```
-
-### Helper function for timestamp conversion
-
-```{r}
-# Convert time stamp (e.g., /Date(1716553800000-0700)/) to actual datetime
-convert_timestamp <- function(timestamp) {
-  # Define timestamp and timezone offset
-  timestamp_ms <- as.numeric(str_extract(timestamp, "(?<=/Date\\()\\d+(?=[-+])"))
-  
-  # Convert the timestamp to seconds
-  timestamp_sec <- timestamp_ms / 1000
-  
-  # Convert to datetime object
-  as.POSIXct(timestamp_sec, origin = "1970-01-01", tz = "US/Pacific")
-}
-
-```
-
-### Clean and transform `vesselhistory_raw`
-
-Our heaviest transformations happen here.
-
-```{r}
-#| label: clean and shape vesselhistory
-#| eval: !expr 'stop_alert != TRUE'
-
-vesselhistory <- vesselhistory_raw |> 
-  # remove any duplicates, which may occur because we are appending data each write
-  distinct() |>
-  # drop vessel_id, an unreliable value
-  select(-vessel_id) |> 
-  # convert character date to datetimes
-  mutate_at(c("scheduled_depart", "actual_depart", "est_arrival", "date"), convert_timestamp) |> 
-  # convert date column to a `date` format rather than a datetime
-  mutate(date = as_date(date)) |> 
-  # change vessel, departing, and arriving to lowercase
-  mutate(across(c(vessel, departing, arriving), ~ tolower(.x))) |> 
-  # remove spaces
-  mutate(across(c(vessel, departing, arriving), ~ str_replace_all(.x, " ","_"))) |> 
-  # calculate delay in departure (minutes)
-  mutate(delay = as.numeric(difftime(actual_depart,scheduled_depart, units="mins"))) |> 
-  # rename some terminals to more familiar names to match with weather data
-  mutate(across(c(departing, arriving), ~ case_when(
-    .x == "bainbridge" ~ "bainbridge_island",
-    .x == "colman" ~ "seattle",
-    .x == "keystone" ~ "coupeville",
-    .x == "lopez" ~ "lopez_island",
-    .x == "orcas" ~ "orcas_island",
-    .x == "pt._defiance" ~ "point_defiance",
-    .x == "shaw" ~ "shaw_island",
-    .x == "vashon" ~ "vashon_island",
-    .default = .x
-    ))) |> 
-  # Make a route column
-  mutate(route = str_c(departing,arriving, sep = "-")) |> 
-  # add a route identifier so out and back routes can be grouped in summary tables
-  rowwise() |> 
-  mutate(pair = list(c(departing, arriving))) |> 
-  ungroup() |> 
-  mutate(sorted = map(pair, str_sort)) |> 
-  mutate(sorted_pair = map_chr(sorted, str_c, collapse = "-")) |> 
-  group_by(sorted_pair) |> 
-  mutate(route_id = cur_group_id()) |> 
-  ungroup() |> 
-  select(-pair, -sorted, -sorted_pair)
-
-vesselhistory 
-
-```
-
-## Join weather data with vessel history
+### Join weather data with vessel history
 
 This data will be what we use for the model. We'll join the weather data to the vessel history data based on the terminal and the date and time. The weather data is reported on the hour, so we will create a column in the vesselhistory rounding the scheduled departure time to the closest hour.
 
@@ -531,7 +504,7 @@ vesselhistory_w_weather <- vesselhistory |>
 vesselhistory_w_weather
 ```
 
-## Task 4 - Validate the model data
+## Task 6 - Validate the model data
 
 🔄 Task
 
@@ -541,7 +514,7 @@ Sometimes it's okay to have records fail a validation. Perhaps a value is out of
 
 We will set "action levels" for each validation step in this agent. Exceeding the action level threshold will set a flag for that step. A validation step can have one or more ation levels for "notify," "warn," or "stop." We will then use the presence of this warning flag to conditionally send an email alert if a larger fraction of our data failed validation than we expected.
 
-## Validate to remove errant data before modeling
+### Validate to remove errant data before modeling
 
 ```{r}
 #| label: Validate data to be used for the model
@@ -588,7 +561,15 @@ main_agent <- create_agent(vesselhistory_w_weather) |>
 main_agent
 
 x_list <- get_agent_x_list(main_agent)
+```
 
+### Set `condition` to determine which email to send
+
+Condition 2 will result in an alert email indicating that a concerning level of records failed validation, but downstream processing still proceeded.
+Condition 3 will result in an email indicating that all looks good
+
+```{r}
+#| label: set condition 2 or 3
 
 # condition<-2 will be set if it is in override or if any warnings are set, otherwise condition<-3
 
@@ -600,15 +581,11 @@ if(Sys.getenv("CONDITION_OVERRIDE") %in% c(2,3)){
 
 ```
 
-## Task 5 - Remove failed records from dataset
+## Task 7 - Remove failed records from dataset
 
 🔄 Task
 
 Pointblank has identified all of the rows of `vesselhistory_w_weather` that passed and failed validation. Now remove those that failed so the data that is passed downstream to our modeling step is squeaky clean.
-
-Pointblank provides a number of [post-interrogation functions](#0) to work with intel gathered from the validation. For this task, we will "sunder" the data using `pointblank::get_sundered_data()`.
-
-> **💡 sunder** /sun·der / ˈsən-dər / *verb* \| to split apart
 
 ```{r}
 #| label: sunder data
@@ -619,7 +596,7 @@ modeldata_fail_validation <- get_sundered_data(main_agent, type = "fail")
 
 ```
 
-## Task 6 - Write cleaned and validated data to database
+## Task 8 - Write cleaned and validated data to database
 
 🔄 Task
 
@@ -630,12 +607,11 @@ Write cleaned data to database
 #| eval: false
 ##| eval: !expr 'stop_alert != TRUE & !Sys.getenv("CONDITION_OVERRIDE") %in% c(1:3)'
 
-my_username <- "____"
+df_suffix <- config::get("suffix")
 
-my_df_name <- paste0("modeldata_validated_", my_username)
+my_df_name <- paste0("modeldata_validated_", df_suffix)
 
-
-# Insert your start time stamp
+# Insert start time stamp
 start_time <- Sys.time()
 
 DBI::dbWriteTable(conn = con, # the connection
@@ -644,7 +620,7 @@ DBI::dbWriteTable(conn = con, # the connection
                   append = TRUE)
 
 
-# Insert your end time stamp
+# Insert end time stamp
 end_time <- Sys.time()
 duration <- end_time - start_time
 
@@ -683,174 +659,15 @@ pin_write(board, modeldata_validated,
           title = "Cleaned and validated vessel sailing history with weather data for model consumption")
 ```
 
-## Task 7 - Create a data dictionary
+## Task 9 - Send Conditional Email 
 
 🔄 Task
 
-Pointblank helps us to document and provide context about our validated data. We will use an "Informant" to create a data dictionary, which will accompany our model data in reporting.
+We have three scenarios:
 
-```{r}
-#| label: data dictionary
-#| eval: !expr 'stop_alert != TRUE'
-
-create_informant(
-  tbl = modeldata_validated,
-  label = md("Data Dictionary - Validated Data from [WSDOT Traveler Information API](https://wsdot.wa.gov/traffic/api/) and [Open Meteo](https://open-meteo.com/), Processed for Model Training")) |> 
-  info_tabular(
-    description = "This table defines the columns in the validated dataset. This data is used for ferry departure delay model training."
-  ) |> 
-  info_section(
-    section_name = "further information",
-    `sources` = md("Data from [WSDOT Traveler Information API](https://wsdot.wa.gov/traffic/api/) and [Open Meteo](https://open-meteo.com/)"),
-    `🔄 updates` = "This table last updated {Sys.Date()}.",
-    `ℹ️ note` = md("This example material uses data that have been modified for use from their original sources, [WSDOT Traveler Information API](https://wsdot.wa.gov/traffic/api/) and [Open Meteo](https://open-meteo.com/), and is used for educational purposes. The authors and original sources make no claims as to the content, accuracy, timeliness, or completeness of any of the data provided.")
-  ) |> 
-  info_columns(
-    columns = vessel,
-    `ℹ️` = "The name of the vessel"
-  ) |> 
-  info_columns(
-    columns = departing,
-    `ℹ️` = "The name of the departure terminal"
-  ) |> 
-  info_columns(
-    columns = arriving,
-    `ℹ️` = "The name of the arrival terminal"
-  ) |> 
-  info_columns(
-    columns = scheduled_depart,
-    `ℹ️` = "The scheduled departure time, Pacific Time"
-  ) |> 
-  info_columns(
-    columns = actual_depart,
-    `ℹ️` = "The actual departure time, Pacific Time"
-  ) |> 
-  info_columns(
-    columns = est_arrival,
-    `ℹ️` = "The scheduled arrival time, Pacific Time"
-  ) |> 
-  info_columns(
-    columns = date,
-    `ℹ️` = "Sailing date"
-  ) |> 
-  info_columns(
-    columns = delay,
-    `ℹ️` = "Calculated departure delay as `actual_depart` - `scheduled_depart`. Departures more than 20 minutes early were presumed to be bad data and were removed",
-    "unit" = "minutes"
-  ) |> 
-  info_columns(
-    columns = route,
-    `ℹ️` = "Concatenated string of `departing`-`arriving``"
-  ) |> 
-  info_columns(
-    columns = route_id,
-    `ℹ️` = "Arbitrary numeric identifier to allow route pairs to be grouped together"
-  ) |> 
-  info_columns(
-    columns = closest_hour,
-    `ℹ️` = "`scheduled_depart` rounded to the nearest hour, Pacific Time. Used to join historical weather data to the vessel sailing history data"
-  ) |> 
-  info_columns(
-    columns = lat,
-    `ℹ️` = "Latitude of the departing terminal"
-  ) |> 
-  info_columns(
-    columns = long,
-    `ℹ️` = "Longitude of the departing terminal"
-  ) |> 
-  info_columns(
-    columns = precipitation,
-    `ℹ️` = "Total precipitation (rain, showers, snow) during the preceding hour",
-    "unit" = "inches"
-  ) |> 
-  info_columns(
-    columns = weather_code,
-    `ℹ️` = "Weather condition as a numeric code. Follow WMO weather interpretation codes"
-  ) |> 
-  info_columns(
-    columns = cloud_cover_low,
-    `ℹ️` = "Low level clouds and fog up to 2 km altitude",
-    "unit" = "Percentage"
-  ) |> 
-  info_columns(
-    columns = wind_speed_10m,
-    `ℹ️` = "Wind speed at 10 meters above ground",
-    "unit" = "mph"
-  ) |> 
-  info_columns(
-    columns = wind_gusts_10m,
-    `ℹ️` = "Gusts at 10 meters above ground of the indicated hour",
-    "unit" = "mph") |> 
-    incorporate()
-```
-
-## Task 8 - Create a summary of records
-
-🔄 Task
-
-Let's take a look at the data
-
-```{r}
-#| label: summarize data
-#| eval: !expr 'stop_alert != TRUE'
-
-
-summary_table <- modeldata_validated |> filter(route_id %in% c(1:5)) |>
-  select(route, vessel,date, delay, route_id) |>
-  arrange(route_id) |> 
-  group_by(route) |>
-  mutate(delay = as.numeric(delay), 
-         avg_delay = as.numeric(mean(delay)), 
-       num_vessels = n_distinct(vessel),
-       num_sailings = n()) |>
-  ungroup() |> select(-vessel) |> 
-  pivot_wider(names_from = date, values_from = delay, values_fn = list) |> 
-  gt(rowname_col = "route", groupname_col = "route_id") |>
-  tab_header(
-    title = "Departure Delays Summary",
-    subtitle = glue::glue("{min(modeldata_validated$date)} 
-                          to {max(modeldata_validated$date)}")) |>
-  tab_source_note(source_note = md("Data sourced from [WSDOT Traveler Information API](https://wsdot.wa.gov/traffic/api/) and modified for use from its original source.")) |> 
-  cols_label(
-    avg_delay = md("Average delay (min)"),
-    num_vessels = "Vessels on route", 
-    num_sailings = "Sailings in period"
-  ) |> 
-  cols_nanoplot(
-    columns = starts_with("202"),
-    plot_type = "boxplot",
-    new_col_name = "nanoplots",
-    new_col_label = "delay",
-    plot_height = "3em",
-    options = nanoplot_options(
-      # show_data_points = FALSE
-    )) |> 
-  fmt_number(columns = avg_delay, decimals = 1) |>
-  fmt_number(columns = num_sailings, use_seps = TRUE, decimals = 0) |> 
-  opt_all_caps()  |> 
-  text_transform(
-    locations = cells_stub(),
-    fn = function(x) {
-      x <- gsub("-", " → ", x)
-      x <- gsub("_", " ", x)
-      x
-    }) |> 
-  text_transform(
-    locations = cells_group(),
-    fn = function(x) " ") |> 
-  opt_vertical_padding(scale = 0.2) |> 
-  opt_horizontal_padding(scale = 1.5)
-
-summary_table
-  
-
-```
-
-## Prep for email
-
-If the schema validation fails (`condition == 1`) we need an alert that something has gone wrong with the pipeline
-
-Otherwise validation will proceed. In this case, send a summary of the new data written and provide a heads up if there were a notable number of records failing the main validation.
+1.  `condition <- 1`: the size and shape of the data is not as expected; something is wrong with the input data so the processing of data is stopped and no production data is updated
+2. `condition <- 2`: data validation complete but had warnings
+3.  `condition <- 3`: no issues with validation
 
 We will use a feature of Quarto that allows yaml to be written at any point in the document. With this, we will define which conditional email should be sent as metadata. Then the subject and body of the email will be selected using Quarto's ability to include or exclude content based on a metadata value.
 
@@ -888,8 +705,8 @@ write_meta(metadata_list)
 
 ### Define the email
 
-::: email
-::: {.content-visible when-meta="use_condition_1_email"}
+::::::::: email
+:::: {.content-visible when-meta="use_condition_1_email"}
 ::: subject
 ⚠️️ Ferry Project: Data integrity issue
 :::
@@ -915,9 +732,9 @@ vesselhistory_df_integrity_agent
 weather_df_integrity_agent
 
 ```
-:::
+::::
 
-::: {.content-visible when-meta="use_condition_2_email"}
+:::: {.content-visible when-meta="use_condition_2_email"}
 ::: subject
 ℹ️ Ferry Project: Data updated with warnings
 :::
@@ -989,9 +806,9 @@ The table below summarizes the data written.
 summary_table
 
 ```
-:::
+::::
 
-::: {.content-visible when-meta="use_condition_3_email"}
+:::: {.content-visible when-meta="use_condition_3_email"}
 ::: subject
 ✅ Ferry Project: Data updated
 :::
@@ -1012,8 +829,8 @@ summary_table
 
 
 ```
-:::
-:::
+::::
+:::::::::
 
 ## Logging information
 
