@@ -2379,7 +2379,7 @@
     "href": "slides/04_tidymodels_and_vetiver.html#whats-the-goal",
     "title": "Data Science Workflows with Posit Tools - R focus",
     "section": "What’s the Goal?",
-    "text": "What’s the Goal?\n\n\n\n\nWhat we have:\n\nA beautiful - tidy - validated dataset\n\nHistorical food inspection results\nBusiness information\n\n\n\nWhat do we want:\n\nA  MODEL  that can predict if an establishment will fail an inspection",
+    "text": "What’s the Goal?\n\n\n\n\nWhat we have:\n\nA beautiful - tidy - validated dataset\n\nFerry information and history\nWeather data\n\n\n\nWhat do we want:\n\nA  MODEL  that can predict if a ferry will have a delayed departure",
     "crumbs": [
       "About",
       "Slides",
@@ -2403,7 +2403,7 @@
     "href": "slides/04_tidymodels_and_vetiver.html#review---chicago-food-inspections-project",
     "title": "Data Science Workflows with Posit Tools - R focus",
     "section": "Review - Chicago Food Inspections Project",
-    "text": "Review - Chicago Food Inspections Project\n\nWhat is this project?\n\n\n\n\nOver 15,000 food establishments across the City of Chicago\n\n\n\n\nOnly a handful of food inspectors currently employed\n\n\n\n\n\n\n\n\n\nThe Question\n\n\n\nCan we help inspectors identify which establishments are at highest risk for failing an inspection?\n\n\n\n\n\n\n\n\n\n\nThe Answer\n\n\n\nUse the historical (validated) inspections data to create a model that will predict fail likelihood!",
+    "text": "Review - Chicago Food Inspections Project\n ⛴️ WSF is the largest operating public ferry system in the US! 🤯\n🐋 21 ferries across Puget Sound and the Salish Sea\n\n\n https://i.pinimg.com/originals/c9/8b/3a/c98b3a997df52b6c8ad681590557c6bc.jpg\n\n\n\n\n\n\n\n\n\n\n\nThe Question\n\n\n\nCan we help inform travelers about possible ferry delays?\n\n\n\n\n\n\n\n\n\n\nThe Answer\n\n\n\nUse the ferry-weather (validated) data to create a model that will predict delay status!",
     "crumbs": [
       "About",
       "Slides",
@@ -2451,7 +2451,7 @@
     "href": "slides/04_tidymodels_and_vetiver.html#introduction-to-tidymodels-3",
     "title": "Data Science Workflows with Posit Tools - R focus",
     "section": "Introduction to Tidymodels",
-    "text": "Introduction to Tidymodels\n  \n\n\nActivity Time!\n\n\n\n\n\n\n\n\nActivity\n\n\n\n👉 Open the file materials/activities/activity-05_TidymodelsVetiver.qmd\nComplete Task 1 only!\n\n\n\n\n\n\n\n\nImportant\n\n\n\nWe will be using the diamonds dataset for this activity!",
+    "text": "Introduction to Tidymodels\n  \n\n\nActivity Time!\n\n\n\n\n\n\n\n\nActivity\n\n\n\n👉 Open the file materials/04-idymodels-vetiver.qmd\nComplete Task 1 only!\n\n\n\n\n\n\n\n\nGoal\n\n\n\nBuild a model using tidymodels.",
     "crumbs": [
       "About",
       "Slides",
@@ -2511,7 +2511,7 @@
     "href": "slides/04_tidymodels_and_vetiver.html#activity-1",
     "title": "Data Science Workflows with Posit Tools - R focus",
     "section": "Activity",
-    "text": "Activity\n\n\n\n\n\n\nActivity\n\n\n\n👉 Open the file materials/activities/activity-05_TidymodelsVetiver.qmd\nComplete Task 2 only!",
+    "text": "Activity\n\n\n\n\n\n\nActivity\n\n\n\n👉 Open the file materials/04-tidymodels-vetiver/04-tidymodels-vetiver.qmd\nComplete Task 2 only!\n\n\n\n\n\n\n\n\nGoal\n\n\n\nUse vetiver to pin model to Posit Connect.",
     "crumbs": [
       "About",
       "Slides",
@@ -2535,7 +2535,7 @@
     "href": "slides/04_tidymodels_and_vetiver.html#activity-3",
     "title": "Data Science Workflows with Posit Tools - R focus",
     "section": "Activity",
-    "text": "Activity\n\n\n\n\n\n\nActivity\n\n\n\n👉 Open the file materials/activities/activity-05_TidymodelsVetiver.qmd\nComplete Tasks 3 & 4 only!",
+    "text": "Activity\n\n\n\n\n\n\nActivity\n\n\n\n👉 Open the file materials/04-tidymodels-vetiver/04-tidymodels-vetiver.qmd\nComplete Tasks 3 & 4 only!\n\n\n\n\n\n\n\n\nGoal\n\n\n\nUse vetiver to serve the pinned model as an API to Posit Connect.",
     "crumbs": [
       "About",
       "Slides",
@@ -2547,7 +2547,7 @@
     "href": "slides/04_tidymodels_and_vetiver.html#version-and-monitor-your-models",
     "title": "Data Science Workflows with Posit Tools - R focus",
     "section": "Version and Monitor your models",
-    "text": "Version and Monitor your models\n\n\n\nData changes over time\nModels change over time\nHow can I ensure I’m using the best model for the job?\n\n\n\n\n\n\n\n\n\nActivity\n\n\n\n👉 Open the file materials/activities/activity-05_TidymodelsVetiver.qmd\nComplete Task 5",
+    "text": "Version and Monitor your models\n\n\n\nData changes over time\nModels change over time\nHow can I ensure I’m using the best model for the job?\n\n\n\n\n\n\n\n\n\nActivity\n\n\n\n👉 Open the file materials/04-tidymodels-vetiver/04-tidymodels-vetiver.qmd\nComplete Task 5\n\n\n\n\n\n\n\n\nGoal\n\n\n\nUse vetiver to version and monitor your ferry predict model.",
     "crumbs": [
       "About",
       "Slides",
@@ -2816,6 +2816,78 @@
       "About",
       "Slides",
       "02 - Data Exploration and Database Essentials"
+    ]
+  },
+  {
+    "objectID": "slides/04_tidymodels_and_vetiver.html#section-agenda",
+    "href": "slides/04_tidymodels_and_vetiver.html#section-agenda",
+    "title": "Data Science Workflows with Posit Tools - R focus",
+    "section": "Section Agenda",
+    "text": "Section Agenda\n\nGoal of Ferry Delay Prediction Model\nTidymodels\n\nAssignment - Create a tidymodel\n\nVetiver\n\nPins and Plumber\nAssignment - Deploy and monitor your tidymodel",
+    "crumbs": [
+      "About",
+      "Slides",
+      "04 - Modeling and MLOps"
+    ]
+  },
+  {
+    "objectID": "slides/04_tidymodels_and_vetiver.html#review---washington-state-ferry",
+    "href": "slides/04_tidymodels_and_vetiver.html#review---washington-state-ferry",
+    "title": "Data Science Workflows with Posit Tools - R focus",
+    "section": "Review - Washington State Ferry",
+    "text": "Review - Washington State Ferry\n ⛴️ WSF is the largest operating public ferry system in the US! 🤯\n🐋 21 ferries across Puget Sound and the Salish Sea\n\n\n https://i.pinimg.com/originals/c9/8b/3a/c98b3a997df52b6c8ad681590557c6bc.jpg",
+    "crumbs": [
+      "About",
+      "Slides",
+      "04 - Modeling and MLOps"
+    ]
+  },
+  {
+    "objectID": "slides/04_tidymodels_and_vetiver.html#the-question",
+    "href": "slides/04_tidymodels_and_vetiver.html#the-question",
+    "title": "Data Science Workflows with Posit Tools - R focus",
+    "section": "The Question",
+    "text": "The Question\n\n\n\n\n\n\n\nCaution\n\n\n\nCan we help inform travelers about possible ferry delays?\n\n\n\n\n\n\n\n\n\n\nThe Answer\n\n\n\nUse the ferry-weather (validated) data to create a model that will predict delay status!",
+    "crumbs": [
+      "About",
+      "Slides",
+      "04 - Modeling and MLOps"
+    ]
+  },
+  {
+    "objectID": "slides/04_tidymodels_and_vetiver.html#question-and-answer",
+    "href": "slides/04_tidymodels_and_vetiver.html#question-and-answer",
+    "title": "Data Science Workflows with Posit Tools - R focus",
+    "section": "Question and Answer",
+    "text": "Question and Answer\n\n\n\n\n\n\n\nThe Question\n\n\n\nCan we help inform travelers about possible ferry delays?\n\n\n\n\n\n\n\n\n\n\nThe Answer\n\n\n\nUse the ferry-weather (validated) data to create a model that will predict delay status!",
+    "crumbs": [
+      "About",
+      "Slides",
+      "04 - Modeling and MLOps"
+    ]
+  },
+  {
+    "objectID": "slides/04_tidymodels_and_vetiver.html#ferry-delay-prediction-model",
+    "href": "slides/04_tidymodels_and_vetiver.html#ferry-delay-prediction-model",
+    "title": "Data Science Workflows with Posit Tools - R focus",
+    "section": "Ferry Delay Prediction Model",
+    "text": "Ferry Delay Prediction Model\nTraining this model is relatively fast\n\nWhat if the model training is slow or the data is REALLY big?\n\n Workbench Jobs allows you to run R scripts in new sessions independent of your current RStudio Pro session\n\n\n\n\n\n\n If you create a model, you should create a model card!\n\nCheck out a basic model card here!",
+    "crumbs": [
+      "About",
+      "Slides",
+      "04 - Modeling and MLOps"
+    ]
+  },
+  {
+    "objectID": "slides/04_tidymodels_and_vetiver.html#ferry-delay-prediction-model-1",
+    "href": "slides/04_tidymodels_and_vetiver.html#ferry-delay-prediction-model-1",
+    "title": "Data Science Workflows with Posit Tools - R focus",
+    "section": "Ferry Delay Prediction Model",
+    "text": "Ferry Delay Prediction Model\n\n\n\n\n\n\nActivity\n\n\n\n👉 Try interacting with your Ferry Delay Prediction Model API on Posit Connect",
+    "crumbs": [
+      "About",
+      "Slides",
+      "04 - Modeling and MLOps"
     ]
   }
 ]
