@@ -159,7 +159,7 @@ model_fit <- parsnip::fit(model_wflow, your-data)
 ::: {.callout-note icon="false"}
 ## Activity
 
-👉 Open the file `materials/04-idymodels-vetiver.qmd`
+👉 Open the file `materials/04-tidymodels-vetiver/04-idymodels-vetiver.qmd`
 
 **Complete Task 1 only!**
 :::
