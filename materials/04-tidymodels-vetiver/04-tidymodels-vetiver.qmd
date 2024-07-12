@@ -350,7 +350,7 @@ new_ferry <- tibble(
 
 ```
 
-And now we can use the `predict()` function to query the API so that it returns a prediction of delayed or on-time. Note that we have to add our API key to the predict function since this API is only accessible to specific users!
+Now we can use the `predict()` function to query the API so that it returns a prediction of delay or on-time. Note that we have to add our API key to the predict function since this API is only accessible to specific users!
 
 ```{r}
 #| label: predict-r
@@ -360,7 +360,5 @@ predict(endpoint,
         new_ferry,
         httr::add_headers(Authorization = paste("Key", Sys.getenv("CONNECT_POS_IT_API_KEY"))))$.pred_class
 ```
-
-If you'd like to learn more about creating API keys on Posit Connect, check out the link [here](https://docs.posit.co/connect/user/vetiver/#predict-from-your-model-endpoint).
 
 🛑 Stop here!
