@@ -11,10 +11,356 @@ editor_options:
 The goals of this activity are to:
 
 -   Create two models using the `tidymodels` framework that predict if a Seattle Ferry will depart on time or be delayed from a specific station.
--   Save a model to Posit Connect using the `pins` package.
+-   Save a model as a pin to Posit Connect using the `vetiver` package.
 -   Deploy a model to Posit Connect as an API using the `vetiver` package.
 -   Learn how to version and monitor your machine-learning models using `vetiver`.
 
 ## Overview
 
-1.  
+1.  Import validated ferry-weather dataset from the database.
+2.  Transform the data for modeling.
+3.  Create `logistic_reg()` and `xgboost()` classification models using `tidymodels`.
+4.  Assess the performance of both models using `tidymodels`.
+5.  Save each model as a pin to Posit Connect using the `vetiver` package.
+6.  Use the pinned models to serve a plumber API hosted on Posit Connect.
+7.  Use the `vetiver` and `pins` package to version and monitor the performance of the models over time.
+
+## Setup
+
+```{r}
+#| label: setup
+
+library(tidyverse)
+library(pins)
+library(tidymodels)
+library(lubridate)
+library(skimr)
+library(vetiver)
+library(xgboost)
+library(plumber)
+library(rsconnect)
+
+```
+
+## Task 1 - Create a tidymodel
+
+[Tidymodels](https://www.tidymodels.org/) is a collection of R packages for modeling and machine learning using [tidyverse](https://www.tidyverse.org/) principles. While this workshop is **not** a modeling workshop, to demonstrate the utility of the `vetiver`, we need to create a model.
+
+For this activity, we will train and fit a logistic regression model to predict whether a Seattle Ferry departs a station on time or is delayed. Later on, we will create another model using xgboost.
+
+🔄 Tasks
+
+-   Explore the `ferry-weather` dataset. Use any method you'd like to understand the data. Try functions like `glimpse()`, `str()`, and `View()`.
+
+-   Create a logistic regression tidymodel that predicts `delay_status`.
+
+#### Read and Explore the `ferry-weather` dataset
+
+```{r}
+#| label: read-data
+
+# Read in dataset from database
+#!#!#!#!#!#!#!#!#! Need to update with database, not pin
+board <- board_connect(auth = "manual", 
+                       server = "https://connect.posit.it", 
+                       key = Sys.getenv("CONNECT_POS_IT_API_KEY"))
+ferry_weather <- pin_read(board, "katie.masiello/modeldata_validated") |> 
+  as_tibble()
+```
+
+```{r}
+#| label: explore-data
+
+# Use the space below to explore the ferry-weather dataset
+# Try functions like glimpse(), str(), skim(), and View()
+
+glimpse(ferry_weather)
+str(ferry_weather)
+skim(ferry_weather)
+View(ferry_weather)
+
+```
+
+#### Prep Data for Modeling
+
+Sometimes, you may need to transform the original dataset to make it conducive to modeling. In the below code cell, read the comment above each bit of code to understand what types of transformations were conducted.
+
+```{r}
+#| label: prep-data
+
+# DO NOT EDIT THIS CODE CELL, JUST RUN IT
+
+ferry_weather_prepped <- ferry_weather |> 
+  
+  # Select for columns of interest
+  #  Removed vessel but kept departing, since this would cause a rank
+  #  deficient fit (all vessels don't depart from all places)
+  select(departing, 
+         closest_hour, 
+         date, 
+         weather_code, 
+         wind_speed_10m, 
+         wind_gusts_10m, 
+         delay) |> 
+  
+  # Convert delay to classification
+  #  If more than 3 minutes late --> "delayed"
+  mutate(delay_status = case_when(
+    delay <= 3 ~ "on-time",
+    delay > 3 ~ "delayed" 
+  )) |> 
+  
+  # Convert wind to classification
+  #  If more than 10mph --> "windy"
+  mutate(wind_status = case_when(
+    wind_speed_10m >= 10 ~ "windy",
+    wind_speed_10m < 10 ~ "calm"
+  )) |> 
+  select(-wind_speed_10m) |> 
+  
+  # Convert gust to classification
+  #  If more than 15mph --> "gusty"
+  mutate(gust_status = case_when(
+    wind_gusts_10m >= 15 ~ "gusty",
+    wind_gusts_10m < 15 ~ "calm"
+  )) |> 
+  select(-wind_gusts_10m) |>
+  
+  # Convert dates to ymd
+  mutate(date = ymd(date)) |>
+  
+  # Extract closest hour (just the hour)
+  mutate(closest_hour = ymd_hms(closest_hour, truncated = 3)) |> 
+  mutate(hour = as.factor(hour(closest_hour))) |> 
+  select(-closest_hour) |> 
+  
+  # Change weather code to factor
+  mutate(weather_code = as.factor(weather_code)) |> 
+  
+  # Convert chr to factors
+  mutate_if(is.character, as.factor) |> 
+  
+  # Exclude missing data
+  na.omit() |> 
+  
+  # Clean departing column
+  mutate(departing = str_to_title(str_replace_all(departing, "_", " ")))
+
+```
+
+Feel free to explore the prepped dataset!
+
+#### Split Data
+
+For modeling, you often split your data into a **training and testing** dataset. Before we do that, we'll first extract the last 500 rows, which will be used later on for model monitoring.
+
+```{r}
+#| label: split-data
+
+# Monitoring data (will be used later on)
+monitoring_data <- tail(ferry_weather_prepped, 500)
+
+# Put 3/4 of the data into the training set 
+data_split <- initial_split(head(ferry_weather_prepped, -500), prop = 3/4)
+
+# Create data frames for the two sets:
+train_data <- training(data_split)
+test_data  <- testing(data_split)
+```
+
+#### Create the Recipe
+
+```{r}
+#| label: create-recipe
+
+ferry_rec <- 
+  
+  # Add recipe (what does the model do?)
+  recipe(delay_status ~ ., data = train_data) |> 
+  
+  # Remove delay from modeling
+  step_rm(delay) |> 
+  
+  # Extract predictors like day of week and month from date
+  step_date(date, features = c("dow", "month"), keep_original_cols = FALSE) |> 
+  
+  # Convert all factors to binary "dummy variables"
+  step_dummy(all_nominal_predictors())
+```
+
+#### Define Model Type
+
+We'll first use logistic regression via *generalized linear model*, or glm. This method is used for predicting binary outcomes (delayed vs on-time).
+
+```{r}
+#| label: define-model-type
+
+# Specify model using parsnip
+ferry_mod_lr <- 
+  logistic_reg() |> 
+  set_engine("glm")
+
+```
+
+#### Create the Workflow
+
+```{r}
+#| label: define-workflow
+
+# Bundle parsnip model with recipe
+ferry_workflow_lr <- 
+  workflow() |> 
+  add_model(ferry_mod_lr) |> 
+  add_recipe(ferry_rec)
+```
+
+### Train the Model
+
+Train the model using our training set. This step may take a few seconds.
+
+```{r}
+#| label: train-model
+
+# Train the model
+ferry_fit_lr <- 
+  ferry_workflow_lr |> 
+  fit(data = train_data)
+```
+
+#### Evaluate the Model
+
+We'll use `tidymodels` to evaluate how our model did using the testing dataset. Remember that this model is **far from perfect** and we don't care too much about making a perfect model.
+
+```{r}
+#| label: evaluate-model
+
+# Make Prediction
+predictions_lr <- augment(ferry_fit_lr, test_data)
+
+# Evaluate the model
+metrics_lr <- predictions_lr %>%
+  metrics(truth = delay_status, estimate = .pred_class)
+
+metrics_lr
+
+# Confusion Matrix
+predictions_lr |> 
+  conf_mat(delay_status, .pred_class)
+
+```
+
+🛑 Stop here!
+
+## Task 2 - Pin Model to Posit Connect
+
+Now that we have a model, we'll want to save it to a location so that it can be easily shared with colleagues, other content, or your future self! The `pins` package is the workhouse behind this workflow. The `vetiver` package has some wrappers around the pinning functions that we'll use in this task.
+
+#### Create a Vetiver Model
+
+Before we go any further, we need to convert our logistic regression model into a format that can be used by `vetiver`:
+
+```{r}
+#| label: create-vetiver-model
+
+# Create Vetiver Model
+v_model <- vetiver_model(ferry_fit_lr, "ferry_model")
+
+```
+
+And now we can save it, or *pin it*, to Posit Connect! Remember to define your pinning board as Posit Connect.
+
+```{r}
+#| label: pin-model
+
+#!#!#!#!#!#! modify so it uses ferryland Posit Connect
+
+# Register Posit Connect as board
+# board <- board_connect(auth = "manual", 
+#                        server = "https://connect.posit.it", 
+#                        key = Sys.getenv("CONNECT_POS_IT_API_KEY"))
+
+# Write Vetiver Model
+board |> vetiver_pin_write(v_model)
+
+```
+
+Navigate to Posit Connect and check out your pinned model!
+
+🛑 Stop here!
+
+## Task 3 - Serve Model as an API
+
+APIs are a great way for users, applications, or other systems to interact with your model. `vetiver` leverages [Plumber](https://www.rplumber.io/) which is used to create APIs with only R code! Let's create an API here within Posit Workbench, and then deploy it to Posit Connect.
+
+**Be sure to add your user name for the pin!**
+
+```{r}
+#| label: create-api
+
+# Create API from pinned model using vetiver
+#  Swap out "ryan" for your username on Connect.
+vetiver_deploy_rsconnect(board = board, name = "ryan/ferry_model")
+
+```
+
+Once it's deployed, navigate to the API on Posit Connect and give it a test run! Click the operation on the left called `Return predictions from model using 7 features`. Then copy any variation of the request below and click **Try**. You should see a response of either `delayed` or `on-time`.
+
+```         
+[
+  {
+    "departing": "Anacortes",
+    "date": "2024-07-05",
+    "weather_code": "3",
+    "delay": 0,
+    "wind_status": "windy",
+    "gust_status": "calm",
+    "hour": "10"
+  }
+]
+```
+
+#### Make a Prediction using R Code
+
+On Posit Connect, navigate to your newly created API, and copy the URL for the content below. You can find this URL by clicking the access tab --\> URL.
+
+```{r}
+api_url <- "https://connect.posit.it/content/0b0a63a0-ec5b-4ecb-bee3-4e7256249981"
+
+# Append "/predict" to the end of your api to create the endpoint
+endpoint <- vetiver_endpoint(paste0(api_url, "/predict"))
+
+endpoint
+```
+
+Below is a data frame representing information on a ferry departing. Let's see if it is predicted to be delayed or ontime. Feel free to modify.
+
+```{r}
+#| label: make-new-ferry-data
+
+# Create new ferry data point
+new_ferry <- tibble(
+  departing = "Friday Harbor",
+  date = "2024-07-12",
+  weather_code = "3",
+  delay = 0,# This feature is not considered by the model
+  wind_status = "calm",
+  gust_status = "calm",
+  hour = "6"
+)
+
+```
+
+And now we can use the `predict()` function to query the API so that it returns a prediction of delayed or on-time. Note that we have to add our API key to the predict function since this API is only accessible to specific users!
+
+```{r}
+#| label: predict-r
+
+# Predict from Vetiver endpoint
+predict(endpoint, 
+        new_ferry,
+        httr::add_headers(Authorization = paste("Key", Sys.getenv("CONNECT_POS_IT_API_KEY"))))$.pred_class
+```
+
+If you'd like to learn more about creating API keys on Posit Connect, check out the link [here](https://docs.posit.co/connect/user/vetiver/#predict-from-your-model-endpoint).
+
+🛑 Stop here!
