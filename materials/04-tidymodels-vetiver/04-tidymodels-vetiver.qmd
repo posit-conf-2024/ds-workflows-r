@@ -1,0 +1,20 @@
+---
+title: "Tidymodels and Vetiver"
+format: html
+editor_options: 
+  chunk_output_type: console
+  canonical: true
+---
+
+## Goals
+
+The goals of this activity are to:
+
+-   Create two models using the `tidymodels` framework that predict if a Seattle Ferry will depart on time or be delayed from a specific station.
+-   Save a model to Posit Connect using the `pins` package.
+-   Deploy a model to Posit Connect as an API using the `vetiver` package.
+-   Learn how to version and monitor your machine-learning models using `vetiver`.
+
+## Overview
+
+1.  
