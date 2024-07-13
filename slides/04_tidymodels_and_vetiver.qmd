@@ -248,7 +248,7 @@ Use `vetiver` to **pin** model to Posit Connect.
 
 👉 Open the file `materials/04-tidymodels-vetiver/04-tidymodels-vetiver.qmd`
 
-**Complete Tasks 3 & 4 only!**
+**Complete Tasks 3 only!**
 :::
 
 ::: callout-important
@@ -273,7 +273,7 @@ Use `vetiver` to **serve** the pinned model as an **API** to Posit Connect.
 
 👉 Open the file `materials/04-tidymodels-vetiver/04-tidymodels-vetiver.qmd`
 
-**Complete Task 5**
+**Complete Task 4**
 :::
 
 ::: callout-important

@@ -362,3 +362,103 @@ predict(endpoint,
 ```
 
 🛑 Stop here!
+
+## Task 4 - Version and Monitor Model
+
+Creating a model is an iterative process, and chances are you'll create multiple versions of your model along the way. You may even create a completely different model to address the same question. How then can you keep track of all these versions, and ensure that you're always using the best model for the job? Vetiver to the rescue 🦸!
+
+Before we get started, we first need to make sure that the board we are using to pin our models can accommodate versioning. Fortunately, most boards, including Posit Connect, leverage versioning by default. If you want to explicitly turn on versions, just make sure you use the `versioned` argument when defining your board: `board_connect(versioned = TRUE)`.
+
+Monitoring a model means you are assessing performance as new data comes in over time. During task 1, we pulled out the bottom 500 rows from our dataset, and saved it to the `monitoring_data` variable. This will simulate the "new" data for model monitoring!
+
+#### List Model Versions
+
+We only have 1 version of our model, but let's list it anyway by using the `pin_versions()` function. Take note of the **version number (first column)!**
+
+```{r}
+#| label: list-pin-versions
+
+# View versions of your model 
+#  Replace "ryan" with your username 
+pin_versions(board = board, name = "ryan/ferry_model")
+```
+
+#### Create an Xgboost Model
+
+Let's create an xgboost model to answer the same question as our logistic regression model: can we predict if a ferry will be delayed or not. The below code cell will create, train, and assess the performance of our xgboost model. This step will also take a few seconds to run.
+
+```{r}
+#| label: create-xgboost-model
+
+# Specify model using parsnip
+ferry_mod_xgb <- 
+  boost_tree() |> 
+  set_engine("xgboost") |> 
+  set_mode("classification")
+
+# Bundle parsnip model with recipe
+ferry_workflow_xgb <- 
+  workflow() |> 
+  add_model(ferry_mod_xgb) |> 
+  add_recipe(ferry_rec)
+
+# Train the model
+ferry_fit_xgb <- 
+  ferry_workflow_xgb |> 
+  fit(data = train_data)
+
+# Make Prediction
+predictions_xgb <- augment(ferry_fit_xgb, test_data)
+
+# Evaluate the model
+metrics_xgb <- predictions_xgb %>%
+  metrics(truth = delay_status, estimate = .pred_class)
+
+metrics_xgb
+
+# Confusion Matrix
+predictions_xgb |> 
+  conf_mat(delay_status, .pred_class)
+
+```
+
+#### Pin Xgboost Model to Posit Connect
+
+Now that we have created an xgboost model, let's convert it to a `vetiver` model and pin it to the same location as our original **ferry_model** pin. Then we'll check the pin versions again.
+
+```{r}
+#| label: pin-xgboost
+
+# Create Vetiver Model
+v_model_xgb <- vetiver_model(ferry_fit_xgb, "ferry_model")
+
+# Write Vetiver Model
+board |> 
+  vetiver_pin_write(v_model_xgb)
+
+# View versions of your model 
+#  Replace "ryan" with your username 
+pin_versions(board = board, name = "ryan/ferry_model")
+
+```
+
+#### Monitor Model Performance
+
+How do we know which model is performing better? Logistic regression or xgboost? That's where model monitoring comes into play. Let's use some common classification model metrics (accuracy and kap) to asses each model using the "new" `monitoring_data`.
+
+❗Be sure add in the version number as a string (eg. "557741").
+
+```{r}
+#| label: model-monitoring
+
+# Pull in specific version of model
+v_model_monitor <- vetiver_pin_read(board, "ryan/ferry_model", version = "_____")
+
+new_ferry_data_metrics <-
+    augment(v_model_monitor, new_data = monitoring_data) |> 
+    vetiver_compute_metrics(date, "week", delay_status, .pred_class)
+
+vetiver_plot_metrics(new_ferry_data_metrics) +
+  scale_size(range = c(2, 4))
+
+```
