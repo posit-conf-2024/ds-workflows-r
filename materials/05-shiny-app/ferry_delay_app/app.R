@@ -11,8 +11,10 @@ library(thematic)
 library(shinycssloaders)
 
 # Read Ferry Data Pin
-board <- board_connect(auth = "envvar")
-ferry_data <- pin_read(board, "katie.masiello/vesselhistory_w_weather") |> 
+board <- board_connect(auth = "manual", 
+                       server = "https://connect.posit.it", 
+                       key = Sys.getenv("CONNECT_POS_IT_API_KEY"))
+ferry_weather <- pin_read(board, "katie.masiello/modeldata_validated") |> 
   as_tibble() |> 
   mutate(arriving = str_to_title(str_replace_all(arriving, "_", " ")),
          departing = str_to_title(str_replace_all(departing, "_", " ")))
@@ -53,7 +55,7 @@ weather_codes <- list(
 )
 
 # Only include weather codes found in data
-weather_codes_ferry_data <- weather_codes[weather_codes %in% as.character(unique(ferry_data$weather_code))]
+weather_codes_ferry_data <- weather_codes[weather_codes %in% as.character(unique(ferry_weather$weather_code))]
 
 # Define UI ----------------------------------------
 ui <- page_sidebar(
@@ -75,7 +77,7 @@ ui <- page_sidebar(
                     selectInput(
                       "departing",
                       "Select Departing Station",
-                        choices = sort(unique(ferry_data$departing)),
+                        choices = sort(unique(ferry_weather$departing)),
                         selected = "Anacortes"
                       ),
                     
@@ -135,7 +137,7 @@ server <- function(input, output, session) {
   
   observeEvent(input$departing, {
       updateSelectInput(session, "arriving", 
-                        choices = sort(unique(ferry_data |> 
+                        choices = sort(unique(ferry_weather |> 
                                                 filter(departing == input$departing) |> 
                                                 pull(arriving))))
     })
@@ -179,7 +181,7 @@ server <- function(input, output, session) {
     predict(endpoint, 
             new_ferry_data, 
             httr::add_headers(Authorization = paste("Key", 
-                                                    Sys.getenv("CONNECT_API_KEY"))))$.pred_class
+                                                    Sys.getenv("CONNECT_POS_IT_API_KEY"))))$.pred_class
   })
   
   delay_color <- reactive({
@@ -219,7 +221,7 @@ server <- function(input, output, session) {
   
   # Create delay histogram
   avg_delay <- reactive({
-    ferry_data |> 
+    ferry_weather |> 
       filter(departing == input$departing) |> 
       filter(arriving == input$arriving) |> 
       filter(delay > 0) |> 
@@ -228,7 +230,7 @@ server <- function(input, output, session) {
   })
   
   output$delay_hist <- renderPlot({
-    ferry_data |> 
+    ferry_weather |> 
       filter(departing == input$departing) |> 
       filter(arriving == input$arriving) |>
       filter(delay > 0) |> 
