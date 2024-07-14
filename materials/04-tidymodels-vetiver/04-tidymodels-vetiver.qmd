@@ -255,7 +255,13 @@ predictions_lr |>
 
 Now that we have a model, we'll want to save it to a location so that it can be easily shared with colleagues, other content, or your future self! The `pins` package is the workhouse behind this workflow. The `vetiver` package has some wrappers around the pinning functions that we'll use in this task.
 
-#### Create a Vetiver Model
+🔄 Tasks
+
+-   Create a vetiver model.
+
+-   Pin vetiver model to Posit Connect.
+
+#### Create a Vetiver Model and Pin to Posit Connect
 
 Before we go any further, we need to convert our logistic regression model into a format that can be used by `vetiver`:
 
@@ -291,6 +297,16 @@ Navigate to Posit Connect and check out your pinned model!
 ## Task 3 - Serve Model as an API
 
 APIs are a great way for users, applications, or other systems to interact with your model. `vetiver` leverages [Plumber](https://www.rplumber.io/) which is used to create APIs with only R code! Let's create an API here within Posit Workbench, and then deploy it to Posit Connect.
+
+🔄 Tasks
+
+-   Deploy model to Posit Connect as an API.
+
+-   Make a prediction using the API visual interface (RapiDoc).
+
+-   Make a request to the API using R code.
+
+#### Deploy API to Posit Connect
 
 **Be sure to add your user name for the pin!**
 
@@ -370,6 +386,12 @@ Creating a model is an iterative process, and chances are you'll create multiple
 Before we get started, we first need to make sure that the board we are using to pin our models can accommodate versioning. Fortunately, most boards, including Posit Connect, leverage versioning by default. If you want to explicitly turn on versions, just make sure you use the `versioned` argument when defining your board: `board_connect(versioned = TRUE)`.
 
 Monitoring a model means you are assessing performance as new data comes in over time. During task 1, we pulled out the bottom 500 rows from our dataset, and saved it to the `monitoring_data` variable. This will simulate the "new" data for model monitoring!
+
+🔄 Tasks
+
+-   List model versions.
+
+-   Monitor model performance using *new* ferry data.
 
 #### List Model Versions
 
