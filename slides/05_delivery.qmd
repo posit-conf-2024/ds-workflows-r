@@ -144,6 +144,8 @@ Our Shiny application does a bit more:
 6. Display a map.
 7. Show average delay times.
 
+## Activity
+
 ::: {.callout-note icon="false"}
 ## Activity
 

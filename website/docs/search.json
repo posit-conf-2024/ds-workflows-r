@@ -2955,7 +2955,7 @@
     "href": "slides/05_delivery.html#activity-1",
     "title": "Data Science Workflows with Posit Tools - R focus",
     "section": "Activity",
-    "text": "Activity\n\n\n\n\n\n\nActivity\n\n\n\n👉 Open the file materials/activities/activity-07_shiny.qmd",
+    "text": "Activity\n\n\n\n\n\n\nActivity\n\n\n\n👉 Open the file `materials/05-shiny-app/ferry_delay_app/app.R\n\n\n\n\n\n\n\n\nGoals\n\n\n\n\nSupply your API URL to the Shiny App.\nDeploy to Posit Connect!",
     "crumbs": [
       "About",
       "Slides",
