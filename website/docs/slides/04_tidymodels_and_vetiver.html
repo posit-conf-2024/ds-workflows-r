@@ -2,12 +2,12 @@
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
 
 <meta charset="utf-8">
-<meta name="generator" content="quarto-1.5.40">
+<meta name="generator" content="quarto-1.5.53">
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
 
-<title>Data Science Workflows with Posit Tools - R focus – tidymodels_and_vetiver</title>
+<title>tidymodels_and_vetiver – Data Science Workflows with Posit Tools - R focus</title>
 <style>
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
@@ -136,7 +136,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
  <span class="dropdown-text">01 - Workshop and Project Intro</span></a>
   </li>  
         <li>
-    <a class="dropdown-item" href="../slides/02_data_exploration_and_databases.html">
+    <a class="dropdown-item" href="../slides/02_data_download_and_databases.html">
  <span class="dropdown-text">02 - Data Exploration and Database Essentials</span></a>
   </li>  
         <li>
@@ -217,7 +217,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../slides/02_data_exploration_and_databases.html" class="sidebar-item-text sidebar-link">
+  <a href="../slides/02_data_download_and_databases.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">02 - Data Exploration and Database Essentials</span></a>
   </div>
 </li>
@@ -261,12 +261,13 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
    
   <ul>
   <li><a href="#tidymodels-and-vetiver" id="toc-tidymodels-and-vetiver" class="nav-link active" data-scroll-target="#tidymodels-and-vetiver">Tidymodels and Vetiver</a></li>
-  <li><a href="#agenda" id="toc-agenda" class="nav-link" data-scroll-target="#agenda">Agenda</a></li>
+  <li><a href="#section-agenda" id="toc-section-agenda" class="nav-link" data-scroll-target="#section-agenda">Section Agenda</a></li>
   <li><a href="#disclaimer" id="toc-disclaimer" class="nav-link" data-scroll-target="#disclaimer"><i class="bi-sign-turn-right-fill " style="color: orange;" role="img" aria-hidden="true"></i> Disclaimer</a></li>
   <li><a href="#review" id="toc-review" class="nav-link" data-scroll-target="#review">Review</a></li>
   <li><a href="#whats-the-goal" id="toc-whats-the-goal" class="nav-link" data-scroll-target="#whats-the-goal">What’s the Goal?</a></li>
   <li><a href="#where-are-we-going" id="toc-where-are-we-going" class="nav-link" data-scroll-target="#where-are-we-going">Where are we going</a></li>
-  <li><a href="#review---chicago-food-inspections-project" id="toc-review---chicago-food-inspections-project" class="nav-link" data-scroll-target="#review---chicago-food-inspections-project">Review - Chicago Food Inspections Project</a></li>
+  <li><a href="#review---washington-state-ferry" id="toc-review---washington-state-ferry" class="nav-link" data-scroll-target="#review---washington-state-ferry">Review - Washington State Ferry</a></li>
+  <li><a href="#question-and-answer" id="toc-question-and-answer" class="nav-link" data-scroll-target="#question-and-answer">Question and Answer</a></li>
   <li><a href="#introduction-to-tidymodels" id="toc-introduction-to-tidymodels" class="nav-link" data-scroll-target="#introduction-to-tidymodels">Introduction to Tidymodels</a></li>
   <li><a href="#introduction-to-tidymodels-1" id="toc-introduction-to-tidymodels-1" class="nav-link" data-scroll-target="#introduction-to-tidymodels-1">Introduction to Tidymodels</a></li>
   <li><a href="#introduction-to-tidymodels-2" id="toc-introduction-to-tidymodels-2" class="nav-link" data-scroll-target="#introduction-to-tidymodels-2">Introduction to Tidymodels</a></li>
@@ -279,8 +280,8 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   <li><a href="#plumber" id="toc-plumber" class="nav-link" data-scroll-target="#plumber">🧰 Plumber</a></li>
   <li><a href="#activity-3" id="toc-activity-3" class="nav-link" data-scroll-target="#activity-3">Activity</a></li>
   <li><a href="#version-and-monitor-your-models" id="toc-version-and-monitor-your-models" class="nav-link" data-scroll-target="#version-and-monitor-your-models">Version and Monitor your models</a></li>
-  <li><a href="#food-inspections-model" id="toc-food-inspections-model" class="nav-link" data-scroll-target="#food-inspections-model">Food Inspections Model</a></li>
-  <li><a href="#food-inspections-model-1" id="toc-food-inspections-model-1" class="nav-link" data-scroll-target="#food-inspections-model-1">Food Inspections Model</a></li>
+  <li><a href="#ferry-delay-prediction-model" id="toc-ferry-delay-prediction-model" class="nav-link" data-scroll-target="#ferry-delay-prediction-model">Ferry Delay Prediction Model</a></li>
+  <li><a href="#ferry-delay-prediction-model-1" id="toc-ferry-delay-prediction-model-1" class="nav-link" data-scroll-target="#ferry-delay-prediction-model-1">Ferry Delay Prediction Model</a></li>
   <li><a href="#example-prediction" id="toc-example-prediction" class="nav-link" data-scroll-target="#example-prediction">Example Prediction</a></li>
   <li><a href="#review-1" id="toc-review-1" class="nav-link" data-scroll-target="#review-1">Review</a></li>
   </ul>
@@ -292,14 +293,14 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 
 
 
-<section id="tidymodels-and-vetiver" class="level2 toc-light">
-<h2 class="toc-light anchored" data-anchor-id="tidymodels-and-vetiver">Tidymodels and Vetiver</h2>
+<section id="tidymodels-and-vetiver" class="level2 title-slide-light">
+<h2 class="title-slide-light anchored" data-anchor-id="tidymodels-and-vetiver">Tidymodels and Vetiver</h2>
 <p><img src="https://github.com/rstudio/hex-stickers/blob/main/PNG/tidymodels.png?raw=true" class="absolute img-fluid" data-top="200" data-left="50" width="260"> <img src="https://github.com/rstudio/hex-stickers/blob/main/PNG/vetiver.png?raw=true" class="absolute img-fluid" data-top="200" data-left="310" width="260"></p>
 </section>
-<section id="agenda" class="level2">
-<h2 class="anchored" data-anchor-id="agenda">Agenda</h2>
+<section id="section-agenda" class="level2 brackets-dark-teal">
+<h2 class="brackets-dark-teal anchored" data-anchor-id="section-agenda">Section Agenda</h2>
 <ul>
-<li><p>Goal of Food inspections Model</p></li>
+<li><p>Goal of Ferry Delay Prediction Model</p></li>
 <li><p>Tidymodels</p>
 <ul>
 <li>Assignment - Create a tidymodel</li>
@@ -308,10 +309,6 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <ul>
 <li>Pins and Plumber</li>
 <li>Assignment - Deploy and monitor your tidymodel</li>
-</ul></li>
-<li><p>Food inspection model (xgboost)</p>
-<ul>
-<li>Assignment - Interacting with the model</li>
 </ul></li>
 </ul>
 </section>
@@ -329,7 +326,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <h2 class="anchored" data-anchor-id="review">Review</h2>
 <div class="quarto-figure quarto-figure-center">
 <figure class="figure">
-<p><img src="slide_resources/workflow_diagram.jpg" class="img-fluid quarto-figure quarto-figure-center figure-img"></p>
+<p><img src="slide_resources/ds-workflows-r-2024.jpg" class="img-fluid quarto-figure quarto-figure-center figure-img"></p>
 </figure>
 </div>
 </section>
@@ -343,14 +340,14 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <ul>
 <li><p>A <strong><em>beautiful - tidy - validated</em></strong> dataset</p>
 <ul>
-<li><p>Historical food inspection results</p></li>
-<li><p>Business information</p></li>
+<li><p>Ferry information and history</p></li>
+<li><p>Weather data</p></li>
 </ul></li>
 </ul>
 <p><br></p>
 <p><strong>What do we want:</strong></p>
 <ul>
-<li>A <font color="#9A4665"> MODEL </font> that can <em>predict if an establishment will fail an inspection</em></li>
+<li>A <font color="#9A4665"> MODEL </font> that can <em>predict if a ferry will have a delayed departure</em></li>
 </ul>
 </div>
 </div>
@@ -359,26 +356,24 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <h2 class="anchored" data-anchor-id="where-are-we-going">Where are we going</h2>
 <div class="quarto-figure quarto-figure-center">
 <figure class="figure">
-<p><img src="slide_resources/workflow_diagram.jpg" class="img-fluid quarto-figure quarto-figure-center figure-img"></p>
+<p><img src="slide_resources/ds-workflows-r-2024.jpg" class="img-fluid quarto-figure quarto-figure-center figure-img"></p>
 </figure>
 </div>
 </section>
-<section id="review---chicago-food-inspections-project" class="level2">
-<h2 class="anchored" data-anchor-id="review---chicago-food-inspections-project">Review - Chicago Food Inspections Project</h2>
-<p><img src="slide_resources/LOGO-CHICAGO-horizontal.png" class="absolute img-fluid" data-top="10" data-right="50" width="300"></p>
-<p><span class="positgreen">What is this project?</span></p>
+<section id="review---washington-state-ferry" class="level2">
+<h2 class="anchored" data-anchor-id="review---washington-state-ferry">Review - Washington State Ferry</h2>
+<p><br> ⛴️ <span class="posityellow">WSF is the largest operating public ferry system in the US! 🤯</span></p>
+<p>🐋 <span class="posityellow">21 ferries across Puget Sound and the Salish Sea</span></p>
 <div class="columns">
-<div class="column" style="width:70%;">
-<div class="fragment" data-fragment-index="1">
-<ul>
-<li>Over <strong>15,000</strong> food establishments across the City of Chicago</li>
-</ul>
+<div class="column" style="width:50%;">
+<p><img src="slide_resources/ferry-whales.png" class="img-fluid"> <span class="figcaption2"><a href="https://i.pinimg.com/originals/c9/8b/3a/c98b3a997df52b6c8ad681590557c6bc.jpg" class="uri">https://i.pinimg.com/originals/c9/8b/3a/c98b3a997df52b6c8ad681590557c6bc.jpg</a></span></p>
+</div><div class="column" style="width:50%;">
+<p><img src="slide_resources/route_map.png" height="600"></p>
 </div>
-<div class="fragment" data-fragment-index="2">
-<ul>
-<li>Only a handful of food inspectors currently employed</li>
-</ul>
 </div>
+</section>
+<section id="question-and-answer" class="level2">
+<h2 class="anchored" data-anchor-id="question-and-answer">Question and Answer</h2>
 <div class="fragment" data-fragment-index="3">
 <div class="callout callout-style-default callout-caution no-icon callout-titled">
 <div class="callout-header d-flex align-content-center">
@@ -390,7 +385,7 @@ The Question
 </div>
 </div>
 <div class="callout-body-container callout-body">
-<p>Can we help inspectors identify which establishments are at highest risk for failing an inspection?</p>
+<p>Can we help inform travelers about possible ferry delays?</p>
 </div>
 </div>
 </div>
@@ -405,16 +400,7 @@ The Answer
 </div>
 </div>
 <div class="callout-body-container callout-body">
-<p>Use the historical (validated) inspections data to create a model that will predict fail likelihood!</p>
-</div>
-</div>
-</div>
-</div><div class="column" style="width:30%;">
-<div class="fragment" data-fragment-index="1">
-<p><img src="https://images.unsplash.com/photo-1523053030199-19a46754261d?ixlib=rb-4.0.3&amp;ixid=M3wxMjA3fDB8MHxzZWFyY2h8Mnx8cmVzdGF1cmFudCUyMGNoaWNhZ298ZW58MHx8MHx8fDA%3D&amp;auto=format&amp;fit=crop&amp;w=500&amp;q=60" class="img-fluid"></p>
-</div>
-<div class="fragment" data-fragment-index="2">
-<p><img src="https://plus.unsplash.com/premium_photo-1661937185702-e6f2a55096ff?ixlib=rb-4.0.3&amp;ixid=M3wxMjA3fDB8MHxzZWFyY2h8MXx8Zm9vZCUyMGluc3BlY3RvcnxlbnwwfHwwfHx8MA%3D%3D&amp;auto=format&amp;fit=crop&amp;w=500&amp;q=60" class="img-fluid"></p>
+<p>Use the ferry-weather (validated) data to create a model that will predict delay status!</p>
 </div>
 </div>
 </div>
@@ -479,7 +465,7 @@ Activity
 </div>
 </div>
 <div class="callout-body-container callout-body">
-<p>👉 Open the file <code>materials/activities/activity-05_TidymodelsVetiver.qmd</code></p>
+<p>👉 Open the file <code>materials/04-tidymodels-vetiver/04-idymodels-vetiver.qmd</code></p>
 <p><strong>Complete Task 1 only!</strong></p>
 </div>
 </div>
@@ -489,11 +475,11 @@ Activity
 <i class="callout-icon"></i>
 </div>
 <div class="callout-title-container flex-fill">
-Important
+Goal
 </div>
 </div>
 <div class="callout-body-container callout-body">
-<p>We will be using the <code>diamonds</code> dataset for this activity!</p>
+<p>Build a model using <code>tidymodels</code>.</p>
 </div>
 </div>
 </section>
@@ -562,8 +548,21 @@ Activity
 </div>
 </div>
 <div class="callout-body-container callout-body">
-<p>👉 Open the file <code>materials/activities/activity-05_TidymodelsVetiver.qmd</code></p>
+<p>👉 Open the file <code>materials/04-tidymodels-vetiver/04-tidymodels-vetiver.qmd</code></p>
 <p><strong>Complete Task 2 only!</strong></p>
+</div>
+</div>
+<div class="callout callout-style-default callout-important callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Goal
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>Use <code>vetiver</code> to <strong>pin</strong> model to Posit Connect.</p>
 </div>
 </div>
 </section>
@@ -600,8 +599,21 @@ Activity
 </div>
 </div>
 <div class="callout-body-container callout-body">
-<p>👉 Open the file <code>materials/activities/activity-05_TidymodelsVetiver.qmd</code></p>
-<p><strong>Complete Tasks 3 &amp; 4 only!</strong></p>
+<p>👉 Open the file <code>materials/04-tidymodels-vetiver/04-tidymodels-vetiver.qmd</code></p>
+<p><strong>Complete Tasks 3 only!</strong></p>
+</div>
+</div>
+<div class="callout callout-style-default callout-important callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Goal
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>Use <code>vetiver</code> to <strong>serve</strong> the pinned model as an <strong>API</strong> to Posit Connect.</p>
 </div>
 </div>
 </section>
@@ -626,36 +638,46 @@ Activity
 </div>
 </div>
 <div class="callout-body-container callout-body">
-<p>👉 Open the file <code>materials/activities/activity-05_TidymodelsVetiver.qmd</code></p>
-<p><strong>Complete Task 5</strong></p>
+<p>👉 Open the file <code>materials/04-tidymodels-vetiver/04-tidymodels-vetiver.qmd</code></p>
+<p><strong>Complete Task 4</strong></p>
+</div>
+</div>
+<div class="callout callout-style-default callout-important callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Goal
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>Use <code>vetiver</code> to version and monitor your ferry predict model.</p>
 </div>
 </div>
 </div>
 </section>
-<section id="food-inspections-model" class="level2">
-<h2 class="anchored" data-anchor-id="food-inspections-model">Food Inspections Model</h2>
-<p>Prior to this workshop:</p>
+<section id="ferry-delay-prediction-model" class="level2">
+<h2 class="anchored" data-anchor-id="ferry-delay-prediction-model">Ferry Delay Prediction Model</h2>
+<p>Training this model is relatively <em>fast</em></p>
 <ul>
-<li><p>An <strong>xgboost classification model</strong> was created using the <code>inspections_validated</code> data saved to our Postgres database</p>
+<li><p>What if the model training is slow or the data is <strong>REALLY</strong> big?</p>
 <ul>
-<li><p><code>materials/project/03_model/03_model_creation.qmd</code></p></li>
-<li><p><i class="bi-sign-turn-right-fill " style="color: orange;" role="img" aria-hidden="true"></i> How to run background/workbench jobs for long running analyses!</p>
-<ul>
-<li><code>materials/activities/activity-06_jobs.qmd</code></li>
+<li><p><i class="bi-sign-turn-right-fill " style="color: orange;" role="img" aria-hidden="true"></i> Workbench Jobs allows you to run R scripts in new sessions independent of your current RStudio Pro session</p>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="slide_resources/background_jobs.png" class="img-fluid quarto-figure quarto-figure-center figure-img" width="344"></p>
+</figure>
+</div></li>
 </ul></li>
-</ul></li>
-<li><p>If you create a model, you should create a <strong>model card!</strong></p>
+<li><p><i class="bi-sign-turn-right-fill " style="color: orange;" role="img" aria-hidden="true"></i> If you create a model, you should create a <strong>model card!</strong></p>
 <ul>
-<li>Check out the <a href="https://connect.conf23workflows.training.posit.co/food_inspections_model_card/">model card created by our Python friends</a>!</li>
+<li>Check out a basic model card here!</li>
 </ul></li>
-</ul>
-<p><br></p>
-<ul>
-<li><strong>Model Goal</strong>: <em>Return the likelihood that a business will fail an inspection</em></li>
 </ul>
 </section>
-<section id="food-inspections-model-1" class="level2 content-light">
-<h2 class="content-light anchored" data-anchor-id="food-inspections-model-1">Food Inspections Model</h2>
+<section id="ferry-delay-prediction-model-1" class="level2 content-light">
+<h2 class="content-light anchored" data-anchor-id="ferry-delay-prediction-model-1">Ferry Delay Prediction Model</h2>
 <div class="callout callout-style-default callout-note no-icon callout-titled">
 <div class="callout-header d-flex align-content-center">
 <div class="callout-icon-container">
@@ -666,10 +688,7 @@ Activity
 </div>
 </div>
 <div class="callout-body-container callout-body">
-<p>👉 Try interacting with the Food Inspections Model API on Posit Connect</p>
-<ul>
-<li><a href="https://connect.conf23workflows.training.posit.co/food-inspections-api/" class="uri">https://connect.conf23workflows.training.posit.co/food-inspections-api/</a></li>
-</ul>
+<p>👉 Try interacting with your Ferry Delay Prediction Model API on Posit Connect</p>
 </div>
 </div>
 </section>
@@ -677,7 +696,7 @@ Activity
 <h2 class="anchored" data-anchor-id="example-prediction">Example Prediction</h2>
 <div class="quarto-figure quarto-figure-center">
 <figure class="figure">
-<p><img src="slide_resources/FI-api-docs-example.png" class="img-fluid quarto-figure quarto-figure-center figure-img"></p>
+<p><img src="slide_resources/example_prediction.png" class="img-fluid quarto-figure quarto-figure-center figure-img"></p>
 </figure>
 </div>
 </section>
@@ -685,7 +704,7 @@ Activity
 <h2 class="anchored" data-anchor-id="review-1">Review</h2>
 <div class="quarto-figure quarto-figure-center">
 <figure class="figure">
-<p><img src="slide_resources/workflow_diagram.jpg" class="img-fluid quarto-figure quarto-figure-center figure-img"></p>
+<p><img src="slide_resources/ds-workflows-r-2024.jpg" class="img-fluid quarto-figure quarto-figure-center figure-img"></p>
 </figure>
 </div>
 

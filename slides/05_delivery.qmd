@@ -3,74 +3,55 @@ execute:
   eval: true
 ---
 
-## Effective Delivery of Insights{.toc2-light}
+## Effective Delivery of Insights {.title-slide-light}
 
-![](https://github.com/rstudio/hex-stickers/blob/main/PNG/shiny.png?raw=true){.absolute top="170" left="180" width="260"}
-![](https://pkgs.rstudio.com/connectapi/reference/figures/logo.svg){.absolute top="395" left="50" width="260"}
-![](https://rstudio.github.io/connectwidgets/reference/figures/logo.png){.absolute top="395" left="310" width="260"}
-
-
-
+![](https://github.com/rstudio/hex-stickers/blob/main/PNG/shiny.png?raw=true){.absolute top="170" left="180" width="260"} ![](https://pkgs.rstudio.com/connectapi/reference/figures/logo.svg){.absolute top="395" left="50" width="260"} ![](https://rstudio.github.io/connectwidgets/reference/figures/logo.png){.absolute top="395" left="310" width="260"}
 
 ## Review
 
-![](slide_resources/workflow_diagram.jpg){fig-align="center"}
+![](slide_resources/ds-workflows-r-2024.jpg){fig-align="center"}
 
 ## Section Agenda {.brackets-light}
 
 <br>
 
-- Using Shiny to deliver interactive content
-- Principles of Shiny in production
-- Managing and monitoring production content
-
+-   Using Shiny to deliver interactive content
+-   Principles of Shiny in production
+-   Managing and monitoring production content
 
 ## Let's talk Shiny
 
-![](https://raw.githubusercontent.com/rstudio/hex-stickers/580e9bada770756d25dbd3696159744d1e9c9251/SVG/shiny.svg){.absolute
-style="padding-right: 15px;" left="600" top="10" width="200"} <br><br>
+![](https://raw.githubusercontent.com/rstudio/hex-stickers/580e9bada770756d25dbd3696159744d1e9c9251/SVG/shiny.svg){.absolute style="padding-right: 15px;" left="600" top="10" width="200"} <br><br>
 
-::: columns
-::: {.column width="50%"}
+::::::: columns
+:::: {.column width="50%"}
 ::: fragment
 Whether you're here <br> in your Shiny journey:
 
-![](slide_resources/andriyko-podilnyk-RCfi7vgJjUY-unsplash.jpg)
-<br>[Photo by
-<a href="https://unsplash.com/@andriyko?utm_source=unsplash&utm_medium=referral&utm_content=creditCopyText">Andriyko
-Podilnyk</a> on
-<a href="https://unsplash.com/photos/orange-tabby-kitten-in-grasses-RCfi7vgJjUY?utm_source=unsplash&utm_medium=referral&utm_content=creditCopyText">Unsplash</a>]{.smallest}
+![](slide_resources/andriyko-podilnyk-RCfi7vgJjUY-unsplash.jpg) <br>[Photo by <a href="https://unsplash.com/@andriyko?utm_source=unsplash&utm_medium=referral&utm_content=creditCopyText">Andriyko Podilnyk</a> on <a href="https://unsplash.com/photos/orange-tabby-kitten-in-grasses-RCfi7vgJjUY?utm_source=unsplash&utm_medium=referral&utm_content=creditCopyText">Unsplash</a>]{.smallest}
 :::
-:::
+::::
 
-::: {.column width="50%"}
+:::: {.column width="50%"}
 ::: fragment
 <br> Or here:
 
 ![](slide_resources/francesco-ZxNKxnR32Ng-unsplash.jpg)
 
-[Photo by
-<a href="https://unsplash.com/@detpho?utm_source=unsplash&utm_medium=referral&utm_content=creditCopyText">Francesco</a>
-on
-<a href="https://unsplash.com/photos/ZxNKxnR32Ng?utm_source=unsplash&utm_medium=referral&utm_content=creditCopyText">Unsplash</a>]{.smallest}
+[Photo by <a href="https://unsplash.com/@detpho?utm_source=unsplash&utm_medium=referral&utm_content=creditCopyText">Francesco</a> on <a href="https://unsplash.com/photos/ZxNKxnR32Ng?utm_source=unsplash&utm_medium=referral&utm_content=creditCopyText">Unsplash</a>]{.smallest}
 :::
-:::
-:::
+::::
+:::::::
 
 ## 🧰 Shiny resources
 
--   Get started with Shiny (R or Python!)
-    <https://shiny.posit.co/getstarted>
+-   Get started with Shiny (R or Python!) <https://shiny.posit.co/getstarted>
 -   Gallery of examples <https://shiny.posit.co/r/gallery/>
--   **The authoritative reference, Mastering Shiny**
-    <https://mastering-shiny.org>
+-   **The authoritative reference, Mastering Shiny** <https://mastering-shiny.org>
 -   Helper packages
-    -   [`bslib`](https://rstudio.github.io/bslib/) - add themes,
-        components, and layouts with ease
-    -   [`thematic`](https://rstudio.github.io/thematic/) - extends your
-        Shiny theme to plots\
-    -   [`shinyuieditor`](https://rstudio.github.io/shinyuieditor/index.html#trouble-installing/) -
-        a visual tool to help create the UI portion of your Shiny app
+    -   [`bslib`](https://rstudio.github.io/bslib/) - add themes, components, and layouts with ease
+    -   [`thematic`](https://rstudio.github.io/thematic/) - extends your Shiny theme to plots\
+    -   [`shinyuieditor`](https://rstudio.github.io/shinyuieditor/index.html#trouble-installing/) - a visual tool to help create the UI portion of your Shiny app
 
 ## Shiny in production
 
@@ -87,120 +68,132 @@ Two sides to this coin:
 
 <br>
 
-📣 Design principle: Make your app a lightweight presentation layer
-<br><br>
+📣 Design principle: Make your app a lightweight presentation layer <br><br>
 
-::: columns
-::: fragment
-::: {.column width="45%"}
+:::::::: columns
+::::::: fragment
+:::: {.column width="45%"}
 {{< bi sign-turn-right-fill color=orange >}} Performance workflow:
 
 ::: smaller
--   Add logging to app, either basic `message` statements or use
-    [`log4r`](https://github.com/johnmyleswhite/log4r) package
--   use [`shinyloadtest`](https://rstudio.github.io/shinyloadtest/) to
-    simulate app performance under load
--   use [`profvis`](https://rstudio.github.io/profvis/) to profile your
-    app to identify bottlenecks
+-   Add logging to app, either basic `message` statements or use [`log4r`](https://github.com/johnmyleswhite/log4r) package
+-   use [`shinyloadtest`](https://rstudio.github.io/shinyloadtest/) to simulate app performance under load
+-   use [`profvis`](https://rstudio.github.io/profvis/) to profile your app to identify bottlenecks
 -   Optimize app (in order of value-add):
     -   Move work upstream out of Shiny
     -   Make code faster
     -   Use caching
     -   Use async
 :::
-:::
+::::
 
-::: {.column width="50%"}
+:::: {.column width="50%"}
 ::: {style="background: #F6F6F6; width: 600px; height: 400px; margin: 20px; padding: 20px; box-shadow: 0 18px 18px -9px lightgray; margin-left: auto; margin-right: auto;"}
 🧰 References:
 
--   Joe Cheng's [Shiny in Production](https://youtu.be/Wy3TY0gOmJw) talk
-    at 2019 rstudio::conf
--   [Mastering Shiny,
-    Performance](https://mastering-shiny.org/performance.html) chapter
+-   Joe Cheng's [Shiny in Production](https://youtu.be/Wy3TY0gOmJw) talk at 2019 rstudio::conf
+-   [Mastering Shiny, Performance](https://mastering-shiny.org/performance.html) chapter
 :::
-:::
-:::
-:::
+::::
+:::::::
+::::::::
 
-## 👋 Let's meet our Shiny App
+## What does our Ferry Delay App need to do?
 
-::: smaller
-<https://connect.conf23workflows.training.posit.co/chicago-food-r/food-inspections-app/>
+::: fragment
+-   Make requests to our API
 :::
 
-![](slide_resources/shiny_app_UI.png){fig-align="center"}
+::: fragment
+-   Receive and display API response
+:::
 
-## How does our Shiny App Work?
+:::: fragment
+::: {.callout-note icon="false"}
+## Activity
 
--   Code for App: `materials/project/04_inspector_shiny_app/app.R`
+👉 Open the file `materials/05-shiny-app/simple_ferry_app/app.R`
 
-```{r}
-#| eval: false
-#| code-line-numbers: "4-7"
+Run the app and get a taste for how Shiny can generative reactive API queries.
+:::
+::::
 
-# Make prediction (add .pred_FAIL to table)
-  prediction_info <- reactive({
-    
-    prediction_df <- selected_info() |> 
-      select(-aka_name) 
-    
-    fail_prediction <- predict(endpoint, prediction_df)$.pred_FAIL
-    
-    selected_info() |> 
-      mutate(fail_prediction = round(fail_prediction * 100, 3))
-    
-  })
-```
+## Putting the Pieces Together
+
+Our Shiny application does a bit more:
+
+::: incremental
+1. Read in ferry weather data from database.
+2. Extract ferry station information from `ferryfairy` package.
+3. Take in user inputs.
+4. Make API queries.
+5. Display API response.
+6. Display a map.
+7. Show average delay times.
+:::
+
+## Putting the Pieces Together
+
+Our Shiny application does a bit more:
+
+1. Read in ferry weather data from database.
+2. Extract ferry station information from `ferryfairy` package.
+3. Take in user inputs.
+4. **Make API queries.**
+5. Display API response.
+6. Display a map.
+7. Show average delay times.
 
 ## Activity
 
 ::: {.callout-note icon="false"}
 ## Activity
 
-👉 Open the file `materials/activities/activity-07_shiny.qmd`
+👉 Open the file `materials/05-shiny-app/ferry_delay_app/app.R
 
 :::
+
+::: callout-important
+## Goals
+
+1. Supply your API URL to the Shiny App.
+2. Deploy to Posit Connect!
+:::
+
 
 ## Shiny on Connect
 
 Runtime settings
 
-::: columns
+::::::: columns
 ::: {.column width="30%"}
 ![](slide_resources/runtime_settings.png)
 :::
 
-::: {.column width="70%"}
-::: r-stack
-![](https://media.giphy.com/media/3o6Mbsras7qdAwgABW/giphy.gif){.fragment
-.fade-in-then-out fig-align="center"}
+::::: {.column width="70%"}
+:::: r-stack
+![](https://media.giphy.com/media/3o6Mbsras7qdAwgABW/giphy.gif){.fragment .fade-in-then-out fig-align="center"}
 
-![](https://media.giphy.com/media/lvlLuc2zhi39C/giphy.gif){.fragment
-.fade-in-then-out fig-align="center"}
+![](https://media.giphy.com/media/lvlLuc2zhi39C/giphy.gif){.fragment .fade-in-then-out fig-align="center"}
 
 ::: fragment
 **Min processes** --- Keep a process running on the server at all times?
 
 **Max processes** --- Put a bound on the number of processes spawned?
 
-**Connections per process** --- [A connection = a browser tab]{.positteal}.
-How many connections will share the same process? Call this **n**
+**Connections per process** --- [A connection = a browser tab]{.positteal}. How many connections will share the same process? Call this **n**
 
-**Load factor** --- Much like *min processes*, how early do you want to
-start a new process for that **n + 1** connection?
+**Load factor** --- Much like *min processes*, how early do you want to start a new process for that **n + 1** connection?
 :::
-
-:::
-:::
-:::
+::::
+:::::
+:::::::
 
 ## Posit Connect
 
 The Shiny Restaurant Analogy
 
-Let's say you are the **manager** of a restaurant, and you need to
-determine two things:
+Let's say you are the **manager** of a restaurant, and you need to determine two things:
 
 1.  How many chefs should I hire?
 2.  How many customers can I accommodate at once?
@@ -214,7 +207,7 @@ determine two things:
 
 The Shiny Restaurant Analogy
 
-::: r-stack
+::::::: r-stack
 ::: fragment
 ![](slide_resources/chef-1.jpg)
 :::
@@ -230,7 +223,7 @@ The Shiny Restaurant Analogy
 ::: fragment
 ![](slide_resources/chef-4.jpg)
 :::
-:::
+:::::::
 
 ##  {.brackets-dark}
 
@@ -247,18 +240,15 @@ Managing Content
 
 ## How can I organize this content so stakeholders can find it?
 
-1.   [Tags in
-    Connect](https://docs.posit.co/connect/admin/content-management/index.html#tags)
+1.  [Tags in Connect](https://docs.posit.co/connect/admin/content-management/index.html#tags)
 
 ![](slide_resources/tag_schema.png){height="400" fig-align="center"}
 
-2.   🧰 [`connectwidgets`](https://rstudio.github.io/connectwidgets/) for
-    content curation ![](https://rstudio.github.io/connectwidgets/reference/figures/logo.png){.absolute top="650" right="420" width="220"}
+2.  🧰 [`connectwidgets`](https://rstudio.github.io/connectwidgets/) for content curation ![](https://rstudio.github.io/connectwidgets/reference/figures/logo.png){.absolute top="650" right="420" width="220"}
 
 ## Connectwidgets flow
 
-Incorporate into a stylized R Markdown or Quarto document or Shiny
-application.
+Incorporate into a stylized R Markdown or Quarto document or Shiny application.
 
 ``` {.r code-line-numbers="1-5|7-14|16-27"}
 # Establish a connection to the Connect Server
@@ -291,8 +281,7 @@ project_content %>%
 ```
 
 ::: callout-tip
-Content returned by `connectwidgets::content` will be scoped to the API
-key provided.
+Content returned by `connectwidgets::content` will be scoped to the API key provided.
 :::
 
 ## Example
@@ -315,10 +304,9 @@ key provided.
 
 ## Posit Connect Server API endpoints
 
-*Most endpoints require an API Key*, and [**results will be scoped to
-the permissions of the key**]{.positgreen}. <br>
+*Most endpoints require an API Key*, and [**results will be scoped to the permissions of the key**]{.positgreen}. <br>
 
-::: columns
+::::: columns
 ::: {.column width="50%"}
 **Helpful to publishers:**
 
@@ -339,13 +327,13 @@ the permissions of the key**]{.positgreen}. <br>
 -   User and group management
 -   Job management
 :::
-:::
+:::::
 
 See full documentation at <https://docs.posit.co/connect/api/>
 
 ## Example Content Usage Report
 
-::: columns
+::::: columns
 ::: {.column width="40%"}
 [![](slide_resources/usage-report.png){height="800"}](https://connect.conf23workflows.training.posit.co/chicago-food-r/content-usage/)
 :::
@@ -364,29 +352,24 @@ app_usage <- get_usage_shiny(
 ...
 ```
 :::
-:::
+:::::
 
-{{< bi sign-turn-right-fill color=orange >}} See more examples:
-<https://solutions.posit.co/operations/connect-apis/>
+{{< bi sign-turn-right-fill color=orange >}} See more examples: <https://solutions.posit.co/operations/connect-apis/>
 
 ## Accessing the Connect Server API
 
--   Interact remotely with the Connect Server API using HTTP requests
-    directly via:
+-   Interact remotely with the Connect Server API using HTTP requests directly via:
     -   `curl` - Linux tool for making HTTP calls
     -   `httr` - R HTTP library
     -   `requests` - Python HTTP library
--   Or use [`connectapi`](https://pkgs.rstudio.com/connectapi/) R
-    package, which provides a wrapper around HTTP requests
+-   Or use [`connectapi`](https://pkgs.rstudio.com/connectapi/) R package, which provides a wrapper around HTTP requests
 
-![](https://pkgs.rstudio.com/connectapi/reference/figures/logo.svg){.absolute
-top="590" left="260" width="220"}
+![](https://pkgs.rstudio.com/connectapi/reference/figures/logo.svg){.absolute top="590" left="260" width="220"}
 
 ## Connect Server API Resources
 
 -   Reference <https://docs.posit.co/connect/api/>
 -   Cookbook <https://docs.posit.co/connect/cookbook/>
--   Example reports and apps
-    <https://solutions.posit.co/operations/connect-apis/>
--   R package `connectapi` that is a wrapper around the API
-    <https://pkgs.rstudio.com/connectapi/>
+-   Example reports and apps <https://solutions.posit.co/operations/connect-apis/>
+-   R package `connectapi` that is a wrapper around the API <https://pkgs.rstudio.com/connectapi/>
+::::::::::::::::::::::::::

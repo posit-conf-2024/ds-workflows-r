@@ -3,13 +3,13 @@ execute:
   eval: false
 ---
 
-## Tidymodels and Vetiver {.toc-light}
+## Tidymodels and Vetiver {.title-slide-light}
 
 ![](https://github.com/rstudio/hex-stickers/blob/main/PNG/tidymodels.png?raw=true){.absolute top="200" left="50" width="260"} ![](https://github.com/rstudio/hex-stickers/blob/main/PNG/vetiver.png?raw=true){.absolute top="200" left="310" width="260"}
 
-## Agenda
+## Section Agenda {.brackets-dark-teal}
 
--   Goal of Food inspections Model
+-   Goal of Ferry Delay Prediction Model
 
 -   Tidymodels
 
@@ -19,10 +19,6 @@ execute:
 
     -   Pins and Plumber
     -   Assignment - Deploy and monitor your tidymodel
-
--   Food inspection model (xgboost)
-
-    -   Assignment - Interacting with the model
 
 ## {{< bi sign-turn-right-fill color=orange >}} Disclaimer
 
@@ -40,11 +36,11 @@ THIS IS NOT A MODELING WORKSHOP!
 
 ## Review
 
-![](slide_resources/workflow_diagram.jpg){fig-align="center"}
+![](slide_resources/ds-workflows-r-2024.jpg){fig-align="center"}
 
 ## What's the Goal?
 
-::: columns
+::::: columns
 ::: {.column width="50%"}
 ![](slide_resources/data_model_meme.jpg){width="710"}
 :::
@@ -54,65 +50,55 @@ THIS IS NOT A MODELING WORKSHOP!
 
 -   A ***beautiful - tidy - validated*** dataset
 
-    -   Historical food inspection results
+    -   Ferry information and history
 
-    -   Business information
+    -   Weather data
 
 <br>
 
 **What do we want:**
 
--   A <font color="#9A4665"> MODEL </font> that can *predict if an establishment will fail an inspection*
+-   A <font color="#9A4665"> MODEL </font> that can *predict if a ferry will have a delayed departure*
 :::
-:::
+:::::
 
 ## Where are we going
 
-![](slide_resources/workflow_diagram.jpg){fig-align="center"}
+![](slide_resources/ds-workflows-r-2024.jpg){fig-align="center"}
 
-## Review - Chicago Food Inspections Project
+## Review - Washington State Ferry
 
-![](slide_resources/LOGO-CHICAGO-horizontal.png){.absolute top="10" right="50" width="300"}
+<br> ⛴️ [WSF is the largest operating public ferry system in the US! 🤯]{.posityellow}
 
-[What is this project?]{.positgreen}
+🐋 [21 ferries across Puget Sound and the Salish Sea]{.posityellow}
 
-::: columns
-::: {.column width="70%"}
-::: {.fragment fragment-index="1"}
--   Over **15,000** food establishments across the City of Chicago
+::::: columns
+::: {.column width="50%"}
+![](slide_resources/ferry-whales.png) [<https://i.pinimg.com/originals/c9/8b/3a/c98b3a997df52b6c8ad681590557c6bc.jpg>]{.figcaption2}
 :::
 
-::: {.fragment fragment-index="2"}
--   Only a handful of food inspectors currently employed
+::: {.column width="50%"}
+![](slide_resources/route_map.png){height="600"}
 :::
+:::::
 
-::: {.fragment fragment-index="3"}
+## Question and Answer
+
+:::: {.fragment fragment-index="3"}
 ::: {.callout-caution icon="false"}
 ## The Question
 
-Can we help inspectors identify which establishments are at highest risk for failing an inspection?
+Can we help inform travelers about possible ferry delays?
 :::
-:::
+::::
 
-::: {.fragment fragment-index="4"}
+:::: {.fragment fragment-index="4"}
 ::: {.callout-tip icon="false"}
 ## The Answer
 
-Use the historical (validated) inspections data to create a model that will predict fail likelihood!
+Use the ferry-weather (validated) data to create a model that will predict delay status!
 :::
-:::
-:::
-
-::: {.column width="30%"}
-::: {.fragment fragment-index="1"}
-![](https://images.unsplash.com/photo-1523053030199-19a46754261d?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8Mnx8cmVzdGF1cmFudCUyMGNoaWNhZ298ZW58MHx8MHx8fDA%3D&auto=format&fit=crop&w=500&q=60)
-:::
-
-::: {.fragment fragment-index="2"}
-![](https://plus.unsplash.com/premium_photo-1661937185702-e6f2a55096ff?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8MXx8Zm9vZCUyMGluc3BlY3RvcnxlbnwwfHwwfHx8MA%3D%3D&auto=format&fit=crop&w=500&q=60)
-:::
-:::
-:::
+::::
 
 ## Introduction to Tidymodels {.content-light}
 
@@ -173,13 +159,15 @@ model_fit <- parsnip::fit(model_wflow, your-data)
 ::: {.callout-note icon="false"}
 ## Activity
 
-👉 Open the file `materials/activities/activity-05_TidymodelsVetiver.qmd`
+👉 Open the file `materials/04-tidymodels-vetiver/04-idymodels-vetiver.qmd`
 
 **Complete Task 1 only!**
 :::
 
 ::: callout-important
-We will be using the `diamonds` dataset for this activity!
+## Goal
+
+Build a model using `tidymodels`.
 :::
 
 ## We have a model...now what 🤷 ?
@@ -230,9 +218,15 @@ We have two questions:
 ::: {.callout-note icon="false"}
 ## Activity
 
-👉 Open the file `materials/activities/activity-05_TidymodelsVetiver.qmd`
+👉 Open the file `materials/04-tidymodels-vetiver/04-tidymodels-vetiver.qmd`
 
 **Complete Task 2 only!**
+:::
+
+::: callout-important
+## Goal
+
+Use `vetiver` to **pin** model to Posit Connect.
 :::
 
 ## 🧰 Plumber
@@ -252,9 +246,15 @@ We have two questions:
 ::: {.callout-note icon="false"}
 ## Activity
 
-👉 Open the file `materials/activities/activity-05_TidymodelsVetiver.qmd`
+👉 Open the file `materials/04-tidymodels-vetiver/04-tidymodels-vetiver.qmd`
 
-**Complete Tasks 3 & 4 only!**
+**Complete Tasks 3 only!**
+:::
+
+::: callout-important
+## Goal
+
+Use `vetiver` to **serve** the pinned model as an **API** to Posit Connect.
 :::
 
 ## Version and Monitor your models
@@ -267,50 +267,48 @@ We have two questions:
 -   **How can I ensure I'm using the best model for the job?**
 :::
 
-::: fragment
+::::: fragment
 ::: {.callout-note icon="false"}
 ## Activity
 
-👉 Open the file `materials/activities/activity-05_TidymodelsVetiver.qmd`
+👉 Open the file `materials/04-tidymodels-vetiver/04-tidymodels-vetiver.qmd`
 
-**Complete Task 5**
+**Complete Task 4**
 :::
+
+::: callout-important
+## Goal
+
+Use `vetiver` to version and monitor your ferry predict model.
 :::
+:::::
 
-## Food Inspections Model
+## Ferry Delay Prediction Model
 
-Prior to this workshop:
+Training this model is relatively *fast*
 
--   An **xgboost classification model** was created using the `inspections_validated` data saved to our Postgres database
+-   What if the model training is slow or the data is **REALLY** big?
 
-    -   `materials/project/03_model/03_model_creation.qmd`
+    -   {{< bi sign-turn-right-fill color=orange >}} Workbench Jobs allows you to run R scripts in new sessions independent of your current RStudio Pro session
 
-    -   {{< bi sign-turn-right-fill color=orange >}} How to run background/workbench jobs for long running analyses!
+        ![](slide_resources/background_jobs.png){fig-align="center" width="344"}
 
-        -   `materials/activities/activity-06_jobs.qmd`
+-   {{< bi sign-turn-right-fill color=orange >}} If you create a model, you should create a **model card!**
 
--   If you create a model, you should create a **model card!**
+    -   Check out a basic model card here!
 
-    -   Check out the [model card created by our Python friends](https://connect.conf23workflows.training.posit.co/food_inspections_model_card/)!
-
-<br>
-
--   **Model Goal**: *Return the likelihood that a business will fail an inspection*
-
-## Food Inspections Model {.content-light}
+## Ferry Delay Prediction Model {.content-light}
 
 ::: {.callout-note icon="false"}
 ## Activity
 
-👉 Try interacting with the Food Inspections Model API on Posit Connect
-
--   <https://connect.conf23workflows.training.posit.co/food-inspections-api/>
+👉 Try interacting with your Ferry Delay Prediction Model API on Posit Connect
 :::
 
 ## Example Prediction
 
-![](slide_resources/FI-api-docs-example.png){fig-align="center"}
+![](slide_resources/example_prediction.png){fig-align="center"}
 
 ## Review
 
-![](slide_resources/workflow_diagram.jpg){fig-align="center"}
+![](slide_resources/ds-workflows-r-2024.jpg){fig-align="center"}

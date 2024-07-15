@@ -1300,7 +1300,7 @@
     "href": "slides/05_delivery.html#connect-server-api-resources",
     "title": "Data Science Workflows with Posit Tools - R focus",
     "section": "Connect Server API Resources",
-    "text": "Connect Server API Resources\n\nReference https://docs.posit.co/connect/api/\nCookbook https://docs.posit.co/connect/cookbook/\nExample reports and apps https://solutions.posit.co/operations/connect-apis/\nR package connectapi that is a wrapper around the API https://pkgs.rstudio.com/connectapi/",
+    "text": "Connect Server API Resources\n\nReference https://docs.posit.co/connect/api/\nCookbook https://docs.posit.co/connect/cookbook/\nExample reports and apps https://solutions.posit.co/operations/connect-apis/\nR package connectapi that is a wrapper around the API https://pkgs.rstudio.com/connectapi/ ::::::::::::::::::::::::::",
     "crumbs": [
       "About",
       "Slides",
@@ -1324,7 +1324,7 @@
     "href": "slides/03_data_validation_and_alerting.html#section-agenda",
     "title": "Data Science Workflows with Posit Tools - R focus",
     "section": "Section Agenda",
-    "text": "Section Agenda\n\nEnsure quality data is flowing through the pipeline\nGet alerts via automation",
+    "text": "Section Agenda\n\nAd-hoc data exploration\nEnsure quality data is flowing through the pipeline\nGet alerts via automation",
     "crumbs": [
       "About",
       "Slides",
@@ -1468,7 +1468,7 @@
     "href": "slides/03_data_validation_and_alerting.html#section",
     "title": "Data Science Workflows with Posit Tools - R focus",
     "section": "",
-    "text": "Activity Time!\n\n\n\n\n\n\n\n\nActivity\n\n\n\n👉 Open the file materials/activities/activity-03_data_validation.qmd\nActivity objective: Use pointblank to validate data, remove non-compliant records, and document the data.",
+    "text": "Activity Time!\n\n\n\n\n\n\n\n\nActivity\n\n\n\n👉 Open the file materials/activities/activity-01_raw_data_exploration.qmd\nActivity objective: explore our Chicago Food Inspections data to get familiar with our data",
     "crumbs": [
       "About",
       "Slides",
@@ -1564,7 +1564,7 @@
     "href": "slides/03_data_validation_and_alerting.html#section-1",
     "title": "Data Science Workflows with Posit Tools - R focus",
     "section": "",
-    "text": "Demo Time\n\nconditional email example",
+    "text": "Activity Time!\n\n\n\n\n\n\n\n\nActivity\n\n\n\n👉 Open the file materials/activities/activity-03_data_validation.qmd\nActivity objective: Use pointblank to validate data, remove non-compliant records, and document the data.",
     "crumbs": [
       "About",
       "Slides",
@@ -1755,217 +1755,372 @@
     "href": "slides/01_workshop_and_project_intro.html",
     "title": "Data Science Workflows with Posit Tools",
     "section": "",
-    "text": "Introduction"
+    "text": "Introduction",
+    "crumbs": [
+      "About",
+      "Slides",
+      "01 - Workshop and Project Intro"
+    ]
   },
   {
     "objectID": "slides/01_workshop_and_project_intro.html#section",
     "href": "slides/01_workshop_and_project_intro.html#section",
     "title": "Data Science Workflows with Posit Tools",
     "section": "",
-    "text": "Introduction"
+    "text": "Introduction",
+    "crumbs": [
+      "About",
+      "Slides",
+      "01 - Workshop and Project Intro"
+    ]
   },
   {
     "objectID": "slides/01_workshop_and_project_intro.html#logistics",
     "href": "slides/01_workshop_and_project_intro.html#logistics",
     "title": "Data Science Workflows with Posit Tools",
     "section": "Logistics",
-    "text": "Logistics\n\nTODO:\nUPDATE THIS\n\n🛜 WiFi credentials:\n\nNetwork: Posit Conf 2023\nPassword: conf2023\nImportant locations:\n\nBathrooms: There are gender-neutral bathrooms located are among the Grand Suite Bathrooms.\nMeditation/prayer room: Grand Suite 2A and Grand Suite 2B. Open Sunday - Tuesday 7:30 a.m. - 7:00 p.m., Wednesday 8:00 a.m. - 6:00 p.m.\nLactation room: located in Grand Suite 1. Open Sunday - Tuesday 7:30 a.m. - 7:00 p.m., Wednesday 8:00 a.m. - 6:00 p.m."
+    "text": "Logistics\n\nTODO:\nUPDATE THIS\n\n🛜 WiFi credentials:\n\nNetwork: Posit Conf 2023\nPassword: conf2023\nImportant locations:\n\nBathrooms: There are gender-neutral bathrooms located are among the Grand Suite Bathrooms.\nMeditation/prayer room: Grand Suite 2A and Grand Suite 2B. Open Sunday - Tuesday 7:30 a.m. - 7:00 p.m., Wednesday 8:00 a.m. - 6:00 p.m.\nLactation room: located in Grand Suite 1. Open Sunday - Tuesday 7:30 a.m. - 7:00 p.m., Wednesday 8:00 a.m. - 6:00 p.m.",
+    "crumbs": [
+      "About",
+      "Slides",
+      "01 - Workshop and Project Intro"
+    ]
   },
   {
     "objectID": "slides/01_workshop_and_project_intro.html#logistics-1",
     "href": "slides/01_workshop_and_project_intro.html#logistics-1",
     "title": "Data Science Workflows with Posit Tools",
     "section": "Logistics",
-    "text": "Logistics\n\nParticipants who do not wish to be photographed have red lanyards; please note everyone’s lanyard colors before taking a photo and respect their choices.\nThe Code of Conduct and COVID policies can be found at https://posit.co/code-of-conduct/. Please review them carefully. You can report Code of Conduct violations in person, by email, or by phone. Please see the policy linked above for contact information."
+    "text": "Logistics\n\nParticipants who do not wish to be photographed have red lanyards; please note everyone’s lanyard colors before taking a photo and respect their choices.\nThe Code of Conduct and COVID policies can be found at https://posit.co/code-of-conduct/. Please review them carefully. You can report Code of Conduct violations in person, by email, or by phone. Please see the policy linked above for contact information.",
+    "crumbs": [
+      "About",
+      "Slides",
+      "01 - Workshop and Project Intro"
+    ]
   },
   {
     "objectID": "slides/01_workshop_and_project_intro.html#code-of-conduct",
     "href": "slides/01_workshop_and_project_intro.html#code-of-conduct",
     "title": "Data Science Workflows with Posit Tools",
     "section": "Code of Conduct",
-    "text": "Code of Conduct\n\nEveryone who comes to learn and enjoy the experience should feel welcome at posit::conf. Posit is committed to providing a professional, friendly and safe environment for all participants at its events, regardless of gender, sexual orientation, disability, race, ethnicity, religion, national origin or other protected class.\nThis code of conduct outlines the expectations for all participants, including attendees, sponsors, speakers, vendors, media, exhibitors, and volunteers. Posit will actively enforce this code of conduct throughout posit::conf.\n\n\nhttps://posit.co/code-of-conduct/"
+    "text": "Code of Conduct\n\nEveryone who comes to learn and enjoy the experience should feel welcome at posit::conf. Posit is committed to providing a professional, friendly and safe environment for all participants at its events, regardless of gender, sexual orientation, disability, race, ethnicity, religion, national origin or other protected class.\nThis code of conduct outlines the expectations for all participants, including attendees, sponsors, speakers, vendors, media, exhibitors, and volunteers. Posit will actively enforce this code of conduct throughout posit::conf.\n\n\nhttps://posit.co/code-of-conduct/",
+    "crumbs": [
+      "About",
+      "Slides",
+      "01 - Workshop and Project Intro"
+    ]
   },
   {
     "objectID": "slides/01_workshop_and_project_intro.html#meet-the-team",
     "href": "slides/01_workshop_and_project_intro.html#meet-the-team",
     "title": "Data Science Workflows with Posit Tools",
     "section": "Meet the Team!",
-    "text": "Meet the Team!\n\n\n\nRyan Johnson\nData Science Advisor @ Posit\n\n\nKatie Masiello\nSolutions Engineer @ Posit\n\n\nTrevor Nederlof\nSolutions Engineer @ Posit"
+    "text": "Meet the Team!\n\n\n\nRyan Johnson\nData Science Advisor @ Posit\n\n\nKatie Masiello\nSolutions Engineer @ Posit\n\n\nTrevor Nederlof\nSolutions Engineer @ Posit",
+    "crumbs": [
+      "About",
+      "Slides",
+      "01 - Workshop and Project Intro"
+    ]
   },
   {
     "objectID": "slides/01_workshop_and_project_intro.html#meet-your-neighbor",
     "href": "slides/01_workshop_and_project_intro.html#meet-your-neighbor",
     "title": "Data Science Workflows with Posit Tools",
     "section": "Meet your Neighbor!",
-    "text": "Meet your Neighbor!"
+    "text": "Meet your Neighbor!",
+    "crumbs": [
+      "About",
+      "Slides",
+      "01 - Workshop and Project Intro"
+    ]
   },
   {
     "objectID": "slides/01_workshop_and_project_intro.html#agenda",
     "href": "slides/01_workshop_and_project_intro.html#agenda",
     "title": "Data Science Workflows with Posit Tools",
     "section": "Agenda",
-    "text": "Agenda\n\n\n\n\n\n\n\nTime\nActivity\n\n\n\n\n~9:00 - 10:30\nWorkshop Introduction  Reading, Cleaning, Writing and Validating Data\n\n\n10:30 - 11:00\nCoffee break ☕\n\n\n~11:00 - 12:30\nCreating, Delivering, and Monitoring a model using Vetiver\n\n\n12:30 - 1:30\nLunch break 🥪\n\n\n~1:30 - 3:00\nDelivery\n\n\n3:00 - 3:30\nCoffee break ☕\n\n\n~3:30 - 5:00\nAdvancing your Workflow"
+    "text": "Agenda\n\n\n\n\n\n\n\nTime\nActivity\n\n\n\n\n~9:00 - 10:30\nWorkshop Introduction  Reading, Cleaning, Writing and Validating Data\n\n\n10:30 - 11:00\nCoffee break ☕\n\n\n~11:00 - 12:30\nCreating, Delivering, and Monitoring a model using Vetiver\n\n\n12:30 - 1:30\nLunch break 🥪\n\n\n~1:30 - 3:00\nDelivery\n\n\n3:00 - 3:30\nCoffee break ☕\n\n\n~3:30 - 5:00\nAdvancing your Workflow",
+    "crumbs": [
+      "About",
+      "Slides",
+      "01 - Workshop and Project Intro"
+    ]
   },
   {
     "objectID": "slides/01_workshop_and_project_intro.html#the-sticky-situation",
     "href": "slides/01_workshop_and_project_intro.html#the-sticky-situation",
     "title": "Data Science Workflows with Posit Tools",
     "section": "The Sticky Situation",
-    "text": "The Sticky Situation\n\n\n\n\n\n“I’m lost / need help”\n\n\n\n\n“I’m done and ready to move along”\n\n👨‍💻Put your sticky note on the back of your laptop screen 👩‍💻"
+    "text": "The Sticky Situation\n\n\n\n\n\n“I’m lost / need help”\n\n\n\n\n“I’m done and ready to move along”\n\n👨‍💻Put your sticky note on the back of your laptop screen 👩‍💻",
+    "crumbs": [
+      "About",
+      "Slides",
+      "01 - Workshop and Project Intro"
+    ]
   },
   {
     "objectID": "slides/01_workshop_and_project_intro.html#workshop-approach",
     "href": "slides/01_workshop_and_project_intro.html#workshop-approach",
     "title": "Data Science Workflows with Posit Tools",
     "section": "Workshop approach",
-    "text": "Workshop approach\nWe will use an end-to-end real-world project to demonstrate workflows and best practices using open source packages and Posit professional tools.\n\n\n Conventions\n\n\n\n\n\n\n\n\n🧰\nAdd this to your toolbox.\n\n\n📣\nI will stand on my soapbox and profess this until I am blue in the face.\n\n\n\nDetour warning. We could get really into this, but there’s not time today."
+    "text": "Workshop approach\nWe will use an end-to-end real-world project to demonstrate workflows and best practices using open source packages and Posit professional tools.\n\n\n Conventions\n\n\n\n\n\n\n\n\n🧰\nAdd this to your toolbox.\n\n\n📣\nI will stand on my soapbox and profess this until I am blue in the face.\n\n\n\nDetour warning. We could get really into this, but there’s not time today.",
+    "crumbs": [
+      "About",
+      "Slides",
+      "01 - Workshop and Project Intro"
+    ]
   },
   {
     "objectID": "slides/01_workshop_and_project_intro.html#asking-questions",
     "href": "slides/01_workshop_and_project_intro.html#asking-questions",
     "title": "Data Science Workflows with Posit Tools",
     "section": "Asking Questions",
-    "text": "Asking Questions\nDiscord - #data-science-workflows-with-posit-tools-r-focus\n\n\n  \n👉 Submit questions and respond to polls here\n\n\n\n\n\n\n\n\n\nYou are always welcome to raise your hand! 🙋\n\n\n\n\n\nGo to Discord now and tell us what you’re excited about!"
+    "text": "Asking Questions\nDiscord - #data-science-workflows-with-posit-tools-r-focus\n\n\n  \n👉 Submit questions and respond to polls here\n\n\n\n\n\n\n\n\n\nYou are always welcome to raise your hand! 🙋\n\n\n\n\n\nGo to Discord now and tell us what you’re excited about!",
+    "crumbs": [
+      "About",
+      "Slides",
+      "01 - Workshop and Project Intro"
+    ]
   },
   {
     "objectID": "slides/01_workshop_and_project_intro.html#getting-help-r-functions",
     "href": "slides/01_workshop_and_project_intro.html#getting-help-r-functions",
     "title": "Data Science Workflows with Posit Tools",
     "section": "Getting help (R Functions)",
-    "text": "Getting help (R Functions)\nFunctions are the 🍞 and 🧈 of R programming!\n\n\nIf you want to access any function’s help page:\n# Method 1\nhelp(function_name_here)\n\n# Method 2\n?function_name_here\n\n# Method 3\n# Highlight the function and press F1 🤯"
+    "text": "Getting help (R Functions)\nFunctions are the 🍞 and 🧈 of R programming!\n\n\nIf you want to access any function’s help page:\n# Method 1\nhelp(function_name_here)\n\n# Method 2\n?function_name_here\n\n# Method 3\n# Highlight the function and press F1 🤯",
+    "crumbs": [
+      "About",
+      "Slides",
+      "01 - Workshop and Project Intro"
+    ]
   },
   {
     "objectID": "slides/01_workshop_and_project_intro.html#section-1",
     "href": "slides/01_workshop_and_project_intro.html#section-1",
     "title": "Data Science Workflows with Posit Tools",
     "section": "",
-    "text": "⛴️ Ready to set sail? 🌊"
+    "text": "⛴️ Ready to set sail? 🌊",
+    "crumbs": [
+      "About",
+      "Slides",
+      "01 - Workshop and Project Intro"
+    ]
   },
   {
     "objectID": "slides/01_workshop_and_project_intro.html#washington-state-ferry-depature-delays-project",
     "href": "slides/01_workshop_and_project_intro.html#washington-state-ferry-depature-delays-project",
     "title": "Data Science Workflows with Posit Tools",
     "section": "Washington State Ferry Depature Delays Project",
-    "text": "Washington State Ferry Depature Delays Project\n ⛴️ WSF is the largest operating public ferry system in the US! 🤯\n🐋 21 ferries across Puget Sound and the Salish Sea\n\n\n https://i.pinimg.com/originals/c9/8b/3a/c98b3a997df52b6c8ad681590557c6bc.jpg\n\n\n\n\nhttps://wsdot.com/ferries/vesselwatch/default.aspx"
+    "text": "Washington State Ferry Depature Delays Project\n ⛴️ WSF is the largest operating public ferry system in the US! 🤯\n🐋 21 ferries across Puget Sound and the Salish Sea\n\n\n https://i.pinimg.com/originals/c9/8b/3a/c98b3a997df52b6c8ad681590557c6bc.jpg",
+    "crumbs": [
+      "About",
+      "Slides",
+      "01 - Workshop and Project Intro"
+    ]
   },
   {
     "objectID": "slides/01_workshop_and_project_intro.html#washington-state-ferry-depature-delays-project-1",
     "href": "slides/01_workshop_and_project_intro.html#washington-state-ferry-depature-delays-project-1",
     "title": "Data Science Workflows with Posit Tools",
     "section": "Washington State Ferry Depature Delays Project",
-    "text": "Washington State Ferry Depature Delays Project\n\n\n\n\n\n\nThe Question\n\n\n\nCan we predict departure delay for a given route and date?\n\n\n\n\n\n\n\n\nOur Approach\n\n\n\nUse the historical (validated) delay, location, and weather data to create a model that will predict the likelihood and duration of delays!"
+    "text": "Washington State Ferry Depature Delays Project\n\n\n\n\n\n\nThe Question\n\n\n\nCan we predict departure delay for a given route and date?\n\n\n\n\n\n\n\n\nOur Approach\n\n\n\nUse the historical (validated) delay, location, and weather data to create a model that will predict the likelihood and duration of delays!",
+    "crumbs": [
+      "About",
+      "Slides",
+      "01 - Workshop and Project Intro"
+    ]
   },
   {
     "objectID": "slides/01_workshop_and_project_intro.html#project-data",
     "href": "slides/01_workshop_and_project_intro.html#project-data",
     "title": "Data Science Workflows with Posit Tools",
     "section": "Project Data",
-    "text": "Project Data\nThis workshop will use data from two primary data sources:\n\n⛴︎ Ferry data (https://wsdot.wa.gov/traffic/api/)\n🌤️ Weather data (https://open-meteo.com/en/docs/historical-weather-api/)"
+    "text": "Project Data\nThis workshop will use data from two primary data sources:\n\n⛴︎ Ferry data (https://wsdot.wa.gov/traffic/api/)\n🌤️ Weather data (https://open-meteo.com/en/docs/historical-weather-api/)",
+    "crumbs": [
+      "About",
+      "Slides",
+      "01 - Workshop and Project Intro"
+    ]
   },
   {
     "objectID": "slides/01_workshop_and_project_intro.html#project-data-details",
     "href": "slides/01_workshop_and_project_intro.html#project-data-details",
     "title": "Data Science Workflows with Posit Tools",
     "section": "Project Data Details",
-    "text": "Project Data Details\n\n ⛴︎ Ferry data (https://wsdot.wa.gov/traffic/api/)\n\n\n\n\n\n\n\n\nData Set\nDescription\nAPI\n\n\n\n\nVessel verbose\nDetails about each ferry in the fleet, including name, model, and capacity\nhttps://www.wsdot.wa.gov/ferries/api/ vessels/rest/vesselverbose? apiaccesscode={WSDOT_ACCESS_CODE}\n\n\nVessel history\nHistorical sailings, including scheduled actual departure time\nhttps://www.wsdot.wa.gov/ferries/api/ vessels/rest/vesselhistory/ {VESSELNAME}/{DATESTART}/{DATEEND}? apiaccesscode={WSDOT_ACCESS_CODE}\n\n\nTerminal locations\nTerminal names and locations, including latitude and longitude\nhttps://www.wsdot.wa.gov/ferries/ api/terminals/rest/terminallocations? apiaccesscode={WSDOT_ACCESS_CODE}"
+    "text": "Project Data Details\n\n ⛴︎ Ferry data (https://wsdot.wa.gov/traffic/api/)\n\n\n\n\n\n\n\n\nData Set\nDescription\nAPI\n\n\n\n\nVessel verbose\nDetails about each ferry in the fleet, including name, model, and capacity\nhttps://www.wsdot.wa.gov/ferries/api/ vessels/rest/vesselverbose? apiaccesscode={WSDOT_ACCESS_CODE}\n\n\nVessel history\nHistorical sailings, including scheduled actual departure time\nhttps://www.wsdot.wa.gov/ferries/api/ vessels/rest/vesselhistory/ {VESSELNAME}/{DATESTART}/{DATEEND}? apiaccesscode={WSDOT_ACCESS_CODE}\n\n\nTerminal locations\nTerminal names and locations, including latitude and longitude\nhttps://www.wsdot.wa.gov/ferries/ api/terminals/rest/terminallocations? apiaccesscode={WSDOT_ACCESS_CODE}",
+    "crumbs": [
+      "About",
+      "Slides",
+      "01 - Workshop and Project Intro"
+    ]
   },
   {
     "objectID": "slides/01_workshop_and_project_intro.html#project-data-details-1",
     "href": "slides/01_workshop_and_project_intro.html#project-data-details-1",
     "title": "Data Science Workflows with Posit Tools",
     "section": "Project Data Details",
-    "text": "Project Data Details\n\n 🌤️ Weather data (https://open-meteo.com/en/docs/historical-weather-api/)\n\n\n\n\n\n\n\n\nEndpoint\nDescription\nAPI\n\n\n\n\nHistorical weather\nHistorical hourly weather at a specified latitude and longitude over a date range\nhttps://archive-api.open-meteo.com/v1/ archive?{params}"
+    "text": "Project Data Details\n\n 🌤️ Weather data (https://open-meteo.com/en/docs/historical-weather-api/)\n\n\n\n\n\n\n\n\nEndpoint\nDescription\nAPI\n\n\n\n\nHistorical weather\nHistorical hourly weather at a specified latitude and longitude over a date range\nhttps://archive-api.open-meteo.com/v1/ archive?{params}",
+    "crumbs": [
+      "About",
+      "Slides",
+      "01 - Workshop and Project Intro"
+    ]
   },
   {
     "objectID": "slides/01_workshop_and_project_intro.html#project-objective",
     "href": "slides/01_workshop_and_project_intro.html#project-objective",
     "title": "Data Science Workflows with Posit Tools",
     "section": "Project Objective",
-    "text": "Project Objective\n\nProvide users with a self-service tool that predicts the likelihood and duration of a ferry departure delay.\n\n\nProject Requirements\n\n\n🤖 Automate the pipeline\n⚠️ Receive alerts if there are issues in the pipeline\n🔄 Project is easy to maintain and iterate upon\n Work is reusable by other teams, even if they don’t use R (Lookin’ at you )"
+    "text": "Project Objective\n\nProvide users with a self-service tool that predicts the likelihood and duration of a ferry departure delay.\n\n\nProject Requirements\n\n\n🤖 Automate the pipeline\n⚠️ Receive alerts if there are issues in the pipeline\n🔄 Project is easy to maintain and iterate upon\n Work is reusable by other teams, even if they don’t use R (Lookin’ at you )",
+    "crumbs": [
+      "About",
+      "Slides",
+      "01 - Workshop and Project Intro"
+    ]
   },
   {
     "objectID": "slides/01_workshop_and_project_intro.html#project-overview",
     "href": "slides/01_workshop_and_project_intro.html#project-overview",
     "title": "Data Science Workflows with Posit Tools",
     "section": "Project Overview",
-    "text": "Project Overview"
+    "text": "Project Overview",
+    "crumbs": [
+      "About",
+      "Slides",
+      "01 - Workshop and Project Intro"
+    ]
   },
   {
     "objectID": "slides/01_workshop_and_project_intro.html#section-2",
     "href": "slides/01_workshop_and_project_intro.html#section-2",
     "title": "Data Science Workflows with Posit Tools",
     "section": "",
-    "text": "Get Your Environment Set Up"
+    "text": "⛴️ Ready to set sail? 🌊",
+    "crumbs": [
+      "About",
+      "Slides",
+      "01 - Workshop and Project Intro"
+    ]
   },
   {
     "objectID": "slides/01_workshop_and_project_intro.html#your-tools",
     "href": "slides/01_workshop_and_project_intro.html#your-tools",
     "title": "Data Science Workflows with Posit Tools",
     "section": "Your Tools",
-    "text": "Your Tools"
+    "text": "Your Tools",
+    "crumbs": [
+      "About",
+      "Slides",
+      "01 - Workshop and Project Intro"
+    ]
   },
   {
     "objectID": "slides/01_workshop_and_project_intro.html#access-your-tools",
     "href": "slides/01_workshop_and_project_intro.html#access-your-tools",
     "title": "Data Science Workflows with Posit Tools",
     "section": "Access Your Tools",
-    "text": "Access Your Tools\nVisit 🧚 https://ferryland.ptd.posit.co 🧚 to access:\n\nWorkbench: https://dev.ferryland.ptd.posit.co\nConnect: https://pub.ferryland.ptd.posit.co\nPackage Manager: https://pkg.ferryland.ptd.posit.co"
+    "text": "Access Your Tools\nVisit 🧚 https://ferryland.ptd.posit.co 🧚 to access:\n\nWorkbench: https://dev.ferryland.ptd.posit.co\nConnect: https://pub.ferryland.ptd.posit.co\nPackage Manager: https://pkg.ferryland.ptd.posit.co",
+    "crumbs": [
+      "About",
+      "Slides",
+      "01 - Workshop and Project Intro"
+    ]
   },
   {
     "objectID": "slides/01_workshop_and_project_intro.html#connect-setup-step-1",
     "href": "slides/01_workshop_and_project_intro.html#connect-setup-step-1",
     "title": "Data Science Workflows with Posit Tools",
     "section": "Connect Setup // Step 1",
-    "text": "Connect Setup // Step 1\nVisit: https://pub.ferryland.ptd.posit.co\n\n\n\n\n\n\n\n\n\nUse any email you have access to (personal is preferred to avoid corporate spam filters)\nSet your username as firstname.lastname\nChoose any password"
+    "text": "Connect Setup // Step 1\nVisit: https://pub.ferryland.ptd.posit.co\n\n\n\n\n\n\n\n\n\nUse any email you have access to (personal is preferred to avoid corporate spam filters)\nSet your username as firstname.lastname\nChoose any password",
+    "crumbs": [
+      "About",
+      "Slides",
+      "01 - Workshop and Project Intro"
+    ]
   },
   {
     "objectID": "slides/01_workshop_and_project_intro.html#connect-setup-step-2",
     "href": "slides/01_workshop_and_project_intro.html#connect-setup-step-2",
     "title": "Data Science Workflows with Posit Tools",
     "section": "Connect Setup // Step 2",
-    "text": "Connect Setup // Step 2\n\n\nCheck your email for a confirmation email.\nIt will likely be in your spam folder.\nThe email will be from conf23workflows@training.rstudio.com"
+    "text": "Connect Setup // Step 2\n\n\nCheck your email for a confirmation email.\nIt will likely be in your spam folder.\nThe email will be from conf23workflows@training.rstudio.com",
+    "crumbs": [
+      "About",
+      "Slides",
+      "01 - Workshop and Project Intro"
+    ]
   },
   {
     "objectID": "slides/01_workshop_and_project_intro.html#workbench-setup-step-1",
     "href": "slides/01_workshop_and_project_intro.html#workbench-setup-step-1",
     "title": "Data Science Workflows with Posit Tools",
     "section": "Workbench Setup // Step 1",
-    "text": "Workbench Setup // Step 1\nVisit: https://dev.ferryland.ptd.posit.co\n\n\n\nYour account has already been created!\nLog in with username as firstname.lastname. For example:\n\nName: Ryan Johnson\nUsername: ryan.johnson\n\nPassword = password"
+    "text": "Workbench Setup // Step 1\nVisit: https://dev.ferryland.ptd.posit.co\n\n\n\nYour account has already been created!\nLog in with username as firstname.lastname. For example:\n\nName: Ryan Johnson\nUsername: ryan.johnson\n\nPassword = password",
+    "crumbs": [
+      "About",
+      "Slides",
+      "01 - Workshop and Project Intro"
+    ]
   },
   {
     "objectID": "slides/01_workshop_and_project_intro.html#workbench-setup-step-1-1",
     "href": "slides/01_workshop_and_project_intro.html#workbench-setup-step-1-1",
     "title": "Data Science Workflows with Posit Tools",
     "section": "Workbench Setup // Step 1",
-    "text": "Workbench Setup // Step 1\nYour account has already been created!"
+    "text": "Workbench Setup // Step 1\nYour account has already been created!",
+    "crumbs": [
+      "About",
+      "Slides",
+      "01 - Workshop and Project Intro"
+    ]
   },
   {
     "objectID": "slides/01_workshop_and_project_intro.html#workbench-setup-step-2",
     "href": "slides/01_workshop_and_project_intro.html#workbench-setup-step-2",
     "title": "Data Science Workflows with Posit Tools",
     "section": "Workbench Setup // Step 2",
-    "text": "Workbench Setup // Step 2\n\n\n\nClick New Session\nStart a RStudio Pro session\nNavigate to the folder ds-workflows-r\nOpen the ds-workflows-r.Rproj project"
+    "text": "Workbench Setup // Step 2\n\n\n\nClick New Session\nStart a RStudio Pro session\nNavigate to the folder ds-workflows-r\nOpen the ds-workflows-r.Rproj project",
+    "crumbs": [
+      "About",
+      "Slides",
+      "01 - Workshop and Project Intro"
+    ]
   },
   {
     "objectID": "slides/01_workshop_and_project_intro.html#project-navigation",
     "href": "slides/01_workshop_and_project_intro.html#project-navigation",
     "title": "Data Science Workflows with Posit Tools",
     "section": "Project Navigation",
-    "text": "Project Navigation\n\n📁 materials : Contains the project files that we/you will work through during the workshop.\n\n💡 Within each directory, there is a .Rproj file. Open the folder’s project file to work on that portion of the materials.\n\n📁 slides : Quarto slides for the workshop, broken up by section.\n📁 website : Source material for the workshop website. Rendered slides are hosted here for your reference."
+    "text": "Project Navigation\n\n📁 materials : Contains the project files that we/you will work through during the workshop.\n\n💡 Within each directory, there is a .Rproj file. Open the folder’s project file to work on that portion of the materials.\n\n📁 slides : Quarto slides for the workshop, broken up by section.\n📁 website : Source material for the workshop website. Rendered slides are hosted here for your reference.",
+    "crumbs": [
+      "About",
+      "Slides",
+      "01 - Workshop and Project Intro"
+    ]
   },
   {
     "objectID": "slides/01_workshop_and_project_intro.html#saving-your-work",
     "href": "slides/01_workshop_and_project_intro.html#saving-your-work",
     "title": "Data Science Workflows with Posit Tools",
     "section": "Saving your work 💾",
-    "text": "Saving your work 💾\n\nAll source material can be found on the GitHub page: https://github.com/posit-conf-2024/ds-workflows-r\nThe environment we’re working on will stay on for a few days after conf…but that’s it!\nIf you would like to save your work, we recommend:\n\nExporting any source code to your local machine.\nFork the project to a personal GitHub Repo."
+    "text": "Saving your work 💾\n\nAll source material can be found on the GitHub page: https://github.com/posit-conf-2024/ds-workflows-r\nThe environment we’re working on will stay on for a few days after conf…but that’s it!\nIf you would like to save your work, we recommend:\n\nExporting any source code to your local machine.\nFork the project to a personal GitHub Repo.",
+    "crumbs": [
+      "About",
+      "Slides",
+      "01 - Workshop and Project Intro"
+    ]
   },
   {
     "objectID": "slides/01_workshop_and_project_intro.html#section-3",
     "href": "slides/01_workshop_and_project_intro.html#section-3",
     "title": "Data Science Workflows with Posit Tools",
     "section": "",
-    "text": "Let’s Get to Work!"
+    "text": "Get Your Environment Set Up",
+    "crumbs": [
+      "About",
+      "Slides",
+      "01 - Workshop and Project Intro"
+    ]
   },
   {
     "objectID": "slides/06_managing_environments.html#where-we-are",
@@ -2224,7 +2379,7 @@
     "href": "slides/04_tidymodels_and_vetiver.html#whats-the-goal",
     "title": "Data Science Workflows with Posit Tools - R focus",
     "section": "What’s the Goal?",
-    "text": "What’s the Goal?\n\n\n\n\nWhat we have:\n\nA beautiful - tidy - validated dataset\n\nHistorical food inspection results\nBusiness information\n\n\n\nWhat do we want:\n\nA  MODEL  that can predict if an establishment will fail an inspection",
+    "text": "What’s the Goal?\n\n\n\n\nWhat we have:\n\nA beautiful - tidy - validated dataset\n\nFerry information and history\nWeather data\n\n\n\nWhat do we want:\n\nA  MODEL  that can predict if a ferry will have a delayed departure",
     "crumbs": [
       "About",
       "Slides",
@@ -2248,7 +2403,7 @@
     "href": "slides/04_tidymodels_and_vetiver.html#review---chicago-food-inspections-project",
     "title": "Data Science Workflows with Posit Tools - R focus",
     "section": "Review - Chicago Food Inspections Project",
-    "text": "Review - Chicago Food Inspections Project\n\nWhat is this project?\n\n\n\n\nOver 15,000 food establishments across the City of Chicago\n\n\n\n\nOnly a handful of food inspectors currently employed\n\n\n\n\n\n\n\n\n\nThe Question\n\n\n\nCan we help inspectors identify which establishments are at highest risk for failing an inspection?\n\n\n\n\n\n\n\n\n\n\nThe Answer\n\n\n\nUse the historical (validated) inspections data to create a model that will predict fail likelihood!",
+    "text": "Review - Chicago Food Inspections Project\n ⛴️ WSF is the largest operating public ferry system in the US! 🤯\n🐋 21 ferries across Puget Sound and the Salish Sea\n\n\n https://i.pinimg.com/originals/c9/8b/3a/c98b3a997df52b6c8ad681590557c6bc.jpg\n\n\n\n\n\n\n\n\n\n\n\nThe Question\n\n\n\nCan we help inform travelers about possible ferry delays?\n\n\n\n\n\n\n\n\n\n\nThe Answer\n\n\n\nUse the ferry-weather (validated) data to create a model that will predict delay status!",
     "crumbs": [
       "About",
       "Slides",
@@ -2296,7 +2451,7 @@
     "href": "slides/04_tidymodels_and_vetiver.html#introduction-to-tidymodels-3",
     "title": "Data Science Workflows with Posit Tools - R focus",
     "section": "Introduction to Tidymodels",
-    "text": "Introduction to Tidymodels\n  \n\n\nActivity Time!\n\n\n\n\n\n\n\n\nActivity\n\n\n\n👉 Open the file materials/activities/activity-05_TidymodelsVetiver.qmd\nComplete Task 1 only!\n\n\n\n\n\n\n\n\nImportant\n\n\n\nWe will be using the diamonds dataset for this activity!",
+    "text": "Introduction to Tidymodels\n  \n\n\nActivity Time!\n\n\n\n\n\n\n\n\nActivity\n\n\n\n👉 Open the file materials/04-tidymodels-vetiver/04-idymodels-vetiver.qmd\nComplete Task 1 only!\n\n\n\n\n\n\n\n\nGoal\n\n\n\nBuild a model using tidymodels.",
     "crumbs": [
       "About",
       "Slides",
@@ -2356,7 +2511,7 @@
     "href": "slides/04_tidymodels_and_vetiver.html#activity-1",
     "title": "Data Science Workflows with Posit Tools - R focus",
     "section": "Activity",
-    "text": "Activity\n\n\n\n\n\n\nActivity\n\n\n\n👉 Open the file materials/activities/activity-05_TidymodelsVetiver.qmd\nComplete Task 2 only!",
+    "text": "Activity\n\n\n\n\n\n\nActivity\n\n\n\n👉 Open the file materials/04-tidymodels-vetiver/04-tidymodels-vetiver.qmd\nComplete Task 2 only!\n\n\n\n\n\n\n\n\nGoal\n\n\n\nUse vetiver to pin model to Posit Connect.",
     "crumbs": [
       "About",
       "Slides",
@@ -2380,7 +2535,7 @@
     "href": "slides/04_tidymodels_and_vetiver.html#activity-3",
     "title": "Data Science Workflows with Posit Tools - R focus",
     "section": "Activity",
-    "text": "Activity\n\n\n\n\n\n\nActivity\n\n\n\n👉 Open the file materials/activities/activity-05_TidymodelsVetiver.qmd\nComplete Tasks 3 & 4 only!",
+    "text": "Activity\n\n\n\n\n\n\nActivity\n\n\n\n👉 Open the file materials/04-tidymodels-vetiver/04-tidymodels-vetiver.qmd\nComplete Tasks 3 only!\n\n\n\n\n\n\n\n\nGoal\n\n\n\nUse vetiver to serve the pinned model as an API to Posit Connect.",
     "crumbs": [
       "About",
       "Slides",
@@ -2392,7 +2547,7 @@
     "href": "slides/04_tidymodels_and_vetiver.html#version-and-monitor-your-models",
     "title": "Data Science Workflows with Posit Tools - R focus",
     "section": "Version and Monitor your models",
-    "text": "Version and Monitor your models\n\n\n\nData changes over time\nModels change over time\nHow can I ensure I’m using the best model for the job?\n\n\n\n\n\n\n\n\n\nActivity\n\n\n\n👉 Open the file materials/activities/activity-05_TidymodelsVetiver.qmd\nComplete Task 5",
+    "text": "Version and Monitor your models\n\n\n\nData changes over time\nModels change over time\nHow can I ensure I’m using the best model for the job?\n\n\n\n\n\n\n\n\n\nActivity\n\n\n\n👉 Open the file materials/04-tidymodels-vetiver/04-tidymodels-vetiver.qmd\nComplete Task 4\n\n\n\n\n\n\n\n\nGoal\n\n\n\nUse vetiver to version and monitor your ferry predict model.",
     "crumbs": [
       "About",
       "Slides",
@@ -2445,6 +2600,390 @@
       "About",
       "Slides",
       "04 - Modeling and MLOps"
+    ]
+  },
+  {
+    "objectID": "slides/01_workshop_and_project_intro.html#section-4",
+    "href": "slides/01_workshop_and_project_intro.html#section-4",
+    "title": "Data Science Workflows with Posit Tools",
+    "section": "",
+    "text": "Let’s Get to Work!",
+    "crumbs": [
+      "About",
+      "Slides",
+      "01 - Workshop and Project Intro"
+    ]
+  },
+  {
+    "objectID": "slides/02_data_download_and_databases.html#section-agenda",
+    "href": "slides/02_data_download_and_databases.html#section-agenda",
+    "title": "Data Science Workflows with Posit Tools - R focus",
+    "section": "Section Agenda",
+    "text": "Section Agenda\n\nDownloading data from sources\nWriting production data to a database\nIntroduction to alerting\nAutomating the pipeline",
+    "crumbs": [
+      "About",
+      "Slides",
+      "02 - Data Exploration and Database Essentials"
+    ]
+  },
+  {
+    "objectID": "slides/02_data_download_and_databases.html#project-overview",
+    "href": "slides/02_data_download_and_databases.html#project-overview",
+    "title": "Data Science Workflows with Posit Tools - R focus",
+    "section": "Project Overview",
+    "text": "Project Overview",
+    "crumbs": [
+      "About",
+      "Slides",
+      "02 - Data Exploration and Database Essentials"
+    ]
+  },
+  {
+    "objectID": "slides/02_data_download_and_databases.html#download-raw-data-from-an-api-endpoint",
+    "href": "slides/02_data_download_and_databases.html#download-raw-data-from-an-api-endpoint",
+    "title": "Data Science Workflows with Posit Tools - R focus",
+    "section": "Download raw data from an API endpoint",
+    "text": "Download raw data from an API endpoint\nYour first instinct for retrieving raw data may be to download the data as a csv file. \n\n💡 There’s a better way!\n\n\n\nMany data sources offer an API endpoint for downloading data\n{httr2} provides wrapper functions around curl requests for easier querying and handling of responses\n\n\n\n {httr2} is a ground-up rewrite of {httr} that is pipeable! It implements an explicit request object that solves common problems such as built-in rate-limiting, retries, OAuth, secure secrets, and more.",
+    "crumbs": [
+      "About",
+      "Slides",
+      "02 - Data Exploration and Database Essentials"
+    ]
+  },
+  {
+    "objectID": "slides/02_data_download_and_databases.html#example-httr2-request",
+    "href": "slides/02_data_download_and_databases.html#example-httr2-request",
+    "title": "Data Science Workflows with Posit Tools - R focus",
+    "section": "Example httr2 request",
+    "text": "Example httr2 request\nHere’s how we will query the vesselverbose endpoint at\nhttps://www.wsdot.wa.gov/ferries/api/vessels/rest/vesselverbose?apiaccesscode={WSDOT_ACCESS_CODE}\n\nbase_url &lt;- \"https://www.wsdot.wa.gov\"\nendpoint &lt;- \"ferries/api/vessels/rest/vesselverbose\"\n\n# Compose the API request \nreq &lt;- request(base_url) |&gt; \n  req_url_path_append(endpoint) |&gt; \n  req_url_query(apiaccesscode = Sys.getenv(\"WSDOT_ACCESS_CODE\")) \n  \n# perform the request\nresponse &lt;- req |&gt; \n  req_perform()\n\n# convert the body of the response to a tibble\nresponse_body &lt;- response |&gt; \n  resp_body_string() |&gt; \n  jsonlite::fromJSON() |&gt; \n  as_tibble()",
+    "crumbs": [
+      "About",
+      "Slides",
+      "02 - Data Exploration and Database Essentials"
+    ]
+  },
+  {
+    "objectID": "slides/02_data_download_and_databases.html#section",
+    "href": "slides/02_data_download_and_databases.html#section",
+    "title": "Data Science Workflows with Posit Tools - R focus",
+    "section": "",
+    "text": "Activity Time!\n\n\n\n\n\n\n\n\nActivity\n\n\n\n👉 Open the project materials/01-raw-data-write/01-raw-data-write.Rproj\nActivity objective: Download the vesselverbose data from the WSDOT API endpoint.\n🛑 Work through Task 1 - Task 3 only.",
+    "crumbs": [
+      "About",
+      "Slides",
+      "02 - Data Exploration and Database Essentials"
+    ]
+  },
+  {
+    "objectID": "slides/02_data_download_and_databases.html#where-should-i-put-the-data",
+    "href": "slides/02_data_download_and_databases.html#where-should-i-put-the-data",
+    "title": "Data Science Workflows with Posit Tools - R focus",
+    "section": "Where should I put the data?",
+    "text": "Where should I put the data?\n\n📣 Production data belongs in a database.",
+    "crumbs": [
+      "About",
+      "Slides",
+      "02 - Data Exploration and Database Essentials"
+    ]
+  },
+  {
+    "objectID": "slides/02_data_download_and_databases.html#database-connection-essentials",
+    "href": "slides/02_data_download_and_databases.html#database-connection-essentials",
+    "title": "Data Science Workflows with Posit Tools - R focus",
+    "section": "Database Connection Essentials",
+    "text": "Database Connection Essentials\n\n\n\nUse {DBI} to make a connection with DBI::dbConnect()\nThe first argument to {DBI} is your DBI-compliant R package\n\n\n\n\nBest case: one of the DBI-compliant db-specific packages\n\n\nAlternative: odbc::odbc() + an ODBC driver installed on your system \n\n\n\n📣 When possible, use a database-specific R package (e.g., RPostgres, RMariaDB, RSQLite, bigrquery, etc.) instead of odbc + a driver. In many cases, they are more performant (especially in writing data) and may have more translations available for query types.",
+    "crumbs": [
+      "About",
+      "Slides",
+      "02 - Data Exploration and Database Essentials"
+    ]
+  },
+  {
+    "objectID": "slides/02_data_download_and_databases.html#interacting-with-databases",
+    "href": "slides/02_data_download_and_databases.html#interacting-with-databases",
+    "title": "Data Science Workflows with Posit Tools - R focus",
+    "section": "Interacting with Databases",
+    "text": "Interacting with Databases\n\n\nWhat tables are in a database? DBI::dbListTables(con)\nUse dplyr to interact with the database table in the same manner you would a local data frame\ndf &lt;- dplyr::tbl(con, \"my_table\")\ndf |&gt; filter(...) |&gt; mutate(...) |&gt; group_by(...) |&gt; summarise(...)\n📣 Do as much work as possible in the database to save time and resources before bringing the table into local memory.\nUse dplyr::collect() to bring the table into memory. Try to use collect as late as possible in your queries / transformations\ndf |&gt; ... |&gt; collect()",
+    "crumbs": [
+      "About",
+      "Slides",
+      "02 - Data Exploration and Database Essentials"
+    ]
+  },
+  {
+    "objectID": "slides/02_data_download_and_databases.html#more-on-databases",
+    "href": "slides/02_data_download_and_databases.html#more-on-databases",
+    "title": "Data Science Workflows with Posit Tools - R focus",
+    "section": "More on databases",
+    "text": "More on databases\n\n\n\n\n\n\n Best practices in working with databases\n\n\n\nhttps://solutions.posit.co/connections/db/\nSpecific resources:\n\n\n\nConnect to a database\nQuery a database table\n\n\n\n\nSecuring credentials\nMaking scripts portable",
+    "crumbs": [
+      "About",
+      "Slides",
+      "02 - Data Exploration and Database Essentials"
+    ]
+  },
+  {
+    "objectID": "slides/02_data_download_and_databases.html#section-1",
+    "href": "slides/02_data_download_and_databases.html#section-1",
+    "title": "Data Science Workflows with Posit Tools - R focus",
+    "section": "",
+    "text": "Activity Time!\n\n\n\n\n\n\n\n\nActivity\n\n\n\n👉 Return to the project materials/01-raw-data-write/01-raw-data-write.Rproj\nActivity objective: Write the vesselverbose data to the database.\n🛑 Work through Task 4 - Task 5 only.",
+    "crumbs": [
+      "About",
+      "Slides",
+      "02 - Data Exploration and Database Essentials"
+    ]
+  },
+  {
+    "objectID": "slides/02_data_download_and_databases.html#how-do-i-automate-this-process",
+    "href": "slides/02_data_download_and_databases.html#how-do-i-automate-this-process",
+    "title": "Data Science Workflows with Posit Tools - R focus",
+    "section": "How do I automate this process?",
+    "text": "How do I automate this process?\n\n🧰 Deploy and schedule your ETL and reports on Posit Connect",
+    "crumbs": [
+      "About",
+      "Slides",
+      "02 - Data Exploration and Database Essentials"
+    ]
+  },
+  {
+    "objectID": "slides/02_data_download_and_databases.html#introduction-to-emailing-with-posit-connect",
+    "href": "slides/02_data_download_and_databases.html#introduction-to-emailing-with-posit-connect",
+    "title": "Data Science Workflows with Posit Tools - R focus",
+    "section": "Introduction to Emailing with Posit Connect",
+    "text": "Introduction to Emailing with Posit Connect\nPosit Connect can send an email when a report or notebook renders\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n🚫\n🥱 This email is non-informative\n🔊 Creates noise in the inbox\n🙈 Does not compel anyone to look at it",
+    "crumbs": [
+      "About",
+      "Slides",
+      "02 - Data Exploration and Database Essentials"
+    ]
+  },
+  {
+    "objectID": "slides/02_data_download_and_databases.html#introduction-to-emailing-with-and-connect",
+    "href": "slides/02_data_download_and_databases.html#introduction-to-emailing-with-and-connect",
+    "title": "Data Science Workflows with Posit Tools - R focus",
+    "section": "Introduction to Emailing with  and Connect",
+    "text": "Introduction to Emailing with  and Connect\n\n\n\n\n+\n\n\n\n=\n\n🧰 Customized, conditional emails",
+    "crumbs": [
+      "About",
+      "Slides",
+      "02 - Data Exploration and Database Essentials"
+    ]
+  },
+  {
+    "objectID": "slides/02_data_download_and_databases.html#a-basic-quarto-email",
+    "href": "slides/02_data_download_and_databases.html#a-basic-quarto-email",
+    "title": "Data Science Workflows with Posit Tools - R focus",
+    "section": "A Basic Quarto Email",
+    "text": "A Basic Quarto Email\nFrom one Quarto document, we produce the rendered report and an email ✨",
+    "crumbs": [
+      "About",
+      "Slides",
+      "02 - Data Exploration and Database Essentials"
+    ]
+  },
+  {
+    "objectID": "slides/02_data_download_and_databases.html#our-first-exposure-to-conditionality",
+    "href": "slides/02_data_download_and_databases.html#our-first-exposure-to-conditionality",
+    "title": "Data Science Workflows with Posit Tools - R focus",
+    "section": "Our First Exposure to Conditionality",
+    "text": "Our First Exposure to Conditionality\n\n\n\n\n\nPlease don’t send me an email unless it’s really necessary.",
+    "crumbs": [
+      "About",
+      "Slides",
+      "02 - Data Exploration and Database Essentials"
+    ]
+  },
+  {
+    "objectID": "slides/02_data_download_and_databases.html#project-example",
+    "href": "slides/02_data_download_and_databases.html#project-example",
+    "title": "Data Science Workflows with Posit Tools - R focus",
+    "section": "Project example",
+    "text": "Project example\n\n\n⚠️ There was a problem with the data download\n\n\n✅ All looks great, here’s a relevant summary",
+    "crumbs": [
+      "About",
+      "Slides",
+      "02 - Data Exploration and Database Essentials"
+    ]
+  },
+  {
+    "objectID": "slides/02_data_download_and_databases.html#section-2",
+    "href": "slides/02_data_download_and_databases.html#section-2",
+    "title": "Data Science Workflows with Posit Tools - R focus",
+    "section": "",
+    "text": "Activity Time!\n\n\n\n\n\n\n\n\nActivity\n\n\n\n👉 Open the file materials/activities/activity-02_publish_and_schedule_data_pull.Rmd\nActivity objective: Write production data to database, then deploy and schedule this work on Posit Connect so it runs automatically.",
+    "crumbs": [
+      "About",
+      "Slides",
+      "02 - Data Exploration and Database Essentials"
+    ]
+  },
+  {
+    "objectID": "slides/04_tidymodels_and_vetiver.html#section-agenda",
+    "href": "slides/04_tidymodels_and_vetiver.html#section-agenda",
+    "title": "Data Science Workflows with Posit Tools - R focus",
+    "section": "Section Agenda",
+    "text": "Section Agenda\n\nGoal of Ferry Delay Prediction Model\nTidymodels\n\nAssignment - Create a tidymodel\n\nVetiver\n\nPins and Plumber\nAssignment - Deploy and monitor your tidymodel",
+    "crumbs": [
+      "About",
+      "Slides",
+      "04 - Modeling and MLOps"
+    ]
+  },
+  {
+    "objectID": "slides/04_tidymodels_and_vetiver.html#review---washington-state-ferry",
+    "href": "slides/04_tidymodels_and_vetiver.html#review---washington-state-ferry",
+    "title": "Data Science Workflows with Posit Tools - R focus",
+    "section": "Review - Washington State Ferry",
+    "text": "Review - Washington State Ferry\n ⛴️ WSF is the largest operating public ferry system in the US! 🤯\n🐋 21 ferries across Puget Sound and the Salish Sea\n\n\n https://i.pinimg.com/originals/c9/8b/3a/c98b3a997df52b6c8ad681590557c6bc.jpg",
+    "crumbs": [
+      "About",
+      "Slides",
+      "04 - Modeling and MLOps"
+    ]
+  },
+  {
+    "objectID": "slides/04_tidymodels_and_vetiver.html#the-question",
+    "href": "slides/04_tidymodels_and_vetiver.html#the-question",
+    "title": "Data Science Workflows with Posit Tools - R focus",
+    "section": "The Question",
+    "text": "The Question\n\n\n\n\n\n\n\nCaution\n\n\n\nCan we help inform travelers about possible ferry delays?\n\n\n\n\n\n\n\n\n\n\nThe Answer\n\n\n\nUse the ferry-weather (validated) data to create a model that will predict delay status!",
+    "crumbs": [
+      "About",
+      "Slides",
+      "04 - Modeling and MLOps"
+    ]
+  },
+  {
+    "objectID": "slides/04_tidymodels_and_vetiver.html#question-and-answer",
+    "href": "slides/04_tidymodels_and_vetiver.html#question-and-answer",
+    "title": "Data Science Workflows with Posit Tools - R focus",
+    "section": "Question and Answer",
+    "text": "Question and Answer\n\n\n\n\n\n\n\nThe Question\n\n\n\nCan we help inform travelers about possible ferry delays?\n\n\n\n\n\n\n\n\n\n\nThe Answer\n\n\n\nUse the ferry-weather (validated) data to create a model that will predict delay status!",
+    "crumbs": [
+      "About",
+      "Slides",
+      "04 - Modeling and MLOps"
+    ]
+  },
+  {
+    "objectID": "slides/04_tidymodels_and_vetiver.html#ferry-delay-prediction-model",
+    "href": "slides/04_tidymodels_and_vetiver.html#ferry-delay-prediction-model",
+    "title": "Data Science Workflows with Posit Tools - R focus",
+    "section": "Ferry Delay Prediction Model",
+    "text": "Ferry Delay Prediction Model\nTraining this model is relatively fast\n\nWhat if the model training is slow or the data is REALLY big?\n\n Workbench Jobs allows you to run R scripts in new sessions independent of your current RStudio Pro session\n\n\n\n\n\n\n If you create a model, you should create a model card!\n\nCheck out a basic model card here!",
+    "crumbs": [
+      "About",
+      "Slides",
+      "04 - Modeling and MLOps"
+    ]
+  },
+  {
+    "objectID": "slides/04_tidymodels_and_vetiver.html#ferry-delay-prediction-model-1",
+    "href": "slides/04_tidymodels_and_vetiver.html#ferry-delay-prediction-model-1",
+    "title": "Data Science Workflows with Posit Tools - R focus",
+    "section": "Ferry Delay Prediction Model",
+    "text": "Ferry Delay Prediction Model\n\n\n\n\n\n\nActivity\n\n\n\n👉 Try interacting with your Ferry Delay Prediction Model API on Posit Connect",
+    "crumbs": [
+      "About",
+      "Slides",
+      "04 - Modeling and MLOps"
+    ]
+  },
+  {
+    "objectID": "slides/03_data_validation_and_alerting.html#what-is-this-data",
+    "href": "slides/03_data_validation_and_alerting.html#what-is-this-data",
+    "title": "Data Science Workflows with Posit Tools - R focus",
+    "section": "What is this Data?",
+    "text": "What is this Data?\nOur first introduction to pointblank\n\n\n\n\n\npointblank provides data quality assessment and metadata reporting for data frames and database tables. https://github.com/rstudio/pointblank\n\n\n\n\n🧰 The pointblank::scan_data() function provides a HTML report of the input data to help you understand your data.",
+    "crumbs": [
+      "About",
+      "Slides",
+      "03 - Data Validation and Alerting"
+    ]
+  },
+  {
+    "objectID": "slides/03_data_validation_and_alerting.html#sample-data-scan",
+    "href": "slides/03_data_validation_and_alerting.html#sample-data-scan",
+    "title": "Data Science Workflows with Posit Tools - R focus",
+    "section": "Sample data scan",
+    "text": "Sample data scan\npointblank::scan_data(palmerpenguins::penguins)",
+    "crumbs": [
+      "About",
+      "Slides",
+      "03 - Data Validation and Alerting"
+    ]
+  },
+  {
+    "objectID": "slides/03_data_validation_and_alerting.html#section-2",
+    "href": "slides/03_data_validation_and_alerting.html#section-2",
+    "title": "Data Science Workflows with Posit Tools - R focus",
+    "section": "",
+    "text": "Demo Time\n\nconditional email example",
+    "crumbs": [
+      "About",
+      "Slides",
+      "03 - Data Validation and Alerting"
+    ]
+  },
+  {
+    "objectID": "slides/05_delivery.html#lets-create-a-basic-shiny-app",
+    "href": "slides/05_delivery.html#lets-create-a-basic-shiny-app",
+    "title": "Data Science Workflows with Posit Tools - R focus",
+    "section": "👋 Let’s Create a Basic Shiny App",
+    "text": "👋 Let’s Create a Basic Shiny App",
+    "crumbs": [
+      "About",
+      "Slides",
+      "05 - Delivering Insights Effectively"
+    ]
+  },
+  {
+    "objectID": "slides/05_delivery.html#what-does-our-ferry-delay-app-need-to-do",
+    "href": "slides/05_delivery.html#what-does-our-ferry-delay-app-need-to-do",
+    "title": "Data Science Workflows with Posit Tools - R focus",
+    "section": "What does our Ferry Delay App need to do?",
+    "text": "What does our Ferry Delay App need to do?\n\n\nMake requests to our API\n\n\n\n\nReceive and display API response\n\n\n\n\n\n\n\n\n\nActivity\n\n\n\n👉 Open the file materials/05-shiny-app/simple_ferry_app/app.R\nRun the app and get a taste for how Shiny can generative reactive API queries.",
+    "crumbs": [
+      "About",
+      "Slides",
+      "05 - Delivering Insights Effectively"
+    ]
+  },
+  {
+    "objectID": "slides/05_delivery.html#activity-1",
+    "href": "slides/05_delivery.html#activity-1",
+    "title": "Data Science Workflows with Posit Tools - R focus",
+    "section": "Activity",
+    "text": "Activity\n\n\n\n\n\n\nActivity\n\n\n\n👉 Open the file `materials/05-shiny-app/ferry_delay_app/app.R\n\n\n\n\n\n\n\n\nGoals\n\n\n\n\nSupply your API URL to the Shiny App.\nDeploy to Posit Connect!",
+    "crumbs": [
+      "About",
+      "Slides",
+      "05 - Delivering Insights Effectively"
+    ]
+  },
+  {
+    "objectID": "slides/05_delivery.html#putting-the-pieces-together",
+    "href": "slides/05_delivery.html#putting-the-pieces-together",
+    "title": "Data Science Workflows with Posit Tools - R focus",
+    "section": "Putting the Pieces Together",
+    "text": "Putting the Pieces Together\nOur Shiny application does a bit more:\n\n\nRead in ferry weather data from database.\nExtract ferry station information from ferryfairy package.\nTake in user inputs.\nMake API queries.\nDisplay API response.\nDisplay a map.\nShow average delay times.",
+    "crumbs": [
+      "About",
+      "Slides",
+      "05 - Delivering Insights Effectively"
+    ]
+  },
+  {
+    "objectID": "slides/05_delivery.html#putting-the-pieces-together-1",
+    "href": "slides/05_delivery.html#putting-the-pieces-together-1",
+    "title": "Data Science Workflows with Posit Tools - R focus",
+    "section": "Putting the Pieces Together",
+    "text": "Putting the Pieces Together\nOur Shiny application does a bit more:\n\nRead in ferry weather data from database.\nExtract ferry station information from ferryfairy package.\nTake in user inputs.\nMake API queries.\nDisplay API response.\nDisplay a map.\nShow average delay times.",
+    "crumbs": [
+      "About",
+      "Slides",
+      "05 - Delivering Insights Effectively"
     ]
   }
 ]

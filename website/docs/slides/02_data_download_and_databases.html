@@ -7,7 +7,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
 
-<title>data_validation_and_alerting – Data Science Workflows with Posit Tools - R focus</title>
+<title>data_download_and_databases – Data Science Workflows with Posit Tools - R focus</title>
 <style>
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
@@ -188,7 +188,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
       <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" role="button" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
         <i class="bi bi-layout-text-sidebar-reverse"></i>
       </button>
-        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../slides/01_workshop_and_project_intro.html">Slides</a></li><li class="breadcrumb-item"><a href="../slides/03_data_validation_and_alerting.html">03 - Data Validation and Alerting</a></li></ol></nav>
+        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../slides/01_workshop_and_project_intro.html">Slides</a></li><li class="breadcrumb-item"><a href="../slides/02_data_download_and_databases.html">02 - Data Exploration and Database Essentials</a></li></ol></nav>
         <a class="flex-grow-1" role="navigation" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
         </a>
     </div>
@@ -217,13 +217,13 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../slides/02_data_download_and_databases.html" class="sidebar-item-text sidebar-link">
+  <a href="../slides/02_data_download_and_databases.html" class="sidebar-item-text sidebar-link active">
  <span class="menu-text">02 - Data Exploration and Database Essentials</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../slides/03_data_validation_and_alerting.html" class="sidebar-item-text sidebar-link active">
+  <a href="../slides/03_data_validation_and_alerting.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">03 - Data Validation and Alerting</span></a>
   </div>
 </li>
@@ -260,35 +260,27 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
     <h2 id="toc-title">On this page</h2>
    
   <ul>
-  <li><a href="#data-validation-and-alerting" id="toc-data-validation-and-alerting" class="nav-link active" data-scroll-target="#data-validation-and-alerting">Data Validation and Alerting</a></li>
-  <li><a href="#where-are-we" id="toc-where-are-we" class="nav-link" data-scroll-target="#where-are-we">Where are we</a></li>
+  <li><a href="#raw-data-retrieval-and" id="toc-raw-data-retrieval-and" class="nav-link active" data-scroll-target="#raw-data-retrieval-and">Raw Data Retrieval and</a></li>
   <li><a href="#section-agenda" id="toc-section-agenda" class="nav-link" data-scroll-target="#section-agenda">Section Agenda</a></li>
-  <li><a href="#what-is-this-data" id="toc-what-is-this-data" class="nav-link" data-scroll-target="#what-is-this-data">What is this Data?</a></li>
-  <li><a href="#sample-data-scan" id="toc-sample-data-scan" class="nav-link" data-scroll-target="#sample-data-scan">Sample data scan</a></li>
+  <li><a href="#project-overview" id="toc-project-overview" class="nav-link" data-scroll-target="#project-overview">Project Overview</a></li>
+  <li><a href="#download-raw-data-from-an-api-endpoint" id="toc-download-raw-data-from-an-api-endpoint" class="nav-link" data-scroll-target="#download-raw-data-from-an-api-endpoint">Download raw data from an API endpoint</a></li>
+  <li><a href="#example-httr2-request" id="toc-example-httr2-request" class="nav-link" data-scroll-target="#example-httr2-request">Example <code>httr2</code> request</a></li>
   <li><a href="#section" id="toc-section" class="nav-link" data-scroll-target="#section"></a></li>
-  <li><a href="#how-can-i-ensure-the-data-in-my-pipeline-is-quality-data" id="toc-how-can-i-ensure-the-data-in-my-pipeline-is-quality-data" class="nav-link" data-scroll-target="#how-can-i-ensure-the-data-in-my-pipeline-is-quality-data">How can I ensure the data in my pipeline is quality data?</a></li>
-  <li><a href="#the-pointblank-data-quality-workflow" id="toc-the-pointblank-data-quality-workflow" class="nav-link" data-scroll-target="#the-pointblank-data-quality-workflow">The <code>pointblank</code> data quality workflow</a></li>
-  <li><a href="#the-pointblank-data-quality-workflow-1" id="toc-the-pointblank-data-quality-workflow-1" class="nav-link" data-scroll-target="#the-pointblank-data-quality-workflow-1">The <code>pointblank</code> data quality workflow</a></li>
-  <li><a href="#the-pointblank-data-quality-workflow-2" id="toc-the-pointblank-data-quality-workflow-2" class="nav-link" data-scroll-target="#the-pointblank-data-quality-workflow-2">The <code>pointblank</code> data quality workflow</a></li>
-  <li><a href="#the-pointblank-data-quality-workflow-3" id="toc-the-pointblank-data-quality-workflow-3" class="nav-link" data-scroll-target="#the-pointblank-data-quality-workflow-3">The <code>pointblank</code> data quality workflow</a></li>
-  <li><a href="#the-pointblank-data-quality-workflow-4" id="toc-the-pointblank-data-quality-workflow-4" class="nav-link" data-scroll-target="#the-pointblank-data-quality-workflow-4">The <code>pointblank</code> data quality workflow</a></li>
-  <li><a href="#the-pointblank-data-quality-workflow-5" id="toc-the-pointblank-data-quality-workflow-5" class="nav-link" data-scroll-target="#the-pointblank-data-quality-workflow-5">The <code>pointblank</code> data quality workflow</a></li>
-  <li><a href="#data-validation-example" id="toc-data-validation-example" class="nav-link" data-scroll-target="#data-validation-example">Data validation example</a></li>
-  <li><a href="#agent-interrogation" id="toc-agent-interrogation" class="nav-link" data-scroll-target="#agent-interrogation">Agent Interrogation</a></li>
-  <li><a href="#agent-validation-report" id="toc-agent-validation-report" class="nav-link" data-scroll-target="#agent-validation-report">Agent Validation Report</a></li>
-  <li><a href="#pointblank-data-validation-report" id="toc-pointblank-data-validation-report" class="nav-link" data-scroll-target="#pointblank-data-validation-report">Pointblank data validation report</a></li>
+  <li><a href="#where-should-i-put-the-data" id="toc-where-should-i-put-the-data" class="nav-link" data-scroll-target="#where-should-i-put-the-data">Where should I put the data?</a></li>
+  <li><a href="#database-connection-essentials" id="toc-database-connection-essentials" class="nav-link" data-scroll-target="#database-connection-essentials">Database Connection Essentials</a></li>
+  <li><a href="#interacting-with-databases" id="toc-interacting-with-databases" class="nav-link" data-scroll-target="#interacting-with-databases">Interacting with Databases</a></li>
+  <li><a href="#more-on-databases" id="toc-more-on-databases" class="nav-link" data-scroll-target="#more-on-databases">More on databases</a></li>
   <li><a href="#section-1" id="toc-section-1" class="nav-link" data-scroll-target="#section-1"></a></li>
-  <li><a href="#theres-much-more-to-pointblank" id="toc-theres-much-more-to-pointblank" class="nav-link" data-scroll-target="#theres-much-more-to-pointblank"><i class="bi-sign-turn-right-fill " style="color: orange;" role="img" aria-hidden="true"></i> There’s much more to <code>pointblank</code></a></li>
-  <li><a href="#how-will-i-know-if-my-data-has-issues" id="toc-how-will-i-know-if-my-data-has-issues" class="nav-link" data-scroll-target="#how-will-i-know-if-my-data-has-issues">How will I know if my data has issues?</a></li>
-  <li><a href="#how-will-i-know-if-my-data-has-issues-1" id="toc-how-will-i-know-if-my-data-has-issues-1" class="nav-link" data-scroll-target="#how-will-i-know-if-my-data-has-issues-1">How will I know if my data has issues?</a></li>
+  <li><a href="#how-do-i-automate-this-process" id="toc-how-do-i-automate-this-process" class="nav-link" data-scroll-target="#how-do-i-automate-this-process">How do I automate this process?</a></li>
+  <li><a href="#introduction-to-emailing-with-posit-connect" id="toc-introduction-to-emailing-with-posit-connect" class="nav-link" data-scroll-target="#introduction-to-emailing-with-posit-connect">Introduction to Emailing with Posit Connect</a></li>
+  <li><a href="#introduction-to-emailing-with-and-connect" id="toc-introduction-to-emailing-with-and-connect" class="nav-link" data-scroll-target="#introduction-to-emailing-with-and-connect">Introduction to Emailing with <img src="slide_resources/quarto-logo-trademark.svg" class="img-fluid" style="vertical-align:middle" width="350"> and Connect</a></li>
+  <li><a href="#a-basic-quarto-email" id="toc-a-basic-quarto-email" class="nav-link" data-scroll-target="#a-basic-quarto-email">A Basic Quarto Email</a></li>
+  <li><a href="#our-first-exposure-to-conditionality" id="toc-our-first-exposure-to-conditionality" class="nav-link" data-scroll-target="#our-first-exposure-to-conditionality">Our First Exposure to Conditionality</a></li>
   <li><a href="#project-example" id="toc-project-example" class="nav-link" data-scroll-target="#project-example">Project example</a></li>
-  <li><a href="#how-blastula-works-with-connect" id="toc-how-blastula-works-with-connect" class="nav-link" data-scroll-target="#how-blastula-works-with-connect">How <code>blastula</code> works with Connect</a></li>
-  <li><a href="#project-example-1" id="toc-project-example-1" class="nav-link" data-scroll-target="#project-example-1">Project example</a></li>
-  <li><a href="#be-aware" id="toc-be-aware" class="nav-link" data-scroll-target="#be-aware">Be aware…</a></li>
   <li><a href="#section-2" id="toc-section-2" class="nav-link" data-scroll-target="#section-2"></a></li>
-  <li><a href="#other-alerting-approaches" id="toc-other-alerting-approaches" class="nav-link" data-scroll-target="#other-alerting-approaches">Other Alerting Approaches</a></li>
+  <li><a href="#section-3" id="toc-section-3" class="nav-link" data-scroll-target="#section-3"></a></li>
   </ul>
-<div class="quarto-alternate-formats"><h2>Other Formats</h2><ul><li><a href="03_data_validation_and_alerting.html"><i class="bi bi-file-slides"></i>RevealJS (positconfslides)</a></li></ul></div></nav>
+<div class="quarto-alternate-formats"><h2>Other Formats</h2><ul><li><a href="02_data_download_and_databases.html"><i class="bi bi-file-slides"></i>RevealJS (positconfslides)</a></li></ul></div></nav>
     </div>
 <!-- main -->
 <main class="content" id="quarto-document-content">
@@ -296,48 +288,69 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 
 
 
-<section id="data-validation-and-alerting" class="level2 toc-light">
-<h2 class="toc-light anchored" data-anchor-id="data-validation-and-alerting">Data Validation and Alerting</h2>
-<p><img src="https://github.com/rstudio/pointblank/raw/main/man/figures/logo.svg" class="absolute img-fluid" data-top="200" data-left="50" width="260"> <img src="https://github.com/rstudio/blastula/raw/master/man/figures/logo.svg" class="absolute img-fluid" data-top="200" data-left="310" width="260"></p>
+<section id="raw-data-retrieval-and" class="level2 title-slide-light">
+<h2 class="title-slide-light anchored" data-anchor-id="raw-data-retrieval-and">Raw Data Retrieval and</h2>
+<h2 class="anchored">
+Working with Databases
+</h2>
+<p><img src="https://httr2.r-lib.org/logo.png" class="absolute img-fluid" data-top="200" data-left="50" width="260"> <img src="slide_resources/db.png" class="absolute img-fluid" data-top="200" data-left="310" width="260"></p>
 </section>
-<section id="where-are-we" class="level2">
-<h2 class="anchored" data-anchor-id="where-are-we">Where are we</h2>
+<section id="section-agenda" class="level2 brackets-dark-teal">
+<h2 class="brackets-dark-teal anchored" data-anchor-id="section-agenda">Section Agenda</h2>
+<ul>
+<li>Downloading data from sources</li>
+<li>Writing production data to a database</li>
+<li>Introduction to alerting</li>
+<li>Automating the pipeline</li>
+</ul>
+</section>
+<section id="project-overview" class="level2 minimal">
+<h2 class="minimal anchored" data-anchor-id="project-overview">Project Overview</h2>
 <div class="quarto-figure quarto-figure-center">
 <figure class="figure">
 <p><img src="slide_resources/workflow_diagram.jpg" class="img-fluid quarto-figure quarto-figure-center figure-img"></p>
 </figure>
 </div>
 </section>
-<section id="section-agenda" class="level2 brackets-light">
-<h2 class="brackets-light anchored" data-anchor-id="section-agenda">Section Agenda</h2>
-<ul>
-<li>Ad-hoc data exploration</li>
-<li>Ensure quality data is flowing through the pipeline</li>
-<li>Get alerts via automation</li>
+<section id="download-raw-data-from-an-api-endpoint" class="level2">
+<h2 class="anchored" data-anchor-id="download-raw-data-from-an-api-endpoint">Download raw data from an API endpoint</h2>
+<p>Your first instinct for retrieving raw data may be to download the data as a csv file. <br><br></p>
+<div class="fragment">
+<p>💡 There’s a better way!</p>
+</div>
+<div class="incremental">
+<ul class="incremental">
+<li>Many data sources offer an API endpoint for downloading data</li>
+<li><code>{httr2}</code> provides wrapper functions around <code>curl</code> requests for easier querying and handling of responses</li>
 </ul>
-</section>
-<section id="what-is-this-data" class="level2">
-<h2 class="anchored" data-anchor-id="what-is-this-data">What is this Data?</h2>
-<p>Our first introduction to <code>pointblank</code></p>
-<div class="fragment">
-<div class="columns">
-<div class="column" style="width:15%;">
-<p><img src="https://github.com/rstudio/pointblank/raw/main/man/figures/logo.svg" class="img-fluid" style="padding-right: 15px;"></p>
-</div><div class="column" style="width:75%;">
-<p><br><code>pointblank</code> provides data quality assessment and metadata reporting for data frames and database tables. <a href="https://github.com/rstudio/pointblank" class="uri">https://github.com/rstudio/pointblank</a></p>
-</div>
-</div>
 </div>
 <div class="fragment">
-<p>🧰 The <code>pointblank::scan_data()</code> function provides a HTML report of the input data to help you understand your data.</p>
+<p><i class="bi-sign-turn-right-fill " style="color: orange;" role="img" aria-hidden="true"></i> <code>{httr2}</code> is a ground-up rewrite of <code>{httr}</code> that is pipeable! It implements an explicit <code>request</code> object that solves common problems such as built-in rate-limiting, retries, OAuth, secure secrets, and more.</p>
 </div>
 </section>
-<section id="sample-data-scan" class="level2">
-<h2 class="anchored" data-anchor-id="sample-data-scan">Sample data scan</h2>
-<div class="sourceCode" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a>pointblank<span class="sc">::</span><span class="fu">scan_data</span>(palmerpenguins<span class="sc">::</span>penguins)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<p><br></p>
-<iframe src="slide_resources/scan_penguins.html" width="100%" height="650">
-</iframe>
+<section id="example-httr2-request" class="level2">
+<h2 class="anchored" data-anchor-id="example-httr2-request">Example <code>httr2</code> request</h2>
+<p>Here’s how we will query the <code>vesselverbose</code> endpoint at</p>
+<p><code>https://www.wsdot.wa.gov/ferries/api/vessels/rest/vesselverbose?apiaccesscode={WSDOT_ACCESS_CODE}</code></p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb1"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1"></a>base_url <span class="ot">&lt;-</span> <span class="st">"https://www.wsdot.wa.gov"</span></span>
+<span id="cb1-2"><a href="#cb1-2"></a>endpoint <span class="ot">&lt;-</span> <span class="st">"ferries/api/vessels/rest/vesselverbose"</span></span>
+<span id="cb1-3"><a href="#cb1-3"></a></span>
+<span id="cb1-4"><a href="#cb1-4"></a><span class="co"># Compose the API request </span></span>
+<span id="cb1-5"><a href="#cb1-5"></a>req <span class="ot">&lt;-</span> <span class="fu">request</span>(base_url) <span class="sc">|&gt;</span> </span>
+<span id="cb1-6"><a href="#cb1-6"></a>  <span class="fu">req_url_path_append</span>(endpoint) <span class="sc">|&gt;</span> </span>
+<span id="cb1-7"><a href="#cb1-7"></a>  <span class="fu">req_url_query</span>(<span class="at">apiaccesscode =</span> <span class="fu">Sys.getenv</span>(<span class="st">"WSDOT_ACCESS_CODE"</span>)) </span>
+<span id="cb1-8"><a href="#cb1-8"></a>  </span>
+<span id="cb1-9"><a href="#cb1-9"></a><span class="co"># perform the request</span></span>
+<span id="cb1-10"><a href="#cb1-10"></a>response <span class="ot">&lt;-</span> req <span class="sc">|&gt;</span> </span>
+<span id="cb1-11"><a href="#cb1-11"></a>  <span class="fu">req_perform</span>()</span>
+<span id="cb1-12"><a href="#cb1-12"></a></span>
+<span id="cb1-13"><a href="#cb1-13"></a><span class="co"># convert the body of the response to a tibble</span></span>
+<span id="cb1-14"><a href="#cb1-14"></a>response_body <span class="ot">&lt;-</span> response <span class="sc">|&gt;</span> </span>
+<span id="cb1-15"><a href="#cb1-15"></a>  <span class="fu">resp_body_string</span>() <span class="sc">|&gt;</span> </span>
+<span id="cb1-16"><a href="#cb1-16"></a>  jsonlite<span class="sc">::</span><span class="fu">fromJSON</span>() <span class="sc">|&gt;</span> </span>
+<span id="cb1-17"><a href="#cb1-17"></a>  <span class="fu">as_tibble</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
 </section>
 <section id="section" class="level2">
 <h2 class="anchored" data-anchor-id="section"></h2>
@@ -356,79 +369,83 @@ Activity
 </div>
 </div>
 <div class="callout-body-container callout-body">
-<p>👉 Open the file <code>materials/activities/activity-01_raw_data_exploration.qmd</code></p>
-<p>Activity objective: explore our Chicago Food Inspections data to get familiar with our data</p>
+<p>👉 Open the project <code>materials/01-raw-data-write/01-raw-data-write.Rproj</code></p>
+<p>Activity objective: Download the <code>vesselverbose</code> data from the WSDOT API endpoint.</p>
+<p>🛑 Work through <strong>Task 1 - Task 3</strong> only.</p>
 </div>
 </div>
 </section>
-<section id="how-can-i-ensure-the-data-in-my-pipeline-is-quality-data" class="level2">
-<h2 class="anchored" data-anchor-id="how-can-i-ensure-the-data-in-my-pipeline-is-quality-data">How can I ensure the data in my pipeline is quality data?</h2>
-<p><br> 🧰 <code>pointblank</code> for data validation <br></p>
-<div class="quarto-figure quarto-figure-center">
-<figure class="figure">
-<p><img src="https://github.com/rstudio/pointblank/raw/main/man/figures/logo.svg" class="quarto-figure quarto-figure-center figure-img" height="350"></p>
-</figure>
+<section id="where-should-i-put-the-data" class="level2">
+<h2 class="anchored" data-anchor-id="where-should-i-put-the-data">Where should I put the data?</h2>
+<div class="fragment middle r-fit-text">
+<p>📣 Production data belongs in a database.</p>
 </div>
 </section>
-<section id="the-pointblank-data-quality-workflow" class="level2">
-<h2 class="anchored" data-anchor-id="the-pointblank-data-quality-workflow">The <code>pointblank</code> data quality workflow</h2>
-<p><img src="slide_resources/pb_flow_create_agent.png" class="img-fluid"></p>
-</section>
-<section id="the-pointblank-data-quality-workflow-1" class="level2">
-<h2 class="anchored" data-anchor-id="the-pointblank-data-quality-workflow-1">The <code>pointblank</code> data quality workflow</h2>
-<p><img src="slide_resources/pb_flow_create_agent_b.png" class="img-fluid"></p>
-</section>
-<section id="the-pointblank-data-quality-workflow-2" class="level2">
-<h2 class="anchored" data-anchor-id="the-pointblank-data-quality-workflow-2">The <code>pointblank</code> data quality workflow</h2>
-<p><img src="slide_resources/pb_flow_validation_plan.png" class="img-fluid"></p>
-</section>
-<section id="the-pointblank-data-quality-workflow-3" class="level2">
-<h2 class="anchored" data-anchor-id="the-pointblank-data-quality-workflow-3">The <code>pointblank</code> data quality workflow</h2>
-<p><img src="slide_resources/pb_flow_interrogate.png" class="img-fluid"></p>
-</section>
-<section id="the-pointblank-data-quality-workflow-4" class="level2">
-<h2 class="anchored" data-anchor-id="the-pointblank-data-quality-workflow-4">The <code>pointblank</code> data quality workflow</h2>
-<p><img src="slide_resources/pb_flow_post_interrogate.png" class="img-fluid"></p>
-</section>
-<section id="the-pointblank-data-quality-workflow-5" class="level2">
-<h2 class="anchored" data-anchor-id="the-pointblank-data-quality-workflow-5">The <code>pointblank</code> data quality workflow</h2>
-<p><img src="slide_resources/pb_flow_post_interrogate_b.png" class="img-fluid"></p>
-</section>
-<section id="data-validation-example" class="level2">
-<h2 class="anchored" data-anchor-id="data-validation-example">Data validation example</h2>
-<div class="r-stack">
-<p><img src="slide_resources/pb_validation_plan.png" class="fragment fade-in-then-out img-fluid"></p>
-<p><img src="slide_resources/pb_validation_plan_b.png" class="fragment fade-in-then-out img-fluid"></p>
-<p><img src="slide_resources/pb_validation_plan_c.png" class="fragment fade-in-then-out img-fluid"></p>
+<section id="database-connection-essentials" class="level2">
+<h2 class="anchored" data-anchor-id="database-connection-essentials">Database Connection Essentials</h2>
+<div class="smaller">
+<div class="incremental">
+<ul class="incremental">
+<li>Use <code>{DBI}</code> to make a connection with <code>DBI::dbConnect()</code></li>
+<li>The first argument to <code>{DBI}</code> is your DBI-compliant R package</li>
+</ul>
+</div>
+<div class="columns">
+<div class="column fragment">
+<p><span class="positgreen"><strong>Best case:</strong></span> one of the DBI-compliant db-specific packages</p>
+<p><img src="slide_resources/con_sans_odbc.png" class="absolute img-fluid" style="width:47.0%" data-bottom="180" data-left="30"></p>
+</div><div class="column fragment">
+<p><span class="posityellow"><strong>Alternative:</strong></span> <code>odbc::odbc()</code> + an ODBC driver installed on your system <img src="slide_resources/con_w_odbc.png" class="absolute img-fluid" style="width:47.0%" data-bottom="180" data-right="30"></p>
+</div>
+</div>
+<div class="fragment absolute" data-bottom="30">
+<p>📣 When possible, use a database-specific R package (e.g., <code>RPostgres</code>, <code>RMariaDB</code>, <code>RSQLite</code>, <code>bigrquery</code>, etc.) instead of <code>odbc</code> + a driver. In many cases, they are more performant (especially in writing data) and may have more translations available for query types.</p>
+</div>
 </div>
 </section>
-<section id="agent-interrogation" class="level2">
-<h2 class="anchored" data-anchor-id="agent-interrogation">Agent Interrogation</h2>
-<div class="r-stack">
-<p><img src="slide_resources/pb_interrogation1.png" class="fragment fade-in-then-out img-fluid"></p>
-<p><img src="slide_resources/pb_interrogation2.png" class="fragment fade-in-then-out img-fluid"></p>
-<p><img src="slide_resources/pb_interrogation3.png" class="fragment fade-in-then-out img-fluid"></p>
-<p><img src="slide_resources/pb_interrogation4.png" class="fragment fade-in-then-out img-fluid"></p>
-<p><img src="slide_resources/pb_interrogation5a.png" class="fragment fade-in-then-out img-fluid"></p>
-<p><img src="slide_resources/pb_interrogation5b.png" class="fragment fade-in-then-out img-fluid"></p>
-<p><img src="slide_resources/pb_interrogation5c.png" class="fragment fade-in-then-out img-fluid"></p>
-<p><img src="slide_resources/pb_interrogation6.png" class="fragment fade-in-then-out img-fluid"></p>
-<p><img src="slide_resources/pb_interrogation7.png" class="fragment fade-in-then-out img-fluid"></p>
+<section id="interacting-with-databases" class="level2">
+<h2 class="anchored" data-anchor-id="interacting-with-databases">Interacting with Databases</h2>
+<div class="incremental">
+<ul class="incremental">
+<li><p>What tables are in a database? <code>DBI::dbListTables(con)</code></p></li>
+<li><p>Use <code>dplyr</code> to interact with the database table in the same manner you would a local data frame</p>
+<div class="sourceCode" id="cb2"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a>df <span class="ot">&lt;-</span> dplyr<span class="sc">::</span><span class="fu">tbl</span>(con, <span class="st">"my_table"</span>)</span>
+<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a>df <span class="sc">|&gt;</span> <span class="fu">filter</span>(...) <span class="sc">|&gt;</span> <span class="fu">mutate</span>(...) <span class="sc">|&gt;</span> <span class="fu">group_by</span>(...) <span class="sc">|&gt;</span> <span class="fu">summarise</span>(...)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div></li>
+<li><p>📣 Do as much work as possible in the database to save time and resources before bringing the table into local memory.</p></li>
+<li><p>Use <code>dplyr::collect()</code> to bring the table into memory. Try to use <code>collect</code> as late as possible in your queries / transformations</p>
+<div class="sourceCode" id="cb3"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a>df <span class="sc">|&gt;</span> ... <span class="sc">|&gt;</span> <span class="fu">collect</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div></li>
+</ul>
 </div>
 </section>
-<section id="agent-validation-report" class="level2">
-<h2 class="anchored" data-anchor-id="agent-validation-report">Agent Validation Report</h2>
-<div class="r-stack">
-<p><img src="slide_resources/pb_validation_result.png" class="fragment fade-in-then-out img-fluid"></p>
-<p><img src="slide_resources/pb_validation_result_b.png" class="fragment fade-in-then-out img-fluid"></p>
-<p><img src="slide_resources/pb_validation_result_c.png" class="fragment fade-in-then-out img-fluid"></p>
+<section id="more-on-databases" class="level2 content-light">
+<h2 class="content-light anchored" data-anchor-id="more-on-databases">More on databases</h2>
+<div class="callout callout-style-default callout-tip no-icon callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon no-icon"></i>
 </div>
-</section>
-<section id="pointblank-data-validation-report" class="level2">
-<h2 class="anchored" data-anchor-id="pointblank-data-validation-report">Pointblank data validation report</h2>
-<div class="r-stack">
-<p><img src="slide_resources/pb_validation_report.png" class="fragment fade-in-then-out img-fluid"></p>
-<p><img src="slide_resources/pb_validation_report_b.png" class="fragment fade-in-then-out img-fluid"></p>
+<div class="callout-title-container flex-fill">
+<i class="bi-sign-turn-right-fill " style="color: orange;" role="img" aria-hidden="true"></i> Best practices in working with databases
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p><a href="https://solutions.posit.co/connections/db/" class="uri">https://solutions.posit.co/connections/db/</a></p>
+<p>Specific resources:</p>
+<div class="{columns}">
+<div class="column" style="width:40%;">
+<ul>
+<li><a href="https://solutions.posit.co/connections/db/getting-started/connect-to-database/">Connect to a database</a></li>
+<li><a href="https://solutions.posit.co/connections/db/getting-started/database-queries/">Query a database table</a></li>
+</ul>
+</div>
+<div class="column" style="width:60%;">
+<ul>
+<li><a href="https://solutions.posit.co/connections/db/best-practices/managing-credentials/">Securing credentials</a></li>
+<li><a href="https://solutions.posit.co/connections/db/best-practices/portable-code/">Making scripts portable</a></li>
+</ul>
+</div>
+</div>
+</div>
 </div>
 </section>
 <section id="section-1" class="level2">
@@ -448,43 +465,26 @@ Activity
 </div>
 </div>
 <div class="callout-body-container callout-body">
-<p>👉 Open the file <code>materials/activities/activity-03_data_validation.qmd</code></p>
-<p>Activity objective: Use <code>pointblank</code> to validate data, remove non-compliant records, and document the data.</p>
+<p>👉 Return to the project <code>materials/01-raw-data-write/01-raw-data-write.Rproj</code></p>
+<p>Activity objective: Write the <code>vesselverbose</code> data to the database.</p>
+<p>🛑 Work through <strong>Task 4 - Task 5</strong> only.</p>
 </div>
 </div>
 </section>
-<section id="theres-much-more-to-pointblank" class="level2">
-<h2 class="anchored" data-anchor-id="theres-much-more-to-pointblank"><i class="bi-sign-turn-right-fill " style="color: orange;" role="img" aria-hidden="true"></i> There’s much more to <code>pointblank</code></h2>
-<div class="fragment fade-in-then-out absolute" data-top="130">
-<div class="columns">
-<div class="column" style="width:40%;">
-<ul>
-<li>Create a <code>multiagent</code> to summarize repeated validations to monitor data quality over time.</li>
-</ul>
-</div><div class="column" style="width:50%;">
-<p><img src="slide_resources/multiagent.png" class="img-fluid"></p>
+<section id="how-do-i-automate-this-process" class="level2">
+<h2 class="anchored" data-anchor-id="how-do-i-automate-this-process">How do I automate this process?</h2>
+<div class="fragment">
+<p>🧰 Deploy and schedule your ETL and reports on Posit Connect</p>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="slide_resources/scheduling.png" class="quarto-figure quarto-figure-center figure-img" height="700"></p>
+</figure>
 </div>
-</div>
-</div>
-<div class="fragment fade-in-then-out absolute" data-top="130">
-<div class="columns">
-<div class="column" style="width:40%;">
-<ul>
-<li>Create a dynamic Data Dictionary to fully describe the data</li>
-</ul>
-</div><div class="column" style="width:50%;">
-<p><img src="slide_resources/data-dictionary.png" class="img-fluid"></p>
-</div>
-</div>
-</div>
-<div class="fragment fade-in-then-out absolute" data-top="130">
-<h3 class="anchored">
-Try the comprehensive <code>pointblank</code> test drive on Posit Cloud: <a href="https://posit.cloud/project/3411822" class="uri">https://posit.cloud/project/3411822</a>
-</h3>
 </div>
 </section>
-<section id="how-will-i-know-if-my-data-has-issues" class="level2">
-<h2 class="anchored" data-anchor-id="how-will-i-know-if-my-data-has-issues">How will I know if my data has issues?</h2>
+<section id="introduction-to-emailing-with-posit-connect" class="level2">
+<h2 class="anchored" data-anchor-id="introduction-to-emailing-with-posit-connect">Introduction to Emailing with Posit Connect</h2>
+<p>Posit Connect can send an email when a report or notebook renders</p>
 <div class="columns">
 <div class="column" style="width:25%;">
 <div class="fragment">
@@ -505,15 +505,15 @@ Try the comprehensive <code>pointblank</code> test drive on Posit Cloud: <a href
 <p>🙈 Does not compel anyone to look at it</p>
 </div>
 </section>
-<section id="how-will-i-know-if-my-data-has-issues-1" class="level2">
-<h2 class="anchored" data-anchor-id="how-will-i-know-if-my-data-has-issues-1">How will I know if my data has issues?</h2>
+<section id="introduction-to-emailing-with-and-connect" class="level2">
+<h2 class="anchored" data-anchor-id="introduction-to-emailing-with-and-connect">Introduction to Emailing with <img src="slide_resources/quarto-logo-trademark.svg" class="img-fluid" style="vertical-align:middle" width="350"> and Connect</h2>
 <div class="columns">
 <div class="column" style="width:25%;">
 <p><img src="slide_resources/email_option.png" style="padding-left: 25px;" height="700"></p>
 </div><div class="column" style="width:10%;">
 <p><span class="largest middle">+</span></p>
 </div><div class="column" style="width:25%;">
-<p><img src="https://github.com/rstudio/blastula/raw/master/man/figures/logo.svg" class="middle" height="400"></p>
+<p><img src="slide_resources/quarto-icon.svg" class="middle img-fluid" width="370"></p>
 </div><div class="column" style="width:10%;">
 <p><span class="largest middle">=</span></p>
 </div><div class="column" style="width:30%;">
@@ -521,11 +521,26 @@ Try the comprehensive <code>pointblank</code> test drive on Posit Cloud: <a href
 </div>
 </div>
 </section>
+<section id="a-basic-quarto-email" class="level2">
+<h2 class="anchored" data-anchor-id="a-basic-quarto-email">A Basic Quarto Email</h2>
+<p>From one Quarto document, we produce the rendered report and an email ✨</p>
+<p><img src="slide_resources/quarto_email_intro.png" class="img-fluid"></p>
+</section>
+<section id="our-first-exposure-to-conditionality" class="level2">
+<h2 class="anchored" data-anchor-id="our-first-exposure-to-conditionality">Our First Exposure to Conditionality</h2>
+<div class="fragment center">
+<p><br></p>
+<p><img src="slide_resources/unread_email.png" class="img-fluid"></p>
+</div>
+<div class="fragment center">
+<p>Please don’t send me an email unless it’s really necessary.</p>
+</div>
+</section>
 <section id="project-example" class="level2">
 <h2 class="anchored" data-anchor-id="project-example">Project example</h2>
 <div class="columns">
 <div class="column" style="width:50%;">
-<p>⚠️ There was a problem with the data validation</p>
+<p>⚠️ There was a problem with the data download</p>
 <p><img src="slide_resources/custom_email_alert.png" class="img-fluid"></p>
 </div><div class="column" style="width:50%;">
 <p>✅ All looks great, here’s a relevant summary</p>
@@ -533,55 +548,33 @@ Try the comprehensive <code>pointblank</code> test drive on Posit Cloud: <a href
 </div>
 </div>
 </section>
-<section id="how-blastula-works-with-connect" class="level2">
-<h2 class="anchored" data-anchor-id="how-blastula-works-with-connect">How <code>blastula</code> works with Connect</h2>
-<p><img src="slide_resources/blastula_process.png" class="absolute img-fluid" data-top="130"></p>
-<div class="absolute smaller" data-bottom="40">
-<p><strong>Key functions:</strong></p>
-<p>🧶 <code>blastula::render_connect_email</code></p>
-<p>✉️ <code>blastula::attach_connect_email</code></p>
-<p>⛔ <code>blastula::suppress_scheduled_email</code></p>
+<section id="section-2" class="level2">
+<h2 class="anchored" data-anchor-id="section-2"></h2>
+<div class="center">
+<h2 class="anchored">
+<br><strong>Activity Time!</strong>
+</h2>
 </div>
-<div class="absolute larger" data-bottom="60" data-left="780">
-<p><i class="bi-arrow-left " style="" role="img" aria-hidden="true"></i></p>
+<div class="callout callout-style-default callout-note no-icon callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon no-icon"></i>
 </div>
-<div class="absolute smaller" style="margin-left: 900px; margin-right: auto;" data-bottom="40" data-right="150">
-<p>🧰 couple these with logic statements to send (or suppress) condition-based emails</p>
+<div class="callout-title-container flex-fill">
+Activity
 </div>
-</section>
-<section id="project-example-1" class="level2">
-<h2 class="anchored" data-anchor-id="project-example-1">Project example</h2>
-<p><img src="slide_resources/conditional_email_example.png" class="img-fluid"></p>
-</section>
-<section id="be-aware" class="level2">
-<h2 class="anchored" data-anchor-id="be-aware">Be aware…</h2>
-<p>⚠️ Common mistakes when creating emails</p>
-<ul>
-<li>There is no interactive runtime for an email</li>
-<li>Javascript-dependent content will generally not render when emailed – not due to a limitation of blastula, but as result of how email clients process HTML</li>
-</ul>
-<div class="fragment">
-<p>🧰 Best practices for embedding objects an email:</p>
-<ul>
-<li>ggplot2 output can be included in the blastula email output directly</li>
-<li>Create nicely formatted tables with the <code>gt</code> package. (Just remember, no interactivity!)</li>
-<li>If you’d like to include a rendering of a widget (e.g., a dial or info box), use the <code>webshot2</code> package to take a capture of the widget and embed it as an image</li>
-<li>If your email recipient wants more information or interactivity, direct them to a report or dashboard deployed to Connect</li>
-</ul>
+</div>
+<div class="callout-body-container callout-body">
+<p>👉 Open the file <code>materials/activities/activity-02_publish_and_schedule_data_pull.Rmd</code></p>
+<p>Activity objective: Write production data to database, then deploy and schedule this work on Posit Connect so it runs automatically.</p>
+</div>
 </div>
 </section>
-<section id="section-2" class="level2 brackets-light">
-<h2 class="brackets-light anchored" data-anchor-id="section-2"></h2>
-<div class="section-title">
-<h3 class="anchored">
-<strong>Demo Time</strong>
-</h3>
-<p><a href="https://connect.conf23workflows.training.posit.co/connect/#/apps/da11710e-40c3-400c-a0c4-a8174bc9a563/info/35">conditional email example</a></p>
+<section id="section-3" class="level2 brackets-dark">
+<h2 class="brackets-dark anchored" data-anchor-id="section-3"></h2>
+<div class="section-title-dark">
+
 </div>
-</section>
-<section id="other-alerting-approaches" class="level2 content2-light">
-<h2 class="content2-light anchored" data-anchor-id="other-alerting-approaches">Other Alerting Approaches</h2>
-<p><i class="bi-sign-turn-right-fill " style="color: orange;" role="img" aria-hidden="true"></i> Send alerts to a Slack channel or MS Teams, or via text message: <a href="https://rviews.rstudio.com/2020/06/18/how-to-have-r-notify-you/" class="uri">https://rviews.rstudio.com/2020/06/18/how-to-have-r-notify-you/</a></p>
 
 
 </section>
