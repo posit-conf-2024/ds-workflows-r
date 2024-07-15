@@ -1324,7 +1324,7 @@
     "href": "slides/03_data_validation_and_alerting.html#section-agenda",
     "title": "Data Science Workflows with Posit Tools - R focus",
     "section": "Section Agenda",
-    "text": "Section Agenda\n\nEnsure quality data is flowing through the pipeline\nGet alerts via automation",
+    "text": "Section Agenda\n\nAd-hoc data exploration\nEnsure quality data is flowing through the pipeline\nGet alerts via automation",
     "crumbs": [
       "About",
       "Slides",
@@ -1468,7 +1468,7 @@
     "href": "slides/03_data_validation_and_alerting.html#section",
     "title": "Data Science Workflows with Posit Tools - R focus",
     "section": "",
-    "text": "Activity Time!\n\n\n\n\n\n\n\n\nActivity\n\n\n\n👉 Open the file materials/activities/activity-03_data_validation.qmd\nActivity objective: Use pointblank to validate data, remove non-compliant records, and document the data.",
+    "text": "Activity Time!\n\n\n\n\n\n\n\n\nActivity\n\n\n\n👉 Open the file materials/activities/activity-01_raw_data_exploration.qmd\nActivity objective: explore our Chicago Food Inspections data to get familiar with our data",
     "crumbs": [
       "About",
       "Slides",
@@ -1564,7 +1564,7 @@
     "href": "slides/03_data_validation_and_alerting.html#section-1",
     "title": "Data Science Workflows with Posit Tools - R focus",
     "section": "",
-    "text": "Demo Time\n\nconditional email example",
+    "text": "Activity Time!\n\n\n\n\n\n\n\n\nActivity\n\n\n\n👉 Open the file materials/activities/activity-03_data_validation.qmd\nActivity objective: Use pointblank to validate data, remove non-compliant records, and document the data.",
     "crumbs": [
       "About",
       "Slides",
@@ -2451,7 +2451,7 @@
     "href": "slides/04_tidymodels_and_vetiver.html#introduction-to-tidymodels-3",
     "title": "Data Science Workflows with Posit Tools - R focus",
     "section": "Introduction to Tidymodels",
-    "text": "Introduction to Tidymodels\n  \n\n\nActivity Time!\n\n\n\n\n\n\n\n\nActivity\n\n\n\n👉 Open the file materials/04-idymodels-vetiver.qmd\nComplete Task 1 only!\n\n\n\n\n\n\n\n\nGoal\n\n\n\nBuild a model using tidymodels.",
+    "text": "Introduction to Tidymodels\n  \n\n\nActivity Time!\n\n\n\n\n\n\n\n\nActivity\n\n\n\n👉 Open the file materials/04-tidymodels-vetiver/04-idymodels-vetiver.qmd\nComplete Task 1 only!\n\n\n\n\n\n\n\n\nGoal\n\n\n\nBuild a model using tidymodels.",
     "crumbs": [
       "About",
       "Slides",
@@ -2535,7 +2535,7 @@
     "href": "slides/04_tidymodels_and_vetiver.html#activity-3",
     "title": "Data Science Workflows with Posit Tools - R focus",
     "section": "Activity",
-    "text": "Activity\n\n\n\n\n\n\nActivity\n\n\n\n👉 Open the file materials/04-tidymodels-vetiver/04-tidymodels-vetiver.qmd\nComplete Tasks 3 & 4 only!\n\n\n\n\n\n\n\n\nGoal\n\n\n\nUse vetiver to serve the pinned model as an API to Posit Connect.",
+    "text": "Activity\n\n\n\n\n\n\nActivity\n\n\n\n👉 Open the file materials/04-tidymodels-vetiver/04-tidymodels-vetiver.qmd\nComplete Tasks 3 only!\n\n\n\n\n\n\n\n\nGoal\n\n\n\nUse vetiver to serve the pinned model as an API to Posit Connect.",
     "crumbs": [
       "About",
       "Slides",
@@ -2547,7 +2547,7 @@
     "href": "slides/04_tidymodels_and_vetiver.html#version-and-monitor-your-models",
     "title": "Data Science Workflows with Posit Tools - R focus",
     "section": "Version and Monitor your models",
-    "text": "Version and Monitor your models\n\n\n\nData changes over time\nModels change over time\nHow can I ensure I’m using the best model for the job?\n\n\n\n\n\n\n\n\n\nActivity\n\n\n\n👉 Open the file materials/04-tidymodels-vetiver/04-tidymodels-vetiver.qmd\nComplete Task 5\n\n\n\n\n\n\n\n\nGoal\n\n\n\nUse vetiver to version and monitor your ferry predict model.",
+    "text": "Version and Monitor your models\n\n\n\nData changes over time\nModels change over time\nHow can I ensure I’m using the best model for the job?\n\n\n\n\n\n\n\n\n\nActivity\n\n\n\n👉 Open the file materials/04-tidymodels-vetiver/04-tidymodels-vetiver.qmd\nComplete Task 4\n\n\n\n\n\n\n\n\nGoal\n\n\n\nUse vetiver to version and monitor your ferry predict model.",
     "crumbs": [
       "About",
       "Slides",
@@ -2888,6 +2888,54 @@
       "About",
       "Slides",
       "04 - Modeling and MLOps"
+    ]
+  },
+  {
+    "objectID": "slides/03_data_validation_and_alerting.html#what-is-this-data",
+    "href": "slides/03_data_validation_and_alerting.html#what-is-this-data",
+    "title": "Data Science Workflows with Posit Tools - R focus",
+    "section": "What is this Data?",
+    "text": "What is this Data?\nOur first introduction to pointblank\n\n\n\n\n\npointblank provides data quality assessment and metadata reporting for data frames and database tables. https://github.com/rstudio/pointblank\n\n\n\n\n🧰 The pointblank::scan_data() function provides a HTML report of the input data to help you understand your data.",
+    "crumbs": [
+      "About",
+      "Slides",
+      "03 - Data Validation and Alerting"
+    ]
+  },
+  {
+    "objectID": "slides/03_data_validation_and_alerting.html#sample-data-scan",
+    "href": "slides/03_data_validation_and_alerting.html#sample-data-scan",
+    "title": "Data Science Workflows with Posit Tools - R focus",
+    "section": "Sample data scan",
+    "text": "Sample data scan\npointblank::scan_data(palmerpenguins::penguins)",
+    "crumbs": [
+      "About",
+      "Slides",
+      "03 - Data Validation and Alerting"
+    ]
+  },
+  {
+    "objectID": "slides/03_data_validation_and_alerting.html#section-2",
+    "href": "slides/03_data_validation_and_alerting.html#section-2",
+    "title": "Data Science Workflows with Posit Tools - R focus",
+    "section": "",
+    "text": "Demo Time\n\nconditional email example",
+    "crumbs": [
+      "About",
+      "Slides",
+      "03 - Data Validation and Alerting"
+    ]
+  },
+  {
+    "objectID": "slides/05_delivery.html#lets-create-a-basic-shiny-app",
+    "href": "slides/05_delivery.html#lets-create-a-basic-shiny-app",
+    "title": "Data Science Workflows with Posit Tools - R focus",
+    "section": "👋 Let’s Create a Basic Shiny App",
+    "text": "👋 Let’s Create a Basic Shiny App",
+    "crumbs": [
+      "About",
+      "Slides",
+      "05 - Delivering Insights Effectively"
     ]
   }
 ]

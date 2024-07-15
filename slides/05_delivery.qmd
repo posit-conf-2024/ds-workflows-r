@@ -3,7 +3,7 @@ execute:
   eval: true
 ---
 
-## Effective Delivery of Insights{.toc2-light}
+## Effective Delivery of Insights {.title-slide-light}
 
 ![](https://github.com/rstudio/hex-stickers/blob/main/PNG/shiny.png?raw=true){.absolute top="170" left="180" width="260"}
 ![](https://pkgs.rstudio.com/connectapi/reference/figures/logo.svg){.absolute top="395" left="50" width="260"}
@@ -14,7 +14,7 @@ execute:
 
 ## Review
 
-![](slide_resources/workflow_diagram.jpg){fig-align="center"}
+![](slide_resources/ds-workflows-r-2024.jpg){fig-align="center"}
 
 ## Section Agenda {.brackets-light}
 
@@ -123,11 +123,7 @@ Two sides to this coin:
 :::
 :::
 
-## 👋 Let's meet our Shiny App
-
-::: smaller
-<https://connect.conf23workflows.training.posit.co/chicago-food-r/food-inspections-app/>
-:::
+## 👋 Let's Create a Basic Shiny App
 
 ![](slide_resources/shiny_app_UI.png){fig-align="center"}
 

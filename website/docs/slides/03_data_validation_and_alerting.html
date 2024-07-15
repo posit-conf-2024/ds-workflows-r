@@ -2,12 +2,12 @@
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
 
 <meta charset="utf-8">
-<meta name="generator" content="quarto-1.5.40">
+<meta name="generator" content="quarto-1.5.53">
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
 
-<title>Data Science Workflows with Posit Tools - R focus – data_validation_and_alerting</title>
+<title>data_validation_and_alerting – Data Science Workflows with Posit Tools - R focus</title>
 <style>
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
@@ -19,6 +19,40 @@ ul.task-list li input[type="checkbox"] {
   width: 0.8em;
   margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
   vertical-align: middle;
+}
+/* CSS for syntax highlighting */
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { display: inline-block; text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+  }
+pre.numberSource { margin-left: 3em;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
 }
 </style>
 
@@ -102,7 +136,7 @@ ul.task-list li input[type="checkbox"] {
  <span class="dropdown-text">01 - Workshop and Project Intro</span></a>
   </li>  
         <li>
-    <a class="dropdown-item" href="../slides/02_data_exploration_and_databases.html">
+    <a class="dropdown-item" href="../slides/02_data_download_and_databases.html">
  <span class="dropdown-text">02 - Data Exploration and Database Essentials</span></a>
   </li>  
         <li>
@@ -183,7 +217,7 @@ ul.task-list li input[type="checkbox"] {
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../slides/02_data_exploration_and_databases.html" class="sidebar-item-text sidebar-link">
+  <a href="../slides/02_data_download_and_databases.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">02 - Data Exploration and Database Essentials</span></a>
   </div>
 </li>
@@ -229,6 +263,9 @@ ul.task-list li input[type="checkbox"] {
   <li><a href="#data-validation-and-alerting" id="toc-data-validation-and-alerting" class="nav-link active" data-scroll-target="#data-validation-and-alerting">Data Validation and Alerting</a></li>
   <li><a href="#where-are-we" id="toc-where-are-we" class="nav-link" data-scroll-target="#where-are-we">Where are we</a></li>
   <li><a href="#section-agenda" id="toc-section-agenda" class="nav-link" data-scroll-target="#section-agenda">Section Agenda</a></li>
+  <li><a href="#what-is-this-data" id="toc-what-is-this-data" class="nav-link" data-scroll-target="#what-is-this-data">What is this Data?</a></li>
+  <li><a href="#sample-data-scan" id="toc-sample-data-scan" class="nav-link" data-scroll-target="#sample-data-scan">Sample data scan</a></li>
+  <li><a href="#section" id="toc-section" class="nav-link" data-scroll-target="#section"></a></li>
   <li><a href="#how-can-i-ensure-the-data-in-my-pipeline-is-quality-data" id="toc-how-can-i-ensure-the-data-in-my-pipeline-is-quality-data" class="nav-link" data-scroll-target="#how-can-i-ensure-the-data-in-my-pipeline-is-quality-data">How can I ensure the data in my pipeline is quality data?</a></li>
   <li><a href="#the-pointblank-data-quality-workflow" id="toc-the-pointblank-data-quality-workflow" class="nav-link" data-scroll-target="#the-pointblank-data-quality-workflow">The <code>pointblank</code> data quality workflow</a></li>
   <li><a href="#the-pointblank-data-quality-workflow-1" id="toc-the-pointblank-data-quality-workflow-1" class="nav-link" data-scroll-target="#the-pointblank-data-quality-workflow-1">The <code>pointblank</code> data quality workflow</a></li>
@@ -240,7 +277,7 @@ ul.task-list li input[type="checkbox"] {
   <li><a href="#agent-interrogation" id="toc-agent-interrogation" class="nav-link" data-scroll-target="#agent-interrogation">Agent Interrogation</a></li>
   <li><a href="#agent-validation-report" id="toc-agent-validation-report" class="nav-link" data-scroll-target="#agent-validation-report">Agent Validation Report</a></li>
   <li><a href="#pointblank-data-validation-report" id="toc-pointblank-data-validation-report" class="nav-link" data-scroll-target="#pointblank-data-validation-report">Pointblank data validation report</a></li>
-  <li><a href="#section" id="toc-section" class="nav-link" data-scroll-target="#section"></a></li>
+  <li><a href="#section-1" id="toc-section-1" class="nav-link" data-scroll-target="#section-1"></a></li>
   <li><a href="#theres-much-more-to-pointblank" id="toc-theres-much-more-to-pointblank" class="nav-link" data-scroll-target="#theres-much-more-to-pointblank"><i class="bi-sign-turn-right-fill " style="color: orange;" role="img" aria-hidden="true"></i> There’s much more to <code>pointblank</code></a></li>
   <li><a href="#how-will-i-know-if-my-data-has-issues" id="toc-how-will-i-know-if-my-data-has-issues" class="nav-link" data-scroll-target="#how-will-i-know-if-my-data-has-issues">How will I know if my data has issues?</a></li>
   <li><a href="#how-will-i-know-if-my-data-has-issues-1" id="toc-how-will-i-know-if-my-data-has-issues-1" class="nav-link" data-scroll-target="#how-will-i-know-if-my-data-has-issues-1">How will I know if my data has issues?</a></li>
@@ -248,7 +285,7 @@ ul.task-list li input[type="checkbox"] {
   <li><a href="#how-blastula-works-with-connect" id="toc-how-blastula-works-with-connect" class="nav-link" data-scroll-target="#how-blastula-works-with-connect">How <code>blastula</code> works with Connect</a></li>
   <li><a href="#project-example-1" id="toc-project-example-1" class="nav-link" data-scroll-target="#project-example-1">Project example</a></li>
   <li><a href="#be-aware" id="toc-be-aware" class="nav-link" data-scroll-target="#be-aware">Be aware…</a></li>
-  <li><a href="#section-1" id="toc-section-1" class="nav-link" data-scroll-target="#section-1"></a></li>
+  <li><a href="#section-2" id="toc-section-2" class="nav-link" data-scroll-target="#section-2"></a></li>
   <li><a href="#other-alerting-approaches" id="toc-other-alerting-approaches" class="nav-link" data-scroll-target="#other-alerting-approaches">Other Alerting Approaches</a></li>
   </ul>
 <div class="quarto-alternate-formats"><h2>Other Formats</h2><ul><li><a href="03_data_validation_and_alerting.html"><i class="bi bi-file-slides"></i>RevealJS (positconfslides)</a></li></ul></div></nav>
@@ -274,9 +311,55 @@ ul.task-list li input[type="checkbox"] {
 <section id="section-agenda" class="level2 brackets-light">
 <h2 class="brackets-light anchored" data-anchor-id="section-agenda">Section Agenda</h2>
 <ul>
+<li>Ad-hoc data exploration</li>
 <li>Ensure quality data is flowing through the pipeline</li>
 <li>Get alerts via automation</li>
 </ul>
+</section>
+<section id="what-is-this-data" class="level2">
+<h2 class="anchored" data-anchor-id="what-is-this-data">What is this Data?</h2>
+<p>Our first introduction to <code>pointblank</code></p>
+<div class="fragment">
+<div class="columns">
+<div class="column" style="width:15%;">
+<p><img src="https://github.com/rstudio/pointblank/raw/main/man/figures/logo.svg" class="img-fluid" style="padding-right: 15px;"></p>
+</div><div class="column" style="width:75%;">
+<p><br><code>pointblank</code> provides data quality assessment and metadata reporting for data frames and database tables. <a href="https://github.com/rstudio/pointblank" class="uri">https://github.com/rstudio/pointblank</a></p>
+</div>
+</div>
+</div>
+<div class="fragment">
+<p>🧰 The <code>pointblank::scan_data()</code> function provides a HTML report of the input data to help you understand your data.</p>
+</div>
+</section>
+<section id="sample-data-scan" class="level2">
+<h2 class="anchored" data-anchor-id="sample-data-scan">Sample data scan</h2>
+<div class="sourceCode" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a>pointblank<span class="sc">::</span><span class="fu">scan_data</span>(palmerpenguins<span class="sc">::</span>penguins)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p><br></p>
+<iframe src="slide_resources/scan_penguins.html" width="100%" height="650">
+</iframe>
+</section>
+<section id="section" class="level2">
+<h2 class="anchored" data-anchor-id="section"></h2>
+<div class="center">
+<h2 class="anchored">
+<br><strong>Activity Time!</strong>
+</h2>
+</div>
+<div class="callout callout-style-default callout-note no-icon callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon no-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Activity
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>👉 Open the file <code>materials/activities/activity-01_raw_data_exploration.qmd</code></p>
+<p>Activity objective: explore our Chicago Food Inspections data to get familiar with our data</p>
+</div>
+</div>
 </section>
 <section id="how-can-i-ensure-the-data-in-my-pipeline-is-quality-data" class="level2">
 <h2 class="anchored" data-anchor-id="how-can-i-ensure-the-data-in-my-pipeline-is-quality-data">How can I ensure the data in my pipeline is quality data?</h2>
@@ -348,8 +431,8 @@ ul.task-list li input[type="checkbox"] {
 <p><img src="slide_resources/pb_validation_report_b.png" class="fragment fade-in-then-out img-fluid"></p>
 </div>
 </section>
-<section id="section" class="level2">
-<h2 class="anchored" data-anchor-id="section"></h2>
+<section id="section-1" class="level2">
+<h2 class="anchored" data-anchor-id="section-1"></h2>
 <div class="center">
 <h2 class="anchored">
 <br><strong>Activity Time!</strong>
@@ -487,8 +570,8 @@ Try the comprehensive <code>pointblank</code> test drive on Posit Cloud: <a href
 </ul>
 </div>
 </section>
-<section id="section-1" class="level2 brackets-light">
-<h2 class="brackets-light anchored" data-anchor-id="section-1"></h2>
+<section id="section-2" class="level2 brackets-light">
+<h2 class="brackets-light anchored" data-anchor-id="section-2"></h2>
 <div class="section-title">
 <h3 class="anchored">
 <strong>Demo Time</strong>
