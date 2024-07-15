@@ -10,6 +10,9 @@ library(leaflet.extras2)
 library(thematic)
 library(shinycssloaders)
 
+# API URL
+api_url <- "https://connect.posit.it/content/0b0a63a0-ec5b-4ecb-bee3-4e7256249981"
+
 # Read Ferry Data Pin
 board <- board_connect(auth = "manual", 
                        server = "https://connect.posit.it", 
@@ -165,7 +168,8 @@ server <- function(input, output, session) {
   
   # Predict delay
   delay_status <- reactive({
-    endpoint <- vetiver_endpoint(paste0("https://connect.posit.it/content/0b0a63a0-ec5b-4ecb-bee3-4e7256249981", "/predict"))
+    
+    endpoint <- vetiver_endpoint(paste0(api_url, "/predict"))
     
     # New ferry data point
     new_ferry_data <- tibble(

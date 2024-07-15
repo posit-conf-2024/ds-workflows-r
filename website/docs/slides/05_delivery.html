@@ -9,16 +9,16 @@
 <link href="../site_libs/quarto-html/quarto-html.min.css" rel="stylesheet" data-mode="light">
 <link href="../site_libs/quarto-html/quarto-syntax-highlighting.css" rel="stylesheet" id="quarto-text-highlighting-styles">
 <script src="../site_libs/quarto-contrib/posit_slides/posit-slides.js"></script>
-<link href="../site_libs/quarto-contrib/bootstrap-icons-1.9.1/all.css" rel="stylesheet"><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-<meta charset="utf-8">
-<meta name="generator" content="quarto-1.5.53">
-<title>Data Science Workflows with Posit Tools - R focus – delivery</title>
-<meta name="apple-mobile-web-app-capable" content="yes">
-<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
-<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, minimal-ui">
-<link rel="stylesheet" href="../site_libs/revealjs/dist/reset.css">
-<link rel="stylesheet" href="../site_libs/revealjs/dist/reveal.css">
-<style>
+<link href="../site_libs/quarto-contrib/bootstrap-icons-1.9.1/all.css" rel="stylesheet"><meta charset="utf-8">
+  <meta name="generator" content="quarto-1.5.53">
+
+  <title>Data Science Workflows with Posit Tools - R focus – delivery</title>
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, minimal-ui">
+  <link rel="stylesheet" href="../site_libs/revealjs/dist/reset.css">
+  <link rel="stylesheet" href="../site_libs/revealjs/dist/reveal.css">
+  <style>
     code{white-space: pre-wrap;}
     span.smallcaps{font-variant: small-caps;}
     div.columns{display: flex; gap: min(4vw, 1.5em);}
@@ -96,14 +96,14 @@
     code span.vs { color: #008000; } /* VerbatimString */
     code span.wa { color: #696969; font-style: italic; } /* Warning */
   </style>
-<link rel="stylesheet" href="../site_libs/revealjs/dist/theme/quarto.css">
-<link href="../site_libs/revealjs/plugin/quarto-line-highlight/line-highlight.css" rel="stylesheet">
-<link href="../site_libs/revealjs/plugin/reveal-menu/menu.css" rel="stylesheet">
-<link href="../site_libs/revealjs/plugin/reveal-menu/quarto-menu.css" rel="stylesheet">
-<link href="../site_libs/revealjs/plugin/reveal-chalkboard/font-awesome/css/all.css" rel="stylesheet">
-<link href="../site_libs/revealjs/plugin/reveal-chalkboard/style.css" rel="stylesheet">
-<link href="../site_libs/revealjs/plugin/quarto-support/footer.css" rel="stylesheet">
-<style type="text/css">
+  <link rel="stylesheet" href="../site_libs/revealjs/dist/theme/quarto.css">
+  <link href="../site_libs/revealjs/plugin/quarto-line-highlight/line-highlight.css" rel="stylesheet">
+  <link href="../site_libs/revealjs/plugin/reveal-menu/menu.css" rel="stylesheet">
+  <link href="../site_libs/revealjs/plugin/reveal-menu/quarto-menu.css" rel="stylesheet">
+  <link href="../site_libs/revealjs/plugin/reveal-chalkboard/font-awesome/css/all.css" rel="stylesheet">
+  <link href="../site_libs/revealjs/plugin/reveal-chalkboard/style.css" rel="stylesheet">
+  <link href="../site_libs/revealjs/plugin/quarto-support/footer.css" rel="stylesheet">
+  <style type="text/css">
 
   .callout {
     margin-top: 1em;
@@ -301,7 +301,7 @@
   }
 
   </style>
-<style type="text/css">
+  <style type="text/css">
     .reveal div.sourceCode {
       margin: 0;
       overflow: auto;
@@ -394,15 +394,20 @@
     <div class="slides">
 
 
-<section class="slide level2" data-background-image="_extensions/positconfslides/assets/backgrounds/title-slide-light.svg" data-background-size="contain"><h2></h2>
+<section class="slide level2" data-background-image="_extensions/positconfslides/assets/backgrounds/title-slide-light.svg" data-background-size="contain">
+<h2></h2>
 <div class="columns">
 <div class="column" style="width:100%;">
 <h2>Effective Delivery of Insights</h2>
-<p><img data-src="https://github.com/rstudio/hex-stickers/blob/main/PNG/shiny.png?raw=true" class="absolute" style="top: 170px; left: 180px; width: 260px; "><img data-src="https://pkgs.rstudio.com/connectapi/reference/figures/logo.svg" class="absolute" style="top: 395px; left: 50px; width: 260px; "><img data-src="https://rstudio.github.io/connectwidgets/reference/figures/logo.png" class="absolute" style="top: 395px; left: 310px; width: 260px; "></p>
+<p><img data-src="https://github.com/rstudio/hex-stickers/blob/main/PNG/shiny.png?raw=true" class="absolute" style="top: 170px; left: 180px; width: 260px; "> <img data-src="https://pkgs.rstudio.com/connectapi/reference/figures/logo.svg" class="absolute" style="top: 395px; left: 50px; width: 260px; "> <img data-src="https://rstudio.github.io/connectwidgets/reference/figures/logo.png" class="absolute" style="top: 395px; left: 310px; width: 260px; "></p>
 </div></div>
-</section><section class="slide level2"><h2>Review</h2>
+</section>
+<section class="slide level2">
+<h2>Review</h2>
 
-<img data-src="slide_resources/ds-workflows-r-2024.jpg" class="quarto-figure quarto-figure-center r-stretch"></section><section class="slide level2" data-background-image="_extensions/positconfslides/assets/backgrounds/brackets-light.svg" data-background-size="contain"><h2></h2>
+<img data-src="slide_resources/ds-workflows-r-2024.jpg" class="quarto-figure quarto-figure-center r-stretch"></section>
+<section class="slide level2" data-background-image="_extensions/positconfslides/assets/backgrounds/brackets-light.svg" data-background-size="contain">
+<h2></h2>
 <div class="columns">
 <div class="column" style="width:100%;">
 <br><h2 style="margin-top:10px;">Section Agenda</h2>
@@ -413,13 +418,15 @@
 <li>Managing and monitoring production content</li>
 </ul>
 </div></div>
-</section><section class="slide level2"><h2>Let’s talk Shiny</h2>
-<p><img data-src="https://raw.githubusercontent.com/rstudio/hex-stickers/580e9bada770756d25dbd3696159744d1e9c9251/SVG/shiny.svg" class="absolute" style="padding-right: 15px;top: 10px; left: 600px; width: 200px; "><br><br></p>
+</section>
+<section class="slide level2">
+<h2>Let’s talk Shiny</h2>
+<p><img data-src="https://raw.githubusercontent.com/rstudio/hex-stickers/580e9bada770756d25dbd3696159744d1e9c9251/SVG/shiny.svg" class="absolute" style="padding-right: 15px;top: 10px; left: 600px; width: 200px; "> <br><br></p>
 <div class="columns">
 <div class="column" style="width:50%;">
 <div class="fragment">
 <p>Whether you’re here <br> in your Shiny journey:</p>
-<p><img data-src="slide_resources/andriyko-podilnyk-RCfi7vgJjUY-unsplash.jpg"><br><span class="smallest">Photo by <a href="https://unsplash.com/@andriyko?utm_source=unsplash&amp;utm_medium=referral&amp;utm_content=creditCopyText">Andriyko Podilnyk</a> on <a href="https://unsplash.com/photos/orange-tabby-kitten-in-grasses-RCfi7vgJjUY?utm_source=unsplash&amp;utm_medium=referral&amp;utm_content=creditCopyText">Unsplash</a></span></p>
+<p><img data-src="slide_resources/andriyko-podilnyk-RCfi7vgJjUY-unsplash.jpg"> <br><span class="smallest">Photo by <a href="https://unsplash.com/@andriyko?utm_source=unsplash&amp;utm_medium=referral&amp;utm_content=creditCopyText">Andriyko Podilnyk</a> on <a href="https://unsplash.com/photos/orange-tabby-kitten-in-grasses-RCfi7vgJjUY?utm_source=unsplash&amp;utm_medium=referral&amp;utm_content=creditCopyText">Unsplash</a></span></p>
 </div>
 </div><div class="column" style="width:50%;">
 <div class="fragment">
@@ -428,27 +435,24 @@
 <p><span class="smallest">Photo by <a href="https://unsplash.com/@detpho?utm_source=unsplash&amp;utm_medium=referral&amp;utm_content=creditCopyText">Francesco</a> on <a href="https://unsplash.com/photos/ZxNKxnR32Ng?utm_source=unsplash&amp;utm_medium=referral&amp;utm_content=creditCopyText">Unsplash</a></span></p>
 </div>
 </div></div>
-</section><section class="slide level2"><h2>🧰 Shiny resources</h2>
+</section>
+<section class="slide level2">
+<h2>🧰 Shiny resources</h2>
 <ul>
-<li>Get started with Shiny (R or Python!) <a href="https://shiny.posit.co/getstarted" class="uri">https://shiny.posit.co/getstarted</a>
-</li>
-<li>Gallery of examples <a href="https://shiny.posit.co/r/gallery/" class="uri">https://shiny.posit.co/r/gallery/</a>
-</li>
-<li>
-<strong>The authoritative reference, Mastering Shiny</strong> <a href="https://mastering-shiny.org" class="uri">https://mastering-shiny.org</a>
-</li>
+<li>Get started with Shiny (R or Python!) <a href="https://shiny.posit.co/getstarted" class="uri">https://shiny.posit.co/getstarted</a></li>
+<li>Gallery of examples <a href="https://shiny.posit.co/r/gallery/" class="uri">https://shiny.posit.co/r/gallery/</a></li>
+<li><strong>The authoritative reference, Mastering Shiny</strong> <a href="https://mastering-shiny.org" class="uri">https://mastering-shiny.org</a></li>
 <li>Helper packages
 <ul>
-<li>
-<a href="https://rstudio.github.io/bslib/"><code>bslib</code></a> - add themes, components, and layouts with ease</li>
-<li>
-<a href="https://rstudio.github.io/thematic/"><code>thematic</code></a> - extends your Shiny theme to plots<br>
+<li><a href="https://rstudio.github.io/bslib/"><code>bslib</code></a> - add themes, components, and layouts with ease</li>
+<li><a href="https://rstudio.github.io/thematic/"><code>thematic</code></a> - extends your Shiny theme to plots<br>
 </li>
-<li>
-<a href="https://rstudio.github.io/shinyuieditor/index.html#trouble-installing/"><code>shinyuieditor</code></a> - a visual tool to help create the UI portion of your Shiny app</li>
+<li><a href="https://rstudio.github.io/shinyuieditor/index.html#trouble-installing/"><code>shinyuieditor</code></a> - a visual tool to help create the UI portion of your Shiny app</li>
+</ul></li>
 </ul>
-</li>
-</ul></section><section class="slide level2"><h2>Shiny in production</h2>
+</section>
+<section class="slide level2">
+<h2>Shiny in production</h2>
 <p><br> “But my app runs great on my laptop…” <br><br></p>
 <div class="fragment">
 <p>Two sides to this coin:</p>
@@ -457,7 +461,9 @@
 <li>Tune your runtime settings</li>
 </ol>
 </div>
-</section><section class="slide level2"><h2>Shiny in production — Optimize your app</h2>
+</section>
+<section class="slide level2">
+<h2>Shiny in production — Optimize your app</h2>
 <p><br></p>
 <p>📣 Design principle: Make your app a lightweight presentation layer <br><br></p>
 <div class="columns">
@@ -475,8 +481,7 @@
 <li>Make code faster</li>
 <li>Use caching</li>
 <li>Use async</li>
-</ul>
-</li>
+</ul></li>
 </ul>
 </div>
 </div><div class="column" style="width:50%;">
@@ -484,34 +489,68 @@
 <p>🧰 References:</p>
 <ul>
 <li>Joe Cheng’s <a href="https://youtu.be/Wy3TY0gOmJw">Shiny in Production</a> talk at 2019 rstudio::conf</li>
-<li>
-<a href="https://mastering-shiny.org/performance.html">Mastering Shiny, Performance</a> chapter</li>
+<li><a href="https://mastering-shiny.org/performance.html">Mastering Shiny, Performance</a> chapter</li>
 </ul>
 </div>
 </div></div>
 </div>
-</section><section class="slide level2"><h2>👋 Let’s Create a Basic Shiny App</h2>
-
-<img data-src="slide_resources/shiny_app_UI.png" class="quarto-figure quarto-figure-center r-stretch"></section><section class="slide level2"><h2>How does our Shiny App Work?</h2>
+</section>
+<section class="slide level2">
+<h2>What does our Ferry Delay App need to do?</h2>
+<div class="fragment">
 <ul>
-<li>Code for App: <code>materials/project/04_inspector_shiny_app/app.R</code>
-</li>
+<li>Make requests to our API</li>
 </ul>
-<div class="cell">
-<div class="sourceCode cell-code" id="cb1" data-code-line-numbers="4-7"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a></a><span class="co"># Make prediction (add .pred_FAIL to table)</span></span>
-<span id="cb1-2"><a></a>  prediction_info <span class="ot">&lt;-</span> <span class="fu">reactive</span>({</span>
-<span id="cb1-3"><a></a>    </span>
-<span id="cb1-4"><a></a>    prediction_df <span class="ot">&lt;-</span> <span class="fu">selected_info</span>() <span class="sc">|&gt;</span> </span>
-<span id="cb1-5"><a></a>      <span class="fu">select</span>(<span class="sc">-</span>aka_name) </span>
-<span id="cb1-6"><a></a>    </span>
-<span id="cb1-7"><a></a>    fail_prediction <span class="ot">&lt;-</span> <span class="fu">predict</span>(endpoint, prediction_df)<span class="sc">$</span>.pred_FAIL</span>
-<span id="cb1-8"><a></a>    </span>
-<span id="cb1-9"><a></a>    <span class="fu">selected_info</span>() <span class="sc">|&gt;</span> </span>
-<span id="cb1-10"><a></a>      <span class="fu">mutate</span>(<span class="at">fail_prediction =</span> <span class="fu">round</span>(fail_prediction <span class="sc">*</span> <span class="dv">100</span>, <span class="dv">3</span>))</span>
-<span id="cb1-11"><a></a>    </span>
-<span id="cb1-12"><a></a>  })</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-</section><section class="slide level2"><h2>Activity</h2>
+<div class="fragment">
+<ul>
+<li>Receive and display API response</li>
+</ul>
+</div>
+<div class="fragment">
+<div class="callout callout-note no-icon callout-titled callout-style-default">
+<div class="callout-body">
+<div class="callout-title">
+<p><strong>Activity</strong></p>
+</div>
+<div class="callout-content">
+<p>👉 Open the file <code>materials/05-shiny-app/simple_ferry_app/app.R</code></p>
+<p>Run the app and get a taste for how Shiny can generative reactive API queries.</p>
+</div>
+</div>
+</div>
+</div>
+</section>
+<section class="slide level2">
+<h2>Putting the Pieces Together</h2>
+<p>Our Shiny application does a bit more:</p>
+<div>
+<ol type="1">
+<li class="fragment">Read in ferry weather data from database.</li>
+<li class="fragment">Extract ferry station information from <code>ferryfairy</code> package.</li>
+<li class="fragment">Take in user inputs.</li>
+<li class="fragment">Make API queries.</li>
+<li class="fragment">Display API response.</li>
+<li class="fragment">Display a map.</li>
+<li class="fragment">Show average delay times.</li>
+</ol>
+</div>
+</section>
+<section class="slide level2">
+<h2>Putting the Pieces Together</h2>
+<p>Our Shiny application does a bit more:</p>
+<ol type="1">
+<li>Read in ferry weather data from database.</li>
+<li>Extract ferry station information from <code>ferryfairy</code> package.</li>
+<li>Take in user inputs.</li>
+<li><strong>Make API queries.</strong></li>
+<li>Display API response.</li>
+<li>Display a map.</li>
+<li>Show average delay times.</li>
+</ol>
+</section>
+<section class="slide level2">
+<h2>Activity</h2>
 <div class="callout callout-note no-icon callout-titled callout-style-default">
 <div class="callout-body">
 <div class="callout-title">
@@ -522,7 +561,9 @@
 </div>
 </div>
 </div>
-</section><section class="slide level2"><h2>Shiny on Connect</h2>
+</section>
+<section class="slide level2">
+<h2>Shiny on Connect</h2>
 <p>Runtime settings</p>
 <div class="columns">
 <div class="column" style="width:30%;">
@@ -530,11 +571,13 @@
 </div><div class="column" style="width:70%;">
 <div class="r-stack">
 <div class="quarto-figure quarto-figure-center">
-<figure><p><img data-src="https://media.giphy.com/media/3o6Mbsras7qdAwgABW/giphy.gif" class="fragment fade-in-then-out quarto-figure quarto-figure-center"></p>
+<figure>
+<p><img data-src="https://media.giphy.com/media/3o6Mbsras7qdAwgABW/giphy.gif" class="fragment fade-in-then-out quarto-figure quarto-figure-center"></p>
 </figure>
 </div>
 <div class="quarto-figure quarto-figure-center">
-<figure><p><img data-src="https://media.giphy.com/media/lvlLuc2zhi39C/giphy.gif" class="fragment fade-in-then-out quarto-figure quarto-figure-center"></p>
+<figure>
+<p><img data-src="https://media.giphy.com/media/lvlLuc2zhi39C/giphy.gif" class="fragment fade-in-then-out quarto-figure quarto-figure-center"></p>
 </figure>
 </div>
 <div class="fragment">
@@ -545,7 +588,9 @@
 </div>
 </div>
 </div></div>
-</section><section class="slide level2"><h2>Posit Connect</h2>
+</section>
+<section class="slide level2">
+<h2>Posit Connect</h2>
 <p>The Shiny Restaurant Analogy</p>
 <p>Let’s say you are the <strong>manager</strong> of a restaurant, and you need to determine two things:</p>
 <ol type="1">
@@ -554,13 +599,13 @@
 </ol>
 <div class="fragment">
 <ul>
-<li>Chef == <span class="positgreen"><strong>process</strong></span>
-</li>
-<li>Customer == <span class="positgreen"><strong>connection</strong></span>
-</li>
+<li>Chef == <span class="positgreen"><strong>process</strong></span></li>
+<li>Customer == <span class="positgreen"><strong>connection</strong></span></li>
 </ul>
 </div>
-</section><section class="slide level2"><h2>Posit Connect</h2>
+</section>
+<section class="slide level2">
+<h2>Posit Connect</h2>
 <p>The Shiny Restaurant Analogy</p>
 <div class="r-stack">
 <div class="fragment">
@@ -576,11 +621,15 @@
 <p><img data-src="slide_resources/chef-4.jpg"></p>
 </div>
 </div>
-</section><section class="slide level2 brackets-dark"><h2></h2>
+</section>
+<section class="slide level2 brackets-dark">
+<h2></h2>
 <div class="section-title-dark">
 <p>Managing Content</p>
 </div>
-</section><section class="slide level2" data-background-image="_extensions/positconfslides/assets/backgrounds/brackets-light.svg" data-background-size="contain"><h2></h2>
+</section>
+<section class="slide level2" data-background-image="_extensions/positconfslides/assets/backgrounds/brackets-light.svg" data-background-size="contain">
+<h2></h2>
 <div class="columns">
 <div class="column" style="width:100%;">
 <br><h2 style="margin-top:10px;">Managing Content</h2>
@@ -591,46 +640,51 @@
 </ul>
 </div>
 </div></div>
-</section><section class="slide level2"><h2>How can I organize this content so stakeholders can find it?</h2>
+</section>
+<section class="slide level2">
+<h2>How can I organize this content so stakeholders can find it?</h2>
 <ol type="1">
 <li><a href="https://docs.posit.co/connect/admin/content-management/index.html#tags">Tags in Connect</a></li>
 </ol>
 <div class="quarto-figure quarto-figure-center">
-<figure><p><img data-src="slide_resources/tag_schema.png" class="quarto-figure quarto-figure-center" height="400"></p>
+<figure>
+<p><img data-src="slide_resources/tag_schema.png" class="quarto-figure quarto-figure-center" height="400"></p>
 </figure>
 </div>
 <ol start="2" type="1">
-<li>🧰 <a href="https://rstudio.github.io/connectwidgets/"><code>connectwidgets</code></a> for content curation <img data-src="https://rstudio.github.io/connectwidgets/reference/figures/logo.png" class="absolute" style="top: 650px; right: 420px; width: 220px; ">
-</li>
-</ol></section><section class="slide level2"><h2>Connectwidgets flow</h2>
+<li>🧰 <a href="https://rstudio.github.io/connectwidgets/"><code>connectwidgets</code></a> for content curation <img data-src="https://rstudio.github.io/connectwidgets/reference/figures/logo.png" class="absolute" style="top: 650px; right: 420px; width: 220px; "></li>
+</ol>
+</section>
+<section class="slide level2">
+<h2>Connectwidgets flow</h2>
 <p>Incorporate into a stylized R Markdown or Quarto document or Shiny application.</p>
-<div class="sourceCode" id="cb2" data-code-line-numbers="1-5|7-14|16-27"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb2-1"><a></a><span class="co"># Establish a connection to the Connect Server</span></span>
-<span id="cb2-2"><a></a>client <span class="ot">&lt;-</span> <span class="fu">connect</span>(</span>
-<span id="cb2-3"><a></a>  <span class="at">server  =</span> <span class="fu">Sys.getenv</span>(<span class="st">"CONNECT_SERVER"</span>),</span>
-<span id="cb2-4"><a></a>  <span class="at">api_key =</span> <span class="fu">Sys.getenv</span>(<span class="st">"CONNECT_API_KEY"</span>)</span>
-<span id="cb2-5"><a></a>  )</span>
-<span id="cb2-6"><a></a></span>
-<span id="cb2-7"><a></a><span class="co"># Return a dataframe of content information to curate</span></span>
-<span id="cb2-8"><a></a>project_content <span class="ot">&lt;-</span> client <span class="sc">|&gt;</span> </span>
-<span id="cb2-9"><a></a>  <span class="fu">content</span>() <span class="sc">|&gt;</span> </span>
-<span id="cb2-10"><a></a>  <span class="co"># filter helpers:</span></span>
-<span id="cb2-11"><a></a>  <span class="fu">by_tag</span>() <span class="sc">|&gt;</span> </span>
-<span id="cb2-12"><a></a>  <span class="fu">by_owner</span>() <span class="sc">|&gt;</span> </span>
-<span id="cb2-13"><a></a>  <span class="co"># or use your own dplyr filter</span></span>
-<span id="cb2-14"><a></a>  dplyr<span class="sc">::</span><span class="fu">filter</span>()</span>
-<span id="cb2-15"><a></a>  </span>
-<span id="cb2-16"><a></a><span class="co"># Use widgets to lay out your content</span></span>
-<span id="cb2-17"><a></a><span class="do">### card</span></span>
-<span id="cb2-18"><a></a>project_content <span class="sc">|&gt;</span> </span>
-<span id="cb2-19"><a></a>  <span class="fu">rsc_card</span>()</span>
-<span id="cb2-20"><a></a></span>
-<span id="cb2-21"><a></a><span class="do">### grid</span></span>
-<span id="cb2-22"><a></a>project_content <span class="sc">|&gt;</span> </span>
-<span id="cb2-23"><a></a>  <span class="fu">rsc_grid</span>()</span>
-<span id="cb2-24"><a></a></span>
-<span id="cb2-25"><a></a><span class="do">### table</span></span>
-<span id="cb2-26"><a></a>project_content <span class="sc">%&gt;%</span></span>
-<span id="cb2-27"><a></a>  <span class="fu">rsc_table</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode" id="cb1" data-code-line-numbers="1-5|7-14|16-27"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a></a><span class="co"># Establish a connection to the Connect Server</span></span>
+<span id="cb1-2"><a></a>client <span class="ot">&lt;-</span> <span class="fu">connect</span>(</span>
+<span id="cb1-3"><a></a>  <span class="at">server  =</span> <span class="fu">Sys.getenv</span>(<span class="st">"CONNECT_SERVER"</span>),</span>
+<span id="cb1-4"><a></a>  <span class="at">api_key =</span> <span class="fu">Sys.getenv</span>(<span class="st">"CONNECT_API_KEY"</span>)</span>
+<span id="cb1-5"><a></a>  )</span>
+<span id="cb1-6"><a></a></span>
+<span id="cb1-7"><a></a><span class="co"># Return a dataframe of content information to curate</span></span>
+<span id="cb1-8"><a></a>project_content <span class="ot">&lt;-</span> client <span class="sc">|&gt;</span> </span>
+<span id="cb1-9"><a></a>  <span class="fu">content</span>() <span class="sc">|&gt;</span> </span>
+<span id="cb1-10"><a></a>  <span class="co"># filter helpers:</span></span>
+<span id="cb1-11"><a></a>  <span class="fu">by_tag</span>() <span class="sc">|&gt;</span> </span>
+<span id="cb1-12"><a></a>  <span class="fu">by_owner</span>() <span class="sc">|&gt;</span> </span>
+<span id="cb1-13"><a></a>  <span class="co"># or use your own dplyr filter</span></span>
+<span id="cb1-14"><a></a>  dplyr<span class="sc">::</span><span class="fu">filter</span>()</span>
+<span id="cb1-15"><a></a>  </span>
+<span id="cb1-16"><a></a><span class="co"># Use widgets to lay out your content</span></span>
+<span id="cb1-17"><a></a><span class="do">### card</span></span>
+<span id="cb1-18"><a></a>project_content <span class="sc">|&gt;</span> </span>
+<span id="cb1-19"><a></a>  <span class="fu">rsc_card</span>()</span>
+<span id="cb1-20"><a></a></span>
+<span id="cb1-21"><a></a><span class="do">### grid</span></span>
+<span id="cb1-22"><a></a>project_content <span class="sc">|&gt;</span> </span>
+<span id="cb1-23"><a></a>  <span class="fu">rsc_grid</span>()</span>
+<span id="cb1-24"><a></a></span>
+<span id="cb1-25"><a></a><span class="do">### table</span></span>
+<span id="cb1-26"><a></a>project_content <span class="sc">%&gt;%</span></span>
+<span id="cb1-27"><a></a>  <span class="fu">rsc_table</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="callout callout-tip callout-titled callout-style-default">
 <div class="callout-body">
 <div class="callout-title">
@@ -644,7 +698,9 @@
 </div>
 </div>
 </div>
-</section><section class="slide level2"><h2>Example</h2>
+</section>
+<section class="slide level2">
+<h2>Example</h2>
 <p><a href="https://colorado.posit.co/rsc/chicago-food-r/" class="uri">https://colorado.posit.co/rsc/chicago-food-r/</a></p>
 <div class="callout callout-note no-icon callout-titled callout-style-default">
 <div class="callout-body">
@@ -656,12 +712,16 @@
 </div>
 </div>
 </div>
-</section><section class="slide level2"><h2>How will I know if people are consuming my content?</h2>
+</section>
+<section class="slide level2">
+<h2>How will I know if people are consuming my content?</h2>
 <div class="fragment">
 <p><br></p>
 <p>🧰 Posit Connect Server API</p>
 </div>
-</section><section class="slide level2"><h2>Posit Connect Server API endpoints</h2>
+</section>
+<section class="slide level2">
+<h2>Posit Connect Server API endpoints</h2>
 <p><em>Most endpoints require an API Key</em>, and <span class="positgreen"><strong>results will be scoped to the permissions of the key</strong></span>. <br></p>
 <div class="columns">
 <div class="column" style="width:50%;">
@@ -685,48 +745,46 @@
 </ul>
 </div></div>
 <p>See full documentation at <a href="https://docs.posit.co/connect/api/" class="uri">https://docs.posit.co/connect/api/</a></p>
-</section><section class="slide level2"><h2>Example Content Usage Report</h2>
+</section>
+<section class="slide level2">
+<h2>Example Content Usage Report</h2>
 <div class="columns">
 <div class="column" style="width:40%;">
 <p><a href="https://connect.conf23workflows.training.posit.co/chicago-food-r/content-usage/"><img data-src="slide_resources/usage-report.png" height="800"></a></p>
 </div><div class="column" style="width:60%;">
-<div class="sourceCode" id="cb3"><pre class="sourceCode numberSource r code-overflow-wrap number-lines code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a></a>...</span>
-<span id="cb3-2"><a></a>con <span class="ot">&lt;-</span> connectapi<span class="sc">::</span><span class="fu">connect</span>()</span>
-<span id="cb3-3"><a></a></span>
-<span id="cb3-4"><a></a>app_usage <span class="ot">&lt;-</span> <span class="fu">get_usage_shiny</span>(</span>
-<span id="cb3-5"><a></a>  client,</span>
-<span id="cb3-6"><a></a>  <span class="at">from =</span> report_from,</span>
-<span id="cb3-7"><a></a>  <span class="at">limit =</span> <span class="cn">Inf</span>,</span>
-<span id="cb3-8"><a></a>  <span class="at">content_guid =</span> guid</span>
-<span id="cb3-9"><a></a>)</span>
-<span id="cb3-10"><a></a>...</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode" id="cb2"><pre class="sourceCode numberSource r code-overflow-wrap number-lines code-with-copy"><code class="sourceCode r"><span id="cb2-1"><a></a>...</span>
+<span id="cb2-2"><a></a>con <span class="ot">&lt;-</span> connectapi<span class="sc">::</span><span class="fu">connect</span>()</span>
+<span id="cb2-3"><a></a></span>
+<span id="cb2-4"><a></a>app_usage <span class="ot">&lt;-</span> <span class="fu">get_usage_shiny</span>(</span>
+<span id="cb2-5"><a></a>  client,</span>
+<span id="cb2-6"><a></a>  <span class="at">from =</span> report_from,</span>
+<span id="cb2-7"><a></a>  <span class="at">limit =</span> <span class="cn">Inf</span>,</span>
+<span id="cb2-8"><a></a>  <span class="at">content_guid =</span> guid</span>
+<span id="cb2-9"><a></a>)</span>
+<span id="cb2-10"><a></a>...</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div></div>
 <p><i class="bi-sign-turn-right-fill " style="color: orange;" role="img" aria-hidden="true"></i> See more examples: <a href="https://solutions.posit.co/operations/connect-apis/" class="uri">https://solutions.posit.co/operations/connect-apis/</a></p>
-</section><section class="slide level2"><h2>Accessing the Connect Server API</h2>
+</section>
+<section class="slide level2">
+<h2>Accessing the Connect Server API</h2>
 <ul>
 <li>Interact remotely with the Connect Server API using HTTP requests directly via:
 <ul>
-<li>
-<code>curl</code> - Linux tool for making HTTP calls</li>
-<li>
-<code>httr</code> - R HTTP library</li>
-<li>
-<code>requests</code> - Python HTTP library</li>
-</ul>
-</li>
+<li><code>curl</code> - Linux tool for making HTTP calls</li>
+<li><code>httr</code> - R HTTP library</li>
+<li><code>requests</code> - Python HTTP library</li>
+</ul></li>
 <li>Or use <a href="https://pkgs.rstudio.com/connectapi/"><code>connectapi</code></a> R package, which provides a wrapper around HTTP requests</li>
 </ul>
 <p><img data-src="https://pkgs.rstudio.com/connectapi/reference/figures/logo.svg" class="absolute" style="top: 590px; left: 260px; width: 220px; "></p>
-</section><section class="slide level2"><h2>Connect Server API Resources</h2>
+</section>
+<section class="slide level2">
+<h2>Connect Server API Resources</h2>
 <ul>
-<li>Reference <a href="https://docs.posit.co/connect/api/" class="uri">https://docs.posit.co/connect/api/</a>
-</li>
-<li>Cookbook <a href="https://docs.posit.co/connect/cookbook/" class="uri">https://docs.posit.co/connect/cookbook/</a>
-</li>
-<li>Example reports and apps <a href="https://solutions.posit.co/operations/connect-apis/" class="uri">https://solutions.posit.co/operations/connect-apis/</a>
-</li>
-<li>R package <code>connectapi</code> that is a wrapper around the API <a href="https://pkgs.rstudio.com/connectapi/" class="uri">https://pkgs.rstudio.com/connectapi/</a>
-</li>
+<li>Reference <a href="https://docs.posit.co/connect/api/" class="uri">https://docs.posit.co/connect/api/</a></li>
+<li>Cookbook <a href="https://docs.posit.co/connect/cookbook/" class="uri">https://docs.posit.co/connect/cookbook/</a></li>
+<li>Example reports and apps <a href="https://solutions.posit.co/operations/connect-apis/" class="uri">https://solutions.posit.co/operations/connect-apis/</a></li>
+<li>R package <code>connectapi</code> that is a wrapper around the API <a href="https://pkgs.rstudio.com/connectapi/" class="uri">https://pkgs.rstudio.com/connectapi/</a> ::::::::::::::::::::::::::</li>
 </ul>
 
 <div class="quarto-auto-generated-content">
@@ -735,10 +793,27 @@
 </div>
 </div>
 </section>
-</div>
+    </div>
   </div>
 
-  <script>window.backupDefine = window.define; window.define = undefined;</script><script src="../site_libs/revealjs/dist/reveal.js"></script><!-- reveal.js plugins --><script src="../site_libs/revealjs/plugin/quarto-line-highlight/line-highlight.js"></script><script src="../site_libs/revealjs/plugin/pdf-export/pdfexport.js"></script><script src="../site_libs/revealjs/plugin/reveal-menu/menu.js"></script><script src="../site_libs/revealjs/plugin/reveal-menu/quarto-menu.js"></script><script src="../site_libs/revealjs/plugin/reveal-chalkboard/plugin.js"></script><script src="../site_libs/revealjs/plugin/quarto-support/support.js"></script><script src="../site_libs/revealjs/plugin/notes/notes.js"></script><script src="../site_libs/revealjs/plugin/search/search.js"></script><script src="../site_libs/revealjs/plugin/zoom/zoom.js"></script><script src="../site_libs/revealjs/plugin/math/math.js"></script><script>window.define = window.backupDefine; window.backupDefine = undefined;</script><script>
+  <script>window.backupDefine = window.define; window.define = undefined;</script>
+  <script src="../site_libs/revealjs/dist/reveal.js"></script>
+  <!-- reveal.js plugins -->
+  <script src="../site_libs/revealjs/plugin/quarto-line-highlight/line-highlight.js"></script>
+  <script src="../site_libs/revealjs/plugin/pdf-export/pdfexport.js"></script>
+  <script src="../site_libs/revealjs/plugin/reveal-menu/menu.js"></script>
+  <script src="../site_libs/revealjs/plugin/reveal-menu/quarto-menu.js"></script>
+  <script src="../site_libs/revealjs/plugin/reveal-chalkboard/plugin.js"></script>
+  <script src="../site_libs/revealjs/plugin/quarto-support/support.js"></script>
+  
+
+  <script src="../site_libs/revealjs/plugin/notes/notes.js"></script>
+  <script src="../site_libs/revealjs/plugin/search/search.js"></script>
+  <script src="../site_libs/revealjs/plugin/zoom/zoom.js"></script>
+  <script src="../site_libs/revealjs/plugin/math/math.js"></script>
+  <script>window.define = window.backupDefine; window.backupDefine = undefined;</script>
+
+  <script>
 
       // Full list of configuration options available at:
       // https://revealjs.com/config/
@@ -929,7 +1004,8 @@
           RevealZoom
         ]
       });
-    </script><script id="quarto-html-after-body" type="application/javascript">
+    </script>
+    <script id="quarto-html-after-body" type="application/javascript">
     window.document.addEventListener("DOMContentLoaded", function (event) {
       const toggleBodyColorMode = (bsSheetEl) => {
         const mode = bsSheetEl.getAttribute("data-mode");
@@ -1116,6 +1192,6 @@
       }
     });
     </script>
-
+    
 
 </body></html>

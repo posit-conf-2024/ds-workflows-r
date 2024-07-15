@@ -1300,7 +1300,7 @@
     "href": "slides/05_delivery.html#connect-server-api-resources",
     "title": "Data Science Workflows with Posit Tools - R focus",
     "section": "Connect Server API Resources",
-    "text": "Connect Server API Resources\n\nReference https://docs.posit.co/connect/api/\nCookbook https://docs.posit.co/connect/cookbook/\nExample reports and apps https://solutions.posit.co/operations/connect-apis/\nR package connectapi that is a wrapper around the API https://pkgs.rstudio.com/connectapi/",
+    "text": "Connect Server API Resources\n\nReference https://docs.posit.co/connect/api/\nCookbook https://docs.posit.co/connect/cookbook/\nExample reports and apps https://solutions.posit.co/operations/connect-apis/\nR package connectapi that is a wrapper around the API https://pkgs.rstudio.com/connectapi/ ::::::::::::::::::::::::::",
     "crumbs": [
       "About",
       "Slides",
@@ -2932,6 +2932,54 @@
     "title": "Data Science Workflows with Posit Tools - R focus",
     "section": "👋 Let’s Create a Basic Shiny App",
     "text": "👋 Let’s Create a Basic Shiny App",
+    "crumbs": [
+      "About",
+      "Slides",
+      "05 - Delivering Insights Effectively"
+    ]
+  },
+  {
+    "objectID": "slides/05_delivery.html#what-does-our-ferry-delay-app-need-to-do",
+    "href": "slides/05_delivery.html#what-does-our-ferry-delay-app-need-to-do",
+    "title": "Data Science Workflows with Posit Tools - R focus",
+    "section": "What does our Ferry Delay App need to do?",
+    "text": "What does our Ferry Delay App need to do?\n\n\nMake requests to our API\n\n\n\n\nReceive and display API response\n\n\n\n\n\n\n\n\n\nActivity\n\n\n\n👉 Open the file materials/05-shiny-app/simple_ferry_app/app.R\nRun the app and get a taste for how Shiny can generative reactive API queries.",
+    "crumbs": [
+      "About",
+      "Slides",
+      "05 - Delivering Insights Effectively"
+    ]
+  },
+  {
+    "objectID": "slides/05_delivery.html#activity-1",
+    "href": "slides/05_delivery.html#activity-1",
+    "title": "Data Science Workflows with Posit Tools - R focus",
+    "section": "Activity",
+    "text": "Activity\n\n\n\n\n\n\nActivity\n\n\n\n👉 Open the file materials/activities/activity-07_shiny.qmd",
+    "crumbs": [
+      "About",
+      "Slides",
+      "05 - Delivering Insights Effectively"
+    ]
+  },
+  {
+    "objectID": "slides/05_delivery.html#putting-the-pieces-together",
+    "href": "slides/05_delivery.html#putting-the-pieces-together",
+    "title": "Data Science Workflows with Posit Tools - R focus",
+    "section": "Putting the Pieces Together",
+    "text": "Putting the Pieces Together\nOur Shiny application does a bit more:\n\n\nRead in ferry weather data from database.\nExtract ferry station information from ferryfairy package.\nTake in user inputs.\nMake API queries.\nDisplay API response.\nDisplay a map.\nShow average delay times.",
+    "crumbs": [
+      "About",
+      "Slides",
+      "05 - Delivering Insights Effectively"
+    ]
+  },
+  {
+    "objectID": "slides/05_delivery.html#putting-the-pieces-together-1",
+    "href": "slides/05_delivery.html#putting-the-pieces-together-1",
+    "title": "Data Science Workflows with Posit Tools - R focus",
+    "section": "Putting the Pieces Together",
+    "text": "Putting the Pieces Together\nOur Shiny application does a bit more:\n\nRead in ferry weather data from database.\nExtract ferry station information from ferryfairy package.\nTake in user inputs.\nMake API queries.\nDisplay API response.\nDisplay a map.\nShow average delay times.",
     "crumbs": [
       "About",
       "Slides",
