@@ -1,10 +1,10 @@
 {
   "R": {
-    "Version": "4.3.2",
+    "Version": "4.4.0",
     "Repositories": [
       {
         "Name": "CRAN",
-        "URL": "https://cloud.r-project.org"
+        "URL": "https://pkg.ferryland.posit.team/cran/latest"
       }
     ]
   },
@@ -464,6 +464,28 @@
       "Source": "Repository",
       "Repository": "RSPM",
       "Hash": "aa5e1cd11c2d15497494c5292d7ffcc8"
+    },
+    "ferryfairy": {
+      "Package": "ferryfairy",
+      "Version": "0.1.1",
+      "Source": "GitHub",
+      "RemoteType": "github",
+      "RemoteHost": "api.github.com",
+      "RemoteRepo": "ferryfairy",
+      "RemoteUsername": "ryjohnson09",
+      "RemotePkgRef": "https://github.com/ryjohnson09/ferryfairy",
+      "RemoteRef": "HEAD",
+      "RemoteSha": "af2a74d4961e1329108ae77320cb6ca67bd3e43b",
+      "Requirements": [
+        "dplyr",
+        "glue",
+        "httr2",
+        "janitor",
+        "jsonlite",
+        "stringr",
+        "tibble"
+      ],
+      "Hash": "34b211d1ce2a9183684804e9f248f04d"
     },
     "fontawesome": {
       "Package": "fontawesome",
