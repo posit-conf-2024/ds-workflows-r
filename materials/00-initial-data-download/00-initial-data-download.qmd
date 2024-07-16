@@ -31,6 +31,10 @@ library(httr2)
 library(tidyverse)
 library(janitor)
 library(glue)
+library(ferryfairy)
+library(DBI)
+library(RPostgres)
+
 ```
 
 ## Retrieve vessel history
@@ -42,49 +46,37 @@ This provides the list of vessels
 ```{r}
 #| label: download raw vessel data
  
-base_url <- "https://www.wsdot.wa.gov/Ferries/API/Vessels/rest"
+base_url <- "https://www.wsdot.wa.gov"
 
-vesselverbose_ep <- "vesselverbose"
+endpoint <- "ferries/api/vessels/rest/vesselverbose"
 
-req <- request(base_url) |> req_url_query(apiaccesscode = Sys.getenv("WSDOT_ACCESS_CODE"))
+# Compose the API request 
+req <- request(base_url) |> 
+  req_url_path_append(endpoint) |> 
+  req_url_query(apiaccesscode = Sys.getenv("WSDOT_ACCESS_CODE")) 
+  
+# perform the request
+response <- req |> 
+  req_perform()
+response
 
-vesselinfo_raw <- req |> 
-  req_url_path_append(vesselverbose_ep) |> 
-  req_perform() |> 
+# convert the body of the response to a tibble
+response_body <- response |> 
   resp_body_string() |> 
   jsonlite::fromJSON() |> 
   as_tibble()
+response_body
 
-# the results include a nested dataframe of Class information. Unnest this.
-# Also use `janitor` to clean column names
-vesselinfo_raw <- vesselinfo_raw |> unnest(Class) |> clean_names()
-
-```
-
-### Make a helper function to download historical vessel data
-
-This is nicer than a raw API call because there we include helpful print
-statements for status.
-
-```{r}
-#| label: helper function get_vesselhistory
-
-get_vesselhistory <- function(vesselname, start_date, end_date) {
-  
-  cat(glue::glue("Getting vessel history for {vesselname}..."))
-  vesselhistory <- request("https://www.wsdot.wa.gov/Ferries/API/Vessels/rest") |> 
-    req_url_path_append("vesselhistory", URLencode(vesselname), start_date, end_date) |> 
-    req_url_query(apiaccesscode = Sys.getenv("WSDOT_ACCESS_CODE")) |> 
-    req_perform() |> 
-    resp_body_string() |> 
-    jsonlite::fromJSON() |> 
-    as_tibble()
-
-  cat(glue::glue("\t{nrow(vesselhistory)} records retrieved for {vesselname}"),"\n")
-  vesselhistory
-}
+# Sometimes special characters or spaces in column names are not
+# database-friendly, so we will use `janitor::clean_names` to
+# clean column names so there are no issues writing the data.
+# Additionally, the results include a nested dataframe of Class information - 
+# we will unnest this so there are no errors with our database interpreting this.
+vesselinfo_raw <- response_body |> unnest(Class) |>  clean_names() 
+vesselinfo_raw
 
 ```
+
 
 ### Download raw vessel history
 
@@ -94,88 +86,30 @@ get_vesselhistory <- function(vesselname, start_date, end_date) {
 # Will plan on making the scheduled data pull capture 1 month back and run on a cadence more frequent than 1 month to ensure completeness in data.
 
 start_date <- "2021-01-01"
-end_date <- "2024-06-20"
+end_date <- today()
 
 vesselnames <- vesselinfo_raw |> pull(vessel_name)
 start <- Sys.time()
+
 data_list <- map(vesselnames, get_vesselhistory, start_date, end_date)
 
 vesselhistory_raw <- bind_rows(data_list) |> clean_names()
+
 end <- Sys.time()
 
 num_records_vesselhistory <- nrow(vesselhistory_raw)
 duration <- end - start
+
+
 ```
 
 ## Get historical weather data
-
-### Make a helper function to download historical weather data
-
-This is nicer than a raw API call because there we include helpful print
-statements for status.
-
-```{r}
-#| label: helper function get_terminal_weather_history
-
-get_terminal_weather_history <- function(terminal, start_date, end_date, pause=0) {
-  # note: pause is specified in number of seconds. Inject a delay if the API rejects requests for too many at once. One year of data for one location is equivalent to about 16 API calls and there is a limit of 600 per minute so for 20 terminals, add a pause.
-  lat <- terminallocations |> filter(terminal_name == terminal) |> pull(latitude)
-  long <- terminallocations |> filter(terminal_name == terminal) |> pull(longitude)
-  
-  print(glue::glue("Getting weather history for {terminal} terminal..."))
-
-  
-  req <- request("https://archive-api.open-meteo.com/v1/archive") |> 
-    req_url_query(latitude=lat, longitude=long,
-                  start_date=start_date, end_date=end_date,
-                  hourly=c("precipitation","weather_code","cloud_cover_low",
-                           "wind_speed_10m","wind_gusts_10m"),
-                  wind_speed_unit="mph",
-                  precipitation_unit="inch", 
-                  timezone="US/Pacific",
-                  .multi = "comma")
-  
-  resp <- req |> 
-    req_perform() |> 
-    resp_body_string() |> 
-    jsonlite::fromJSON() |> 
-    as_tibble()
-
-  hourly_data <- bind_cols(
-    terminal=terminal,
-    lat=resp$latitude[1],
-    long=resp$longitude[1],
-    resp$hourly) 
-    
-  print(glue::glue("\t{nrow(hourly_data)} records retrieved for {terminal}"))
-  
-  Sys.sleep(pause)
-  
-  hourly_data
-  
-}
-
-```
 
 ### Get terminal locations
 
 ```{r}
 
-base_url <- "https://www.wsdot.wa.gov"
-
-terminallocations_ep <- "ferries/api/terminals/rest/terminallocations"
-
-req <- request(base_url) |> req_url_query(apiaccesscode = Sys.getenv("WSDOT_ACCESS_CODE"))
-
-terminallocations_raw <- req |> 
-  req_url_path_append(terminallocations_ep) |> 
-  req_perform() |> 
-  resp_body_string() |> 
-  jsonlite::fromJSON() |> 
-  as_tibble()
-
-terminallocations <- terminallocations_raw |> 
-  select(TerminalID, TerminalName, Latitude, Longitude) |> clean_names()
+terminallocations <- ferryfairy::get_terminalinfo()
 
 ```
 
@@ -194,36 +128,118 @@ weather_terminal_history_raw_p1 <- map(terminals_p1,
                                     get_terminal_weather_history, 
                                     start_date, 
                                     end_date, 
-                                    pause=7) |> bind_rows() 
+                                    pause=5) |> bind_rows() 
 
 weather_terminal_history_raw_p2 <- map(terminals_p2, 
                                     get_terminal_weather_history, 
                                     start_date, 
                                     end_date, 
-                                    pause=7) |> bind_rows() 
+                                    pause=5) |> bind_rows() 
 
 weather_terminal_history_raw <- bind_rows(weather_terminal_history_raw_p1,
                                           weather_terminal_history_raw_p2)
 ```
 
-## Write data to ~~database~~ pin (for now)
-
-### Helper Functions
-
+## Write weather data to database
 ```{r}
-#| label: helper function convert_timestamp
+#| label: database write
 
-# Convert time stamp (e.g., /Date(1716553800000-0700)/) to actual datetime
-convert_timestamp <- function(timestamp) {
-  # Define timestamp and timezone offset
-  timestamp_ms <- as.numeric(str_extract(timestamp, "(?<=/Date\\()\\d+(?=[-+])"))
-  
-  # Convert the timestamp to seconds
-  timestamp_sec <- timestamp_ms / 1000
-  
-  # Convert to datetime object
-  as.POSIXct(timestamp_sec, origin = "1970-01-01", tz = "US/Pacific")
-}
+env <- "production"
+
+my_df_name <- glue("weather_terminal_history_raw_{config::get('suffix', config=env)}")
+
+# con <- dbConnect(RPostgres::Postgres(), 
+#                  host = Sys.getenv("DATABASE_HOST"), 
+#                  port = "5432", 
+#                  dbname = Sys.getenv("DATABASE_NAME_R"), 
+#                  user = config::get("user", config=env), 
+#                  password = config::get("password", config=env))
+con <- dbConnect(
+  odbc::odbc(),
+  Driver      = "postgresql",
+  Server      = Sys.getenv("DATABASE_HOST"),
+  Port        = "5432",
+  Database    = Sys.getenv("DATABASE_NAME_R"),
+  UID         = config::get("user", config=env),
+  PWD         = config::get("password", config=env),
+  timeout     = 10
+)
+con
+
+# Insert your start time stamp
+start_time <- Sys.time()
+
+DBI::dbWriteTable(conn = con, # the connection
+                  name = DBI::Id(
+                    schema=config::get("schema", config=env), # our database schema
+                    name=my_df_name), # the name of the table you will create in the DB
+                  value = weather_terminal_history_raw,
+                  overwrite = TRUE)
+
+
+# Insert your end time stamp
+end_time <- Sys.time()
+duration <- end_time - start_time
+
+
+print(glue("ℹ️ Info: Writing `{my_df_name}` to database took", round(duration[[1]], 2), units(duration), .sep = " "))
+```
+
+## Write vessel history data to database
+```{r}
+#| label: vessel history database write
+
+env <- "production"
+
+my_df_name <- glue("vesselhistory_raw_{config::get('suffix', config=env)}")
+
+
+# Insert your start time stamp
+start_time <- Sys.time()
+
+DBI::dbWriteTable(conn = con, # the connection
+                  name = DBI::Id(
+                    schema=config::get("schema", config=env), # our database schema
+                    name=my_df_name), # the name of the table you will create in the DB
+                  value = vesselhistory_raw,
+                  overwrite = TRUE)
+
+
+# Insert your end time stamp
+end_time <- Sys.time()
+duration <- end_time - start_time
+
+
+print(glue("ℹ️ Info: Writing `{my_df_name}` to database took", round(duration[[1]], 2), units(duration), .sep = " "))
+
+```
+
+## Write vessel info data to database
+```{r}
+#| label: vessel info database write
+
+env <- "production"
+
+my_df_name <- glue("vesselinfo_raw_{config::get('suffix', config=env)}")
+
+
+# Insert your start time stamp
+start_time <- Sys.time()
+
+DBI::dbWriteTable(conn = con, # the connection
+                  name = DBI::Id(
+                    schema=config::get("schema", config=env), # our database schema
+                    name=my_df_name), # the name of the table you will create in the DB
+                  value = vesselinfo_raw,
+                  overwrite = TRUE)
+
+
+# Insert your end time stamp
+end_time <- Sys.time()
+duration <- end_time - start_time
+
+
+print(glue("ℹ️ Info: Writing `{my_df_name}` to database took", round(duration[[1]], 2), units(duration), .sep = " "))
 
 ```
 
@@ -240,48 +256,48 @@ wx_end <- wx_dates[length(wx_dates)]
 
 ```
 
-```{r}
-library(sparklyr)
-library(dbplyr)
+<!-- ```{r} -->
+<!-- library(sparklyr) -->
+<!-- library(dbplyr) -->
 
-sc <- spark_connect(
-    cluster_id = "0605-141252-8r7zwtxd",
-    version = "14.2",
-    method = "databricks_connect"
-)
-
-
-copy_to(dest = sc, 
-        df = vesselhistory_raw, 
-        name = in_catalog("sol_eng_ds_workflows_workshop", "default","vessel_history_raw"),
-        overwrite = TRUE
-        )
-
-copy_to(dest = sc,
-        df = weather_terminal_history_raw,
-        name = in_catalog("sol_eng_ds_workflows_workshop", "default","terminal_wx_history_raw"),
-        overwrite = TRUE
-)
-# spark_write_table(vesselhistory_raw,
-#     name = in_catalog("sol_eng_ds_workflows_workshop", "default","vessel_history_raw"),
-#     mode = "overwrite"
-#   )
-df <- tbl(sc, in_catalog("sol_eng_ds_workflows_workshop", "default","terminal_wx_history_raw"))
-```
-
-tbl(sc, in_catalog("samples", "nyctaxi", "trips"))
-
-```{r}
-library(pins)
-
-pin_write(board, vesselhistory_raw,
-          title="Raw `vesselhistory` data from WSDOT",
-          description=glue("from `Ferries/API/Vessels/rest/vesselhistory` spanning {vh_start} to {vh_end}"))
-
-pin_write(board, weather_terminal_history_raw,
-          type = "csv",
-          title = "Raw historical weather data at ferry terminals",
-          description = glue("From `open-meteo.com` spanning {wx_start} to {wx_end}"))
+<!-- sc <- spark_connect( -->
+<!--     cluster_id = "0605-141252-8r7zwtxd", -->
+<!--     version = "14.2", -->
+<!--     method = "databricks_connect" -->
+<!-- ) -->
 
 
-```
+<!-- copy_to(dest = sc,  -->
+<!--         df = vesselhistory_raw,  -->
+<!--         name = in_catalog("sol_eng_ds_workflows_workshop", "default","vessel_history_raw"), -->
+<!--         overwrite = TRUE -->
+<!--         ) -->
+
+<!-- copy_to(dest = sc, -->
+<!--         df = weather_terminal_history_raw, -->
+<!--         name = in_catalog("sol_eng_ds_workflows_workshop", "default","terminal_wx_history_raw"), -->
+<!--         overwrite = TRUE -->
+<!-- ) -->
+<!-- # spark_write_table(vesselhistory_raw, -->
+<!-- #     name = in_catalog("sol_eng_ds_workflows_workshop", "default","vessel_history_raw"), -->
+<!-- #     mode = "overwrite" -->
+<!-- #   ) -->
+<!-- df <- tbl(sc, in_catalog("sol_eng_ds_workflows_workshop", "default","terminal_wx_history_raw")) -->
+<!-- ``` -->
+
+<!-- tbl(sc, in_catalog("samples", "nyctaxi", "trips")) -->
+
+<!-- ```{r} -->
+<!-- library(pins) -->
+
+<!-- pin_write(board, vesselhistory_raw, -->
+<!--           title="Raw `vesselhistory` data from WSDOT", -->
+<!--           description=glue("from `Ferries/API/Vessels/rest/vesselhistory` spanning {vh_start} to {vh_end}")) -->
+
+<!-- pin_write(board, weather_terminal_history_raw, -->
+<!--           type = "csv", -->
+<!--           title = "Raw historical weather data at ferry terminals", -->
+<!--           description = glue("From `open-meteo.com` spanning {wx_start} to {wx_end}")) -->
+
+
+<!-- ``` -->

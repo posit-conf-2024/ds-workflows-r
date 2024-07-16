@@ -49,7 +49,7 @@ library(httr2)
 library(tidyverse)
 library(janitor)
 library(DBI)
-library(RPostgres)
+library(odbc)
 library(glue)
 library(ferryfairy)
 
@@ -167,13 +167,16 @@ The `RPostgres` package is DBI-compliant and is built specifically for PosgreSQL
 #| label: make database connection
 
 # Run this code as-is 
-con <- dbConnect(RPostgres::Postgres(), 
-                 host = Sys.getenv("CONF24_DB_HOST"), 
-                 port = "5432", 
-                 dbname = "conf23_r", 
-                 user = Sys.getenv("CONF24_DB_USER"), 
-                 password = Sys.getenv("CONF24_DB_PASSWORD"))
-
+con <- dbConnect(
+  odbc::odbc(),
+  Driver      = "postgresql",
+  Server      = Sys.getenv("DATABASE_HOST"),
+  Port        = "5432",
+  Database    = Sys.getenv("DATABASE_NAME_R"),
+  UID         = Sys.getenv("DATABASE_USER_R"),
+  PWD         = Sys.getenv("DATABASE_PASSWORD_R"),
+  timeout     = 10
+)
 con
 
 ```
@@ -191,12 +194,19 @@ If you're working through this document in the Workshop, pause here.
 -   Use `dbWriteTable` to write `vesselinfo_raw` into the database
 -   Use a time stamp to provide informational logging
 
-For the purposes of the Workshop, each participant will write a version of the data to the database with a suffix of <dataframe>_<username>. For the production project however, we will write the data with a suffix of `production`, and our production project will use this dataframe for all downstream work. We're using the `{config}` under the hood to easily swap out the suffix depending on whether we are in local development (Posit Workbench) or in production (Posit Connect). Peek at the file `config.yml` in the file pane to see how this is set up.
+Our database has two schemas: "production" and "deckhand." For the purposes of the Workshop, each participant will be writing to the "deckhand" schema but the production project will be written to the "production" schema. 
 
 ```{r}
 #| label: database write
 
-df_suffix <- config::get("suffix")
+my_username <- "_____" #Fill in your username
+
+if(Sys.getenv("DATABASE_SCHEMA") == "production"){
+  df_suffix <- "production"
+} else{
+  df_suffix <- my_username
+}
+
 
 my_df_name <- paste0("vesselinfo_raw_", df_suffix)
 
@@ -205,9 +215,11 @@ my_df_name <- paste0("vesselinfo_raw_", df_suffix)
 start_time <- Sys.time()
 
 DBI::dbWriteTable(conn = con, # the connection
-                  name = my_df_name, # the name of the table you will create in the DB
+                  name = DBI::Id(
+                    schema=Sys.getenv("DATABASE_SCHEMA"), # our database schema
+                    name=my_df_name), # the name of the table you will create in the DB
                   value = vesselinfo_raw,
-                  append = TRUE)
+                  overwrite = TRUE)
 
 
 # Insert your end time stamp
@@ -300,77 +312,16 @@ weather_terminal_history_raw <- bind_rows(data_list)
 
 ### Write the data to the database
 
-```{r}
-##TODO: delete this when database is available
-library(pins)
-
-board <- board_connect()
-## PRODUCTION
-pin_write(board, vesselinfo_raw, 
-          title="Raw `vesselinfo` data from WSDOT `vesselverbose` endpoint", 
-          description="from `Ferries/API/Vessels/rest/vesselverbose`")
-
-pin_write(board, vesselhistory_raw,
-          title="Raw `vesselhistory` data from WSDOT",
-          description="from `Ferries/API/Vessels/rest/vesselhistory`")
-
-pin_write(board, weather_terminal_history_raw,
-          title="Raw hourly weather at terminal locations from Open Meteo",
-          description="from `archive-api.open-meteo.com/v1/archive`",
-          type = "csv")
-
-## DEV
-pin_write(board, vesselinfo_raw, 
-          name="vesselinfo_raw_katiemasiello",
-          title="Raw `vesselinfo` data from WSDOT `vesselverbose` endpoint", 
-          description="from `Ferries/API/Vessels/rest/vesselverbose`")
-
-pin_write(board, vesselhistory_raw,
-          name="vesselhistory_raw_katiemasiello",
-          title="Raw `vesselhistory` data from WSDOT",
-          description="from `Ferries/API/Vessels/rest/vesselhistory`")
-
-pin_write(board, weather_terminal_history_raw,
-          name="weather_terminal_history_raw_katiemasiello",
-          title="Raw hourly weather at terminal locations from Open Meteo",
-          description="from `archive-api.open-meteo.com/v1/archive`",
-          type = "csv")
-```
+We'll use a helper function from `{ferryfairy}` for brevity.
 
 ```{r}
 #| label: write remaining data to database
 
-# we should make a function for this
-write_df_to_db <- function(df, name_suffix, con, append = FALSE, overwrite = FALSE) {
-  
-  tablename <- paste0(deparse(substitute(df)), name_suffix)
-  
-  # print informational statement
-  print(glue::glue("Writing df {tablename} to database ..."),"\n")
-  
-  # Insert your start time stamp
-  start_time <- Sys.time()
-  
-  DBI::dbWriteTable(conn = con, # the connection
-                    name = tablename, # the name of the table you will create in the DB
-                    value = df,
-                    append = append,
-                    overwrite = overwrite)
-  
-  # Insert your end time stamp
-  end_time <- Sys.time()
-  duration <- end_time - start_time
-  
-  print(glue::glue("ℹ️ Info: Writing {tablename} to database took",  
-                   round(duration[[1]], 2),  units(duration)))
-  
-}
+write_df_to_db(vesselhistory_raw, paste0("vesselhistory_raw_",my_username), con, schema = Sys.getenv("DATABASE_SCHEMA"), append = TRUE)
 
-write_df_to_db(vesselhistory_raw, my_username, con, append = TRUE)
+write_df_to_db(terminallocations, paste0("terminallocations_",my_username), con, schema = Sys.getenv("DATABASE_SCHEMA"), overwrite = TRUE)
 
-write_df_to_db(terminallocations, my_username, con, overwrite = TRUE)
-
-write_df_to_db(weather_terminal_history_raw, my_username, con, append = TRUE)
+write_df_to_db(weather_terminal_history_raw, paste0("weather_terminal_history_raw_",my_username), con, schema = Sys.getenv("DATABASE_SCHEMA"), append = TRUE)
 
 # We're done here with the database, so we can close the connection
 dbDisconnect(con)
