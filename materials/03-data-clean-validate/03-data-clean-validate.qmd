@@ -120,11 +120,20 @@ con <- dbConnect(
 ```{r}
 #| label: read in raw data
 
-vesselinfo_raw <- dplyr::tbl(con, DBI::Id("deckhand", "vesselinfo_raw_deckhand")) |> collect()
+vesselinfo_raw <- dplyr::tbl(con, 
+                             DBI::Id(
+                               schema = Sys.getenv("DATABASE_SCHEMA"), 
+                               name = paste0("vesselinfo_raw_",Sys.getenv("DATABASE_SCHEMA")))) |> collect()
 
-vesselhistory_raw <- dplyr::tbl(con, DBI::Id("deckhand", "vesselhistory_raw_deckhand")) |> collect()
+vesselhistory_raw <- dplyr::tbl(con, 
+                                DBI::Id(
+                                  schema = Sys.getenv("DATABASE_SCHEMA"), 
+                                  name = paste0("vesselhistory_raw_",Sys.getenv("DATABASE_SCHEMA")))) |> collect()
 
-weather_terminal_history_raw <- dplyr::tbl(con, DBI::Id("deckhand", "weather_terminal_history_raw_deckhand")) |> collect()
+weather_terminal_history_raw <- dplyr::tbl(con, 
+                                           DBI::Id(
+                                             schema = Sys.getenv("DATABASE_SCHEMA"), 
+                                             name = paste0("weather_terminal_history_raw_",Sys.getenv("DATABASE_SCHEMA")))) |> collect()
 
 ```
 
