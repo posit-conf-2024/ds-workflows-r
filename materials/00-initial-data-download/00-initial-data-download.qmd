@@ -33,7 +33,7 @@ library(janitor)
 library(glue)
 library(ferryfairy)
 library(DBI)
-library(RPostgres)
+library(odbc)
 
 ```
 
@@ -144,24 +144,16 @@ weather_terminal_history_raw <- bind_rows(weather_terminal_history_raw_p1,
 ```{r}
 #| label: database write
 
-env <- "production"
+my_df_name <- glue("weather_terminal_history_raw_{Sys.getenv('DATABASE_SCHEMA')}")
 
-my_df_name <- glue("weather_terminal_history_raw_{config::get('suffix', config=env)}")
-
-# con <- dbConnect(RPostgres::Postgres(), 
-#                  host = Sys.getenv("DATABASE_HOST"), 
-#                  port = "5432", 
-#                  dbname = Sys.getenv("DATABASE_NAME_R"), 
-#                  user = config::get("user", config=env), 
-#                  password = config::get("password", config=env))
 con <- dbConnect(
   odbc::odbc(),
   Driver      = "postgresql",
   Server      = Sys.getenv("DATABASE_HOST"),
   Port        = "5432",
   Database    = Sys.getenv("DATABASE_NAME_R"),
-  UID         = config::get("user", config=env),
-  PWD         = config::get("password", config=env),
+  UID         = Sys.getenv("DATABASE_USER_R"),
+  PWD         = Sys.getenv("DATABASE_PASSWORD_R"),
   timeout     = 10
 )
 con
@@ -171,7 +163,7 @@ start_time <- Sys.time()
 
 DBI::dbWriteTable(conn = con, # the connection
                   name = DBI::Id(
-                    schema=config::get("schema", config=env), # our database schema
+                    schema=Sys.getenv("DATABASE_SCHEMA"), # our database schema
                     name=my_df_name), # the name of the table you will create in the DB
                   value = weather_terminal_history_raw,
                   overwrite = TRUE)
@@ -189,9 +181,7 @@ print(glue("ℹ️ Info: Writing `{my_df_name}` to database took", round(duratio
 ```{r}
 #| label: vessel history database write
 
-env <- "production"
-
-my_df_name <- glue("vesselhistory_raw_{config::get('suffix', config=env)}")
+my_df_name <- glue("vesselhistory_raw_{Sys.getenv('DATABASE_SCHEMA')}")
 
 
 # Insert your start time stamp
