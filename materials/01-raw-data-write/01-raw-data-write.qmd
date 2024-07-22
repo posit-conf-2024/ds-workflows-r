@@ -21,7 +21,7 @@ editor_options:
 Welcome to the first Activity! A few points relevant to this, and all other Activities in the workshop:
 
 1.  The Activities are Quarto documents, presented by default in the Visual Editor for readability
-2.  The intention is to run through the document from top to bottom, running each code chunk interactively rather than rendering the document
+2.  The intention is to run through the document from top to bottom, running each code chunk interactively rather than rendering the document, however, these are also "production" documents that can be deployed to generate our project's production assets
 3.  Run the chunk by either clicking the green Play Button in the chunk's top right corner, or use the cmd+enter keyboard shortcut to run the current line or selected text
 4.  We'll work through these activities mostly as a group, code-along style because our focus in this workshop is less about code development and more about around processes, tools, and learning concepts. We can best teach this if we do it together!
 5.  **Where's my output?** Are you a `Chunk Output Inline` kind of person? Sorry. For this activity, it's set by default to go the console because the HTML renderings from Pointblank get very squished otherwise. It might be like this for other activities too, so don't get surprised 😉
@@ -64,7 +64,7 @@ We are using data sets from two main sources
 (<https://wsdot.wa.gov/traffic/api/>)
 
 | Endpoint | Description | API |
-|------------------|-------------------|------------------------------------|
+|-------------------|-------------------|-----------------------------------|
 | **Vessel verbose** | Details about each ferry in the fleet, including name, model, and capacity | `https://www.wsdot.wa.gov/ferries/api/vessels/ rest/vesselverbose?apiaccesscode={WSDOT_ACCESS_CODE}` |
 | **Vessel history** | Historical sailings, including scheduled actual departure time | `https://www.wsdot.wa.gov/ferries/api/vessels/ rest/vesselhistory/{VESSELNAME}/{DATESTART}/{DATEEND}?apiaccesscode={WSDOT_ACCESS_CODE}` |
 | **Terminal locations** | Terminal names and locations, including latitude and longitude | `https://www.wsdot.wa.gov/ferries/api/terminals/ rest/terminallocations?apiaccesscode={WSDOT_ACCESS_CODE}` |
@@ -74,7 +74,7 @@ We are using data sets from two main sources
 ([https://open-meteo.com/en/docs/](https://open-meteo.com/en/docs/historical-weather-api/))
 
 | Endpoint | Description | API |
-|------------------|--------------------------------|-----------------------|
+|-------------------|-------------------------------|-----------------------|
 | **Historical weather** | Historical hourly weather at a specified latitude and longitude over a date range | `https://archive-api.open-meteo.com/v1/ archive?{params}` |
 
 We will use the `{httr2}` package to download the data from these API sources.
@@ -83,9 +83,9 @@ We will use the `{httr2}` package to download the data from these API sources.
 
 🔄 Task
 
-Note we are using an environment variable to access the WSDOT API called **`WSDOT_ACCESS_CODE`**. Visit <https://wsdot.wa.gov/traffic/api/> to get an API key for the use during this workshop.
+We are using an environment variable to access the WSDOT API called **`WSDOT_ACCESS_CODE`**. Visit <https://wsdot.wa.gov/traffic/api/> to get an API key for the use during this workshop.
 
-To set this environment variable in your local development environment, add it to your `.Renviron` file. To do this, run the following command in your R console:
+To save this environment variable in your local development environment, add it to your `.Renviron` file. To do this, run the following command in your R console:
 
 ``` r
 usethis::edit_r_environ("project")
@@ -96,13 +96,9 @@ usethis::edit_r_environ("project")
 WSDOT_ACCESS_CODE=PASTE_VALUE_HERE
 ```
 
+**Don't forget to restart your session to load your revised environment.**
+
 💡 Remember, the `.Renviron` file does not get deployed with this content, and you should not commit it to git. It is a local file that sets environment variables for your R session. You will be able to set this variable in the "Vars" pane on Connect when you deploy.
-
-Get an API key from <https://wsdot.wa.gov/traffic/api/> and save it to your `.Renviron` file using
-
-``` r
-usethis::edit_r_environ()
-```
 
 ## Task 2 - Download vessel verbose data
 
@@ -133,6 +129,9 @@ endpoint <- "ferries/api/vessels/rest/vesselverbose"
 req <- request(base_url) |> 
   req_url_path_append(endpoint) |> 
   req_url_query(apiaccesscode = Sys.getenv("WSDOT_ACCESS_CODE")) 
+
+# We can inspect the request before performing it
+req
   
 # perform the request
 response <- req |> 
@@ -161,7 +160,7 @@ vesselinfo_raw
 
 Create a database connection using the database connection details defined for you by your IT Admin (Workshop Instructors). Avoid hard-coding in any credentials. We're using environment variables here.
 
-The `RPostgres` package is DBI-compliant and is built specifically for PosgreSQL databases. Performance may be faster (particularly for writing data!) than using the generic `odbc` package, and there are more translations available, meaning more dplyr verbs will be available.
+We discussed that a database connection can be made using the generic `odbc` package, or a database-specific R package, such as `RPostgres`. The `RPostgres` package is DBI-compliant and is built specifically for PosgreSQL databases. Performance may be faster (particularly for writing data!) than using the generic `odbc` package, and there are more translations available, meaning more dplyr verbs will be available. *However,* because we are in a learning environment for this Workshop, we are choosing to use the `odbc` package so that we can see the database and it's table appear in the RStudio Connections pane. A quality of life tradeoff, but if you're doing intensive database work back in the real world, we recommend using a database-specific package, if available.
 
 ```{r}
 #| label: make database connection
@@ -193,31 +192,21 @@ If you're working through this document in the Workshop, pause here.
 
 -   Use `dbWriteTable` to write `vesselinfo_raw` into the database
 -   Use a time stamp to provide informational logging
-
-Our database has two schemas: "production" and "deckhand." For the purposes of the Workshop, each participant will be writing to the "deckhand" schema but the production project will be written to the "production" schema. 
+-   
 
 ```{r}
 #| label: database write
 
 my_username <- "_____" #Fill in your username, workshop participants!
 
-if(Sys.getenv("DATABASE_SCHEMA") == "production"){
-  df_suffix <- "production"
-} else{
-  df_suffix <- my_username
-}
-
-
-my_df_name <- paste0("vesselinfo_raw_", df_suffix)
+my_df_name <- paste0("vesselinfo_raw_", my_username)
 
 
 # Insert your start time stamp
 start_time <- Sys.time()
 
 DBI::dbWriteTable(conn = con, # the connection
-                  name = DBI::Id(
-                    schema=Sys.getenv("DATABASE_SCHEMA"), # our database schema
-                    name=my_df_name), # the name of the table you will create in the DB
+                  name = my_df_name, # the name of the table you will create in the DB
                   value = vesselinfo_raw,
                   overwrite = TRUE)
 
@@ -317,11 +306,11 @@ We'll use a helper function from `{ferryfairy}` for brevity.
 ```{r}
 #| label: write remaining data to database
 
-write_df_to_db(vesselhistory_raw, paste0("vesselhistory_raw_",my_username), con, schema = Sys.getenv("DATABASE_SCHEMA"), append = TRUE)
+write_df_to_db(vesselhistory_raw, paste0("vesselhistory_raw_",my_username), con, append = TRUE)
 
-write_df_to_db(terminallocations, paste0("terminallocations_",my_username), con, schema = Sys.getenv("DATABASE_SCHEMA"), overwrite = TRUE)
+write_df_to_db(terminallocations, paste0("terminallocations_",my_username), con, overwrite = TRUE)
 
-write_df_to_db(weather_terminal_history_raw, paste0("weather_terminal_history_raw_",my_username), con, schema = Sys.getenv("DATABASE_SCHEMA"), append = TRUE)
+write_df_to_db(weather_terminal_history_raw, paste0("weather_terminal_history_raw_",my_username), con, append = TRUE)
 
 # We're done here with the database, so we can close the connection
 dbDisconnect(con)

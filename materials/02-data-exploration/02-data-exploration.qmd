@@ -25,7 +25,6 @@ The goals of this activity are to:
 
 ✏️ There will be placeholders (`____`) in the code cells below that you will need to fill in!
 
-
 ## Setup
 
 ```{r}
@@ -40,7 +39,6 @@ library(glue)
 library(gt)
 
 ```
-
 
 ## Task 1 - Read in raw data
 
@@ -67,18 +65,18 @@ con <- dbConnect(
 
 ```
 
-For the Workshop, we will conduct data exploration on a smaller subset of the production data rather than the full tables that hold data going back to 2021. We will pull the "*_deckhand" versions of the same data frames we wrote in the previous exercise, which reside in the "deckhand" schema.  
+### Read in data
 
-You'll notice we're also using the `collect()`
+For the Workshop, we will conduct data exploration on a smaller subset of the production data rather than the full tables just for consideration of processing time. We will pull the "\*\_deckhand" versions of the same data frames we wrote in the previous exercise.
 
 ```{r}
 #| label: read in raw data
 
-vesselinfo_raw <- dplyr::tbl(con, DBI::Id("deckhand", "vesselinfo_raw_deckhand"))
+vesselinfo_raw <- dplyr::tbl(con, "vesselinfo_raw_deckhand")
 
-vesselhistory_raw <- dplyr::tbl(con, DBI::Id("deckhand", "vesselhistory_raw_deckhand"))
+vesselhistory_raw <- dplyr::tbl(con, "vesselhistory_raw_deckhand")
 
-weather_terminal_history_raw <- dplyr::tbl(con, DBI::Id("deckhand", "weather_terminal_history_raw_deckhand"))
+weather_terminal_history_raw <- dplyr::tbl(con, "weather_terminal_history_raw_deckhand")
 
 ```
 
@@ -132,7 +130,7 @@ vesselinfo_raw |> pull(vessel_name) |> unique()
 vesselinfo_raw |> select(vessel_name, vessel_name_desc) |> gt()
 ```
 
-There's a lot of information in this data frame. Let's use some tools to explore more. Maybe you're already familiar with `glimpse` and `summary` for preliminary data exploration. Do you know `skimr::skim()`? `skim` provides a compact view of column schemas, missing values, and a profile of the values. 
+There's a lot of information in this data frame. Let's use some tools to explore more. Maybe you're already familiar with `glimpse` and `summary` for preliminary data exploration. Do you know `skimr::skim()`? `skim` provides a compact view of column schemas, missing values, and a profile of the values.
 
 ```{r}
 
@@ -205,12 +203,11 @@ Let's explore the results. Can you identify:
 If you're working through this document in the Workshop, pause here.
 :::
 
-
 ## Task 3 - Create a data dictionary
 
 🔄 Task
 
-- Create a data dictionary describing `vesselhistory_raw`
+-   Create a data dictionary describing `vesselhistory_raw`
 
 Pointblank helps us to document and provide context about our data. We use an "Informant" to create a data dictionary, which will be a part of our project documentation.
 
@@ -262,4 +259,3 @@ create_informant(
   ) |> 
     incorporate()
 ```
-
