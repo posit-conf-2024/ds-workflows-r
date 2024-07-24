@@ -25,10 +25,12 @@ The goals of this activity are to:
 -   define thresholds for alerting in data validation and send condition-based email alerts based on those thresholds
 
 Our conditions will send an email based on the the following:
-    1.  `condition <- 1`: the size and shape of the data is not as expected; something is wrong with the input data so the processing of data is stopped and no production data is updated
-    2.  `condition <- 2`: data validation complete but had warnings
-    3.  `condition <- 3`: no issues
 
+1.  `condition <- 1`: the size and shape of the data is not as expected; something is wrong with the input data so the processing of data is stopped and no production data is updated
+
+2.  `condition <- 2`: data validation complete but had warnings
+
+3.  `condition <- 3`: no issues
 
 ✏️ There will be placeholders (`____`) in the code cells below that you will need to fill in!
 
@@ -38,7 +40,7 @@ Our conditions will send an email based on the the following:
 #| label: setup
 
 library(DBI)
-library(RPostgres)
+library(odbc)
 library(pointblank)
 library(tidyverse)
 library(glue)
@@ -54,11 +56,17 @@ library(ferryfairy)
 Use an environment variable called `CONDITION_OVERRIDE` to be used during development and testing which will:
 
 -   prevent data from being written to the database
--   send the corresponding conditional email based on the value set
+-   force the the corresponding conditional email to be send based on the selected condition
 
 The benefit of using an environment variable is that it can be set / modified in the "Vars" pane on Connect, meaning you can test different conditions without changing the deployed code.
 
-Our conditions are: 1. `condition <- 1`: the size and shape of the data is not as expected; something is wrong with the input data so the processing of data is stopped and no production data is updated 2. `condition <- 2`: data validation complete but had warnings 3. `condition <- 3`: no issues
+Our conditions are:
+
+1.  `condition <- 1`: the size and shape of the data is not as expected; something is wrong with the input data so the processing of data is stopped and no production data is updated
+
+2.  `condition <- 2`: data validation complete but had warnings
+
+3.  `condition <- 3`: no issues
 
 ### Set environment variable locally
 
@@ -74,6 +82,8 @@ usethis::edit_r_environ("project")
 CONDITION_OVERRIDE=1
 ```
 
+**Don't forget to restart your session to load your revised environment.**
+
 💡 Remember, the `.Renviron` file does not get deployed with this content, and you should not commit it to git. It is a local file that sets environment variables for your R session. You will be able to set this variable in the "Vars" pane on Connect when you deploy the report if you want to implement an override.
 
 ### Print a notification if an override is in place
@@ -86,8 +96,8 @@ This will appear in the rendered report if an override is place.
 
 # set CONDITION_OVERRIDE={1|2|3} in `.Renviron` to preview the conditional responses.
 if(Sys.getenv("CONDITION_OVERRIDE") %in% c(1:3)) { 
-glue::glue("<h3>❗❗ Report generated in test mode. 
-Data not written to database but an email for condition {Sys.getenv('CONDITION_OVERRIDE')} is sent  ❗❗</h3>\n") }
+glue::glue("<h2>❗❗ Report generated in test mode. 
+Data not written to database but an email for condition {Sys.getenv('CONDITION_OVERRIDE')} is sent  ❗❗</h2>\n") }
 
 ```
 
@@ -102,42 +112,35 @@ Retrieve the raw data from the database for cleaning and validating.
 ```{r}
 #| label: make database connection
 
-# # Run this code as-is 
-# con <- dbConnect(RPostgres::Postgres(), 
-#                  host = Sys.getenv("CONF24_DB_HOST"), 
-#                  port = "5432", 
-#                  dbname = "conf23_r", 
-#                  user = Sys.getenv("CONF24_DB_USER"), 
-#                  password = Sys.getenv("CONF24_DB_PASSWORD"))
+# Run this code as-is
+con <- dbConnect(
+  odbc::odbc(),
+  Driver      = "postgresql",
+  Server      = Sys.getenv("DATABASE_HOST"),
+  Port        = "5432",
+  Database    = Sys.getenv("DATABASE_NAME_R"),
+  UID         = Sys.getenv("DATABASE_USER_R"),
+  PWD         = Sys.getenv("DATABASE_PASSWORD_R"),
+  timeout     = 10
+)
 
 ```
 
-In our local development environment (Posit Workbench), we will pull the smaller data set with your own Workshop participant username as a suffix. When this notebook is published to Posit Connect, the suffix will be read as `production` thanks to the `{config}` package and we'll do this data cleaning and validation on the full production dataset.
+### Read in data
+
+Because we are in a Workshop setting, we will pull the data into local memory using `collect()` just to remove one layer of abstraction. This is not necessary, and in general, most of the data validation and cleaning steps that follow can still be done against the data in the database.
 
 ```{r}
 #| label: read in raw data
 
-# df_suffix <- config::get("suffix")
-# 
-# vesseldata_raw <- dplyr::tbl(con, glue("vesseldata_raw_{df_suffix}"))
-# 
-# vesselhistory_raw <- dplyr::tbl(con, glue("vesselhistory_raw_{df_suffix}"))
-# 
-# weather_terminal_history_raw <- dplyr::tbl(con, glue("weather_terminal_history_raw_{suffix}"))
+vesselinfo_raw <- dplyr::tbl(con, 
+                             name = "vesselinfo_raw") |> collect()
 
-```
+vesselhistory_raw <- dplyr::tbl(con, 
+                                name = "vesselhistory_raw") |> collect()
 
-```{r}
-
-library(pins)
-
-board <- board_connect()
-
-vesselinfo_raw <- pin_read(board, "katie.masiello/vesselinfo_raw_katiemasiello")
-
-vesselhistory_raw <- pin_read(board, "katie.masiello/vesselhistory_raw_katiemasiello")
-
-weather_terminal_history_raw <- pin_read(board, "katie.masiello/weather_terminal_history_raw_katiemasiello")
+weather_terminal_history_raw <- dplyr::tbl(con, 
+                                           name = "weather_terminal_history_raw") |> collect()
 
 ```
 
@@ -214,6 +217,7 @@ If we look at the output of `agent`, it shows our validation plan, but the actio
 
 ```{r}
 #| label: interrogate the df agent
+#| eval: false
 
 agent |> interrogate()
 
@@ -279,7 +283,7 @@ Pointblank provides a number of [post-interrogation functions](https://rstudio.g
 > **💡 sunder** /sun·der / ˈsən-dər / *verb* \| to split apart
 
 ```{r}
-#| label: sunder data
+#| label: sunder data from sample validation
 #| eval: false
 
 # Passed data
@@ -334,7 +338,6 @@ xlist$____
 ```
 
 Extracting these basic TRUE / FALSE values can be powerful for next steps. We'll see how we can send conditional emails in the next section of the workshop.
-
 
 ## Task 4 - Validate raw production data schema
 
@@ -423,20 +426,19 @@ weather_df_integrity_agent <-
   col_vals_gte(columns = n, 
                value = (
                  # an arbitrary high-ish number, depending on the environment
-                 if(config::is_active("default")){
+                 if(Sys.getenv("DATABASE_SCHEMA") == "deckhand"){
                    10L} else {
-                     100000L
+                     10000L
                    }), 
                preconditions = ~. %>% tally,
-               label = "Are there more than 100k rows in the data?") |>
+               label = "Are there a lot of rows in the data?") |>
   interrogate()
 weather_df_integrity_agent
 ```
 
 ### Set `condition <- 1` or `stop_alert` if there are any issues
 
-Condition 1 will result in an alert email indicating there was a data integrity issue. 
-`stop_alert` will prevent future code chunks from rendering, including preventing writes to the database
+Condition 1 will result in an alert email indicating there was a data integrity issue. `stop_alert` will prevent future code chunks from rendering, including preventing writes to the database
 
 ```{r}
 #| label: set condition or stop alert
@@ -469,23 +471,22 @@ Notice that in the quarto code chunks, we have set `#| eval: !expr 'stop_alert !
 
 ### Clean data
 
-Data cleaning steps are extraneous to the learning objectives of the Workshop. To simply this document, cleaning steps have been wrapped in a function in the `ferryfairy` package.
-.
+Data cleaning steps are extraneous to the learning objectives of the Workshop. To simply this document, cleaning steps have been wrapped in a function in the `ferryfairy` package. .
+
 ```{r}
 #| label: Clean data sets
 #| eval: !expr 'stop_alert != TRUE'
 
-weather_terminal_history <- clean_weather_terminal(weather_terminal_history_raw)
+weather_terminal_history <- weather_terminal_history_raw |> clean_weather_terminal()
 weather_terminal_history
 
-vesselinfo <- clean_vesselinfo(vesselinfo_raw)
+vesselinfo <- vesselinfo_raw |> clean_vesselinfo()
 vesselinfo
 
-vesselhistory <- clean_vesselhistory(vesselhistory_raw)
+vesselhistory <- vesselhistory_raw |> clean_vesselhistory()
 vesselhistory
 
 ```
-
 
 ### Join weather data with vessel history
 
@@ -565,11 +566,11 @@ x_list <- get_agent_x_list(main_agent)
 
 ### Set `condition` to determine which email to send
 
-Condition 2 will result in an alert email indicating that a concerning level of records failed validation, but downstream processing still proceeded.
-Condition 3 will result in an email indicating that all looks good
+Condition 2 will result in an alert email indicating that a concerning level of records failed validation, but downstream processing still proceeded. Condition 3 will result in an email indicating that all looks good
 
 ```{r}
 #| label: set condition 2 or 3
+#| eval: !expr 'stop_alert != TRUE'
 
 # condition<-2 will be set if it is in override or if any warnings are set, otherwise condition<-3
 
@@ -604,75 +605,43 @@ Write cleaned data to database
 
 ```{r}
 #| label: write validated data to database
-#| eval: false
-##| eval: !expr 'stop_alert != TRUE & !Sys.getenv("CONDITION_OVERRIDE") %in% c(1:3)'
+#| eval: !expr 'stop_alert != TRUE & !Sys.getenv("CONDITION_OVERRIDE") %in% c(1:3)'
 
-df_suffix <- config::get("suffix")
+my_username <- "_____" #Fill in your username, workshop participants!
 
-my_df_name <- paste0("modeldata_validated_", df_suffix)
+my_df_name <- paste0("modeldata_validated_", my_username)
 
 # Insert start time stamp
 start_time <- Sys.time()
 
 DBI::dbWriteTable(conn = con, # the connection
                   name = my_df_name, # the name of the table you will create in the DB
-                  value = modeldata_validated,
-                  append = TRUE)
-
+                  value = vesselinfo_raw,
+                  overwrite = TRUE)
 
 # Insert end time stamp
 end_time <- Sys.time()
 duration <- end_time - start_time
 
 
-print(glue::glue("ℹ️ Info: Writing {my_df_name} to database took",  round(duration[[1]], 2),  units(duration)))
+print(glue::glue("ℹ️ Info: Writing {my_df_name} to database took ",  round(duration[[1]], 2),  units(duration)))
 
 ```
 
-```{r}
-#| label: write data
-#| eval: false 
-##| eval: !expr 'stop_alert != TRUE & !Sys.getenv("CONDITION_OVERRIDE") %in% c(1:3)'
-
-board <- board_connect()
-
-pin_write(board, vesseldata,
-          title="Cleaned and validated `vesselverbose` data from WSDOT",
-          description="from `Ferries/API/Vessels/rest/vesselverbose`")
-
-pin_write(board, vesselhistory,
-          title="Cleaned and validated `vesselhistory` data from WSDOT",
-          description="from `Ferries/API/Vessels/rest/vesselhistory`")
-
-
-pin_write(board, weather_terminal_history,
-          type = "csv",
-          title = "Cleaned and validated historical weather data at ferry terminals",
-          description = "From `open-meteo.com`, dates 2023-05-31 to 2024-05-31")
-
-pin_write(board, vesselhistory_w_weather,
-          type = "csv",
-          title = "Vessel sailing history with weather data")
-
-pin_write(board, modeldata_validated,
-          type = "csv",
-          title = "Cleaned and validated vessel sailing history with weather data for model consumption")
-```
-
-## Task 9 - Send Conditional Email 
+## Task 9 - Send Conditional Email
 
 🔄 Task
 
-- for the Workshop, change the value of `CONDITION_OVERRIDE` in the `.Renviron` file to 1, 2, or 3 to preview the conditional responses. 
-- Be certain to restart your R session after changing the `.Renviron` file, then "Render" this document to see the results.
-- Look in the folder `email-preview` to see the HTML email preview.
+-   for the Workshop, change the value of `CONDITION_OVERRIDE` in the `.Renviron` file to 1, 2, or 3 to preview the conditional responses.
+-   Be certain to restart your R session after changing the `.Renviron` file, then "Render" this document to see the results.
+-   Look in the folder `email-preview` to see the HTML email preview.
 
 Below is how we generate the emails.
 
 We have three scenarios:
 
 1.  `condition <- 1`: the size and shape of the data is not as expected; something is wrong with the input data so the processing of data is stopped and no production data is updated
-2. `condition <- 2`: data validation complete but had warnings
+2.  `condition <- 2`: data validation complete but had warnings
 3.  `condition <- 3`: no issues with validation
 
 We will use a feature of Quarto that allows yaml to be written at any point in the document. With this, we will define which conditional email should be sent as metadata. Then the subject and body of the email will be selected using Quarto's ability to include or exclude content based on a metadata value.
@@ -707,6 +676,101 @@ metadata_list[[metadata_key]] <- TRUE
 
 write_meta(metadata_list)
 
+```
+
+### Make a summary table
+
+```{r}
+#| label: include a summary table
+#| echo: false
+#| eval: !expr 'stop_alert != TRUE'
+
+summary_table_basic <- modeldata_validated |> 
+  filter(route_id %in% c(1:5)) |>
+  select(route, vessel,date, delay, route_id) |>
+  arrange(route_id) |> 
+  group_by(route) |>
+  mutate(delay = as.numeric(delay), 
+         avg_delay = as.numeric(mean(delay)), 
+         num_vessels = n_distinct(vessel),
+         num_sailings = n()) |>
+  ungroup() |> 
+  select(-vessel, -date, -delay) |> 
+  distinct() |> 
+  gt(rowname_col = "route", groupname_col = "route_id") |>
+  tab_header(
+    title = "Departure Delays Summary",
+    subtitle = glue::glue("{min(modeldata_validated$date)} 
+                          to {max(modeldata_validated$date)}")) |>
+  tab_source_note(source_note = md("Data sourced from [WSDOT Traveler Information API](https://wsdot.wa.gov/traffic/api/) and modified for use from its original source.")) |> 
+  cols_label(
+    avg_delay = md("Average delay (min)"),
+    num_vessels = "Vessels on route", 
+    num_sailings = "Sailings in period"
+  ) |> 
+  fmt_number(columns = avg_delay, decimals = 1) |>
+  fmt_number(columns = num_sailings, use_seps = TRUE, decimals = 0) |> 
+  opt_all_caps()  |> 
+  text_transform(
+    locations = cells_stub(),
+    fn = function(x) {
+      x <- gsub("-", " → ", x)
+      x <- gsub("_", " ", x)
+      x
+    }) |> 
+  text_transform(
+    locations = cells_group(),
+    fn = function(x) " ") |> 
+  opt_vertical_padding(scale = 0.2) |> 
+  opt_horizontal_padding(scale = 1.5)
+
+ summary_table_full <- modeldata_validated |> 
+  filter(route_id %in% c(1:5)) |>
+  select(route, vessel,date, delay, route_id) |>
+  arrange(route_id) |> 
+  group_by(route) |>
+  mutate(delay = as.numeric(delay), 
+         avg_delay = as.numeric(mean(delay)), 
+         num_vessels = n_distinct(vessel),
+         num_sailings = n()) |>
+  ungroup() |> 
+  select(-vessel) |> 
+  pivot_wider(names_from = date, values_from = delay, values_fn = list) |> 
+  gt(rowname_col = "route", groupname_col = "route_id") |>
+  tab_header(
+    title = "Departure Delays Summary",
+    subtitle = glue::glue("{min(modeldata_validated$date)} 
+                          to {max(modeldata_validated$date)}")) |>
+  tab_source_note(source_note = md("Data sourced from [WSDOT Traveler Information API](https://wsdot.wa.gov/traffic/api/) and modified for use from its original source.")) |> 
+  cols_label(
+    avg_delay = md("Average delay (min)"),
+    num_vessels = "Vessels on route", 
+    num_sailings = "Sailings in period"
+  ) |> 
+  cols_nanoplot(
+    columns = starts_with("202"),
+    plot_type = "boxplot",
+    new_col_name = "nanoplots",
+    new_col_label = "delay",
+    plot_height = "3em",
+    options = nanoplot_options(
+      # show_data_points = FALSE
+    )) |> 
+  fmt_number(columns = avg_delay, decimals = 1) |>
+  fmt_number(columns = num_sailings, use_seps = TRUE, decimals = 0) |> 
+  opt_all_caps()  |> 
+  text_transform(
+    locations = cells_stub(),
+    fn = function(x) {
+      x <- gsub("-", " → ", x)
+      x <- gsub("_", " ", x)
+      x
+    }) |> 
+  text_transform(
+    locations = cells_group(),
+    fn = function(x) " ") |> 
+  opt_vertical_padding(scale = 0.2) |> 
+  opt_horizontal_padding(scale = 1.5)
 ```
 
 ### Define the email
@@ -809,7 +873,7 @@ The table below summarizes the data written.
 #| eval: !expr 'condition == 2'
 #| echo: false
 
-summary_table
+summary_table_basic
 
 ```
 ::::
@@ -831,7 +895,7 @@ A summary of the data is shown below.
 #| echo: false
 
 
-summary_table 
+summary_table_basic 
 
 
 ```
@@ -841,6 +905,15 @@ summary_table
 ## Logging information
 
 Report run `{r} today()`
+
+### Summary of data
+
+```{r}
+#| echo: false
+#| eval: !expr 'stop_alert != TRUE & !Sys.getenv("CONDITION_OVERRIDE") %in% c(1:3)'
+
+summary_table_full
+```
 
 ```{r}
 #| label: logging

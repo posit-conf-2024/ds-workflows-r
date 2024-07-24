@@ -25,14 +25,13 @@ The goals of this activity are to:
 
 ✏️ There will be placeholders (`____`) in the code cells below that you will need to fill in!
 
-
 ## Setup
 
 ```{r}
 #| label: setup
 
 library(DBI)
-library(RPostgres)
+library(odbc)
 library(skimr)
 library(pointblank)
 library(tidyverse)
@@ -40,7 +39,6 @@ library(glue)
 library(gt)
 
 ```
-
 
 ## Task 1 - Read in raw data
 
@@ -53,42 +51,32 @@ Retrieve the raw data from the database for exploration.
 ```{r}
 #| label: make database connection
 
-# # Run this code as-is 
-# con <- dbConnect(RPostgres::Postgres(), 
-#                  host = Sys.getenv("CONF24_DB_HOST"), 
-#                  port = "5432", 
-#                  dbname = "conf23_r", 
-#                  user = Sys.getenv("CONF24_DB_USER"), 
-#                  password = Sys.getenv("CONF24_DB_PASSWORD"))
+# Run this code as-is 
+con <- dbConnect(
+  odbc::odbc(),
+  Driver      = "postgresql",
+  Server      = Sys.getenv("DATABASE_HOST"),
+  Port        = "5432",
+  Database    = Sys.getenv("DATABASE_NAME_R"),
+  UID         = Sys.getenv("DATABASE_USER_R"),
+  PWD         = Sys.getenv("DATABASE_PASSWORD_R"),
+  timeout     = 10
+)
 
 ```
 
-In our local development environment (Posit Workbench), we will pull the smaller data set with your own Workshop participant username as a suffix for exploration. 
+### Read in data
+
+For the Workshop, we will conduct data exploration on a smaller subset of the production data rather than the full tables just for consideration of processing time. We will pull the "\*\_deckhand" versions of the same data frames we wrote in the previous exercise.
 
 ```{r}
 #| label: read in raw data
 
-# df_suffix <- config::get("suffix")
-# 
-# vesseldata_raw <- dplyr::tbl(con, glue("vesseldata_raw_{df_suffix}"))
-# 
-# vesselhistory_raw <- dplyr::tbl(con, glue("vesselhistory_raw_{df_suffix}"))
-# 
-# weather_terminal_history_raw <- dplyr::tbl(con, glue("weather_terminal_history_raw_{suffix}"))
+vesselinfo_raw <- dplyr::tbl(con, "vesselinfo_raw_deckhand")
 
-```
+vesselhistory_raw <- dplyr::tbl(con, "vesselhistory_raw_deckhand")
 
-```{r}
-
-library(pins)
-
-board <- board_connect()
-
-vesselinfo_raw <- pin_read(board, "katie.masiello/vesselinfo_raw_katiemasiello")
-
-vesselhistory_raw <- pin_read(board, "katie.masiello/vesselhistory_raw_katiemasiello")
-
-weather_terminal_history_raw <- pin_read(board, "katie.masiello/weather_terminal_history_raw_katiemasiello")
+weather_terminal_history_raw <- dplyr::tbl(con, "weather_terminal_history_raw_deckhand")
 
 ```
 
@@ -135,14 +123,14 @@ We see that the dates are in an awkward format. We'll need to convert them when 
 # preview the data
 head(vesselinfo_raw)
 
-# how many different vessels and terminals do we have info for?
+# how many different vessels do we have info for?
 vesselinfo_raw |> pull(vessel_name) |> unique()
 
 # get to know the ferries
-vesselinfo_raw |> select(vessel_name, vessel_name_desc)
+vesselinfo_raw |> select(vessel_name, vessel_name_desc) |> gt()
 ```
 
-There's a lot of information in this data frame. Let's use some tools to explore more. Maybe you're already familiar with `glimpse` and `summary` for preliminary data exploration. Do you know `skimr::skim()`? `skim` provides a compact view of column schemas, missing values, and a profile of the values. 
+There's a lot of information in this data frame. Let's use some tools to explore more. Maybe you're already familiar with `glimpse` and `summary` for preliminary data exploration. Do you know `skimr::skim()`? `skim` provides a compact view of column schemas, missing values, and a profile of the values.
 
 ```{r}
 
@@ -163,7 +151,7 @@ There's another data exploration tool for the toolbox. The `pointblank::scan_dat
 
 ⚠️ The "Correlations" and "Interactions" sections take the longest to run, especially on a larger data set. Save time by omitting sections that are not needed.
 
-Let's scan a simplified version of `vesselinfo_raw`, dropping some of the unneeded columns for faster processing during the Workshop.
+Let's scan a simplified version of `vesselinfo_raw`, dropping some of the unneeded columns for faster processing during the Workshop. We'll also use `collect()` to pull into local memory. (Did you notice that up until this point, we have been doing all of our exploration directly on the database table?)
 
 ```{r}
 #| label: abbreviated vesselinfo_raw
@@ -184,7 +172,7 @@ vesselinfo_raw_abbreviated <- vesselinfo_raw |>
          year_built, 
          year_rebuilt, 
          solas_certified
-         )
+         ) |> collect()
   
 ```
 
@@ -193,9 +181,6 @@ Run the `data_scan` on `vesselinfo_raw_abbreviated`, but omit "Correlations (C)"
 ```{r}
 #| label: Data scan on `vesselinfo_raw_abbreviated`
 #| eval: false
-
-scan <- vesselinfo_raw_abbreviated |> 
-  scan_data(sections = "OVMS")
 
 scan <- pointblank::scan_data(____, sections = "____")
 scan
@@ -218,12 +203,11 @@ Let's explore the results. Can you identify:
 If you're working through this document in the Workshop, pause here.
 :::
 
-
 ## Task 3 - Create a data dictionary
 
 🔄 Task
 
-- Create a data dictionary describing `vesselhistory_raw`
+-   Create a data dictionary describing `vesselhistory_raw`
 
 Pointblank helps us to document and provide context about our data. We use an "Informant" to create a data dictionary, which will be a part of our project documentation.
 
@@ -275,4 +259,3 @@ create_informant(
   ) |> 
     incorporate()
 ```
-

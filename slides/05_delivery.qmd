@@ -329,7 +329,8 @@ Content returned by `connectwidgets::content` will be scoped to the API key prov
 :::
 :::::
 
-See full documentation at <https://docs.posit.co/connect/api/>
+Cookbook Recipes for common tasks: <https://docs.posit.co/connect/cookbook><br>
+Full documentation: <https://docs.posit.co/connect/api/>
 
 ## Example Content Usage Report
 
@@ -358,18 +359,10 @@ app_usage <- get_usage_shiny(
 
 ## Accessing the Connect Server API
 
--   Interact remotely with the Connect Server API using HTTP requests directly via:
-    -   `curl` - Linux tool for making HTTP calls
-    -   `httr` - R HTTP library
-    -   `requests` - Python HTTP library
--   Or use [`connectapi`](https://pkgs.rstudio.com/connectapi/) R package, which provides a wrapper around HTTP requests
-
+-   Posit SDKs provide wrappers around `curl` and HTTP requests for easier interaction:
+  - [`connectapi`](https://pkgs.rstudio.com/connectapi/) R package
+  - [`posit-sdk`]() python package
+  
 ![](https://pkgs.rstudio.com/connectapi/reference/figures/logo.svg){.absolute top="590" left="260" width="220"}
 
-## Connect Server API Resources
 
--   Reference <https://docs.posit.co/connect/api/>
--   Cookbook <https://docs.posit.co/connect/cookbook/>
--   Example reports and apps <https://solutions.posit.co/operations/connect-apis/>
--   R package `connectapi` that is a wrapper around the API <https://pkgs.rstudio.com/connectapi/>
-::::::::::::::::::::::::::
