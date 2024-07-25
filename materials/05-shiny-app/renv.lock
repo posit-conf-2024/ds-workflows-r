@@ -1163,6 +1163,25 @@
       ],
       "Hash": "a623a2239e642806158bc4dc3f51565d"
     },
+    "odbc": {
+      "Package": "odbc",
+      "Version": "1.5.0",
+      "Source": "Repository",
+      "Repository": "CRAN",
+      "Requirements": [
+        "DBI",
+        "R",
+        "Rcpp",
+        "bit64",
+        "blob",
+        "cli",
+        "hms",
+        "lifecycle",
+        "methods",
+        "rlang"
+      ],
+      "Hash": "0609d24c52744c675f8578622c33d5fa"
+    },
     "openssl": {
       "Package": "openssl",
       "Version": "2.2.0",

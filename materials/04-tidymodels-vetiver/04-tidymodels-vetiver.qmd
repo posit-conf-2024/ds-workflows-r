@@ -39,6 +39,8 @@ library(vetiver)
 library(xgboost)
 library(plumber)
 library(rsconnect)
+library(odbc)
+library(DBI)
 
 ```
 
@@ -60,12 +62,23 @@ For this activity, we will train and fit a logistic regression model to predict 
 #| label: read-data
 
 # Read in dataset from database
-#!#!#!#!#!#!#!#!#! Need to update with database, not pin
-board <- board_connect(auth = "manual", 
-                       server = "https://connect.posit.it", 
-                       key = Sys.getenv("CONNECT_POS_IT_API_KEY"))
-ferry_weather <- pin_read(board, "katie.masiello/modeldata_validated") |> 
-  as_tibble()
+df_name <- "modeldata_validated"
+
+con <- dbConnect(
+  odbc::odbc(),
+  Driver      = "postgresql",
+  Server      = Sys.getenv("DATABASE_HOST"),
+  Port        = "5432",
+  Database    = Sys.getenv("DATABASE_NAME_R"),
+  UID         = Sys.getenv("DATABASE_USER_R"),
+  PWD         = Sys.getenv("DATABASE_PASSWORD_R"),
+  timeout     = 10
+)
+
+ferry_weather <- dplyr::tbl(con, 
+           DBI::Id(schema = "deckhand", name = df_name)) |> 
+  collect()
+
 ```
 
 ```{r}
@@ -87,8 +100,6 @@ Sometimes, you may need to transform the original dataset to make it conducive t
 
 ```{r}
 #| label: prep-data
-
-# DO NOT EDIT THIS CODE CELL, JUST RUN IT
 
 ferry_weather_prepped <- ferry_weather |> 
   
@@ -278,19 +289,17 @@ And now we can save it, or *pin it*, to Posit Connect! Remember to define your p
 ```{r}
 #| label: pin-model
 
-#!#!#!#!#!#! modify so it uses ferryland Posit Connect
-
 # Register Posit Connect as board
-# board <- board_connect(auth = "manual", 
-#                        server = "https://connect.posit.it", 
-#                        key = Sys.getenv("CONNECT_POS_IT_API_KEY"))
+board <- board_connect(auth = "manual", 
+                       server = "https://pub.ferryland.posit.team", 
+                       key = Sys.getenv("CONNECT_API_KEY"))
 
 # Write Vetiver Model
 board |> vetiver_pin_write(v_model)
 
 ```
 
-Navigate to Posit Connect and check out your pinned model!
+Navigate to Posit Connect and check out your pinned model! You'll also notice a message asking you to create a **Model Card**. This is alsways a good idea, especially if you will be sharing your model with others. An example model card can be found here: `materials/04-tidymodels-vetiver/ferry_modelcard_r.Rmd`.
 
 🛑 Stop here!
 
@@ -315,7 +324,7 @@ APIs are a great way for users, applications, or other systems to interact with 
 
 # Create API from pinned model using vetiver
 #  Swap out "ryan" for your username on Connect.
-vetiver_deploy_rsconnect(board = board, name = "ryan/ferry_model")
+vetiver_deploy_rsconnect(board = board, name = "ryjohnson09/ferry_model")
 
 ```
 
@@ -340,7 +349,7 @@ Once it's deployed, navigate to the API on Posit Connect and give it a test run!
 On Posit Connect, navigate to your newly created API, and copy the URL for the content below. You can find this URL by clicking the access tab --\> URL.
 
 ```{r}
-api_url <- "https://connect.posit.it/content/0b0a63a0-ec5b-4ecb-bee3-4e7256249981"
+api_url <- "https://pub.ferryland.posit.team/ferry_api_r"
 
 # Append "/predict" to the end of your api to create the endpoint
 endpoint <- vetiver_endpoint(paste0(api_url, "/predict"))
@@ -374,7 +383,7 @@ Now we can use the `predict()` function to query the API so that it returns a pr
 # Predict from Vetiver endpoint
 predict(endpoint, 
         new_ferry,
-        httr::add_headers(Authorization = paste("Key", Sys.getenv("CONNECT_POS_IT_API_KEY"))))$.pred_class
+        httr::add_headers(Authorization = paste("Key", Sys.getenv("CONNECT_API_KEY"))))$.pred_class
 ```
 
 🛑 Stop here!
@@ -402,7 +411,7 @@ We only have 1 version of our model, but let's list it anyway by using the `pin_
 
 # View versions of your model 
 #  Replace "ryan" with your username 
-pin_versions(board = board, name = "ryan/ferry_model")
+pin_versions(board = board, name = "ryjohnson09/ferry_model")
 ```
 
 #### Create an Xgboost Model
@@ -460,7 +469,7 @@ board |>
 
 # View versions of your model 
 #  Replace "ryan" with your username 
-pin_versions(board = board, name = "ryan/ferry_model")
+pin_versions(board = board, name = "ryjohnson09/ferry_model")
 
 ```
 
@@ -474,10 +483,10 @@ How do we know which model is performing better? Logistic regression or xgboost?
 #| label: model-monitoring
 
 # Pull in specific version of model
-v_model_monitor <- vetiver_pin_read(board, "ryan/ferry_model", version = "_____")
+v_model_monitor <- vetiver_pin_read(board, "ryjohnson09/ferry_model", version = "49")
 
 new_ferry_data_metrics <-
-    augment(v_model_monitor, new_data = monitoring_data) |> 
+    augment(v_model_monitor, new_data = arrange(monitoring_data, date)) |> 
     vetiver_compute_metrics(date, "week", delay_status, .pred_class)
 
 vetiver_plot_metrics(new_ferry_data_metrics) +

@@ -9,16 +9,28 @@ library(leaflet)
 library(leaflet.extras2)
 library(thematic)
 library(shinycssloaders)
+library(odbc)
+library(DBI)
 
 # API URL
-api_url <- "https://connect.posit.it/content/0b0a63a0-ec5b-4ecb-bee3-4e7256249981"
+api_url <- "https://pub.ferryland.posit.team/ferry_api_r"
 
 # Read Ferry Data Pin
-board <- board_connect(auth = "manual", 
-                       server = "https://connect.posit.it", 
-                       key = Sys.getenv("CONNECT_POS_IT_API_KEY"))
-ferry_weather <- pin_read(board, "katie.masiello/modeldata_validated") |> 
-  as_tibble() |> 
+df_name <- "modeldata_validated"
+
+con <- dbConnect(
+  odbc::odbc(),
+  Driver      = "postgresql",
+  Server      = Sys.getenv("DATABASE_HOST"),
+  Port        = "5432",
+  Database    = Sys.getenv("DATABASE_NAME_R"),
+  UID         = Sys.getenv("DATABASE_USER_R"),
+  PWD         = Sys.getenv("DATABASE_PASSWORD_R"),
+  timeout     = 10
+)
+
+ferry_weather <- dplyr::tbl(con, DBI::Id(schema = "deckhand", name = df_name)) |> 
+  collect() |> 
   mutate(arriving = str_to_title(str_replace_all(arriving, "_", " ")),
          departing = str_to_title(str_replace_all(departing, "_", " ")))
 
@@ -185,7 +197,7 @@ server <- function(input, output, session) {
     predict(endpoint, 
             new_ferry_data, 
             httr::add_headers(Authorization = paste("Key", 
-                                                    Sys.getenv("CONNECT_POS_IT_API_KEY"))))$.pred_class
+                                                    Sys.getenv("CONNECT_API_KEY"))))$.pred_class
   })
   
   delay_color <- reactive({
