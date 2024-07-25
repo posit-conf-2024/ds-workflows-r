@@ -16,23 +16,17 @@ Introduction
 
 ## Logistics {.content-light}
 
-::: {style="background: #FB629A; width: 400px; height: 400px; margin: 50px; box-shadow: 0 18px 18px -9px lightgray; margin-left: auto; margin-right: auto;"}
-<br>TODO:
-
-UPDATE THIS
-:::
-
 🛜 WiFi credentials:
 
--   Network: `Posit Conf 2023`
+-   Network: `Posit Conf 2024`
 
--   Password: `conf2023`
+-   Password: `conf2024`
 
 -   Important locations:
 
-    -   **Bathrooms**: There are gender-neutral bathrooms located are among the Grand Suite Bathrooms.
-    -   **Meditation/prayer room**: Grand Suite 2A and Grand Suite 2B. Open Sunday - Tuesday 7:30 a.m. - 7:00 p.m., Wednesday 8:00 a.m. - 6:00 p.m.
-    -   **Lactation room**: located in Grand Suite 1. Open Sunday - Tuesday 7:30 a.m. - 7:00 p.m., Wednesday 8:00 a.m. - 6:00 p.m.
+    -   **Bathrooms**: There are gender-neutral bathroom on levels 3, 4, 5, 6 & 7.
+    -   **Meditation/prayer room**: 503 (available Mon & Tues 7am - 7pm, and Wed 7am - 5pm)
+    -   **Mothers room**: 509 (same timings as above)
 
 ## Logistics {.content-light}
 
@@ -278,7 +272,7 @@ This workshop will use data from two primary data sources:
 
 ## Project Overview
 
-![](slide_resources/ds-workflows-r.png){fig-align="center"}
+![](slide_resources/ds-workflows-r-2024.jpg){fig-align="center"}
 
 ##  {.brackets-dark-teal}
 

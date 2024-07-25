@@ -260,7 +260,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
     <h2 id="toc-title">On this page</h2>
    
   <ul>
-  <li><a href="#data-validation-and-alerting" id="toc-data-validation-and-alerting" class="nav-link active" data-scroll-target="#data-validation-and-alerting">Data Validation and Alerting</a></li>
+  <li><a href="#data-exploration-validation-and-alerting" id="toc-data-exploration-validation-and-alerting" class="nav-link active" data-scroll-target="#data-exploration-validation-and-alerting">Data Exploration, Validation and Alerting</a></li>
   <li><a href="#where-are-we" id="toc-where-are-we" class="nav-link" data-scroll-target="#where-are-we">Where are we</a></li>
   <li><a href="#section-agenda" id="toc-section-agenda" class="nav-link" data-scroll-target="#section-agenda">Section Agenda</a></li>
   <li><a href="#what-is-this-data" id="toc-what-is-this-data" class="nav-link" data-scroll-target="#what-is-this-data">What is this Data?</a></li>
@@ -279,13 +279,10 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   <li><a href="#pointblank-data-validation-report" id="toc-pointblank-data-validation-report" class="nav-link" data-scroll-target="#pointblank-data-validation-report">Pointblank data validation report</a></li>
   <li><a href="#section-1" id="toc-section-1" class="nav-link" data-scroll-target="#section-1"></a></li>
   <li><a href="#theres-much-more-to-pointblank" id="toc-theres-much-more-to-pointblank" class="nav-link" data-scroll-target="#theres-much-more-to-pointblank"><i class="bi-sign-turn-right-fill " style="color: orange;" role="img" aria-hidden="true"></i> There’s much more to <code>pointblank</code></a></li>
-  <li><a href="#how-will-i-know-if-my-data-has-issues" id="toc-how-will-i-know-if-my-data-has-issues" class="nav-link" data-scroll-target="#how-will-i-know-if-my-data-has-issues">How will I know if my data has issues?</a></li>
-  <li><a href="#how-will-i-know-if-my-data-has-issues-1" id="toc-how-will-i-know-if-my-data-has-issues-1" class="nav-link" data-scroll-target="#how-will-i-know-if-my-data-has-issues-1">How will I know if my data has issues?</a></li>
-  <li><a href="#project-example" id="toc-project-example" class="nav-link" data-scroll-target="#project-example">Project example</a></li>
-  <li><a href="#how-blastula-works-with-connect" id="toc-how-blastula-works-with-connect" class="nav-link" data-scroll-target="#how-blastula-works-with-connect">How <code>blastula</code> works with Connect</a></li>
-  <li><a href="#project-example-1" id="toc-project-example-1" class="nav-link" data-scroll-target="#project-example-1">Project example</a></li>
-  <li><a href="#be-aware" id="toc-be-aware" class="nav-link" data-scroll-target="#be-aware">Be aware…</a></li>
+  <li><a href="#conditional-emails-with-quarto" id="toc-conditional-emails-with-quarto" class="nav-link" data-scroll-target="#conditional-emails-with-quarto">Conditional Emails with Quarto</a></li>
+  <li><a href="#the-secret-sauce-of-conditionality" id="toc-the-secret-sauce-of-conditionality" class="nav-link" data-scroll-target="#the-secret-sauce-of-conditionality">The Secret Sauce of Conditionality</a></li>
   <li><a href="#section-2" id="toc-section-2" class="nav-link" data-scroll-target="#section-2"></a></li>
+  <li><a href="#be-aware" id="toc-be-aware" class="nav-link" data-scroll-target="#be-aware">Be aware…</a></li>
   <li><a href="#other-alerting-approaches" id="toc-other-alerting-approaches" class="nav-link" data-scroll-target="#other-alerting-approaches">Other Alerting Approaches</a></li>
   </ul>
 <div class="quarto-alternate-formats"><h2>Other Formats</h2><ul><li><a href="03_data_validation_and_alerting.html"><i class="bi bi-file-slides"></i>RevealJS (positconfslides)</a></li></ul></div></nav>
@@ -296,9 +293,9 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 
 
 
-<section id="data-validation-and-alerting" class="level2 toc-light">
-<h2 class="toc-light anchored" data-anchor-id="data-validation-and-alerting">Data Validation and Alerting</h2>
-<p><img src="https://github.com/rstudio/pointblank/raw/main/man/figures/logo.svg" class="absolute img-fluid" data-top="200" data-left="50" width="260"> <img src="https://github.com/rstudio/blastula/raw/master/man/figures/logo.svg" class="absolute img-fluid" data-top="200" data-left="310" width="260"></p>
+<section id="data-exploration-validation-and-alerting" class="level2 title-slide-light">
+<h2 class="title-slide-light anchored" data-anchor-id="data-exploration-validation-and-alerting">Data Exploration, Validation and Alerting</h2>
+<p><img src="https://github.com/rstudio/pointblank/raw/main/man/figures/logo.svg" class="absolute img-fluid" data-top="200" data-left="50" width="260"> <img src="slide_resources/quarto-icon.svg" class="absolute" data-top="200" data-left="310" height="300"></p>
 </section>
 <section id="where-are-we" class="level2">
 <h2 class="anchored" data-anchor-id="where-are-we">Where are we</h2>
@@ -313,7 +310,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <ul>
 <li>Ad-hoc data exploration</li>
 <li>Ensure quality data is flowing through the pipeline</li>
-<li>Get alerts via automation</li>
+<li>Conditional alerts via automation</li>
 </ul>
 </section>
 <section id="what-is-this-data" class="level2">
@@ -356,8 +353,12 @@ Activity
 </div>
 </div>
 <div class="callout-body-container callout-body">
-<p>👉 Open the file <code>materials/activities/activity-01_raw_data_exploration.qmd</code></p>
-<p>Activity objective: explore our Chicago Food Inspections data to get familiar with our data</p>
+<p>👉 Activity objective: exploring our data</p>
+<ul>
+<li>Open the project <code>materials/02-data-exploration/02-data-exploration.Rproj</code></li>
+<li>Open the file <code>02-data-exploration.qmd</code></li>
+<li>We will work through all the tasks in the notebook</li>
+</ul>
 </div>
 </div>
 </section>
@@ -448,8 +449,12 @@ Activity
 </div>
 </div>
 <div class="callout-body-container callout-body">
-<p>👉 Open the file <code>materials/activities/activity-03_data_validation.qmd</code></p>
-<p>Activity objective: Use <code>pointblank</code> to validate data, remove non-compliant records, and document the data.</p>
+<p>👉 Activity objective: Use <code>pointblank</code> to validate data, remove non-compliant records, and document the data.</p>
+<ul>
+<li>Open the project <code>materials/03-data-clean-validate/03-data-clean-validate.Rproj</code></li>
+<li>Open the file <code>03-data-clean-validate.qmd</code></li>
+<li>🛑 We will work through <strong>Task 1 - Task 8</strong> only</li>
+</ul>
 </div>
 </div>
 </section>
@@ -483,100 +488,144 @@ Try the comprehensive <code>pointblank</code> test drive on Posit Cloud: <a href
 </h3>
 </div>
 </section>
-<section id="how-will-i-know-if-my-data-has-issues" class="level2">
-<h2 class="anchored" data-anchor-id="how-will-i-know-if-my-data-has-issues">How will I know if my data has issues?</h2>
-<div class="columns">
-<div class="column" style="width:25%;">
-<div class="fragment">
-<p><img src="slide_resources/email_option.png" style="padding-left: 25px;" height="700"></p>
+<section id="conditional-emails-with-quarto" class="level2">
+<h2 class="anchored" data-anchor-id="conditional-emails-with-quarto">Conditional Emails with Quarto</h2>
+<p>Image of the conditions we want to send.</p>
+</section>
+<section id="the-secret-sauce-of-conditionality" class="level2">
+<h2 class="anchored" data-anchor-id="the-secret-sauce-of-conditionality">The Secret Sauce of Conditionality</h2>
+<div class="columns smaller">
+<div class="column" style="width:35%;">
+<div class="fragment fade-in-then-out absolute" data-top="100" data-fragment-index="1" width="33%">
+<ol type="1">
+<li>Quarto emails are defined by content divs</li>
+</ol>
 </div>
-</div><div class="column fragment" style="width:18%;">
-<p><span class="largest middle"><i class="bi-arrow-right " style="" role="img" aria-hidden="true"></i></span></p>
-</div><div class="column" style="width:50%;">
-<div class="fragment">
-<p><img src="slide_resources/html_email.png" class="img-fluid" style="padding-top: 50px;"></p>
+<div class="fragment fade-in-then-out absolute" data-top="100" data-fragment-index="2" width="33%">
+<ol type="1">
+<li><span class="silver">Quarto emails are defined by content divs</span></li>
+<li>Include conditional content divs with <code>.content-visible when-meta=</code></li>
+</ol>
+</div>
+<div class="fragment fade-in-then-out absolute" data-top="100" data-fragment-index="3" width="33%">
+<ol type="1">
+<li><span class="silver">Quarto emails are defined by content divs</span></li>
+<li><span class="silver">Include conditional content divs with <code>.content-visible when-meta=</code></span></li>
+<li>Set the metadata by injecting YAML into the rendering. Quarto will interpret YAML blocks <em>no matter where they appear in the document</em></li>
+</ol>
+</div>
+</div><div class="column">
+<div class="fragment fade-in-then-out absolute" data-top="100" data-fragment-index="1" width="65%">
+<div class="cell">
+<div class="sourceCode cell-code" id="cb2"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="sc">:::</span><span class="er">:</span> {email}</span>
+<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a>This email was sent from Quarto<span class="sc">!</span> </span>
+<span id="cb2-4"><a href="#cb2-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-5"><a href="#cb2-5" aria-hidden="true" tabindex="-1"></a><span class="er">:::</span> {subject}</span>
+<span id="cb2-6"><a href="#cb2-6" aria-hidden="true" tabindex="-1"></a>subject</span>
+<span id="cb2-7"><a href="#cb2-7" aria-hidden="true" tabindex="-1"></a><span class="sc">:::</span></span>
+<span id="cb2-8"><a href="#cb2-8" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-9"><a href="#cb2-9" aria-hidden="true" tabindex="-1"></a><span class="er">::::</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+</div>
+<div class="fragment fade-in-then-out absolute" data-top="100" data-fragment-index="2" width="65%">
+<div class="cell longest_code_block">
+<div class="sourceCode cell-code" id="cb3"><pre class="sourceCode r longest_code_block code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="sc">:::</span><span class="er">::</span> {email}</span>
+<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a>This email was sent using condition <span class="st">`</span><span class="at">r variant</span><span class="st">`</span></span>
+<span id="cb3-4"><a href="#cb3-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-5"><a href="#cb3-5" aria-hidden="true" tabindex="-1"></a><span class="sc">:::</span><span class="er">:</span> {.content<span class="sc">-</span>visible when<span class="sc">-</span>meta<span class="ot">=</span><span class="st">"is_email_variant_1"</span>}</span>
+<span id="cb3-6"><a href="#cb3-6" aria-hidden="true" tabindex="-1"></a>rest of email body <span class="dv">1</span></span>
+<span id="cb3-7"><a href="#cb3-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-8"><a href="#cb3-8" aria-hidden="true" tabindex="-1"></a><span class="sc">:::</span> {subject}</span>
+<span id="cb3-9"><a href="#cb3-9" aria-hidden="true" tabindex="-1"></a>subject <span class="dv">1</span></span>
+<span id="cb3-10"><a href="#cb3-10" aria-hidden="true" tabindex="-1"></a><span class="sc">:::</span></span>
+<span id="cb3-11"><a href="#cb3-11" aria-hidden="true" tabindex="-1"></a><span class="er">::::</span></span>
+<span id="cb3-12"><a href="#cb3-12" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-13"><a href="#cb3-13" aria-hidden="true" tabindex="-1"></a><span class="er">::::</span> {.content<span class="sc">-</span>visible when<span class="sc">-</span>meta<span class="ot">=</span><span class="st">"is_email_variant_2"</span>}</span>
+<span id="cb3-14"><a href="#cb3-14" aria-hidden="true" tabindex="-1"></a>rest email body <span class="dv">2</span> </span>
+<span id="cb3-15"><a href="#cb3-15" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-16"><a href="#cb3-16" aria-hidden="true" tabindex="-1"></a><span class="sc">:::</span> {subject}</span>
+<span id="cb3-17"><a href="#cb3-17" aria-hidden="true" tabindex="-1"></a>subject <span class="dv">2</span></span>
+<span id="cb3-18"><a href="#cb3-18" aria-hidden="true" tabindex="-1"></a><span class="sc">:::</span></span>
+<span id="cb3-19"><a href="#cb3-19" aria-hidden="true" tabindex="-1"></a><span class="er">::::</span></span>
+<span id="cb3-20"><a href="#cb3-20" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-21"><a href="#cb3-21" aria-hidden="true" tabindex="-1"></a><span class="er">:::::</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+</div>
+<div class="fragment fade-in-then-out absolute" data-top="100" data-fragment-index="3" width="65%">
+<div class="cell longer_code_block">
+<div class="sourceCode cell-code" id="cb4"><pre class="sourceCode markdown longer_code_block code-with-copy"><code class="sourceCode markdown"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="co">---</span></span>
+<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a><span class="an">title:</span><span class="co"> Something wonderful</span></span>
+<span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a><span class="an">format:</span><span class="co"> email</span></span>
+<span id="cb4-4"><a href="#cb4-4" aria-hidden="true" tabindex="-1"></a><span class="co">---</span></span>
+<span id="cb4-5"><a href="#cb4-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-6"><a href="#cb4-6" aria-hidden="true" tabindex="-1"></a><span class="in">```{.r}</span></span>
+<span id="cb4-7"><a href="#cb4-7" aria-hidden="true" tabindex="-1"></a><span class="in">variant &lt;- sample(1:2, 1)</span></span>
+<span id="cb4-8"><a href="#cb4-8" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb4-9"><a href="#cb4-9" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-10"><a href="#cb4-10" aria-hidden="true" tabindex="-1"></a><span class="in">```{.r}</span></span>
+<span id="cb4-11"><a href="#cb4-11" aria-hidden="true" tabindex="-1"></a><span class="in">#| output: asis</span></span>
+<span id="cb4-12"><a href="#cb4-12" aria-hidden="true" tabindex="-1"></a><span class="in">cat(</span></span>
+<span id="cb4-13"><a href="#cb4-13" aria-hidden="true" tabindex="-1"></a><span class="in">  "---",</span></span>
+<span id="cb4-14"><a href="#cb4-14" aria-hidden="true" tabindex="-1"></a><span class="in">  paste0("is_email_variant_",variant,": true"),</span></span>
+<span id="cb4-15"><a href="#cb4-15" aria-hidden="true" tabindex="-1"></a><span class="in">  "---",</span></span>
+<span id="cb4-16"><a href="#cb4-16" aria-hidden="true" tabindex="-1"></a><span class="in">  sep = "\n"</span></span>
+<span id="cb4-17"><a href="#cb4-17" aria-hidden="true" tabindex="-1"></a><span class="in">)</span></span>
+<span id="cb4-18"><a href="#cb4-18" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>writes the YAML metadata in-place:</p>
+<div class="cell">
+<div class="cell-output cell-output-stdout">
+<pre><code>---
+is_email_variant_1: true
+---</code></pre>
 </div>
 </div>
 </div>
-<div class="fragment absolute" style="background: #F5EF94; width: 600px; height: 400px; padding: 30px; box-shadow: 0 18px 18px -9px lightgray; margin-left: auto; margin-right: auto;" data-top="350" data-right="220">
-<p><span class="larger">🚫</span></p>
-<p>🥱 This email is non-informative</p>
-<p>🔊 Creates noise in the inbox</p>
-<p>🙈 Does not compel anyone to look at it</p>
+</div>
 </div>
 </section>
-<section id="how-will-i-know-if-my-data-has-issues-1" class="level2">
-<h2 class="anchored" data-anchor-id="how-will-i-know-if-my-data-has-issues-1">How will I know if my data has issues?</h2>
-<div class="columns">
-<div class="column" style="width:25%;">
-<p><img src="slide_resources/email_option.png" style="padding-left: 25px;" height="700"></p>
-</div><div class="column" style="width:10%;">
-<p><span class="largest middle">+</span></p>
-</div><div class="column" style="width:25%;">
-<p><img src="https://github.com/rstudio/blastula/raw/master/man/figures/logo.svg" class="middle" height="400"></p>
-</div><div class="column" style="width:10%;">
-<p><span class="largest middle">=</span></p>
-</div><div class="column" style="width:30%;">
-<p><span class="large middle">🧰 Customized, conditional emails</span></p>
+<section id="section-2" class="level2">
+<h2 class="anchored" data-anchor-id="section-2"></h2>
+<div class="center">
+<h2 class="anchored">
+<br><strong>Activity Time!</strong>
+</h2>
+</div>
+<div class="callout callout-style-default callout-note no-icon callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon no-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Activity
 </div>
 </div>
-</section>
-<section id="project-example" class="level2">
-<h2 class="anchored" data-anchor-id="project-example">Project example</h2>
-<div class="columns">
-<div class="column" style="width:50%;">
-<p>⚠️ There was a problem with the data validation</p>
-<p><img src="slide_resources/custom_email_alert.png" class="img-fluid"></p>
-</div><div class="column" style="width:50%;">
-<p>✅ All looks great, here’s a relevant summary</p>
-<p><img src="slide_resources/custom_email.png" class="img-fluid"></p>
+<div class="callout-body-container callout-body">
+<p>👉 Activity objective: Change the <code>CONDITION_OVERRIDE</code> environment variable in <code>.Renviron</code> and see the output for Conditions 1, 2, and 3. Look in the <code>email_preview</code> folder for the email output after each rendering.</p>
+<ul>
+<li>Return to the file <code>03-data-clean-validate.qmd</code></li>
+<li>We will work through <strong>Task 9 to the end of the notebook</strong></li>
+</ul>
 </div>
 </div>
-</section>
-<section id="how-blastula-works-with-connect" class="level2">
-<h2 class="anchored" data-anchor-id="how-blastula-works-with-connect">How <code>blastula</code> works with Connect</h2>
-<p><img src="slide_resources/blastula_process.png" class="absolute img-fluid" data-top="130"></p>
-<div class="absolute smaller" data-bottom="40">
-<p><strong>Key functions:</strong></p>
-<p>🧶 <code>blastula::render_connect_email</code></p>
-<p>✉️ <code>blastula::attach_connect_email</code></p>
-<p>⛔ <code>blastula::suppress_scheduled_email</code></p>
-</div>
-<div class="absolute larger" data-bottom="60" data-left="780">
-<p><i class="bi-arrow-left " style="" role="img" aria-hidden="true"></i></p>
-</div>
-<div class="absolute smaller" style="margin-left: 900px; margin-right: auto;" data-bottom="40" data-right="150">
-<p>🧰 couple these with logic statements to send (or suppress) condition-based emails</p>
-</div>
-</section>
-<section id="project-example-1" class="level2">
-<h2 class="anchored" data-anchor-id="project-example-1">Project example</h2>
-<p><img src="slide_resources/conditional_email_example.png" class="img-fluid"></p>
 </section>
 <section id="be-aware" class="level2">
 <h2 class="anchored" data-anchor-id="be-aware">Be aware…</h2>
 <p>⚠️ Common mistakes when creating emails</p>
 <ul>
 <li>There is no interactive runtime for an email</li>
-<li>Javascript-dependent content will generally not render when emailed – not due to a limitation of blastula, but as result of how email clients process HTML</li>
+<li>Javascript-dependent content will generally not render when emailed because of how email clients process HTML</li>
 </ul>
 <div class="fragment">
 <p>🧰 Best practices for embedding objects an email:</p>
 <ul>
-<li>ggplot2 output can be included in the blastula email output directly</li>
-<li>Create nicely formatted tables with the <code>gt</code> package. (Just remember, no interactivity!)</li>
-<li>If you’d like to include a rendering of a widget (e.g., a dial or info box), use the <code>webshot2</code> package to take a capture of the widget and embed it as an image</li>
+<li>ggplot2 output can be included in the email</li>
+<li>Create nicely formatted tables with the <code>{gt}</code> package. (Just remember, no interactivity!)</li>
+<li>If you’d like to include a rendering of a widget (e.g., a dial or info box), use the <code>{webshot2}</code> package to take a capture of the widget and embed it as an image</li>
 <li>If your email recipient wants more information or interactivity, direct them to a report or dashboard deployed to Connect</li>
 </ul>
-</div>
-</section>
-<section id="section-2" class="level2 brackets-light">
-<h2 class="brackets-light anchored" data-anchor-id="section-2"></h2>
-<div class="section-title">
-<h3 class="anchored">
-<strong>Demo Time</strong>
-</h3>
-<p><a href="https://connect.conf23workflows.training.posit.co/connect/#/apps/da11710e-40c3-400c-a0c4-a8174bc9a563/info/35">conditional email example</a></p>
 </div>
 </section>
 <section id="other-alerting-approaches" class="level2 content2-light">

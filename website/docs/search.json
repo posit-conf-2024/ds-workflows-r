@@ -1264,7 +1264,7 @@
     "href": "slides/05_delivery.html#posit-connect-server-api-endpoints",
     "title": "Data Science Workflows with Posit Tools - R focus",
     "section": "Posit Connect Server API endpoints",
-    "text": "Posit Connect Server API endpoints\nMost endpoints require an API Key, and results will be scoped to the permissions of the key. \n\n\nHelpful to publishers:\n\nList/Update content\nGet content details\nSet environment variables\nChange permissions\nManage content tags\nManage content custom URL\n✨ Content usage ✨\n\n\nHelpful to admins:\n\n👈 all that\nAudit logs\nUser and group management\nJob management\n\n\n\nSee full documentation at https://docs.posit.co/connect/api/",
+    "text": "Posit Connect Server API endpoints\nMost endpoints require an API Key, and results will be scoped to the permissions of the key. \n\n\nHelpful to publishers:\n\nList/Update content\nGet content details\nSet environment variables\nChange permissions\nManage content tags\nManage content custom URL\n✨ Content usage ✨\n\n\nHelpful to admins:\n\n👈 all that\nAudit logs\nUser and group management\nJob management\n\n\n\nCookbook Recipes for common tasks: https://docs.posit.co/connect/cookbook Full documentation: https://docs.posit.co/connect/api/",
     "crumbs": [
       "About",
       "Slides",
@@ -1288,7 +1288,7 @@
     "href": "slides/05_delivery.html#accessing-the-connect-server-api",
     "title": "Data Science Workflows with Posit Tools - R focus",
     "section": "Accessing the Connect Server API",
-    "text": "Accessing the Connect Server API\n\nInteract remotely with the Connect Server API using HTTP requests directly via:\n\ncurl - Linux tool for making HTTP calls\nhttr - R HTTP library\nrequests - Python HTTP library\n\nOr use connectapi R package, which provides a wrapper around HTTP requests",
+    "text": "Accessing the Connect Server API\n\nPosit SDKs provide wrappers around curl and HTTP requests for easier interaction:\nconnectapi R package\nposit-sdk python package",
     "crumbs": [
       "About",
       "Slides",
@@ -1324,7 +1324,7 @@
     "href": "slides/03_data_validation_and_alerting.html#section-agenda",
     "title": "Data Science Workflows with Posit Tools - R focus",
     "section": "Section Agenda",
-    "text": "Section Agenda\n\nAd-hoc data exploration\nEnsure quality data is flowing through the pipeline\nGet alerts via automation",
+    "text": "Section Agenda\n\nAd-hoc data exploration\nEnsure quality data is flowing through the pipeline\nConditional alerts via automation",
     "crumbs": [
       "About",
       "Slides",
@@ -1468,7 +1468,7 @@
     "href": "slides/03_data_validation_and_alerting.html#section",
     "title": "Data Science Workflows with Posit Tools - R focus",
     "section": "",
-    "text": "Activity Time!\n\n\n\n\n\n\n\n\nActivity\n\n\n\n👉 Open the file materials/activities/activity-01_raw_data_exploration.qmd\nActivity objective: explore our Chicago Food Inspections data to get familiar with our data",
+    "text": "Activity Time!\n\n\n\n\n\n\n\n\nActivity\n\n\n\n👉 Activity objective: exploring our data\n\nOpen the project materials/02-data-exploration/02-data-exploration.Rproj\nOpen the file 02-data-exploration.qmd\nWe will work through all the tasks in the notebook",
     "crumbs": [
       "About",
       "Slides",
@@ -1552,7 +1552,7 @@
     "href": "slides/03_data_validation_and_alerting.html#be-aware",
     "title": "Data Science Workflows with Posit Tools - R focus",
     "section": "Be aware…",
-    "text": "Be aware…\n⚠️ Common mistakes when creating emails\n\nThere is no interactive runtime for an email\nJavascript-dependent content will generally not render when emailed – not due to a limitation of blastula, but as result of how email clients process HTML\n\n\n🧰 Best practices for embedding objects an email:\n\nggplot2 output can be included in the blastula email output directly\nCreate nicely formatted tables with the gt package. (Just remember, no interactivity!)\nIf you’d like to include a rendering of a widget (e.g., a dial or info box), use the webshot2 package to take a capture of the widget and embed it as an image\nIf your email recipient wants more information or interactivity, direct them to a report or dashboard deployed to Connect",
+    "text": "Be aware…\n⚠️ Common mistakes when creating emails\n\nThere is no interactive runtime for an email\nJavascript-dependent content will generally not render when emailed because of how email clients process HTML\n\n\n🧰 Best practices for embedding objects an email:\n\nggplot2 output can be included in the email\nCreate nicely formatted tables with the {gt} package. (Just remember, no interactivity!)\nIf you’d like to include a rendering of a widget (e.g., a dial or info box), use the {webshot2} package to take a capture of the widget and embed it as an image\nIf your email recipient wants more information or interactivity, direct them to a report or dashboard deployed to Connect",
     "crumbs": [
       "About",
       "Slides",
@@ -1564,7 +1564,7 @@
     "href": "slides/03_data_validation_and_alerting.html#section-1",
     "title": "Data Science Workflows with Posit Tools - R focus",
     "section": "",
-    "text": "Activity Time!\n\n\n\n\n\n\n\n\nActivity\n\n\n\n👉 Open the file materials/activities/activity-03_data_validation.qmd\nActivity objective: Use pointblank to validate data, remove non-compliant records, and document the data.",
+    "text": "Activity Time!\n\n\n\n\n\n\n\n\nActivity\n\n\n\n👉 Activity objective: Use pointblank to validate data, remove non-compliant records, and document the data.\n\nOpen the project materials/03-data-clean-validate/03-data-clean-validate.Rproj\nOpen the file 03-data-clean-validate.qmd\n🛑 We will work through Task 1 - Task 8 only",
     "crumbs": [
       "About",
       "Slides",
@@ -1779,7 +1779,7 @@
     "href": "slides/01_workshop_and_project_intro.html#logistics",
     "title": "Data Science Workflows with Posit Tools",
     "section": "Logistics",
-    "text": "Logistics\n\nTODO:\nUPDATE THIS\n\n🛜 WiFi credentials:\n\nNetwork: Posit Conf 2023\nPassword: conf2023\nImportant locations:\n\nBathrooms: There are gender-neutral bathrooms located are among the Grand Suite Bathrooms.\nMeditation/prayer room: Grand Suite 2A and Grand Suite 2B. Open Sunday - Tuesday 7:30 a.m. - 7:00 p.m., Wednesday 8:00 a.m. - 6:00 p.m.\nLactation room: located in Grand Suite 1. Open Sunday - Tuesday 7:30 a.m. - 7:00 p.m., Wednesday 8:00 a.m. - 6:00 p.m.",
+    "text": "Logistics\n🛜 WiFi credentials:\n\nNetwork: Posit Conf 2024\nPassword: conf2024\nImportant locations:\n\nBathrooms: There are gender-neutral bathroom on levels 3, 4, 5, 6 & 7.\nMeditation/prayer room: 503 (available Mon & Tues 7am - 7pm, and Wed 7am - 5pm)\nMothers room: 509 (same timings as above)",
     "crumbs": [
       "About",
       "Slides",
@@ -2667,7 +2667,7 @@
     "href": "slides/02_data_download_and_databases.html#section",
     "title": "Data Science Workflows with Posit Tools - R focus",
     "section": "",
-    "text": "Activity Time!\n\n\n\n\n\n\n\n\nActivity\n\n\n\n👉 Open the project materials/01-raw-data-write/01-raw-data-write.Rproj\nActivity objective: Download the vesselverbose data from the WSDOT API endpoint.\n🛑 Work through Task 1 - Task 3 only.",
+    "text": "Activity Time!\n\n\n\n\n\n\n\n\nActivity\n\n\n\n👉 Activity objective: Download the vesselverbose data from the WSDOT API endpoint.\n\nOpen the project materials/01-raw-data-write/01-raw-data-write.Rproj\nOpen the file 01-raw-data-write.qmd\n🛑 We will work through Task 1 - Task 3 only",
     "crumbs": [
       "About",
       "Slides",
@@ -2727,7 +2727,7 @@
     "href": "slides/02_data_download_and_databases.html#section-1",
     "title": "Data Science Workflows with Posit Tools - R focus",
     "section": "",
-    "text": "Activity Time!\n\n\n\n\n\n\n\n\nActivity\n\n\n\n👉 Return to the project materials/01-raw-data-write/01-raw-data-write.Rproj\nActivity objective: Write the vesselverbose data to the database.\n🛑 Work through Task 4 - Task 5 only.",
+    "text": "Activity Time!\n\n\n\n\n\n\n\n\nActivity\n\n\n\n👉 Activity objective: Write the vesselverbose data to the database.\n\nReturn to the file 01-raw-data-write.qmd\n🛑 We will work through Task 4 - Task 5 only",
     "crumbs": [
       "About",
       "Slides",
@@ -2763,7 +2763,7 @@
     "href": "slides/02_data_download_and_databases.html#introduction-to-emailing-with-and-connect",
     "title": "Data Science Workflows with Posit Tools - R focus",
     "section": "Introduction to Emailing with  and Connect",
-    "text": "Introduction to Emailing with  and Connect\n\n\n\n\n+\n\n\n\n=\n\n🧰 Customized, conditional emails",
+    "text": "Introduction to Emailing with  and Connect\nPosit Connect can send (or suppress) custom Quarto-generated emails when a report or notebook renders\n\n\n\n\n+\n\n\n\n=\n\n🧰 Customized, conditional emails",
     "crumbs": [
       "About",
       "Slides",
@@ -2811,7 +2811,7 @@
     "href": "slides/02_data_download_and_databases.html#section-2",
     "title": "Data Science Workflows with Posit Tools - R focus",
     "section": "",
-    "text": "Activity Time!\n\n\n\n\n\n\n\n\nActivity\n\n\n\n👉 Open the file materials/activities/activity-02_publish_and_schedule_data_pull.Rmd\nActivity objective: Write production data to database, then deploy and schedule this work on Posit Connect so it runs automatically.",
+    "text": "Activity Time!\n\n\n\n\n\n\n\n\nActivity\n\n\n\n👉 Activity objective: deploy and schedule this work on Posit Connect so it runs automatically and sends an email only if there’s something amiss with the raw data.\n\nReturn to the file 01-raw-data-write.qmd\n🛑 We will work Task 6 to the end of the document",
     "crumbs": [
       "About",
       "Slides",
@@ -2919,7 +2919,7 @@
     "href": "slides/03_data_validation_and_alerting.html#section-2",
     "title": "Data Science Workflows with Posit Tools - R focus",
     "section": "",
-    "text": "Demo Time\n\nconditional email example",
+    "text": "Activity Time!\n\n\n\n\n\n\n\n\nActivity\n\n\n\n👉 Activity objective: Change the CONDITION_OVERRIDE environment variable in .Renviron and see the output for Conditions 1, 2, and 3. Look in the email_preview folder for the email output after each rendering.\n\nReturn to the file 03-data-clean-validate.qmd\nWe will work through Task 9 to the end of the notebook",
     "crumbs": [
       "About",
       "Slides",
@@ -2984,6 +2984,54 @@
       "About",
       "Slides",
       "05 - Delivering Insights Effectively"
+    ]
+  },
+  {
+    "objectID": "slides/03_data_validation_and_alerting.html#conditional-emails-with-quarto",
+    "href": "slides/03_data_validation_and_alerting.html#conditional-emails-with-quarto",
+    "title": "Data Science Workflows with Posit Tools - R focus",
+    "section": "Conditional Emails with Quarto",
+    "text": "Conditional Emails with Quarto\nImage of the conditions we want to send.",
+    "crumbs": [
+      "About",
+      "Slides",
+      "03 - Data Validation and Alerting"
+    ]
+  },
+  {
+    "objectID": "slides/03_data_validation_and_alerting.html#the-secret-sauce-of-conditionality",
+    "href": "slides/03_data_validation_and_alerting.html#the-secret-sauce-of-conditionality",
+    "title": "Data Science Workflows with Posit Tools - R focus",
+    "section": "The Secret Sauce of Conditionality",
+    "text": "The Secret Sauce of Conditionality\n\n\n\n\nQuarto emails are defined by content divs\n\n\n\n\nQuarto emails are defined by content divs\nInclude conditional content divs with .content-visible when-meta=\n\n\n\n\nQuarto emails are defined by content divs\nInclude conditional content divs with .content-visible when-meta=\nSet the metadata by injecting YAML into the rendering. Quarto will interpret YAML blocks no matter where they appear in the document\n\n\n\n\n\n:::: {email}\n\nThis email was sent from Quarto! \n\n::: {subject}\nsubject\n:::\n\n::::\n\n\n\n\n::::: {email}\n\nThis email was sent using condition `r variant`\n\n:::: {.content-visible when-meta=\"is_email_variant_1\"}\nrest of email body 1\n\n::: {subject}\nsubject 1\n:::\n::::\n\n:::: {.content-visible when-meta=\"is_email_variant_2\"}\nrest email body 2 \n\n::: {subject}\nsubject 2\n:::\n::::\n\n:::::\n\n\n\n\n---\ntitle: Something wonderful\nformat: email\n---\n\n```{.r}\nvariant &lt;- sample(1:2, 1)\n```\n\n```{.r}\n#| output: asis\ncat(\n  \"---\",\n  paste0(\"is_email_variant_\",variant,\": true\"),\n  \"---\",\n  sep = \"\\n\"\n)\n```\n\nwrites the YAML metadata in-place:\n\n\n---\nis_email_variant_1: true\n---",
+    "crumbs": [
+      "About",
+      "Slides",
+      "03 - Data Validation and Alerting"
+    ]
+  },
+  {
+    "objectID": "slides/02_data_download_and_databases.html#a-brief-on-managing-environments",
+    "href": "slides/02_data_download_and_databases.html#a-brief-on-managing-environments",
+    "title": "Data Science Workflows with Posit Tools - R focus",
+    "section": "A brief  on managing environments",
+    "text": "A brief  on managing environments\n🧰 {config} can help you manage your development, test, and production environments without modifying your code\n\n\n\n\nconfig.yml\n\ndefault:\n  dataset: \"data_development.csv\"\n\nrsconnect:\n  dataset: \"data.csv\"\n\n\n\n\nmy_file.qmd\n\nread_csv(config::get(\"dataset\"))\n\n\n\n🧰 Similarly, update environment variables to change behavior in development and production\nif (Sys.getenv(\"TEST_MODE\") == TRUE){\n  override_some_variable_for_testing &lt;- TRUE}",
+    "crumbs": [
+      "About",
+      "Slides",
+      "02 - Data Exploration and Database Essentials"
+    ]
+  },
+  {
+    "objectID": "slides/02_data_download_and_databases.html#a-basic-quarto-email-with-conditional-send",
+    "href": "slides/02_data_download_and_databases.html#a-basic-quarto-email-with-conditional-send",
+    "title": "Data Science Workflows with Posit Tools - R focus",
+    "section": "A Basic Quarto Email with Conditional Send",
+    "text": "A Basic Quarto Email with Conditional Send\nOne Quarto document produces the rendered report and an optional email ✨\n\n\n\n\n\n\n🧰 Include a conditional value that expresses TRUE|FALSE within a div called ::: {email-scheduled} to send or suppress the email.",
+    "crumbs": [
+      "About",
+      "Slides",
+      "02 - Data Exploration and Database Essentials"
     ]
   }
 ]

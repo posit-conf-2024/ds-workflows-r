@@ -271,14 +271,12 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   <li><a href="#interacting-with-databases" id="toc-interacting-with-databases" class="nav-link" data-scroll-target="#interacting-with-databases">Interacting with Databases</a></li>
   <li><a href="#more-on-databases" id="toc-more-on-databases" class="nav-link" data-scroll-target="#more-on-databases">More on databases</a></li>
   <li><a href="#section-1" id="toc-section-1" class="nav-link" data-scroll-target="#section-1"></a></li>
+  <li><a href="#a-brief-on-managing-environments" id="toc-a-brief-on-managing-environments" class="nav-link" data-scroll-target="#a-brief-on-managing-environments">A brief <i class="bi-sign-turn-right-fill " style="color: orange;" role="img" aria-hidden="true"></i> on managing environments</a></li>
   <li><a href="#how-do-i-automate-this-process" id="toc-how-do-i-automate-this-process" class="nav-link" data-scroll-target="#how-do-i-automate-this-process">How do I automate this process?</a></li>
   <li><a href="#introduction-to-emailing-with-posit-connect" id="toc-introduction-to-emailing-with-posit-connect" class="nav-link" data-scroll-target="#introduction-to-emailing-with-posit-connect">Introduction to Emailing with Posit Connect</a></li>
   <li><a href="#introduction-to-emailing-with-and-connect" id="toc-introduction-to-emailing-with-and-connect" class="nav-link" data-scroll-target="#introduction-to-emailing-with-and-connect">Introduction to Emailing with <img src="slide_resources/quarto-logo-trademark.svg" class="img-fluid" style="vertical-align:middle" width="350"> and Connect</a></li>
-  <li><a href="#a-basic-quarto-email" id="toc-a-basic-quarto-email" class="nav-link" data-scroll-target="#a-basic-quarto-email">A Basic Quarto Email</a></li>
-  <li><a href="#our-first-exposure-to-conditionality" id="toc-our-first-exposure-to-conditionality" class="nav-link" data-scroll-target="#our-first-exposure-to-conditionality">Our First Exposure to Conditionality</a></li>
-  <li><a href="#project-example" id="toc-project-example" class="nav-link" data-scroll-target="#project-example">Project example</a></li>
+  <li><a href="#a-basic-quarto-email-with-conditional-send" id="toc-a-basic-quarto-email-with-conditional-send" class="nav-link" data-scroll-target="#a-basic-quarto-email-with-conditional-send">A Basic Quarto Email with <span class="positburg">Conditional Send</span></a></li>
   <li><a href="#section-2" id="toc-section-2" class="nav-link" data-scroll-target="#section-2"></a></li>
-  <li><a href="#section-3" id="toc-section-3" class="nav-link" data-scroll-target="#section-3"></a></li>
   </ul>
 <div class="quarto-alternate-formats"><h2>Other Formats</h2><ul><li><a href="02_data_download_and_databases.html"><i class="bi bi-file-slides"></i>RevealJS (positconfslides)</a></li></ul></div></nav>
     </div>
@@ -369,9 +367,12 @@ Activity
 </div>
 </div>
 <div class="callout-body-container callout-body">
-<p>👉 Open the project <code>materials/01-raw-data-write/01-raw-data-write.Rproj</code></p>
-<p>Activity objective: Download the <code>vesselverbose</code> data from the WSDOT API endpoint.</p>
-<p>🛑 Work through <strong>Task 1 - Task 3</strong> only.</p>
+<p>👉 Activity objective: Download the <code>vesselverbose</code> data from the WSDOT API endpoint.</p>
+<ul>
+<li>Open the project <code>materials/01-raw-data-write/01-raw-data-write.Rproj</code></li>
+<li>Open the file <code>01-raw-data-write.qmd</code></li>
+<li>🛑 We will work through <strong>Task 1 - Task 3</strong> only</li>
+</ul>
 </div>
 </div>
 </section>
@@ -465,16 +466,46 @@ Activity
 </div>
 </div>
 <div class="callout-body-container callout-body">
-<p>👉 Return to the project <code>materials/01-raw-data-write/01-raw-data-write.Rproj</code></p>
-<p>Activity objective: Write the <code>vesselverbose</code> data to the database.</p>
-<p>🛑 Work through <strong>Task 4 - Task 5</strong> only.</p>
+<p>👉 Activity objective: Write the <code>vesselverbose</code> data to the database.</p>
+<ul>
+<li>Return to the file <code>01-raw-data-write.qmd</code></li>
+<li>🛑 We will work through <strong>Task 4 - Task 5</strong> only</li>
+</ul>
 </div>
 </div>
+</section>
+<section id="a-brief-on-managing-environments" class="level2">
+<h2 class="anchored" data-anchor-id="a-brief-on-managing-environments">A brief <i class="bi-sign-turn-right-fill " style="color: orange;" role="img" aria-hidden="true"></i> on managing environments</h2>
+<p>🧰 <code>{config}</code> can help you manage your development, test, and production environments without modifying your code</p>
+<div class="columns">
+<div class="column">
+<div class="code-with-filename">
+<div class="code-with-filename-file">
+<pre><strong>config.yml</strong></pre>
+</div>
+<div class="sourceCode" id="cb4" data-filename="config.yml"><pre class="sourceCode yaml code-with-copy"><code class="sourceCode yaml"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="fu">default</span><span class="kw">:</span></span>
+<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a><span class="at">  </span><span class="fu">dataset</span><span class="kw">:</span><span class="at"> </span><span class="st">"data_development.csv"</span></span>
+<span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-4"><a href="#cb4-4" aria-hidden="true" tabindex="-1"></a><span class="fu">rsconnect</span><span class="kw">:</span></span>
+<span id="cb4-5"><a href="#cb4-5" aria-hidden="true" tabindex="-1"></a><span class="at">  </span><span class="fu">dataset</span><span class="kw">:</span><span class="at"> </span><span class="st">"data.csv"</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+</div><div class="column">
+<div class="code-with-filename">
+<div class="code-with-filename-file">
+<pre><strong>my_file.qmd</strong></pre>
+</div>
+<div class="sourceCode" id="cb5" data-filename="my_file.qmd"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="fu">read_csv</span>(config<span class="sc">::</span><span class="fu">get</span>(<span class="st">"dataset"</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+</div>
+</div>
+<p>🧰 Similarly, update environment variables to change behavior in development and production</p>
+<div class="sourceCode" id="cb6"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="cf">if</span> (<span class="fu">Sys.getenv</span>(<span class="st">"TEST_MODE"</span>) <span class="sc">==</span> <span class="cn">TRUE</span>){</span>
+<span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a>  override_some_variable_for_testing <span class="ot">&lt;-</span> <span class="cn">TRUE</span>} </span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </section>
 <section id="how-do-i-automate-this-process" class="level2">
 <h2 class="anchored" data-anchor-id="how-do-i-automate-this-process">How do I automate this process?</h2>
 <div class="fragment">
-<p>🧰 Deploy and schedule your ETL and reports on Posit Connect</p>
+<p>🧰 Deploy and schedule your ETL and reports on Posit Connect <br></p>
 <div class="quarto-figure quarto-figure-center">
 <figure class="figure">
 <p><img src="slide_resources/scheduling.png" class="quarto-figure quarto-figure-center figure-img" height="700"></p>
@@ -507,13 +538,14 @@ Activity
 </section>
 <section id="introduction-to-emailing-with-and-connect" class="level2">
 <h2 class="anchored" data-anchor-id="introduction-to-emailing-with-and-connect">Introduction to Emailing with <img src="slide_resources/quarto-logo-trademark.svg" class="img-fluid" style="vertical-align:middle" width="350"> and Connect</h2>
+<p>Posit Connect can send (or suppress) custom Quarto-generated emails when a report or notebook renders</p>
 <div class="columns">
 <div class="column" style="width:25%;">
 <p><img src="slide_resources/email_option.png" style="padding-left: 25px;" height="700"></p>
 </div><div class="column" style="width:10%;">
 <p><span class="largest middle">+</span></p>
 </div><div class="column" style="width:25%;">
-<p><img src="slide_resources/quarto-icon.svg" class="middle img-fluid" width="370"></p>
+<p><img src="slide_resources/qmd_email.png" class="middle img-fluid" width="370"></p>
 </div><div class="column" style="width:10%;">
 <p><span class="largest middle">=</span></p>
 </div><div class="column" style="width:30%;">
@@ -521,31 +553,16 @@ Activity
 </div>
 </div>
 </section>
-<section id="a-basic-quarto-email" class="level2">
-<h2 class="anchored" data-anchor-id="a-basic-quarto-email">A Basic Quarto Email</h2>
-<p>From one Quarto document, we produce the rendered report and an email ✨</p>
-<p><img src="slide_resources/quarto_email_intro.png" class="img-fluid"></p>
-</section>
-<section id="our-first-exposure-to-conditionality" class="level2">
-<h2 class="anchored" data-anchor-id="our-first-exposure-to-conditionality">Our First Exposure to Conditionality</h2>
-<div class="fragment center">
-<p><br></p>
-<p><img src="slide_resources/unread_email.png" class="img-fluid"></p>
+<section id="a-basic-quarto-email-with-conditional-send" class="level2">
+<h2 class="anchored" data-anchor-id="a-basic-quarto-email-with-conditional-send">A Basic Quarto Email with <span class="positburg">Conditional Send</span></h2>
+<p>One Quarto document produces the rendered report and an <span class="positburg">optional</span> email ✨</p>
+<div class="quarto-figure quarto-figure-right">
+<figure class="figure">
+<p><img src="slide_resources/quarto_email_intro.png" class="img-fluid quarto-figure quarto-figure-right figure-img"></p>
+</figure>
 </div>
-<div class="fragment center">
-<p>Please don’t send me an email unless it’s really necessary.</p>
-</div>
-</section>
-<section id="project-example" class="level2">
-<h2 class="anchored" data-anchor-id="project-example">Project example</h2>
-<div class="columns">
-<div class="column" style="width:50%;">
-<p>⚠️ There was a problem with the data download</p>
-<p><img src="slide_resources/custom_email_alert.png" class="img-fluid"></p>
-</div><div class="column" style="width:50%;">
-<p>✅ All looks great, here’s a relevant summary</p>
-<p><img src="slide_resources/custom_email.png" class="img-fluid"></p>
-</div>
+<div class="absolute smaller" data-bottom="20" data-left="20" width="900">
+<p>🧰 Include a conditional value that expresses <code>TRUE</code>|<code>FALSE</code> within a div called <code>::: {email-scheduled}</code> to send or suppress the email.</p>
 </div>
 </section>
 <section id="section-2" class="level2">
@@ -565,15 +582,12 @@ Activity
 </div>
 </div>
 <div class="callout-body-container callout-body">
-<p>👉 Open the file <code>materials/activities/activity-02_publish_and_schedule_data_pull.Rmd</code></p>
-<p>Activity objective: Write production data to database, then deploy and schedule this work on Posit Connect so it runs automatically.</p>
+<p>👉 Activity objective: deploy and schedule this work on Posit Connect so it runs automatically and sends an email only if there’s something amiss with the raw data.</p>
+<ul>
+<li>Return to the file <code>01-raw-data-write.qmd</code></li>
+<li>🛑 We will work <strong>Task 6 to the end of the document</strong></li>
+</ul>
 </div>
-</div>
-</section>
-<section id="section-3" class="level2 brackets-dark">
-<h2 class="brackets-dark anchored" data-anchor-id="section-3"></h2>
-<div class="section-title-dark">
-
 </div>
 
 
