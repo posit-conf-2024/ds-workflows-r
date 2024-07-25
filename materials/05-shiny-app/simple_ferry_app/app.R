@@ -1,6 +1,7 @@
 library(shiny)
 library(bslib)
 library(jsonlite)
+library(tibble)
 
 ## Define UI ------------------------
 ui <- page_sidebar(
