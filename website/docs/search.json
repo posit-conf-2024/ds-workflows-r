@@ -2451,7 +2451,7 @@
     "href": "slides/04_tidymodels_and_vetiver.html#introduction-to-tidymodels-3",
     "title": "Data Science Workflows with Posit Tools - R focus",
     "section": "Introduction to Tidymodels",
-    "text": "Introduction to Tidymodels\n  \n\n\nActivity Time!\n\n\n\n\n\n\n\n\nActivity\n\n\n\n👉 Open the file materials/04-tidymodels-vetiver/04-idymodels-vetiver.qmd\nComplete Task 1 only!\n\n\n\n\n\n\n\n\nGoal\n\n\n\nBuild a model using tidymodels.",
+    "text": "Introduction to Tidymodels\n  \n\n\nActivity Time!\n\n\n\n\n\n\n\n\nActivity\n\n\n\n👉 Open the file materials/04-tidymodels-vetiver/04-idymodels-vetiver.qmd\nComplete Tasks 0 & 1 only!\n\n\n\n\n\n\n\n\nGoal\n\n\n\nBuild a model using tidymodels.",
     "crumbs": [
       "About",
       "Slides",
