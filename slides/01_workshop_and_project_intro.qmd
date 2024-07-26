@@ -292,6 +292,8 @@ Get Your Environment Set Up
 -   Connect: <https://pub.ferryland.ptd.posit.co>
 -   Package Manager: <https://pkg.ferryland.ptd.posit.co>
 
+![](slide_resources/ferryland_landing.png)
+
 ## Connect Setup // Step 1
 
 Visit: <https://pub.ferryland.ptd.posit.co>
