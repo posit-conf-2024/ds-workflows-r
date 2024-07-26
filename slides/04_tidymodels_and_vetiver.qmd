@@ -161,7 +161,7 @@ model_fit <- parsnip::fit(model_wflow, your-data)
 
 👉 Open the file `materials/04-tidymodels-vetiver/04-idymodels-vetiver.qmd`
 
-**Complete Task 1 only!**
+**Complete Tasks 0 & 1 only!**
 :::
 
 ::: callout-important
