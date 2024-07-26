@@ -2031,7 +2031,7 @@
     "href": "slides/01_workshop_and_project_intro.html#connect-setup-step-1",
     "title": "Data Science Workflows with Posit Tools",
     "section": "Connect Setup // Step 1",
-    "text": "Connect Setup // Step 1\nVisit: https://pub.ferryland.ptd.posit.co\n\n\n\n\n\n\n\n\n\nUse any email you have access to (personal is preferred to avoid corporate spam filters)\nSet your username as firstname.lastname\nChoose any password",
+    "text": "Connect Setup // Step 1\nVisit: https://pub.ferryland.ptd.posit.co\n\n\n\n\n\n\n\n\nMake sure you have a GitHub account!",
     "crumbs": [
       "About",
       "Slides",
@@ -2043,7 +2043,7 @@
     "href": "slides/01_workshop_and_project_intro.html#connect-setup-step-2",
     "title": "Data Science Workflows with Posit Tools",
     "section": "Connect Setup // Step 2",
-    "text": "Connect Setup // Step 2\n\n\nCheck your email for a confirmation email.\nIt will likely be in your spam folder.\nThe email will be from conf23workflows@training.rstudio.com",
+    "text": "Connect Setup // Step 2",
     "crumbs": [
       "About",
       "Slides",
@@ -2055,7 +2055,7 @@
     "href": "slides/01_workshop_and_project_intro.html#workbench-setup-step-1",
     "title": "Data Science Workflows with Posit Tools",
     "section": "Workbench Setup // Step 1",
-    "text": "Workbench Setup // Step 1\nVisit: https://dev.ferryland.ptd.posit.co\n\n\n\nYour account has already been created!\nLog in with username as firstname.lastname. For example:\n\nName: Ryan Johnson\nUsername: ryan.johnson\n\nPassword = password",
+    "text": "Workbench Setup // Step 1\nVisit: https://dev.ferryland.ptd.posit.co\nYou do NOT need to re-authenticate with GitHub!",
     "crumbs": [
       "About",
       "Slides",
@@ -2079,7 +2079,7 @@
     "href": "slides/01_workshop_and_project_intro.html#workbench-setup-step-2",
     "title": "Data Science Workflows with Posit Tools",
     "section": "Workbench Setup // Step 2",
-    "text": "Workbench Setup // Step 2\n\n\n\nClick New Session\nStart a RStudio Pro session\nNavigate to the folder ds-workflows-r\nOpen the ds-workflows-r.Rproj project",
+    "text": "Workbench Setup // Step 2\n\n\n\nClick New Session\nStart a RStudio Pro session\nCreate a new project from a version control repository\nSelect Git\nAdd the workshops GitHub Repo URL –&gt; https://github.com/posit-conf-2024/ds-workflows-r.git\nCall the project directory ds-workflows-r\nLeave everything else as default. Select Create Project.",
     "crumbs": [
       "About",
       "Slides",
@@ -3032,6 +3032,18 @@
       "About",
       "Slides",
       "02 - Data Exploration and Database Essentials"
+    ]
+  },
+  {
+    "objectID": "slides/01_workshop_and_project_intro.html#workbench-setup-step-2-1",
+    "href": "slides/01_workshop_and_project_intro.html#workbench-setup-step-2-1",
+    "title": "Data Science Workflows with Posit Tools",
+    "section": "Workbench Setup // Step 2",
+    "text": "Workbench Setup // Step 2",
+    "crumbs": [
+      "About",
+      "Slides",
+      "01 - Workshop and Project Intro"
     ]
   }
 ]

@@ -184,7 +184,7 @@ help(function_name_here)
 ⛴️ Ready to set sail? 🌊
 :::
 
-![](slide_resources/wenatchee.png){.absolute bottom=200 left=-1100 width="1000"}
+![](slide_resources/wenatchee.png){.absolute bottom="200" left="-1100" width="1000"}
 
 ##  {background-image="_extensions/positconfslides/assets/backgrounds/brackets-dark-teal.svg" background-size="contain" auto-animate="true" auto-animate-duration="4"}
 
@@ -192,8 +192,7 @@ help(function_name_here)
 ⛴️ Ready to set sail? 🌊
 :::
 
-![](slide_resources/wenatchee.png){.absolute bottom=200 right=-1100 width="1000"}
-
+![](slide_resources/wenatchee.png){.absolute bottom="200" right="-1100" width="1000"}
 
 ## Washington State Ferry Depature Delays Project
 
@@ -239,7 +238,7 @@ This workshop will use data from two primary data sources:
 <br> ⛴︎ Ferry data (<https://wsdot.wa.gov/traffic/api/>)
 
 | Data Set | Description | API |
-|-----------------|-------------------|------------------------------------|
+|-------------------|-------------------|----------------------------------|
 | **Vessel verbose** | Details about each ferry in the fleet, including name, model, and capacity | `https://www.wsdot.wa.gov/ferries/api/ vessels/rest/vesselverbose? apiaccesscode={WSDOT_ACCESS_CODE}` |
 | **Vessel history** | Historical sailings, including scheduled actual departure time | `https://www.wsdot.wa.gov/ferries/api/ vessels/rest/vesselhistory/ {VESSELNAME}/{DATESTART}/{DATEEND}? apiaccesscode={WSDOT_ACCESS_CODE}` |
 | **Terminal locations** | Terminal names and locations, including latitude and longitude | `https://www.wsdot.wa.gov/ferries/ api/terminals/rest/terminallocations? apiaccesscode={WSDOT_ACCESS_CODE}` |
@@ -253,7 +252,7 @@ This workshop will use data from two primary data sources:
 <br> 🌤️ Weather data (<https://open-meteo.com/en/docs/historical-weather-api/>)
 
 | Endpoint | Description | API |
-|------------------|--------------------------------|----------------------|
+|-------------------|-------------------------------|----------------------|
 | **Historical weather** | Historical hourly weather at a specified latitude and longitude over a date range | `https://archive-api.open-meteo.com/v1/ archive?{params}` |
 
 : {tbl-colwidths="\[20,35,65\]"}
@@ -309,40 +308,34 @@ Visit: <https://pub.ferryland.ptd.posit.co>
 :::::
 
 ::: smaller
--   Use any email you have access to (personal is preferred to avoid corporate spam filters)
--   Set your username as `firstname.lastname`
--   Choose any password
+Make sure you have a GitHub account!
 :::
 
 ## Connect Setup // Step 2
 
-![](slide_resources/connect_sign_up_email.png)
+:::::: columns
+::: {.column width="33%"}
+![](slide_resources/connect_sign_up_3.png){height="650"}
+:::
 
--   Check your email for a confirmation email.
--   It will likely be in your [**spam folder**.]{.positgreen}
--   The email will be from [**conf23workflows\@training.rstudio.com**]{.positgreen}
+::: {.column width="33%"}
+![](slide_resources/connect_sign_up_4.png){height="650"}
+:::
+
+::: {.column width="33%"}
+![](slide_resources/connect_sign_up_5.png){height="650"}
+:::
+::::::
 
 ## Workbench Setup // Step 1
 
 Visit: <https://dev.ferryland.ptd.posit.co>
 
-::::: columns
-::: {.column width="50%"}
--   Your account has already been created!
--   Log in with username as `firstname.lastname`. <br><br>For example:
-    -   Name: `Ryan Johnson`
-    -   Username: `ryan.johnson`
--   Password = `password`
-:::
+You do **NOT** need to re-authenticate with GitHub!
 
-::: {.column width="50%"}
-![](slide_resources/workbench_login.png){width="100%"}
-:::
-:::::
+![](slide_resources/workbench_login_1.png){fig-align="center" width="466"}
 
-## Workbench Setup // Step 1
-
-Your account has already been created!
+![](slide_resources/workbench_login_2.png)
 
 ## Workbench Setup // Step 2
 
@@ -350,16 +343,20 @@ Your account has already been created!
 ::: {.column .smaller width="50%"}
 1.  Click `New Session`
 2.  Start a RStudio Pro session
-3.  Navigate to the folder `ds-workflows-r`
-4.  Open the `ds-workflows-r.Rproj` project
-
-![](slide_resources/workbench_openproject.png){fig-align="center"}
+3.  Create a new project from a version control repository
+4.  Select **Git**
+5.  Add the workshops GitHub Repo URL –\> <https://github.com/posit-conf-2024/ds-workflows-r.git>
+6.  Call the project directory `ds-workflows-r`
+7.  Leave everything else as default. Select `Create Project`.
 :::
 
 ::: {.column width="50%"}
-![](slide_resources/workbench_newsession.png){fig-align="center"}
+![](slide_resources/workbench_newproject.png){fig-align="center"}
 :::
 :::::
+
+## Workbench Setup // Step 2
+![](slide_resources/workbench_rstudio_home.png)
 
 ## Project Navigation
 
