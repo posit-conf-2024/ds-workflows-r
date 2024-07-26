@@ -4,7 +4,11 @@
     "Repositories": [
       {
         "Name": "CRAN",
-        "URL": "https://p3m.dev/cran/latest"
+        "URL": "https://pkg.ferryland.posit.team/cran/latest"
+      },
+      {
+        "Name": "INTERNAL",
+        "URL": "https://pkg.ferryland.posit.team/internal/latest"
       }
     ]
   },
