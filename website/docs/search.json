@@ -3045,5 +3045,17 @@
       "Slides",
       "01 - Workshop and Project Intro"
     ]
+  },
+  {
+    "objectID": "slides/05_delivery.html#git-backed-deployment",
+    "href": "slides/05_delivery.html#git-backed-deployment",
+    "title": "Data Science Workflows with Posit Tools - R focus",
+    "section": "Git-Backed Deployment",
+    "text": "Git-Backed Deployment\n🤔 What happens when you need to make a change to the Shiny Application?\n\n\nWhat if we deployed directly from the GitHub Repo?\n\n\n\nAdvantages:\n\nGreat for collaborative work.\nConnect automatically detects changes in repo and rebuilds content.\n📣 All production content should be deployed using Git Backed Deployment!\n\n\n\n\n\n\n\n\n\nShow and Tell\n\n\n\nLet’s show you how to deploy a Shiny App (our simple Ferry app) to Posit Connect using Git Backed Deployment.",
+    "crumbs": [
+      "About",
+      "Slides",
+      "05 - Delivering Insights Effectively"
+    ]
   }
 ]

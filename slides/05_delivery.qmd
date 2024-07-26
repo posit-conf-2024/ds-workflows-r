@@ -123,43 +123,69 @@ Run the app and get a taste for how Shiny can generative reactive API queries.
 Our Shiny application does a bit more:
 
 ::: incremental
-1. Read in ferry weather data from database.
-2. Extract ferry station information from `ferryfairy` package.
-3. Take in user inputs.
-4. Make API queries.
-5. Display API response.
-6. Display a map.
-7. Show average delay times.
+1.  Read in ferry weather data from database.
+2.  Extract ferry station information from `ferryfairy` package.
+3.  Take in user inputs.
+4.  Make API queries.
+5.  Display API response.
+6.  Display a map.
+7.  Show average delay times.
 :::
 
 ## Putting the Pieces Together
 
 Our Shiny application does a bit more:
 
-1. Read in ferry weather data from database.
-2. Extract ferry station information from `ferryfairy` package.
-3. Take in user inputs.
-4. **Make API queries.**
-5. Display API response.
-6. Display a map.
-7. Show average delay times.
+1.  Read in ferry weather data from database.
+2.  Extract ferry station information from `ferryfairy` package.
+3.  Take in user inputs.
+4.  **Make API queries.**
+5.  Display API response.
+6.  Display a map.
+7.  Show average delay times.
 
 ## Activity
 
 ::: {.callout-note icon="false"}
 ## Activity
 
-👉 Open the file `materials/05-shiny-app/ferry_delay_app/app.R
-
+👉 Open the file \`materials/05-shiny-app/ferry_delay_app/app.R
 :::
 
 ::: callout-important
 ## Goals
 
-1. Supply your API URL to the Shiny App.
-2. Deploy to Posit Connect!
+1.  Supply your API URL to the Shiny App.
+2.  Deploy to Posit Connect!
 :::
 
+## Git-Backed Deployment
+
+🤔 What happens when you need to make a change to the Shiny Application?
+
+<br>
+
+::: fragment
+What if we deployed directly from the GitHub Repo?
+:::
+
+<br>
+
+::: fragment
+**Advantages:**
+
+1.  Great for collaborative work.
+2.  Connect automatically detects changes in repo and rebuilds content.
+3.  📣 All production content should be deployed using Git Backed Deployment!
+:::
+
+:::: fragment
+::: callout-note
+## Show and Tell
+
+Let's show you how to deploy a Shiny App (our simple Ferry app) to Posit Connect using Git Backed Deployment.
+:::
+::::
 
 ## Shiny on Connect
 
@@ -329,8 +355,7 @@ Content returned by `connectwidgets::content` will be scoped to the API key prov
 :::
 :::::
 
-Cookbook Recipes for common tasks: <https://docs.posit.co/connect/cookbook><br>
-Full documentation: <https://docs.posit.co/connect/api/>
+Cookbook Recipes for common tasks: <https://docs.posit.co/connect/cookbook><br> Full documentation: <https://docs.posit.co/connect/api/>
 
 ## Example Content Usage Report
 
@@ -360,9 +385,7 @@ app_usage <- get_usage_shiny(
 ## Accessing the Connect Server API
 
 -   Posit SDKs provide wrappers around `curl` and HTTP requests for easier interaction:
-  - [`connectapi`](https://pkgs.rstudio.com/connectapi/) R package
-  - [`posit-sdk`]() python package
-  
+-   [`connectapi`](https://pkgs.rstudio.com/connectapi/) R package
+-   [`posit-sdk`]() python package
+
 ![](https://pkgs.rstudio.com/connectapi/reference/figures/logo.svg){.absolute top="590" left="260" width="220"}
-
-
