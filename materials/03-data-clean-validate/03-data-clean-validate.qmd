@@ -616,7 +616,7 @@ start_time <- Sys.time()
 
 DBI::dbWriteTable(conn = con, # the connection
                   name = my_df_name, # the name of the table you will create in the DB
-                  value = vesselinfo_raw,
+                  value = modeldata_validated,
                   overwrite = TRUE)
 
 # Insert end time stamp
