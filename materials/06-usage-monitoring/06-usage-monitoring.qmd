@@ -24,8 +24,7 @@ library(plotly)
 content_guid <- "ff227974-007f-457e-95a1-59066cf62417"
 
 # 2. Specify timeframe for the report. Default is 30 days prior to today
-# add 1 to "today" so it is inclusive of all activity on this date
-as_of_date <- lubridate::today() + 1
+as_of_date <- lubridate::now()
 days_back <- 30
 
 # 3. Specify if the summary should show only the Top N users for the content (e.g., `top_n = 10`). Default is `Inf` so that all users are shown.
