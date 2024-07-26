@@ -285,17 +285,17 @@ Get Your Environment Set Up
 
 ## Access Your Tools {.content-light}
 
-[Visit 🧚 <https://ferryland.ptd.posit.co> 🧚 to access:]{.large}
+[Visit 🧚 <https://ferryland.posit.team> 🧚 to access:]{.large}
 
--   Workbench: <https://dev.ferryland.ptd.posit.co>
--   Connect: <https://pub.ferryland.ptd.posit.co>
--   Package Manager: <https://pkg.ferryland.ptd.posit.co>
+-   Workbench: <https://dev.ferryland.posit.team>
+-   Connect: <https://pub.ferryland.posit.team>
+-   Package Manager: <https://pkg.ferryland.posit.team>
 
 ![](slide_resources/ferryland_landing.png)
 
 ## Connect Setup // Step 1
 
-Visit: <https://pub.ferryland.ptd.posit.co>
+Visit: <https://pub.ferryland.posit.team>
 
 ::::: columns
 ::: {.column width="60%"}
@@ -329,7 +329,7 @@ Make sure you have a GitHub account!
 
 ## Workbench Setup // Step 1
 
-Visit: <https://dev.ferryland.ptd.posit.co>
+Visit: <https://dev.ferryland.posit.team>
 
 You do **NOT** need to re-authenticate with GitHub!
 
