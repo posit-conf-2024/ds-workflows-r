@@ -82,7 +82,7 @@ https://posit.co/code-of-conduct/
 ## Agenda
 
 | Time | Activity |
-|:-------------------------|:---------------------------------------------|
+|:---|:---|
 | \~9:00 - 10:30 | Workshop Introduction <br> Reading, Cleaning, Writing and Validating Data |
 | 10:30 - 11:00 | *Coffee break* ☕ |
 | \~11:00 - 12:30 | Creating, Delivering, and Monitoring a model using Vetiver |
@@ -121,7 +121,7 @@ We will use an [**end-to-end real-world project**]{.positgreen} to demonstrate w
 <h2><br> Conventions</h2>
 
 |  |  |
-|----------------------------|--------------------------------------------|
+|----|----|
 | 🧰 | Add this to your toolbox. |
 | 📣 | I will stand on my soapbox and profess this until I am blue in the face. |
 | {{< bi sign-turn-right-fill color=orange >}} | Detour warning. We could get really into this, but there's not time today. |
@@ -221,7 +221,7 @@ Can we predict departure delay for a given route and date?
 ::: {.callout-tip icon="false"}
 ## Our Approach
 
-Use the historical (validated) delay, location, and weather data to create a model that will predict the likelihood and duration of delays!
+Use the historical (validated) delay, location, and weather data to create a model that will predict the likelihood of delays!
 :::
 
 ## Project Data {.content-light}
@@ -238,7 +238,7 @@ This workshop will use data from two primary data sources:
 <br> ⛴︎ Ferry data (<https://wsdot.wa.gov/traffic/api/>)
 
 | Data Set | Description | API |
-|-------------------|-------------------|----------------------------------|
+|----|----|----|
 | **Vessel verbose** | Details about each ferry in the fleet, including name, model, and capacity | `https://www.wsdot.wa.gov/ferries/api/ vessels/rest/vesselverbose? apiaccesscode={WSDOT_ACCESS_CODE}` |
 | **Vessel history** | Historical sailings, including scheduled actual departure time | `https://www.wsdot.wa.gov/ferries/api/ vessels/rest/vesselhistory/ {VESSELNAME}/{DATESTART}/{DATEEND}? apiaccesscode={WSDOT_ACCESS_CODE}` |
 | **Terminal locations** | Terminal names and locations, including latitude and longitude | `https://www.wsdot.wa.gov/ferries/ api/terminals/rest/terminallocations? apiaccesscode={WSDOT_ACCESS_CODE}` |
@@ -252,7 +252,7 @@ This workshop will use data from two primary data sources:
 <br> 🌤️ Weather data (<https://open-meteo.com/en/docs/historical-weather-api/>)
 
 | Endpoint | Description | API |
-|-------------------|-------------------------------|----------------------|
+|----|----|----|
 | **Historical weather** | Historical hourly weather at a specified latitude and longitude over a date range | `https://archive-api.open-meteo.com/v1/ archive?{params}` |
 
 : {tbl-colwidths="\[20,35,65\]"}
@@ -260,7 +260,7 @@ This workshop will use data from two primary data sources:
 
 ## Project Objective
 
--   Provide users with a self-service tool that predicts the likelihood and duration of a ferry departure delay.
+-   Provide ~~users~~ **travelers** with a self-service tool that predicts the likelihood of a ferry departure delay.
 
 <h2><br>Project Requirements</h2>
 
@@ -356,6 +356,7 @@ You do **NOT** need to re-authenticate with GitHub!
 :::::
 
 ## Workbench Setup // Step 2
+
 ![](slide_resources/workbench_rstudio_home.png)
 
 ## Project Navigation
