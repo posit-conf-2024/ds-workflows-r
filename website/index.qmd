@@ -34,6 +34,18 @@ In this R-focused workshop, we will discuss ways to improve your data science wo
   - [05 - Delivering Insights Effectively](slides/05_delivery.html)
   - [06 - Managing Environments](slides/06_managing_environments.html)
   
+## Schedule
+
+| **Time**          | **Activity**                                                |
+|-------------------|-------------------------------------------------------------|
+| **9:00 - 10:30**  | Workshop Introduction                                       |
+|                   | Reading, Cleaning, Writing and Validating Data              |
+| **10:30 - 11:00** | *Coffee break*                                              |
+| **11:00 - 12:30** | Creating, Delivering, and Monitoring a Tidymodel            |
+| **12:30 - 1:30**  | *Lunch Break*                                               |
+| **1:30-3:00**     | Reporting                                                   |
+| **3:00-3:30**     | *Coffee break*                                              |
+| **3:30-5:00**     | Advancing your Workflow                                     |
 
 ## Resources
 

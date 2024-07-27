@@ -50,6 +50,13 @@
     "text": "Materials\n\nWorkshop materials for the Washington State Ferries project are available at: https://github.com/posit-conf-2024/ds-workflows-r\nSlides used during the workshop are organized by section:\n\n01 - Workshop and Project Introduction\n02 - Data Retrieval and Database Essentials\n03 - Data Validation and Alerting\n04 - Modeling and MLOps\n05 - Delivering Insights Effectively\n06 - Managing Environments"
   },
   {
+    "objectID": "index.html#schedule",
+    "href": "index.html#schedule",
+    "title": "Data Science Workflows with Posit Tools - R focus",
+    "section": "Schedule",
+    "text": "Schedule\n\n\n\n\n\n\n\nTime\nActivity\n\n\n\n\n9:00 - 10:30\nWorkshop Introduction\n\n\n\nReading, Cleaning, Writing and Validating Data\n\n\n10:30 - 11:00\nCoffee break\n\n\n11:00 - 12:30\nCreating, Delivering, and Monitoring a Tidymodel\n\n\n12:30 - 1:30\nLunch Break\n\n\n1:30-3:00\nReporting\n\n\n3:00-3:30\nCoffee break\n\n\n3:30-5:00\nAdvancing your Workflow"
+  },
+  {
     "objectID": "index.html#resources",
     "href": "index.html#resources",
     "title": "Data Science Workflows with Posit Tools - R focus",
