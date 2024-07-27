@@ -220,9 +220,9 @@ Ref:
 
 ## Recap of Resources
 
-<https://katie.quarto.pub/ds-workflows-r/resources.html>
+<https://posit-conf-2024.github.io/ds-workflows-r/resources.html>
 
-<iframe src="https://katie.quarto.pub/ds-workflows-r/resources.html" width=900 height =650></iframe>
+<iframe src="https://posit-conf-2024.github.io/ds-workflows-r/resources.html" width=900 height =650></iframe>
 
 
 ## Now what?
