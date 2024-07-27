@@ -8,22 +8,32 @@ format:
 These are the materials for a one-day workshop on <b>Building Data Science Workflows in R Using Posit Tools</b> on Monday, 12 August 2024 at [posit::conf 2024](http://pos.it/conf)!
 
 In this R-focused workshop, we will discuss ways to improve your data science workflows. During the course, we will review packages for data validation, alerting, modeling, and more. We’ll use Posit’s open source and professional tools to string all the pieces together for an efficient workflow. We’ll discuss environments, managing deployed content, working with databases, and interoperability across data products.
- 
-For additional details see [About](/about.html)
+
+## Prework
+
+- [ ] Bring your laptop
+- [ ] Sign up for a GitHub account (Click [here](https://github.com/join) to create one if you do not already have one). **You will not be able to access our training environment without a valid GitHub account**
+- [ ] Get an Access Code for the <https://wsdot.wa.gov/traffic/api/> API. We will be working with this data source throughout the workshop. Make sure to save your access code!
+
+<details>
+<summary>Expand to see screenshot of how to get the access code.</summary>
+
+![Get the access code for the wsdot API](images/wsdot-access-token.png)
+
+</details>
 
 ## Materials
 
 - Workshop materials for the Washington State Ferries project are available at:  <https://github.com/posit-conf-2024/ds-workflows-r>
 
 - Slides used during the workshop are organized by section: 
-  - [01 - Workshop and Project Introduction](../slides/01_workshop_and_project_intro.html)
-  - [02 - Data Retrieval and Database Essentials](../slides/02_data_download_and_databases.html)
-  - [03 - Data Validation and Alerting](../slides/03_data_validation_and_alerting.html)
-  - [04 - Modeling and MLOps](../slides/04_tidymodels_and_vetiver.html)
-  - [05 - Delivering Insights Effectively](../slides/05_delivery.html)
-  - [06 - Managing Environments](../slides/06_managing_environments.html)
+  - [01 - Workshop and Project Introduction](slides/01_workshop_and_project_intro.html)
+  - [02 - Data Retrieval and Database Essentials](slides/02_data_download_and_databases.html)
+  - [03 - Data Validation and Alerting](slides/03_data_validation_and_alerting.html)
+  - [04 - Modeling and MLOps](slides/04_tidymodels_and_vetiver.html)
+  - [05 - Delivering Insights Effectively](slides/05_delivery.html)
+  - [06 - Managing Environments](slides/06_managing_environments.html)
   
-
 
 ## Resources
 

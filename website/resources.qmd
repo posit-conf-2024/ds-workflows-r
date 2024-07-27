@@ -30,10 +30,9 @@ We cover a lot of ground in this workshop. Below is a summary of the packages an
 - Pointblank [data dictionary](https://rstudio.github.io/pointblank/reference/incorporate.html) (a.k.a. the informant)
 - Monitor data quality over time with the pointblank [`multiagent`](https://rstudio.github.io/pointblank/reference/create_multiagent.html)
 
-### Conditional Alerting 
-<!-- TODO: update this with quarto -->
-- [`blastula`](https://pkgs.rstudio.com/blastula/)
-- [Email customization](https://pkgs.rstudio.com/blastula/) from the Connect User Guide
+### Conditional Alerting
+- [Email customization with Quarto](https://docs.posit.co/connect/user/quarto/#email-customization) from the Connect User Guide
+- [Conditional content in Quarto](https://quarto.org/docs/authoring/conditional.html#matching-against-metadata)
 
 ### Modeling and MLOps
 
