@@ -10,7 +10,7 @@
 <link href="../site_libs/quarto-html/quarto-syntax-highlighting.css" rel="stylesheet" id="quarto-text-highlighting-styles">
 <script src="../site_libs/quarto-contrib/posit_slides/posit-slides.js"></script>
 <link href="../site_libs/quarto-contrib/bootstrap-icons-1.9.1/all.css" rel="stylesheet"><meta charset="utf-8">
-  <meta name="generator" content="quarto-1.5.53">
+  <meta name="generator" content="quarto-1.5.40">
 
   <title>Data Science Workflows with Posit Tools - R focus – delivery</title>
   <meta name="apple-mobile-web-app-capable" content="yes">
@@ -400,7 +400,8 @@
 <div class="column" style="width:100%;">
 <h2>Effective Delivery of Insights</h2>
 <p><img data-src="https://github.com/rstudio/hex-stickers/blob/main/PNG/shiny.png?raw=true" class="absolute" style="top: 170px; left: 180px; width: 260px; "> <img data-src="https://pkgs.rstudio.com/connectapi/reference/figures/logo.svg" class="absolute" style="top: 395px; left: 50px; width: 260px; "> <img data-src="https://rstudio.github.io/connectwidgets/reference/figures/logo.png" class="absolute" style="top: 395px; left: 310px; width: 260px; "></p>
-</div></div>
+</div>
+</div>
 </section>
 <section class="slide level2">
 <h2>Review</h2>
@@ -417,7 +418,8 @@
 <li>Principles of Shiny in production</li>
 <li>Managing and monitoring production content</li>
 </ul>
-</div></div>
+</div>
+</div>
 </section>
 <section class="slide level2">
 <h2>Let’s talk Shiny</h2>
@@ -434,7 +436,8 @@
 <p><img data-src="slide_resources/francesco-ZxNKxnR32Ng-unsplash.jpg"></p>
 <p><span class="smallest">Photo by <a href="https://unsplash.com/@detpho?utm_source=unsplash&amp;utm_medium=referral&amp;utm_content=creditCopyText">Francesco</a> on <a href="https://unsplash.com/photos/ZxNKxnR32Ng?utm_source=unsplash&amp;utm_medium=referral&amp;utm_content=creditCopyText">Unsplash</a></span></p>
 </div>
-</div></div>
+</div>
+</div>
 </section>
 <section class="slide level2">
 <h2>🧰 Shiny resources</h2>
@@ -484,7 +487,8 @@
 </ul></li>
 </ul>
 </div>
-</div><div class="column" style="width:50%;">
+</div>
+<div class="column" style="width:50%;">
 <div style="background: #F6F6F6; width: 600px; height: 400px; margin: 20px; padding: 20px; box-shadow: 0 18px 18px -9px lightgray; margin-left: auto; margin-right: auto;">
 <p>🧰 References:</p>
 <ul>
@@ -492,7 +496,8 @@
 <li><a href="https://mastering-shiny.org/performance.html">Mastering Shiny, Performance</a> chapter</li>
 </ul>
 </div>
-</div></div>
+</div>
+</div>
 </div>
 </section>
 <section class="slide level2">
@@ -635,7 +640,8 @@
 <p><strong>Load factor</strong> — Much like <em>min processes</em>, how early do you want to start a new process for that <strong>n + 1</strong> connection?</p>
 </div>
 </div>
-</div></div>
+</div>
+</div>
 </section>
 <section class="slide level2">
 <h2>Posit Connect</h2>
@@ -687,7 +693,8 @@
 <li class="fragment">How will I know if people are consuming my content?</li>
 </ul>
 </div>
-</div></div>
+</div>
+</div>
 </section>
 <section class="slide level2">
 <h2>How can I organize this content so stakeholders can find it?</h2>
@@ -791,8 +798,20 @@
 <li>User and group management</li>
 <li>Job management</li>
 </ul>
-</div></div>
-<p>Cookbook Recipes for common tasks: <a href="https://docs.posit.co/connect/cookbook" class="uri">https://docs.posit.co/connect/cookbook</a><br> Full documentation: <a href="https://docs.posit.co/connect/api/" class="uri">https://docs.posit.co/connect/api/</a></p>
+</div>
+</div>
+<p><br> Full documentation: <a href="https://docs.posit.co/connect/api/" class="uri">https://docs.posit.co/connect/api/</a></p>
+</section>
+<section class="slide level2">
+<h2>Accessing the Connect Server API</h2>
+<ul>
+<li>Posit SDKs provide wrappers around <code>curl</code> and HTTP requests for easier interaction:
+<ul>
+<li><a href="https://pkgs.rstudio.com/connectapi/"><code>{connectapi}</code></a> R package</li>
+<li><a href=""><code>{posit-sdk}</code></a> python package</li>
+</ul></li>
+</ul>
+<p><img data-src="https://pkgs.rstudio.com/connectapi/reference/figures/logo.svg" class="absolute" style="top: 590px; left: 260px; width: 220px; "></p>
 </section>
 <section class="slide level2">
 <h2>Example Content Usage Report</h2>
@@ -810,17 +829,32 @@
 <span id="cb2-8"><a></a>  <span class="at">content_guid =</span> guid</span>
 <span id="cb2-9"><a></a>)</span>
 <span id="cb2-10"><a></a>...</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-</div></div>
-<p><i class="bi-sign-turn-right-fill " style="color: orange;" role="img" aria-hidden="true"></i> See more examples: <a href="https://solutions.posit.co/operations/connect-apis/" class="uri">https://solutions.posit.co/operations/connect-apis/</a></p>
+</div>
+</div>
 </section>
 <section class="slide level2">
-<h2>Accessing the Connect Server API</h2>
+<h2></h2>
+<div class="center">
+<h2>
+<br><strong>Activity Time!</strong>
+</h2>
+</div>
+<div class="callout callout-note no-icon callout-titled callout-style-default">
+<div class="callout-body">
+<div class="callout-title">
+<p><strong>Activity</strong></p>
+</div>
+<div class="callout-content">
+<p>👉 Activity objective: Explore the Posit SDK <code>{connectapi}</code> via the Connect Cookbook</p>
 <ul>
-<li>Posit SDKs provide wrappers around <code>curl</code> and HTTP requests for easier interaction:</li>
-<li><a href="https://pkgs.rstudio.com/connectapi/"><code>connectapi</code></a> R package</li>
-<li><a href=""><code>posit-sdk</code></a> python package</li>
+<li>Browse the <a href="https://docs.posit.co/connect/cookbook">Connect Cookbook</a></li>
+<li>Open the project <code>materials/06-usage-monitoring/06-usage-monitoring.Rproj</code></li>
+<li>Open the file <code>06-usage-monitoring.qmd</code></li>
+<li>Deploy this file to Connect</li>
 </ul>
-<p><img data-src="https://pkgs.rstudio.com/connectapi/reference/figures/logo.svg" class="absolute" style="top: 590px; left: 260px; width: 220px; "></p>
+</div>
+</div>
+</div>
 
 <div class="quarto-auto-generated-content">
 <div class="footer footer-default">
