@@ -16,8 +16,8 @@ execute:
 ## Section Agenda {.brackets-light}
 
 -   Ad-hoc data exploration
--   Ensure quality data is flowing through the pipeline
--   Conditional alerts via automation
+-   Data validation
+-   Emailing, part 2: Condition-based alerts
 
 
 ## What is this Data?
@@ -232,7 +232,8 @@ pointblank::scan_data(palmerpenguins::penguins)
 ::::{.columns}
 
 :::{.column width=40%}
-- Create a dynamic Data Dictionary to fully describe the data 
+- Use a YAML file to define validations which can be applied across projects and version controlled
+
 :::
 
 :::{.column width=50%}
@@ -252,11 +253,11 @@ pointblank::scan_data(palmerpenguins::penguins)
 :::::
 
 
-## Conditional Emails with Quarto 
+## Conditional Emails, Part 2 
 
 Image of the conditions we want to send. 
 
-## The Secret Sauce of Conditionality
+## Creating Condition-Based Emails
 
 ::::: {.columns .smaller}
 
@@ -269,13 +270,13 @@ Image of the conditions we want to send.
 
 :::{.fragment .fade-in-then-out .absolute top=100 fragment-index=2 width="33%"}
 1. [Quarto emails are defined by content divs]{.silver}
-2. Include conditional content divs with `.content-visible when-meta=`
+2. Include conditional content divs with `.content-visible when-meta`
 
 :::
 
 :::{.fragment .fade-in-then-out .absolute top=100 fragment-index=3 width="33%"}
 1. [Quarto emails are defined by content divs]{.silver}
-2. [Include conditional content divs with `.content-visible when-meta=`]{.silver}
+2. [Include conditional content divs with `.content-visible when-meta`]{.silver}
 3. Set the metadata by injecting YAML into the rendering. Quarto will interpret YAML blocks _no matter where they appear in the document_ 
 
 :::
@@ -338,6 +339,8 @@ subject 2
 ````{markdown}
 #| class-source: longer_code_block
 #| classes: longer_code_block
+#| code-line-numbers: false
+
 ---
 title: Something wonderful
 format: email
@@ -386,10 +389,11 @@ cat(
 
 :::{.callout-note icon=false}
 ## Activity
-👉 Activity objective: Change the `CONDITION_OVERRIDE` environment variable in `.Renviron` and see the output for Conditions 1, 2, and 3. Look in the `email_preview` folder for the email output after each rendering.
+👉 Activity objective: Publish the data validation notebook to Posit Connect and preview the different conditional emails.
 
-- Return to the file `03-data-clean-validate.qmd` 
-- We will work through **Task 9 to the end of the notebook**
+- Return to the file `03-data-clean-validate.qmd` and publish to Connect
+- Set the environment variable `CONDITION_OVERRIDE` in the Connect `Vars` pane
+- Re-render and email the output to yourself
 
 
 
@@ -406,16 +410,16 @@ cat(
 - There is no interactive runtime for an email
 - Javascript-dependent content will generally not render when emailed because of how email clients process HTML
 
-:::{.fragment}
-🧰 Best practices for embedding objects an email:
 
-- ggplot2 output can be included in the email
+## 🧰 Best practices for embedding objects an email
+
+- `{ggplot2}` output can be included in the email
 - Create nicely formatted tables with the `{gt}` package. (Just remember, no interactivity!)
 - If you'd like to include a rendering of a widget (e.g., a dial or info box), use the `{webshot2}` package to take a capture of the widget and embed it as an image
 - If your email recipient wants more information or interactivity, direct them to a report or dashboard deployed to Connect
 
 
-:::
+
 
 
 

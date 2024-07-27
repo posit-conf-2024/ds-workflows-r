@@ -11,7 +11,7 @@ execute:
 
 -   Downloading data from sources
 -   Writing production data to a database
--   Introduction to email alerting 
+-   Email alerting, part 1 
 -   Automating the pipeline
 
 ## Project Overview {.minimal}
