@@ -650,20 +650,7 @@ We will use a feature of Quarto that allows yaml to be written at any point in t
 
 Metadata to be written will be: `use_condition_{condition}_email: true`
 
-#### define a helper function to more cleanly write metadata
-
-```{r}
-#| label: metadata helper
-
-write_meta <- function(meta) {
-  handlers <- list(logical = function(x) {
-        value <- ifelse(x, "true", "false")
-        structure(value, class = "verbatim")
-    })
-  res <- yaml::as.yaml(meta, handlers = handlers)
-  knitr::asis_output(paste0("---\n", res, "---\n"))
-}
-```
+We have created a helper function within the `ferryfairy` package to write this YAML metadata for us. Feel free to browse the package for details.
 
 #### write metadata
 
@@ -671,10 +658,7 @@ write_meta <- function(meta) {
 #| label: write metadata
 metadata_key <- glue::glue("use_condition_{condition}_email")
 
-metadata_list <- list()
-metadata_list[[metadata_key]] <- TRUE
-
-write_meta(metadata_list)
+ferryfairy::write_metadata(metadata_key, TRUE)
 
 ```
 
