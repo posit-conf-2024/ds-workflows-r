@@ -9,6 +9,7 @@ format:
     code-summary: "Show Code"
     code-tools: true
     code-link: true
+editor: visual
 editor_options: 
   chunk_output_type: console
   canonical: true
@@ -64,7 +65,7 @@ We are using data sets from two main sources
 (<https://wsdot.wa.gov/traffic/api/>)
 
 | Endpoint | Description | API |
-|-------------------|-------------------|-----------------------------------|
+|----|----|----|
 | **Vessel verbose** | Details about each ferry in the fleet, including name, model, and capacity | `https://www.wsdot.wa.gov/ferries/api/vessels/ rest/vesselverbose?apiaccesscode={WSDOT_ACCESS_CODE}` |
 | **Vessel history** | Historical sailings, including scheduled actual departure time | `https://www.wsdot.wa.gov/ferries/api/vessels/ rest/vesselhistory/{VESSELNAME}/{DATESTART}/{DATEEND}?apiaccesscode={WSDOT_ACCESS_CODE}` |
 | **Terminal locations** | Terminal names and locations, including latitude and longitude | `https://www.wsdot.wa.gov/ferries/api/terminals/ rest/terminallocations?apiaccesscode={WSDOT_ACCESS_CODE}` |
@@ -74,7 +75,7 @@ We are using data sets from two main sources
 ([https://open-meteo.com/en/docs/](https://open-meteo.com/en/docs/historical-weather-api/))
 
 | Endpoint | Description | API |
-|-------------------|-------------------------------|-----------------------|
+|----|----|----|
 | **Historical weather** | Historical hourly weather at a specified latitude and longitude over a date range | `https://archive-api.open-meteo.com/v1/ archive?{params}` |
 
 We will use the `{httr2}` package to download the data from these API sources.
@@ -192,7 +193,6 @@ If you're working through this document in the Workshop, pause here.
 
 -   Use `dbWriteTable` to write `vesselinfo_raw` into the database
 -   Use a time stamp to provide informational logging
--   
 
 ```{r}
 #| label: database write
@@ -215,6 +215,7 @@ DBI::dbWriteTable(conn = con, # the connection
 end_time <- Sys.time()
 duration <- end_time - start_time
 
+# the {tictoc} package does time stamps nicely too, but I like how the method above uses a difftime and will automatically choose the most appropriate units to display
 
 print(glue("ℹ️ Info: Writing `{my_df_name}` to database took", round(duration[[1]], 2), units(duration), .sep = " "))
 ```
