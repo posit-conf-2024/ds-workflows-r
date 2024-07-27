@@ -355,7 +355,15 @@ Content returned by `connectwidgets::content` will be scoped to the API key prov
 :::
 :::::
 
-Cookbook Recipes for common tasks: <https://docs.posit.co/connect/cookbook><br> Full documentation: <https://docs.posit.co/connect/api/>
+<br> Full documentation: <https://docs.posit.co/connect/api/>
+
+## Accessing the Connect Server API
+
+-   Posit SDKs provide wrappers around `curl` and HTTP requests for easier interaction:
+    -   [`{connectapi}`](https://pkgs.rstudio.com/connectapi/) R package
+    -   [`{posit-sdk}`]() python package
+
+![](https://pkgs.rstudio.com/connectapi/reference/figures/logo.svg){.absolute top="590" left="260" width="220"}
 
 ## Example Content Usage Report
 
@@ -380,12 +388,20 @@ app_usage <- get_usage_shiny(
 :::
 :::::
 
-{{< bi sign-turn-right-fill color=orange >}} See more examples: <https://solutions.posit.co/operations/connect-apis/>
 
-## Accessing the Connect Server API
+## 
 
--   Posit SDKs provide wrappers around `curl` and HTTP requests for easier interaction:
--   [`connectapi`](https://pkgs.rstudio.com/connectapi/) R package
--   [`posit-sdk`]() python package
+::: center
+<h2><br>**Activity Time!**</h2>
+:::
 
-![](https://pkgs.rstudio.com/connectapi/reference/figures/logo.svg){.absolute top="590" left="260" width="220"}
+::: {.callout-note icon="false"}
+## Activity
+
+👉 Activity objective: Explore the Posit SDK `{connectapi}` via the Connect Cookbook
+
+-   Browse the [Connect Cookbook](https://docs.posit.co/connect/cookbook)
+-   Open the project `materials/06-usage-monitoring/06-usage-monitoring.Rproj`
+-   Open the file `06-usage-monitoring.qmd`
+-   Deploy this file to Connect 
+:::
