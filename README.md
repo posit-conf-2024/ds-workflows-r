@@ -1,4 +1,4 @@
-Data Science Workflows with Posit Tools — R Focus
+[Data Science Workflows with Posit Tools — R Focus](https://posit-conf-2024.github.io/ds-workflows-r/)
 ================
 
 ### posit::conf(2024)
