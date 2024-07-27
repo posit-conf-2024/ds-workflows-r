@@ -632,9 +632,9 @@ print(glue::glue("ℹ️ Info: Writing {my_df_name} to database took ",  round(d
 
 🔄 Task
 
--   for the Workshop, change the value of `CONDITION_OVERRIDE` in the `.Renviron` file to 1, 2, or 3 to preview the conditional responses.
--   Be certain to restart your R session after changing the `.Renviron` file, then "Render" this document to see the results.
--   Look in the folder `email-preview` to see the HTML email preview.
+-   Publish this report to Posit Connect
+-   To preview the email for development or testing purposes, change the value of `CONDITION_OVERRIDE` in either the `.Renviron` file to 1, 2, or 3 in a local Workbench session, or by setting the environment variable in the `Vars` pane on Posit Connect
+-   💡 If testing locally, look in the folder `email-preview` to see the HTML email preview
 
 Below is how we generate the emails.
 

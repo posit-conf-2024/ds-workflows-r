@@ -1,0 +1,366 @@
+---
+execute: 
+  eval: false
+---
+
+## Raw Data Retrieval and {.title-slide-light}
+<h2>Working with Databases</h2>
+![](https://httr2.r-lib.org/logo.png){.absolute top="200" left="50" width="260"} ![](slide_resources/db.png){.absolute top="200" left="310" width="260"}
+
+## Section Agenda {.brackets-dark-teal}
+
+-   Downloading data from sources
+-   Writing production data to a database
+-   Email alerting, part 1 
+-   Automating the pipeline
+
+## Project Overview {.minimal}
+
+
+![](slide_resources/ds-workflows-r-2024.jpg){fig-align="center"}
+
+
+## Download raw data from an API endpoint
+
+Your first instinct for retrieving raw data may be to download the data as a csv file. 
+<br><br>
+
+:::{.fragment}
+💡 There's a better way!
+:::
+
+:::{.incremental}
+- Many data sources offer an API endpoint for downloading data 
+- `{httr2}` provides wrapper functions around `curl` requests for easier querying and handling of responses
+:::
+
+:::{.fragment}
+{{< bi sign-turn-right-fill color=orange >}} `{httr2}` is a ground-up rewrite of `{httr}` that is pipeable! It implements an explicit `request` object that solves common problems such as built-in rate-limiting, retries, OAuth, secure secrets, and more.
+
+:::
+
+## Example `httr2` request
+
+Here's how we will query the `vesselverbose` endpoint at
+
+`https://www.wsdot.wa.gov/ferries/api/vessels/rest/vesselverbose?apiaccesscode={WSDOT_ACCESS_CODE}`
+
+```{r}
+#| eval: false
+#| code-line-numbers: "1-2|4-7|9-11|13-17"
+base_url <- "https://www.wsdot.wa.gov"
+endpoint <- "ferries/api/vessels/rest/vesselverbose"
+
+# Compose the API request 
+req <- request(base_url) |> 
+  req_url_path_append(endpoint) |> 
+  req_url_query(apiaccesscode = Sys.getenv("WSDOT_ACCESS_CODE")) 
+  
+# perform the request
+response <- req |> 
+  req_perform()
+
+# convert the body of the response to a tibble
+response_body <- response |> 
+  resp_body_string() |> 
+  jsonlite::fromJSON() |> 
+  as_tibble()
+```
+## 
+
+:::{.center}
+<h2> <br>**Activity Time!**</h2>
+:::
+
+:::{.callout-note icon=false}
+## Activity
+👉 Activity objective: Download the `vesselverbose` data from the WSDOT API endpoint.
+
+- Open the project `materials/01-raw-data-write/01-raw-data-write.Rproj`
+- Open the file `01-raw-data-write.qmd`
+- 🛑 We will work through **Task 1 - Task 3** only 
+
+:::
+
+## Where should I put the data?
+
+:::{.fragment .middle .r-fit-text}
+📣 Production data belongs in a database.
+:::
+
+## Database Connection Essentials
+
+::::{.smaller}
+:::{.incremental}
+- Use `{DBI}` to make a connection with `DBI::dbConnect()`
+- The first argument to `{DBI}` is your DBI-compliant R package
+:::
+
+::: {.columns}
+::: {.column .fragment}
+[**Best case:**]{.positgreen} one of the DBI-compliant db-specific packages
+
+![](slide_resources/con_sans_odbc.png){.absolute bottom="180" left="30" width="47%" }
+
+:::
+::: {.column .fragment}
+[**Alternative:**]{.posityellow} `odbc::odbc()` + an ODBC driver installed on your system
+![](slide_resources/con_w_odbc.png){.absolute bottom="180" right="30" width="47%" }
+
+:::
+::: 
+
+:::{.fragment .absolute bottom="30"}
+📣 When possible, use a database-specific R package (e.g., `RPostgres`, `RMariaDB`, `RSQLite`, `bigrquery`, etc.) instead of `odbc` + a driver. In many cases, they are more performant (especially in writing data) and may have more translations available for query types.
+:::
+
+::::
+
+## Interacting with Databases
+
+:::{.incremental}
+
+- What tables are in a database? `DBI::dbListTables(con)`
+- Use `dplyr` to interact with the database table in the same manner you would a local data frame
+  ```{.r code-line-numbers=false}
+  df <- dplyr::tbl(con, "my_table")
+  df |> filter(...) |> mutate(...) |> group_by(...) |> summarise(...)
+  
+  ```
+- 📣 Do as much work as possible in the database to save time and resources before bringing the table into local memory. 
+- Use `dplyr::collect()` to bring the table into memory. Try to use `collect` as late as possible in your queries / transformations
+
+  ```{.r code-line-numbers=false}
+  df |> ... |> collect()
+  
+  ```
+
+:::
+
+## More on databases {.content-light}
+
+:::{.callout-tip icon=false}
+## {{< bi sign-turn-right-fill color=orange >}} Best practices in working with databases
+
+<https://solutions.posit.co/connections/db/> 
+
+
+Specific resources:
+
+::::{columns}
+
+:::{.column width=40%}
+- [Connect to a database](https://solutions.posit.co/connections/db/getting-started/connect-to-database/)
+- [Query a database table](https://solutions.posit.co/connections/db/getting-started/database-queries/)
+:::
+
+:::{.column width=60%}
+
+- [Securing credentials](https://solutions.posit.co/connections/db/best-practices/managing-credentials/)
+- [Making scripts portable](https://solutions.posit.co/connections/db/best-practices/portable-code/)
+:::
+::::
+
+:::
+
+## 
+
+:::{.center}
+<h2> <br>**Activity Time!**</h2>
+:::
+
+:::{.callout-note icon=false}
+## Activity
+👉 Activity objective: Write the `vesselverbose` data to the database.
+
+- Return to the file `01-raw-data-write.qmd`
+- 🛑 We will work through **Task 4 - Task 5** only 
+
+:::
+
+
+## How do I automate this process?
+
+:::{.fragment}
+🧰 Deploy and schedule your ETL and reports on Posit Connect
+<br>
+
+![](slide_resources/scheduling.png){height="700" fig-align="center"}
+
+:::
+
+## Introduction to Emailing with Posit Connect
+
+Posit Connect can send an email when a report or notebook renders
+
+:::::{.columns}
+
+
+:::{.column width=25%}
+::::{.fragment}
+![](slide_resources/email_option.png){height=700 style="padding-left: 25px;"}
+::::
+:::
+
+
+:::{.column width=18% .fragment}
+
+
+[{{< bi arrow-right >}}]{.largest .middle}
+:::
+
+:::{.column width=50%}
+
+::::{.fragment}
+
+![](slide_resources/html_email.png){style="padding-top: 50px;"}
+
+::::
+
+:::
+
+
+:::::
+
+
+::: {.fragment .absolute style="background: #F5EF94; width: 600px; height: 400px; padding: 30px; box-shadow: 0 18px 18px -9px lightgray; margin-left: auto; margin-right: auto;" top="350" right="220"}
+
+[🚫]{.larger}
+
+
+🥱 This email is non-informative
+
+🔊 Creates noise in the inbox
+
+🙈 Does not compel anyone to look at it
+:::
+
+
+
+
+
+
+## Introduction to Emailing with ![](slide_resources/quarto-logo-trademark.svg){width=350 style="vertical-align:middle"} and Connect
+
+Posit Connect can send (or suppress) custom Quarto-generated emails when a report or notebook renders
+
+
+:::{.columns}
+
+:::{.column width=25%}
+![](slide_resources/email_option.png){height=700 style="padding-left: 25px;"}
+:::
+
+:::{.column width=10%}
+[+]{.largest .middle}
+:::
+
+
+:::{.column width=35%}
+![](slide_resources/qmd_email.png){.middle width=530}
+:::
+
+:::{.column width=10%}
+[=]{.largest .middle}
+:::
+
+:::{.column width=20%}
+
+[🧰 <br>Customized emails]{.large .middle .center}
+
+:::
+
+:::
+
+## A Basic Quarto Email
+
+
+````{markdown}
+#| class-source: longest_code_block
+#| classes: longest_code_block
+#| code-line-numbers: "|3|6-9|11-19|11,19|13|15-17"
+---
+title: Something wonderful 
+format: email
+---
+
+Some of the content in this document makes its way to the rendered HTML
+and some of it is destined for a custom email message. The 'email' block
+customizes the subject and the body of the email message, while the
+rendered HTML contains only this paragraph.
+
+:::: {email}
+
+This email was sent from Quarto! 
+
+::: {subject}
+subject
+:::
+
+::::
+
+````
+
+## A Basic Quarto Email with [Conditional Send]{.posityellow}
+
+
+````{markdown}
+#| class-source: longest_code_block
+#| eval: false
+#| classes: longest_code_block
+#| code-line-numbers: "|11-13|15-29|17-21"
+---
+title: Something wonderful 
+format: email
+---
+
+Some of the content in this document makes its way to the rendered HTML
+and some of it is destined for a custom email message. The 'email' block
+customizes the subject and the body of the email message, while the
+rendered HTML contains only this paragraph.
+
+```{r}
+send_email <- sample(c("TRUE", "FALSE"), 1)
+```
+
+:::: {email}
+
+:::{email-scheduled}
+```{r}
+send_email
+```
+:::
+
+This email was occasionally sent from Quarto! 
+
+::: {subject}
+subject
+:::
+
+::::
+
+````
+
+
+## 
+
+:::{.center}
+<h2> <br>**Activity Time!**</h2>
+:::
+
+:::{.callout-note icon=false}
+
+
+
+## Activity
+👉 Activity objective: deploy and schedule this work on Posit Connect so it runs automatically and sends an email only if there's something amiss with the raw data.
+
+- Return to the file `01-raw-data-write.qmd`
+- 🛑 We will work **Task 6 to the end of the document**
+
+:::
+
+
+
+
+

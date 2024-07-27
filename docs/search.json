@@ -1,0 +1,87 @@
+[
+  {
+    "objectID": "resources.html",
+    "href": "resources.html",
+    "title": "Data Science Workflows with Posit Tools - R focus",
+    "section": "",
+    "text": "We cover a lot of ground in this workshop. Below is a summary of the packages and references that you may find helpful to revisit.\n\n\n\nhttr2\n\n\n\n\n\npointblank::scan_data()\n\n\n\n\n\nBest practices in working with databases\nConnect to a database\nQuery a database table\nSecuring credentials\nMaking scripts portable\n\n\n\n\n\npointblank\nTry the pointblank test drive on Posit Cloud to see all the features\nPointblank data dictionary (a.k.a. the informant)\nMonitor data quality over time with the pointblank multiagent\n\n\n\n\n\nEmail customization with Quarto from the Connect User Guide\nConditional content in Quarto\n\n\n\n\n\ntidymodels\nvetiver\npins\nplumber\n\n\n\n\n\n\n\nGet started with Shiny (R or Python!)\nGallery of examples\nThe authoritative reference, Mastering Shiny (Don’t let the title fool you, it’s great for beginners!)\nbslib - add themes, components, and layouts to your dashboard with ease\nthematic - extends your Shiny theme to plots\nshinyuieditor - a visual tool to help create the UI portion of your Shiny app\n\n\n\n\n\nStart here 👉 Joe Cheng’s Shiny in Production talk at 2019 rstudio::conf\nThe Performance chapter of Mastering Shiny\nAdd logging to app with log4r\nUse shinyloadtest to simulate app performance under load\nUse profvis to profile your app to identify bottlenecks\n\n\n\n\n\n\nUse of Tags on Connect\nconnectwidgets\nPosit Connect Server API\n\nReference\nAPI Cookbook\nExample reports and apps\nconnectapi R package that is a wrapper around the API\n\n\n\n\n\n\n\n\nUnderstanding Repositories and Libraries\nrenv\n\n\n\n\n\nDeployment methods for Connect\nPublishing Workflows for Connect\nDev/Test/Prod with Posit Team:\nConnect User Guide for Git-backed deployment\nGit-backed publishing patterns\nExamples of CI/CD deployment patterns for:\n\nGitHub Actions\nGitLab CI/CD\nAzure Pipelines\nBitbucket Pipelines\nJenkins",
+    "crumbs": [
+      "Resources",
+      "Workshop Resources"
+    ]
+  },
+  {
+    "objectID": "resources.html#workshop-resources",
+    "href": "resources.html#workshop-resources",
+    "title": "Data Science Workflows with Posit Tools - R focus",
+    "section": "",
+    "text": "We cover a lot of ground in this workshop. Below is a summary of the packages and references that you may find helpful to revisit.\n\n\n\nhttr2\n\n\n\n\n\npointblank::scan_data()\n\n\n\n\n\nBest practices in working with databases\nConnect to a database\nQuery a database table\nSecuring credentials\nMaking scripts portable\n\n\n\n\n\npointblank\nTry the pointblank test drive on Posit Cloud to see all the features\nPointblank data dictionary (a.k.a. the informant)\nMonitor data quality over time with the pointblank multiagent\n\n\n\n\n\nEmail customization with Quarto from the Connect User Guide\nConditional content in Quarto\n\n\n\n\n\ntidymodels\nvetiver\npins\nplumber\n\n\n\n\n\n\n\nGet started with Shiny (R or Python!)\nGallery of examples\nThe authoritative reference, Mastering Shiny (Don’t let the title fool you, it’s great for beginners!)\nbslib - add themes, components, and layouts to your dashboard with ease\nthematic - extends your Shiny theme to plots\nshinyuieditor - a visual tool to help create the UI portion of your Shiny app\n\n\n\n\n\nStart here 👉 Joe Cheng’s Shiny in Production talk at 2019 rstudio::conf\nThe Performance chapter of Mastering Shiny\nAdd logging to app with log4r\nUse shinyloadtest to simulate app performance under load\nUse profvis to profile your app to identify bottlenecks\n\n\n\n\n\n\nUse of Tags on Connect\nconnectwidgets\nPosit Connect Server API\n\nReference\nAPI Cookbook\nExample reports and apps\nconnectapi R package that is a wrapper around the API\n\n\n\n\n\n\n\n\nUnderstanding Repositories and Libraries\nrenv\n\n\n\n\n\nDeployment methods for Connect\nPublishing Workflows for Connect\nDev/Test/Prod with Posit Team:\nConnect User Guide for Git-backed deployment\nGit-backed publishing patterns\nExamples of CI/CD deployment patterns for:\n\nGitHub Actions\nGitLab CI/CD\nAzure Pipelines\nBitbucket Pipelines\nJenkins",
+    "crumbs": [
+      "Resources",
+      "Workshop Resources"
+    ]
+  },
+  {
+    "objectID": "index.html",
+    "href": "index.html",
+    "title": "Data Science Workflows with Posit Tools - R focus",
+    "section": "",
+    "text": "These are the materials for a one-day workshop on Building Data Science Workflows in R Using Posit Tools on Monday, 12 August 2024 at posit::conf 2024!\nIn this R-focused workshop, we will discuss ways to improve your data science workflows. During the course, we will review packages for data validation, alerting, modeling, and more. We’ll use Posit’s open source and professional tools to string all the pieces together for an efficient workflow. We’ll discuss environments, managing deployed content, working with databases, and interoperability across data products."
+  },
+  {
+    "objectID": "index.html#welcome",
+    "href": "index.html#welcome",
+    "title": "Data Science Workflows with Posit Tools - R focus",
+    "section": "",
+    "text": "These are the materials for a one-day workshop on Building Data Science Workflows in R Using Posit Tools on Monday, 12 August 2024 at posit::conf 2024!\nIn this R-focused workshop, we will discuss ways to improve your data science workflows. During the course, we will review packages for data validation, alerting, modeling, and more. We’ll use Posit’s open source and professional tools to string all the pieces together for an efficient workflow. We’ll discuss environments, managing deployed content, working with databases, and interoperability across data products."
+  },
+  {
+    "objectID": "index.html#prework",
+    "href": "index.html#prework",
+    "title": "Data Science Workflows with Posit Tools - R focus",
+    "section": "Prework",
+    "text": "Prework\n\nBring your laptop\nSign up for a GitHub account (Click here to create one if you do not already have one). You will not be able to access our training environment without a valid GitHub account\nGet an Access Code for the https://wsdot.wa.gov/traffic/api/ API. We will be working with this data source throughout the workshop. Make sure to save your access code!\n\n\n\nExpand to see screenshot of how to get the access code.\n\n\n\n\nGet the access code for the wsdot API"
+  },
+  {
+    "objectID": "index.html#materials",
+    "href": "index.html#materials",
+    "title": "Data Science Workflows with Posit Tools - R focus",
+    "section": "Materials",
+    "text": "Materials\n\nWorkshop materials for the Washington State Ferries project are available at: https://github.com/posit-conf-2024/ds-workflows-r\nSlides used during the workshop are organized by section:\n\n01 - Workshop and Project Introduction\n02 - Data Retrieval and Database Essentials\n03 - Data Validation and Alerting\n04 - Modeling and MLOps\n05 - Delivering Insights Effectively\n06 - Managing Environments"
+  },
+  {
+    "objectID": "index.html#resources",
+    "href": "index.html#resources",
+    "title": "Data Science Workflows with Posit Tools - R focus",
+    "section": "Resources",
+    "text": "Resources\nWe cover a lot of ground. See the list of resources for references to come back to."
+  },
+  {
+    "objectID": "index.html#instructors",
+    "href": "index.html#instructors",
+    "title": "Data Science Workflows with Posit Tools - R focus",
+    "section": "Instructors",
+    "text": "Instructors\nRyan Johnson, Data Science Advisor, Posit\n\nRyan Johnson is a Data Science Advisor at Posit with a background in Microbiology and Bioinformatics. He obtained his PhD from the Uniformed Services University in Maryland and did his postdoctoral training at the National Human Genome Research Institute, NIH. The only thing that rivals his love for infectious diseases is generating ‘super cool’ visualizations from large data sets using R and RStudio. In his free time, you can find Ryan running marathons/ultramarathons in the DC area or hiking miles along the Appalachian Trail. Ryan resides in Gaithersburg with his wife and two feline co-workers.\nKatie Masiello, Solutions Engineer, Posit\n\nKatie Masiello is a Solutions Engineer at Posit. A mechanical engineer by training, she found her calling in data science while working statistical analysis in the aerospace industry. A good cup of coffee, reproducibility, and making life easier for the next user are three things she loves most. Katie is an avid knitter and knitr, and she can often be found trying to tame her ridiculously overgrown garden, collecting pebbles, or thinking about taking up running as a hobby."
+  },
+  {
+    "objectID": "index.html#acknowledgments",
+    "href": "index.html#acknowledgments",
+    "title": "Data Science Workflows with Posit Tools - R focus",
+    "section": "Acknowledgments",
+    "text": "Acknowledgments\n\nThis website, including the slides, is made with Quarto. Please submit an issue on the GitHub repo for this workshop if you find something that could be fixed or improved."
+  },
+  {
+    "objectID": "index.html#notice",
+    "href": "index.html#notice",
+    "title": "Data Science Workflows with Posit Tools - R focus",
+    "section": "Notice",
+    "text": "Notice\n\nThe sample data science project used for this workshop provides assets and applications using data that have been modified for use from their original sources, WSDOT Traveler Information API and Open Meteo, and are used for educational purposes. The authors and original sources make no claims as to the content, accuracy, timeliness, or completeness of any of the data provided."
+  },
+  {
+    "objectID": "index.html#reuse-and-licensing",
+    "href": "index.html#reuse-and-licensing",
+    "title": "Data Science Workflows with Posit Tools - R focus",
+    "section": "Reuse and licensing",
+    "text": "Reuse and licensing\n\n This work is licensed under a Creative Commons Attribution 4.0 International License."
+  }
+]
