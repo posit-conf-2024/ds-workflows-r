@@ -10,7 +10,7 @@ execute:
 ## Where are we
 
 
-![](slide_resources/workflow_diagram.jpg){fig-align="center"}
+![](slide_resources/ds-workflows-r-2024.jpg){fig-align="center"}
 
 
 ## Section Agenda {.brackets-light}

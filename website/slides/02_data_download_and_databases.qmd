@@ -1,6 +1,6 @@
 ---
 execute: 
-  eval: true
+  eval: false
 ---
 
 ## Raw Data Retrieval and {.title-slide-light}
@@ -11,13 +11,13 @@ execute:
 
 -   Downloading data from sources
 -   Writing production data to a database
--   Introduction to alerting 
+-   Introduction to email alerting 
 -   Automating the pipeline
 
 ## Project Overview {.minimal}
 
 
-![](slide_resources/workflow_diagram.jpg){fig-align="center"}
+![](slide_resources/ds-workflows-r-2024.jpg){fig-align="center"}
 
 
 ## Download raw data from an API endpoint
@@ -178,35 +178,6 @@ Specific resources:
 
 :::
 
-## A brief {{< bi sign-turn-right-fill color=orange >}} on managing environments
-
-🧰 `{config}` can help you manage your development, test, and production environments without modifying your code
-
-::: {.columns}
-::: {.column}
-
-```{.yaml filename="config.yml"}
-default:
-  dataset: "data_development.csv"
-
-rsconnect:
-  dataset: "data.csv"
-```
-
-:::
-::: {.column}
-
-```{.r filename="my_file.qmd"}
-read_csv(config::get("dataset"))
-```
-:::
-::: 
-
-🧰 Similarly, update environment variables to change behavior in development and production 
-```{.r}
-if (Sys.getenv("TEST_MODE") == TRUE){
-  override_some_variable_for_testing <- TRUE} 
-```
 
 ## How do I automate this process?
 
@@ -285,35 +256,90 @@ Posit Connect can send (or suppress) custom Quarto-generated emails when a repor
 :::
 
 
-:::{.column width=25%}
-![](slide_resources/qmd_email.png){.middle width=370}
+:::{.column width=35%}
+![](slide_resources/qmd_email.png){.middle width=530}
 :::
 
 :::{.column width=10%}
 [=]{.largest .middle}
 :::
 
-:::{.column width=30%}
+:::{.column width=20%}
 
-[🧰 Customized, conditional emails]{.large .middle}
-
-:::
+[🧰 <br>Customized emails]{.large .middle .center}
 
 :::
 
-## A Basic Quarto Email with [Conditional Send]{.positburg}
-
-One Quarto document produces the rendered report and an [optional]{.positburg} email ✨
-
-![](slide_resources/quarto_email_intro.png){fig-align="right"}
-
-
-
-:::{.absolute bottom="20" left="20" width="900" .smaller}
-
-🧰 Include a conditional value that expresses `TRUE`|`FALSE` within a div called `::: {email-scheduled}` to send or suppress the email.
-
 :::
+
+## A Basic Quarto Email
+
+
+````{markdown}
+#| class-source: longest_code_block
+#| classes: longest_code_block
+#| code-line-numbers: "|3|6-9|11-19|11,19|13|15-17"
+---
+title: Something wonderful 
+format: email
+---
+
+Some of the content in this document makes its way to the rendered HTML
+and some of it is destined for a custom email message. The 'email' block
+customizes the subject and the body of the email message, while the
+rendered HTML contains only this paragraph.
+
+:::: {email}
+
+This email was sent from Quarto! 
+
+::: {subject}
+subject
+:::
+
+::::
+
+````
+
+## A Basic Quarto Email with [Conditional Send]{.posityellow}
+
+
+````{markdown}
+#| class-source: longest_code_block
+#| eval: false
+#| classes: longest_code_block
+#| code-line-numbers: "|11-13|15-29|17-21"
+---
+title: Something wonderful 
+format: email
+---
+
+Some of the content in this document makes its way to the rendered HTML
+and some of it is destined for a custom email message. The 'email' block
+customizes the subject and the body of the email message, while the
+rendered HTML contains only this paragraph.
+
+```{r}
+send_email <- sample(c("TRUE", "FALSE"), 1)
+```
+
+:::: {email}
+
+:::{email-scheduled}
+```{r}
+send_email
+```
+:::
+
+This email was occasionally sent from Quarto! 
+
+::: {subject}
+subject
+:::
+
+::::
+
+````
 
 
 ## 
