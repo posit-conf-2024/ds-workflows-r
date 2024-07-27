@@ -33,7 +33,7 @@ website:
             text: "06 - Managing Environments"
       - href: resources.qmd
         text: "Resources"
-      - href: /about.html#schedule
+      - href: /index.html#schedule
         text: "Schedule"
       - href: https://github.com/posit-conf-2024/ds-workflows-r
         icon: github
@@ -63,6 +63,7 @@ format:
   html:
     theme:
       - sandstone
+    linkcolor: "#419599"
     toc: true
     
 fig-format: svg   
