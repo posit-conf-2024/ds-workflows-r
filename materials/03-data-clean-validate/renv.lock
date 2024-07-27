@@ -555,9 +555,9 @@
     },
     "ferryfairy": {
       "Package": "ferryfairy",
-      "Version": "0.1.2.0.0.0.1721087073",
+      "Version": "0.1.3.0.0.0.1722096920",
       "Source": "Repository",
-      "Repository": "https://pkg.ferryland.posit.team/internal/__linux__/jammy/latest",
+      "Repository": "INTERNAL",
       "Requirements": [
         "DBI",
         "dplyr",
@@ -568,7 +568,7 @@
         "stringr",
         "tibble"
       ],
-      "Hash": "bf14ccc590680c169b45897e24b449a1"
+      "Hash": "aaf4c29d9083612e4de11044ce52aa46"
     },
     "fontawesome": {
       "Package": "fontawesome",

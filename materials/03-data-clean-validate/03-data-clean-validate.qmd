@@ -10,6 +10,7 @@ format:
     code-summary: "Show Code"
     code-tools: true
     code-link: true
+editor: visual
 editor_options: 
   chunk_output_type: console
   canonical: true
