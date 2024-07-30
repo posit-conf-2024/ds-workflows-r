@@ -134,14 +134,11 @@ Because we are in a Workshop setting, we will pull the data into local memory us
 ```{r}
 #| label: read in raw data
 
-vesselinfo_raw <- dplyr::tbl(con, 
-                             name = "vesselinfo_raw") |> collect()
+vesselinfo_raw <- dplyr::tbl(con, "vesselinfo_raw") |> collect()
 
-vesselhistory_raw <- dplyr::tbl(con, 
-                                name = "vesselhistory_raw") |> collect()
+vesselhistory_raw <- dplyr::tbl(con, "vesselhistory_raw") |> collect()
 
-weather_terminal_history_raw <- dplyr::tbl(con, 
-                                           name = "weather_terminal_history_raw") |> collect()
+weather_terminal_history_raw <- dplyr::tbl(con, "weather_terminal_history_raw") |> collect()
 
 ```
 
