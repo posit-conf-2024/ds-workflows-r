@@ -3,16 +3,16 @@ execute:
   eval: false
 ---
 
-## Raw Data Retrieval and {.title-slide-light}
-<h2>Working with Databases</h2>
+## Raw Data Retrieval, Working with {.title-slide-light}
+<h2>Databases, and Automation</h2>
 ![](https://httr2.r-lib.org/logo.png){.absolute top="200" left="50" width="260"} ![](slide_resources/db.png){.absolute top="200" left="310" width="260"}
 
 ## Section Agenda {.brackets-dark-teal}
 
 -   Downloading data from sources
 -   Writing production data to a database
--   Email alerting, part 1 
 -   Automating the pipeline
+-   Email alerting, part 1 
 
 ## Project Overview {.minimal}
 
@@ -182,11 +182,19 @@ Specific resources:
 ## How do I automate this process?
 
 :::{.fragment}
-🧰 Deploy and schedule your ETL and reports on Posit Connect
+🧰 Deploy and [schedule]{.positburg} your ETL and reports on Posit Connect
 <br>
 
 ![](slide_resources/scheduling.png){height="700" fig-align="center"}
 
+:::
+
+## ... I want more {.content-light}
+
+:::{.incremental}
+- Notify me after the report runs
+- Tell me something useful
+- Tell me something else depending on the outcome
 :::
 
 ## Introduction to Emailing with Posit Connect
@@ -247,26 +255,28 @@ Posit Connect can send (or suppress) custom Quarto-generated emails when a repor
 
 :::{.columns}
 
-:::{.column width=25%}
+:::{.fragment fragment-index=1 .column width=20%}
 ![](slide_resources/email_option.png){height=700 style="padding-left: 25px;"}
 :::
 
-:::{.column width=10%}
+:::{.fragment fragment-index=2 .column width=6%}
 [+]{.largest .middle}
 :::
 
 
-:::{.column width=35%}
-![](slide_resources/qmd_email.png){.middle width=530}
+:::{.fragment fragment-index=2 .column width=20%}
+![](slide_resources/quarto-icon.svg){.middle width=230 style="padding-left: 45px;"}
 :::
 
-:::{.column width=10%}
+:::{.fragment fragment-index=3 .column width=10%}
 [=]{.largest .middle}
 :::
 
-:::{.column width=20%}
+:::{.fragment fragment-index=3 .column width=44%}
 
-[🧰 <br>Customized emails]{.large .middle .center}
+
+![](slide_resources/email_waffles.png)
+[🧰 <br>Customized emails]{.large}
 
 :::
 
@@ -278,7 +288,7 @@ Posit Connect can send (or suppress) custom Quarto-generated emails when a repor
 ````{markdown}
 #| class-source: longest_code_block
 #| classes: longest_code_block
-#| code-line-numbers: "|3|6-9|11-19|11,19|13|15-17"
+#| code-line-numbers: "|3|6-9|11-19"
 ---
 title: Something wonderful 
 format: email
@@ -308,7 +318,7 @@ subject
 #| class-source: longest_code_block
 #| eval: false
 #| classes: longest_code_block
-#| code-line-numbers: "|11-13|15-29|17-21"
+#| code-line-numbers: "|11-13|15-29"
 ---
 title: Something wonderful 
 format: email
