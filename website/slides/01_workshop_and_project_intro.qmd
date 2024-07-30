@@ -131,31 +131,30 @@ We will use an [**end-to-end real-world project**]{.positgreen} to demonstrate w
 
 ## Asking Questions
 
-**Discord** - `#data-science-workflows-with-posit-tools-r-focus`
 
-:::::::: columns
-::: {.column width="50%"}
-<br> <br> <br>
+👉 Submit questions and respond to polls on **GitHub Discussions**
 
-👉 **Submit questions and respond to polls here**
+<br> 
+<https://github.com/posit-conf-2024/ds-workflows-r/discussions>
 
-![](slide_resources/discord-logo-blue.png){width="100%" fig-align="center"}
-:::
 
-:::::: {.column width="50%"}
+![](slide_resources/gh_discussions.png){width="100%" fig-align="center"}
+
+
 <br>
 
+:::: fragment
 ::: {.absolute style="background: #cca2b2; width: 400px; height: 300px; padding: 40px; box-shadow: 0 18px 18px -9px lightgray; margin-left: auto; margin-right: auto;" top="300" left="800"}
 <h3>You are always welcome to raise your hand! 🙋</h3>
 :::
+::::
 
 :::: fragment
-::: {.absolute style="background: #A6CFD5; width: 400px; height: 300px; padding: 40px; box-shadow: 0 18px 18px -9px lightgray; margin-left: auto; margin-right: auto;" top="320" left="820"}
-<h3>Go to Discord now and tell us what you're excited about!</h3>
+::: {.absolute style="background: #A6CFD5; width: 400px; height: 300px; padding: 40px; box-shadow: 0 18px 18px -9px lightgray; margin-left: auto; margin-right: auto;" top="340" left="840"}
+<h3>Go to the Discussion now and respond to the question!</h3>
 :::
 ::::
-::::::
-::::::::
+
 
 ## Getting help (R Functions) {.content-light}
 
@@ -184,7 +183,7 @@ help(function_name_here)
 ⛴️ Ready to set sail? 🌊
 :::
 
-![](slide_resources/wenatchee.png){.absolute bottom="200" left="-1100" width="1000"}
+![](slide_resources/wenatchee.png){.absolute bottom="200" left="-1200" width="1000"}
 
 ##  {background-image="_extensions/positconfslides/assets/backgrounds/brackets-dark-teal.svg" background-size="contain" auto-animate="true" auto-animate-duration="4"}
 
@@ -192,7 +191,7 @@ help(function_name_here)
 ⛴️ Ready to set sail? 🌊
 :::
 
-![](slide_resources/wenatchee.png){.absolute bottom="200" right="-1100" width="1000"}
+![](slide_resources/wenatchee.png){.absolute bottom="200" right="-1200" width="1000"}
 
 ## Washington State Ferry Depature Delays Project
 
@@ -365,9 +364,7 @@ You do **NOT** need to re-authenticate with GitHub!
 
     -   💡 Within each directory, there is a `.Rproj` file. Open the folder's project file to work on that portion of the materials.
 
--   📁 `slides` : Quarto slides for the workshop, broken up by section.
-
--   📁 `website` : Source material for the workshop website. Rendered slides are hosted here for your reference.
+-   📁 `website` : Source material for the workshop website and slides. Hosted at <https://posit-conf-2024.github.io/ds-workflows-r>
 
 ## Saving your work 💾 {.content-light}
 

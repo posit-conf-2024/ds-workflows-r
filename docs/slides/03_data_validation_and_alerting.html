@@ -9,16 +9,16 @@
 <link href="../site_libs/quarto-html/quarto-html.min.css" rel="stylesheet" data-mode="light">
 <link href="../site_libs/quarto-html/quarto-syntax-highlighting.css" rel="stylesheet" id="quarto-text-highlighting-styles">
 <script src="../site_libs/quarto-contrib/posit_slides/posit-slides.js"></script>
-<link href="../site_libs/quarto-contrib/bootstrap-icons-1.9.1/all.css" rel="stylesheet"><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-<meta charset="utf-8">
-<meta name="generator" content="quarto-1.5.40">
-<title>Data Science Workflows with Posit Tools - R focus – data_validation_and_alerting</title>
-<meta name="apple-mobile-web-app-capable" content="yes">
-<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
-<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, minimal-ui">
-<link rel="stylesheet" href="../site_libs/revealjs/dist/reset.css">
-<link rel="stylesheet" href="../site_libs/revealjs/dist/reveal.css">
-<style>
+<link href="../site_libs/quarto-contrib/bootstrap-icons-1.9.1/all.css" rel="stylesheet"><meta charset="utf-8">
+  <meta name="generator" content="quarto-1.5.54">
+
+  <title>Data Science Workflows with Posit Tools - R focus – data_validation_and_alerting</title>
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, minimal-ui">
+  <link rel="stylesheet" href="../site_libs/revealjs/dist/reset.css">
+  <link rel="stylesheet" href="../site_libs/revealjs/dist/reveal.css">
+  <style>
     code{white-space: pre-wrap;}
     span.smallcaps{font-variant: small-caps;}
     div.columns{display: flex; gap: min(4vw, 1.5em);}
@@ -96,14 +96,14 @@
     code span.vs { color: #008000; } /* VerbatimString */
     code span.wa { color: #696969; font-style: italic; } /* Warning */
   </style>
-<link rel="stylesheet" href="../site_libs/revealjs/dist/theme/quarto.css">
-<link href="../site_libs/revealjs/plugin/quarto-line-highlight/line-highlight.css" rel="stylesheet">
-<link href="../site_libs/revealjs/plugin/reveal-menu/menu.css" rel="stylesheet">
-<link href="../site_libs/revealjs/plugin/reveal-menu/quarto-menu.css" rel="stylesheet">
-<link href="../site_libs/revealjs/plugin/reveal-chalkboard/font-awesome/css/all.css" rel="stylesheet">
-<link href="../site_libs/revealjs/plugin/reveal-chalkboard/style.css" rel="stylesheet">
-<link href="../site_libs/revealjs/plugin/quarto-support/footer.css" rel="stylesheet">
-<style type="text/css">
+  <link rel="stylesheet" href="../site_libs/revealjs/dist/theme/quarto.css">
+  <link href="../site_libs/revealjs/plugin/quarto-line-highlight/line-highlight.css" rel="stylesheet">
+  <link href="../site_libs/revealjs/plugin/reveal-menu/menu.css" rel="stylesheet">
+  <link href="../site_libs/revealjs/plugin/reveal-menu/quarto-menu.css" rel="stylesheet">
+  <link href="../site_libs/revealjs/plugin/reveal-chalkboard/font-awesome/css/all.css" rel="stylesheet">
+  <link href="../site_libs/revealjs/plugin/reveal-chalkboard/style.css" rel="stylesheet">
+  <link href="../site_libs/revealjs/plugin/quarto-support/footer.css" rel="stylesheet">
+  <style type="text/css">
 
   .callout {
     margin-top: 1em;
@@ -301,7 +301,7 @@
   }
 
   </style>
-<style type="text/css">
+  <style type="text/css">
     .reveal div.sourceCode {
       margin: 0;
       overflow: auto;
@@ -394,16 +394,20 @@
     <div class="slides">
 
 
-<section class="slide level2" data-background-image="_extensions/positconfslides/assets/backgrounds/title-slide-light.svg" data-background-size="contain"><h2></h2>
+<section class="slide level2" data-background-image="_extensions/positconfslides/assets/backgrounds/title-slide-light.svg" data-background-size="contain">
+<h2></h2>
 <div class="columns">
 <div class="column" style="width:100%;">
 <h2>Data Exploration, Validation and Alerting</h2>
-<p><img data-src="https://github.com/rstudio/pointblank/raw/main/man/figures/logo.svg" class="absolute" style="top: 200px; left: 50px; width: 260px; "><img data-src="slide_resources/quarto-icon.svg" class="absolute" style="top: 200px; left: 310px; height: 300px; "></p>
-</div>
-</div>
-</section><section class="slide level2"><h2>Where are we</h2>
+<p><img data-src="https://github.com/rstudio/pointblank/raw/main/man/figures/logo.svg" class="absolute" style="top: 200px; left: 50px; width: 260px; "> <img data-src="slide_resources/quarto-icon.svg" class="absolute" style="top: 200px; left: 310px; height: 300px; "></p>
+</div></div>
+</section>
+<section class="slide level2">
+<h2>Where are we</h2>
 
-<img data-src="slide_resources/ds-workflows-r-2024.jpg" class="quarto-figure quarto-figure-center r-stretch"></section><section class="slide level2" data-background-image="_extensions/positconfslides/assets/backgrounds/brackets-light.svg" data-background-size="contain"><h2></h2>
+<img data-src="slide_resources/ds-workflows-r-2024.jpg" class="quarto-figure quarto-figure-center r-stretch"></section>
+<section class="slide level2" data-background-image="_extensions/positconfslides/assets/backgrounds/brackets-light.svg" data-background-size="contain">
+<h2></h2>
 <div class="columns">
 <div class="column" style="width:100%;">
 <br><h2 style="margin-top:10px;">Section Agenda</h2>
@@ -412,9 +416,10 @@
 <li>Data validation</li>
 <li>Emailing, part 2: Condition-based alerts</li>
 </ul>
-</div>
-</div>
-</section><section class="slide level2"><h2>What is this Data?</h2>
+</div></div>
+</section>
+<section class="slide level2">
+<h2>What is this Data?</h2>
 <p>Our first introduction to <code>pointblank</code></p>
 <div class="fragment">
 <div class="columns">
@@ -422,18 +427,21 @@
 <p><img data-src="https://github.com/rstudio/pointblank/raw/main/man/figures/logo.svg" style="padding-right: 15px;"></p>
 </div><div class="column" style="width:75%;">
 <p><br><code>pointblank</code> provides data quality assessment and metadata reporting for data frames and database tables. <a href="https://github.com/rstudio/pointblank" class="uri">https://github.com/rstudio/pointblank</a></p>
-</div>
-</div>
+</div></div>
 </div>
 <div class="fragment">
-<p>🧰 The <code><a href="https://rstudio.github.io/pointblank/reference/scan_data.html">pointblank::scan_data()</a></code> function provides a HTML report of the input data to help you understand your data.</p>
+<p>🧰 The <code>pointblank::scan_data()</code> function provides a HTML report of the input data to help you understand your data.</p>
 </div>
-</section><section class="slide level2"><h2>Sample data scan</h2>
+</section>
+<section class="slide level2">
+<h2>Sample data scan</h2>
 <div class="sourceCode" id="cb1"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a></a>pointblank<span class="sc">::</span><span class="fu">scan_data</span>(palmerpenguins<span class="sc">::</span>penguins)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <p><br></p>
 <iframe src="slide_resources/scan_penguins.html" width="100%" height="650">
 </iframe>
-</section><section class="slide level2"><h2></h2>
+</section>
+<section class="slide level2">
+<h2></h2>
 <div class="center">
 <h2>
 <br><strong>Activity Time!</strong>
@@ -447,40 +455,57 @@
 <div class="callout-content">
 <p>👉 Activity objective: exploring our data</p>
 <ul>
-<li>Open the project <code>materials/02-data-exploration/02-data-exploration.Rproj</code>
-</li>
-<li>Open the file <code>02-data-exploration.qmd</code>
-</li>
+<li>Open the project <code>materials/02-data-exploration/02-data-exploration.Rproj</code></li>
+<li>Open the file <code>02-data-exploration.qmd</code></li>
 <li>We will work through all the tasks in the notebook</li>
 </ul>
 </div>
 </div>
 </div>
-</section><section class="slide level2"><h2>How can I ensure the data in my pipeline is quality data?</h2>
+</section>
+<section class="slide level2">
+<h2>How can I ensure the data in my pipeline is quality data?</h2>
 <p><br> 🧰 <code>pointblank</code> for data validation <br></p>
 <div class="quarto-figure quarto-figure-center">
-<figure><p><img data-src="https://github.com/rstudio/pointblank/raw/main/man/figures/logo.svg" class="quarto-figure quarto-figure-center" height="350"></p>
+<figure>
+<p><img data-src="https://github.com/rstudio/pointblank/raw/main/man/figures/logo.svg" class="quarto-figure quarto-figure-center" height="350"></p>
 </figure>
 </div>
-</section><section class="slide level2"><h2>The <code>pointblank</code> data quality workflow</h2>
+</section>
+<section class="slide level2">
+<h2>The <code>pointblank</code> data quality workflow</h2>
 
-<img data-src="slide_resources/pb_flow_create_agent.png" class="r-stretch"></section><section class="slide level2"><h2>The <code>pointblank</code> data quality workflow</h2>
+<img data-src="slide_resources/pb_flow_create_agent.png" class="r-stretch"></section>
+<section class="slide level2">
+<h2>The <code>pointblank</code> data quality workflow</h2>
 
-<img data-src="slide_resources/pb_flow_create_agent_b.png" class="r-stretch"></section><section class="slide level2"><h2>The <code>pointblank</code> data quality workflow</h2>
+<img data-src="slide_resources/pb_flow_create_agent_b.png" class="r-stretch"></section>
+<section class="slide level2">
+<h2>The <code>pointblank</code> data quality workflow</h2>
 
-<img data-src="slide_resources/pb_flow_validation_plan.png" class="r-stretch"></section><section class="slide level2"><h2>The <code>pointblank</code> data quality workflow</h2>
+<img data-src="slide_resources/pb_flow_validation_plan.png" class="r-stretch"></section>
+<section class="slide level2">
+<h2>The <code>pointblank</code> data quality workflow</h2>
 
-<img data-src="slide_resources/pb_flow_interrogate.png" class="r-stretch"></section><section class="slide level2"><h2>The <code>pointblank</code> data quality workflow</h2>
+<img data-src="slide_resources/pb_flow_interrogate.png" class="r-stretch"></section>
+<section class="slide level2">
+<h2>The <code>pointblank</code> data quality workflow</h2>
 
-<img data-src="slide_resources/pb_flow_post_interrogate.png" class="r-stretch"></section><section class="slide level2"><h2>The <code>pointblank</code> data quality workflow</h2>
+<img data-src="slide_resources/pb_flow_post_interrogate.png" class="r-stretch"></section>
+<section class="slide level2">
+<h2>The <code>pointblank</code> data quality workflow</h2>
 
-<img data-src="slide_resources/pb_flow_post_interrogate_b.png" class="r-stretch"></section><section class="slide level2"><h2>Data validation example</h2>
+<img data-src="slide_resources/pb_flow_post_interrogate_b.png" class="r-stretch"></section>
+<section class="slide level2">
+<h2>Data validation example</h2>
 <div class="r-stack">
 <p><img data-src="slide_resources/pb_validation_plan.png" class="fragment fade-in-then-out"></p>
 <p><img data-src="slide_resources/pb_validation_plan_b.png" class="fragment fade-in-then-out"></p>
 <p><img data-src="slide_resources/pb_validation_plan_c.png" class="fragment fade-in-then-out"></p>
 </div>
-</section><section class="slide level2"><h2>Agent Interrogation</h2>
+</section>
+<section class="slide level2">
+<h2>Agent Interrogation</h2>
 <div class="r-stack">
 <p><img data-src="slide_resources/pb_interrogation1.png" class="fragment fade-in-then-out"></p>
 <p><img data-src="slide_resources/pb_interrogation2.png" class="fragment fade-in-then-out"></p>
@@ -492,18 +517,24 @@
 <p><img data-src="slide_resources/pb_interrogation6.png" class="fragment fade-in-then-out"></p>
 <p><img data-src="slide_resources/pb_interrogation7.png" class="fragment fade-in-then-out"></p>
 </div>
-</section><section class="slide level2"><h2>Agent Validation Report</h2>
+</section>
+<section class="slide level2">
+<h2>Agent Validation Report</h2>
 <div class="r-stack">
 <p><img data-src="slide_resources/pb_validation_result.png" class="fragment fade-in-then-out"></p>
 <p><img data-src="slide_resources/pb_validation_result_b.png" class="fragment fade-in-then-out"></p>
 <p><img data-src="slide_resources/pb_validation_result_c.png" class="fragment fade-in-then-out"></p>
 </div>
-</section><section class="slide level2"><h2>Pointblank data validation report</h2>
+</section>
+<section class="slide level2">
+<h2>Pointblank data validation report</h2>
 <div class="r-stack">
 <p><img data-src="slide_resources/pb_validation_report.png" class="fragment fade-in-then-out"></p>
 <p><img data-src="slide_resources/pb_validation_report_b.png" class="fragment fade-in-then-out"></p>
 </div>
-</section><section class="slide level2"><h2></h2>
+</section>
+<section class="slide level2">
+<h2></h2>
 <div class="center">
 <h2>
 <br><strong>Activity Time!</strong>
@@ -517,18 +548,16 @@
 <div class="callout-content">
 <p>👉 Activity objective: Use <code>pointblank</code> to validate data, remove non-compliant records, and document the data.</p>
 <ul>
-<li>Open the project <code>materials/03-data-clean-validate/03-data-clean-validate.Rproj</code>
-</li>
-<li>Open the file <code>03-data-clean-validate.qmd</code>
-</li>
+<li>Open the project <code>materials/03-data-clean-validate/03-data-clean-validate.Rproj</code></li>
+<li>Open the file <code>03-data-clean-validate.qmd</code></li>
 <li>🛑 We will work through <strong>Task 1 - Task 8</strong> only</li>
 </ul>
 </div>
 </div>
 </div>
-</section><section class="slide level2"><h2>
-<i class="bi-sign-turn-right-fill " style="color: orange;" role="img" aria-hidden="true"></i> There’s much more to <code>pointblank</code>
-</h2>
+</section>
+<section class="slide level2">
+<h2><i class="bi-sign-turn-right-fill " style="color: orange;" role="img" aria-hidden="true"></i> There’s much more to <code>pointblank</code></h2>
 <div class="fragment fade-in-then-out absolute" style="top: 130px; ">
 <div class="columns">
 <div class="column" style="width:40%;">
@@ -537,8 +566,7 @@
 </ul>
 </div><div class="column" style="width:50%;">
 <p><img data-src="slide_resources/multiagent.png"></p>
-</div>
-</div>
+</div></div>
 </div>
 <div class="fragment fade-in-then-out absolute" style="top: 130px; ">
 <div class="columns">
@@ -548,17 +576,20 @@
 </ul>
 </div><div class="column" style="width:50%;">
 <p><img data-src="slide_resources/data-dictionary.png"></p>
-</div>
-</div>
+</div></div>
 </div>
 <div class="fragment fade-in-then-out absolute" style="top: 130px; ">
 <h3>
 Try the comprehensive <code>pointblank</code> test drive on Posit Cloud: <a href="https://posit.cloud/project/3411822" class="uri">https://posit.cloud/project/3411822</a>
 </h3>
 </div>
-</section><section class="slide level2"><h2>Conditional Emails, Part 2</h2>
+</section>
+<section class="slide level2">
+<h2>Conditional Emails, Part 2</h2>
 <p>Image of the conditions we want to send.</p>
-</section><section class="slide level2"><h2>Creating Condition-Based Emails</h2>
+</section>
+<section class="slide level2">
+<h2>Creating Condition-Based Emails</h2>
 <div class="columns smaller">
 <div class="column" style="width:35%;">
 <div class="fragment fade-in-then-out absolute" data-fragment-index="1" style="top: 100px; width: 33%; ">
@@ -569,16 +600,14 @@ Try the comprehensive <code>pointblank</code> test drive on Posit Cloud: <a href
 <div class="fragment fade-in-then-out absolute" data-fragment-index="2" style="top: 100px; width: 33%; ">
 <ol type="1">
 <li><span class="silver">Quarto emails are defined by content divs</span></li>
-<li>Include conditional content divs with <code>.content-visible when-meta</code>
-</li>
+<li>Include conditional content divs with <code>.content-visible when-meta</code></li>
 </ol>
 </div>
 <div class="fragment fade-in-then-out absolute" data-fragment-index="3" style="top: 100px; width: 33%; ">
 <ol type="1">
 <li><span class="silver">Quarto emails are defined by content divs</span></li>
 <li><span class="silver">Include conditional content divs with <code>.content-visible when-meta</code></span></li>
-<li>Set the metadata by injecting YAML into the rendering. Quarto will interpret YAML blocks <em>no matter where they appear in the document</em>
-</li>
+<li>Set the metadata by injecting YAML into the rendering. Quarto will interpret YAML blocks <em>no matter where they appear in the document</em></li>
 </ol>
 </div>
 </div><div class="column">
@@ -650,9 +679,10 @@ is_email_variant_1: true
 </div>
 </div>
 </div>
-</div>
-</div>
-</section><section class="slide level2"><h2></h2>
+</div></div>
+</section>
+<section class="slide level2">
+<h2></h2>
 <div class="center">
 <h2>
 <br><strong>Activity Time!</strong>
@@ -673,19 +703,26 @@ is_email_variant_1: true
 </div>
 </div>
 </div>
-</section><section class="slide level2"><h2>Be aware…</h2>
+</section>
+<section class="slide level2">
+<h2>Be aware…</h2>
 <p>⚠️ Common mistakes when creating emails</p>
 <ul>
 <li>There is no interactive runtime for an email</li>
 <li>Javascript-dependent content will generally not render when emailed because of how email clients process HTML</li>
-</ul></section><section class="slide level2"><h2>🧰 Best practices for embedding objects an email</h2>
+</ul>
+</section>
+<section class="slide level2">
+<h2>🧰 Best practices for embedding objects an email</h2>
 <ul>
-<li>
-<a href="https://ggplot2.tidyverse.org">ggplot2</a> output can be included in the email</li>
-<li>Create nicely formatted tables with the <a href="https://gt.rstudio.com">gt</a> package. (Just remember, no interactivity!)</li>
-<li>If you’d like to include a rendering of a widget (e.g., a dial or info box), use the <a href="https://rstudio.github.io/webshot2/">webshot2</a> package to take a capture of the widget and embed it as an image</li>
+<li><code>{ggplot2}</code> output can be included in the email</li>
+<li>Create nicely formatted tables with the <code>{gt}</code> package. (Just remember, no interactivity!)</li>
+<li>If you’d like to include a rendering of a widget (e.g., a dial or info box), use the <code>{webshot2}</code> package to take a capture of the widget and embed it as an image</li>
 <li>If your email recipient wants more information or interactivity, direct them to a report or dashboard deployed to Connect</li>
-</ul></section><section class="slide level2 content2-light"><h2>Other Alerting Approaches</h2>
+</ul>
+</section>
+<section class="slide level2 content2-light">
+<h2>Other Alerting Approaches</h2>
 <p><i class="bi-sign-turn-right-fill " style="color: orange;" role="img" aria-hidden="true"></i> Send alerts to a Slack channel or MS Teams, or via text message: <a href="https://rviews.rstudio.com/2020/06/18/how-to-have-r-notify-you/" class="uri">https://rviews.rstudio.com/2020/06/18/how-to-have-r-notify-you/</a></p>
 
 <div class="quarto-auto-generated-content">
@@ -694,10 +731,27 @@ is_email_variant_1: true
 </div>
 </div>
 </section>
-</div>
+    </div>
   </div>
 
-  <script>window.backupDefine = window.define; window.define = undefined;</script><script src="../site_libs/revealjs/dist/reveal.js"></script><!-- reveal.js plugins --><script src="../site_libs/revealjs/plugin/quarto-line-highlight/line-highlight.js"></script><script src="../site_libs/revealjs/plugin/pdf-export/pdfexport.js"></script><script src="../site_libs/revealjs/plugin/reveal-menu/menu.js"></script><script src="../site_libs/revealjs/plugin/reveal-menu/quarto-menu.js"></script><script src="../site_libs/revealjs/plugin/reveal-chalkboard/plugin.js"></script><script src="../site_libs/revealjs/plugin/quarto-support/support.js"></script><script src="../site_libs/revealjs/plugin/notes/notes.js"></script><script src="../site_libs/revealjs/plugin/search/search.js"></script><script src="../site_libs/revealjs/plugin/zoom/zoom.js"></script><script src="../site_libs/revealjs/plugin/math/math.js"></script><script>window.define = window.backupDefine; window.backupDefine = undefined;</script><script>
+  <script>window.backupDefine = window.define; window.define = undefined;</script>
+  <script src="../site_libs/revealjs/dist/reveal.js"></script>
+  <!-- reveal.js plugins -->
+  <script src="../site_libs/revealjs/plugin/quarto-line-highlight/line-highlight.js"></script>
+  <script src="../site_libs/revealjs/plugin/pdf-export/pdfexport.js"></script>
+  <script src="../site_libs/revealjs/plugin/reveal-menu/menu.js"></script>
+  <script src="../site_libs/revealjs/plugin/reveal-menu/quarto-menu.js"></script>
+  <script src="../site_libs/revealjs/plugin/reveal-chalkboard/plugin.js"></script>
+  <script src="../site_libs/revealjs/plugin/quarto-support/support.js"></script>
+  
+
+  <script src="../site_libs/revealjs/plugin/notes/notes.js"></script>
+  <script src="../site_libs/revealjs/plugin/search/search.js"></script>
+  <script src="../site_libs/revealjs/plugin/zoom/zoom.js"></script>
+  <script src="../site_libs/revealjs/plugin/math/math.js"></script>
+  <script>window.define = window.backupDefine; window.backupDefine = undefined;</script>
+
+  <script>
 
       // Full list of configuration options available at:
       // https://revealjs.com/config/
@@ -888,7 +942,9 @@ is_email_variant_1: true
           RevealZoom
         ]
       });
-    </script><script>
+    </script>
+    
+    <script>
       // htmlwidgets need to know to resize themselves when slides are shown/hidden.
       // Fire the "slideenter" event (handled by htmlwidgets.js) when the current
       // slide changes (different for each slide format).
@@ -923,7 +979,9 @@ is_email_variant_1: true
         }
 
       })();
-    </script><script id="quarto-html-after-body" type="application/javascript">
+    </script>
+
+    <script id="quarto-html-after-body" type="application/javascript">
     window.document.addEventListener("DOMContentLoaded", function (event) {
       const toggleBodyColorMode = (bsSheetEl) => {
         const mode = bsSheetEl.getAttribute("data-mode");
@@ -1110,6 +1168,6 @@ is_email_variant_1: true
       }
     });
     </script>
-
+    
 
 </body></html>

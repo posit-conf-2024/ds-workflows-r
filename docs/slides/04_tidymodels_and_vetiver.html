@@ -9,16 +9,16 @@
 <link href="../site_libs/quarto-html/quarto-html.min.css" rel="stylesheet" data-mode="light">
 <link href="../site_libs/quarto-html/quarto-syntax-highlighting.css" rel="stylesheet" id="quarto-text-highlighting-styles">
 <script src="../site_libs/quarto-contrib/posit_slides/posit-slides.js"></script>
-<link href="../site_libs/quarto-contrib/bootstrap-icons-1.9.1/all.css" rel="stylesheet"><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-<meta charset="utf-8">
-<meta name="generator" content="quarto-1.5.40">
-<title>Data Science Workflows with Posit Tools - R focus – tidymodels_and_vetiver</title>
-<meta name="apple-mobile-web-app-capable" content="yes">
-<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
-<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, minimal-ui">
-<link rel="stylesheet" href="../site_libs/revealjs/dist/reset.css">
-<link rel="stylesheet" href="../site_libs/revealjs/dist/reveal.css">
-<style>
+<link href="../site_libs/quarto-contrib/bootstrap-icons-1.9.1/all.css" rel="stylesheet"><meta charset="utf-8">
+  <meta name="generator" content="quarto-1.5.54">
+
+  <title>Data Science Workflows with Posit Tools - R focus – tidymodels_and_vetiver</title>
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, minimal-ui">
+  <link rel="stylesheet" href="../site_libs/revealjs/dist/reset.css">
+  <link rel="stylesheet" href="../site_libs/revealjs/dist/reveal.css">
+  <style>
     code{white-space: pre-wrap;}
     span.smallcaps{font-variant: small-caps;}
     div.columns{display: flex; gap: min(4vw, 1.5em);}
@@ -96,14 +96,14 @@
     code span.vs { color: #008000; } /* VerbatimString */
     code span.wa { color: #696969; font-style: italic; } /* Warning */
   </style>
-<link rel="stylesheet" href="../site_libs/revealjs/dist/theme/quarto.css">
-<link href="../site_libs/revealjs/plugin/quarto-line-highlight/line-highlight.css" rel="stylesheet">
-<link href="../site_libs/revealjs/plugin/reveal-menu/menu.css" rel="stylesheet">
-<link href="../site_libs/revealjs/plugin/reveal-menu/quarto-menu.css" rel="stylesheet">
-<link href="../site_libs/revealjs/plugin/reveal-chalkboard/font-awesome/css/all.css" rel="stylesheet">
-<link href="../site_libs/revealjs/plugin/reveal-chalkboard/style.css" rel="stylesheet">
-<link href="../site_libs/revealjs/plugin/quarto-support/footer.css" rel="stylesheet">
-<style type="text/css">
+  <link rel="stylesheet" href="../site_libs/revealjs/dist/theme/quarto.css">
+  <link href="../site_libs/revealjs/plugin/quarto-line-highlight/line-highlight.css" rel="stylesheet">
+  <link href="../site_libs/revealjs/plugin/reveal-menu/menu.css" rel="stylesheet">
+  <link href="../site_libs/revealjs/plugin/reveal-menu/quarto-menu.css" rel="stylesheet">
+  <link href="../site_libs/revealjs/plugin/reveal-chalkboard/font-awesome/css/all.css" rel="stylesheet">
+  <link href="../site_libs/revealjs/plugin/reveal-chalkboard/style.css" rel="stylesheet">
+  <link href="../site_libs/revealjs/plugin/quarto-support/footer.css" rel="stylesheet">
+  <style type="text/css">
 
   .callout {
     margin-top: 1em;
@@ -301,7 +301,7 @@
   }
 
   </style>
-<style type="text/css">
+  <style type="text/css">
     .reveal div.sourceCode {
       margin: 0;
       overflow: auto;
@@ -394,37 +394,35 @@
     <div class="slides">
 
 
-<section class="slide level2" data-background-image="_extensions/positconfslides/assets/backgrounds/title-slide-light.svg" data-background-size="contain"><h2></h2>
+<section class="slide level2" data-background-image="_extensions/positconfslides/assets/backgrounds/title-slide-light.svg" data-background-size="contain">
+<h2></h2>
 <div class="columns">
 <div class="column" style="width:100%;">
 <h2>Tidymodels and Vetiver</h2>
-<p><img data-src="https://github.com/rstudio/hex-stickers/blob/main/PNG/tidymodels.png?raw=true" class="absolute" style="top: 200px; left: 50px; width: 260px; "><img data-src="https://github.com/rstudio/hex-stickers/blob/main/PNG/vetiver.png?raw=true" class="absolute" style="top: 200px; left: 310px; width: 260px; "></p>
-</div>
-</div>
-</section><section class="slide level2" data-background-image="_extensions/positconfslides/assets/backgrounds/brackets-dark-teal.svg" data-background-size="contain"><h2></h2>
+<p><img data-src="https://github.com/rstudio/hex-stickers/blob/main/PNG/tidymodels.png?raw=true" class="absolute" style="top: 200px; left: 50px; width: 260px; "> <img data-src="https://github.com/rstudio/hex-stickers/blob/main/PNG/vetiver.png?raw=true" class="absolute" style="top: 200px; left: 310px; width: 260px; "></p>
+</div></div>
+</section>
+<section class="slide level2" data-background-image="_extensions/positconfslides/assets/backgrounds/brackets-dark-teal.svg" data-background-size="contain">
+<h2></h2>
 <div class="columns has-dark-background">
 <div class="column" style="width:100%;">
 <br><h2 style="margin-top:10px;">Section Agenda</h2>
 <ul>
 <li><p>Goal of Ferry Delay Prediction Model</p></li>
-<li>
-<p>Tidymodels</p>
+<li><p>Tidymodels</p>
 <ul>
 <li>Assignment - Create a tidymodel</li>
-</ul>
-</li>
-<li>
-<p>Vetiver</p>
+</ul></li>
+<li><p>Vetiver</p>
 <ul>
 <li>Pins and Plumber</li>
 <li>Assignment - Deploy and monitor your tidymodel</li>
+</ul></li>
 </ul>
-</li>
-</ul>
-</div>
-</div>
-</section><section class="slide level2"><h2>
-<i class="bi-sign-turn-right-fill " style="color: orange;" role="img" aria-hidden="true"></i> Disclaimer</h2>
+</div></div>
+</section>
+<section class="slide level2">
+<h2><i class="bi-sign-turn-right-fill " style="color: orange;" role="img" aria-hidden="true"></i> Disclaimer</h2>
 <p><br></p>
 <div style="text-align: center; font-size: 200%; color: #EE6331">
 <p>THIS IS NOT A MODELING WORKSHOP!</p>
@@ -433,44 +431,49 @@
 <p><br></p>
 <p>… but modeling is still super cool 😎 !</p>
 </div>
-</section><section class="slide level2"><h2>Review</h2>
+</section>
+<section class="slide level2">
+<h2>Review</h2>
 
-<img data-src="slide_resources/ds-workflows-r-2024.jpg" class="quarto-figure quarto-figure-center r-stretch"></section><section class="slide level2"><h2>What’s the Goal?</h2>
+<img data-src="slide_resources/ds-workflows-r-2024.jpg" class="quarto-figure quarto-figure-center r-stretch"></section>
+<section class="slide level2">
+<h2>What’s the Goal?</h2>
 <div class="columns">
 <div class="column" style="width:50%;">
 <p><img data-src="slide_resources/data_model_meme.jpg" width="710"></p>
 </div><div class="column" style="width:50%;">
 <p><strong>What we have:</strong></p>
 <ul>
-<li>
-<p>A <strong><em>beautiful - tidy - validated</em></strong> dataset</p>
+<li><p>A <strong><em>beautiful - tidy - validated</em></strong> dataset</p>
 <ul>
 <li><p>Ferry information and history</p></li>
 <li><p>Weather data</p></li>
-</ul>
-</li>
+</ul></li>
 </ul>
 <p><br></p>
 <p><strong>What do we want:</strong></p>
 <ul>
-<li>A <font color="#9A4665"> MODEL </font> that can <em>predict if a ferry will have a delayed departure</em>
-</li>
+<li>A <font color="#9A4665"> MODEL </font> that can <em>predict if a ferry will have a delayed departure</em></li>
 </ul>
-</div>
-</div>
-</section><section class="slide level2"><h2>Where are we going</h2>
+</div></div>
+</section>
+<section class="slide level2">
+<h2>Where are we going</h2>
 
-<img data-src="slide_resources/ds-workflows-r-2024.jpg" class="quarto-figure quarto-figure-center r-stretch"></section><section class="slide level2"><h2>Review - Washington State Ferry</h2>
+<img data-src="slide_resources/ds-workflows-r-2024.jpg" class="quarto-figure quarto-figure-center r-stretch"></section>
+<section class="slide level2">
+<h2>Review - Washington State Ferry</h2>
 <p><br> ⛴️ <span class="posityellow">WSF is the largest operating public ferry system in the US! 🤯</span></p>
 <p>🐋 <span class="posityellow">21 ferries across Puget Sound and the Salish Sea</span></p>
 <div class="columns">
 <div class="column" style="width:50%;">
-<p><img data-src="slide_resources/ferry-whales.png"><span class="figcaption2"><a href="https://i.pinimg.com/originals/c9/8b/3a/c98b3a997df52b6c8ad681590557c6bc.jpg" class="uri">https://i.pinimg.com/originals/c9/8b/3a/c98b3a997df52b6c8ad681590557c6bc.jpg</a></span></p>
+<p><img data-src="slide_resources/ferry-whales.png"> <span class="figcaption2"><a href="https://i.pinimg.com/originals/c9/8b/3a/c98b3a997df52b6c8ad681590557c6bc.jpg" class="uri">https://i.pinimg.com/originals/c9/8b/3a/c98b3a997df52b6c8ad681590557c6bc.jpg</a></span></p>
 </div><div class="column" style="width:50%;">
 <p><img data-src="slide_resources/route_map.png" height="600"></p>
-</div>
-</div>
-</section><section class="slide level2"><h2>Question and Answer</h2>
+</div></div>
+</section>
+<section class="slide level2">
+<h2>Question and Answer</h2>
 <div class="fragment" data-fragment-index="3">
 <div class="callout callout-caution no-icon callout-titled callout-style-default">
 <div class="callout-body">
@@ -495,16 +498,19 @@
 </div>
 </div>
 </div>
-</section><section class="slide level2" data-background-image="_extensions/positconfslides/assets/backgrounds/content-light.svg" data-background-size="contain"><h2></h2>
+</section>
+<section class="slide level2" data-background-image="_extensions/positconfslides/assets/backgrounds/content-light.svg" data-background-size="contain">
+<h2></h2>
 <div class="columns">
 <div class="column" style="width:100%;">
 <h2>Introduction to Tidymodels</h2>
 <p><img data-src="https://github.com/rstudio/hex-stickers/blob/main/PNG/tidymodels.png?raw=true" class="absolute" style="top: 200px; right: 50px; width: 260px; "></p>
 <p><br></p>
 <p>✋ If you have used <code>tidymodels</code> before?</p>
-</div>
-</div>
-</section><section class="slide level2" data-background-image="_extensions/positconfslides/assets/backgrounds/content-light.svg" data-background-size="contain"><h2></h2>
+</div></div>
+</section>
+<section class="slide level2" data-background-image="_extensions/positconfslides/assets/backgrounds/content-light.svg" data-background-size="contain">
+<h2></h2>
 <div class="columns">
 <div class="column" style="width:100%;">
 <h2>Introduction to Tidymodels</h2>
@@ -520,14 +526,15 @@
 <li class="fragment">Predict</li>
 </ol>
 </div>
-<p><img data-src="https://github.com/rstudio/hex-stickers/blob/main/PNG/recipes.png?raw=true" class="absolute" style="top: 100px; right: 300px; width: 150px; "><img data-src="https://github.com/rstudio/hex-stickers/blob/main/PNG/parsnip.png?raw=true" class="absolute" style="top: 100px; right: 450px; width: 150px; "><img data-src="https://github.com/rstudio/hex-stickers/blob/main/PNG/workflows.png?raw=true" class="absolute" style="top: 100px; right: 150px; width: 150px; "></p>
-</div>
-</div>
-</section><section class="slide level2" data-background-image="_extensions/positconfslides/assets/backgrounds/content-light.svg" data-background-size="contain"><h2></h2>
+<p><img data-src="https://github.com/rstudio/hex-stickers/blob/main/PNG/recipes.png?raw=true" class="absolute" style="top: 100px; right: 300px; width: 150px; "> <img data-src="https://github.com/rstudio/hex-stickers/blob/main/PNG/parsnip.png?raw=true" class="absolute" style="top: 100px; right: 450px; width: 150px; "> <img data-src="https://github.com/rstudio/hex-stickers/blob/main/PNG/workflows.png?raw=true" class="absolute" style="top: 100px; right: 150px; width: 150px; "></p>
+</div></div>
+</section>
+<section class="slide level2" data-background-image="_extensions/positconfslides/assets/backgrounds/content-light.svg" data-background-size="contain">
+<h2></h2>
 <div class="columns">
 <div class="column" style="width:100%;">
 <h2>Introduction to Tidymodels</h2>
-<p><img data-src="https://github.com/rstudio/hex-stickers/blob/main/PNG/recipes.png?raw=true" class="absolute" style="top: 10px; right: 690px; width: 60px; "><img data-src="https://github.com/rstudio/hex-stickers/blob/main/PNG/parsnip.png?raw=true" class="absolute" style="top: 10px; right: 750px; width: 60px; "><img data-src="https://github.com/rstudio/hex-stickers/blob/main/PNG/workflows.png?raw=true" class="absolute" style="top: 10px; right: 630px; width: 60px; "></p>
+<p><img data-src="https://github.com/rstudio/hex-stickers/blob/main/PNG/recipes.png?raw=true" class="absolute" style="top: 10px; right: 690px; width: 60px; "> <img data-src="https://github.com/rstudio/hex-stickers/blob/main/PNG/parsnip.png?raw=true" class="absolute" style="top: 10px; right: 750px; width: 60px; "> <img data-src="https://github.com/rstudio/hex-stickers/blob/main/PNG/workflows.png?raw=true" class="absolute" style="top: 10px; right: 630px; width: 60px; "></p>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb1" data-code-line-numbers="3-5|7-8|10-11|13-14"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a></a><span class="fu">library</span>(tidymodels)</span>
 <span id="cb1-2"><a></a></span>
@@ -544,13 +551,14 @@
 <span id="cb1-13"><a></a><span class="co"># Fit workflow to data using parsnip</span></span>
 <span id="cb1-14"><a></a>model_fit <span class="ot">&lt;-</span> parsnip<span class="sc">::</span><span class="fu">fit</span>(model_wflow, your<span class="sc">-</span>data)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-</div>
-</div>
-</section><section class="slide level2" data-background-image="_extensions/positconfslides/assets/backgrounds/content-light.svg" data-background-size="contain"><h2></h2>
+</div></div>
+</section>
+<section class="slide level2" data-background-image="_extensions/positconfslides/assets/backgrounds/content-light.svg" data-background-size="contain">
+<h2></h2>
 <div class="columns">
 <div class="column" style="width:100%;">
 <h2>Introduction to Tidymodels</h2>
-<p><img data-src="https://github.com/rstudio/hex-stickers/blob/main/PNG/recipes.png?raw=true" class="absolute" style="top: 10px; right: 690px; width: 60px; "><img data-src="https://github.com/rstudio/hex-stickers/blob/main/PNG/parsnip.png?raw=true" class="absolute" style="top: 10px; right: 750px; width: 60px; "><img data-src="https://github.com/rstudio/hex-stickers/blob/main/PNG/workflows.png?raw=true" class="absolute" style="top: 10px; right: 630px; width: 60px; "></p>
+<p><img data-src="https://github.com/rstudio/hex-stickers/blob/main/PNG/recipes.png?raw=true" class="absolute" style="top: 10px; right: 690px; width: 60px; "> <img data-src="https://github.com/rstudio/hex-stickers/blob/main/PNG/parsnip.png?raw=true" class="absolute" style="top: 10px; right: 750px; width: 60px; "> <img data-src="https://github.com/rstudio/hex-stickers/blob/main/PNG/workflows.png?raw=true" class="absolute" style="top: 10px; right: 630px; width: 60px; "></p>
 <div class="center">
 <h2>
 <br><strong>Activity Time!</strong>
@@ -580,9 +588,10 @@
 </div>
 </div>
 </div>
-</div>
-</div>
-</section><section class="slide level2"><h2>We have a model…now what 🤷 ?</h2>
+</div></div>
+</section>
+<section class="slide level2">
+<h2>We have a model…now what 🤷 ?</h2>
 <p><br></p>
 <p>We have two questions:</p>
 <ol type="1">
@@ -591,41 +600,47 @@
 </ol>
 <div class="fragment fade-up">
 <div class="quarto-figure quarto-figure-center">
-<figure><p><img data-src="https://github.com/rstudio/hex-stickers/blob/main/PNG/vetiver.png?raw=true" class="quarto-figure quarto-figure-center" width="309"></p>
+<figure>
+<p><img data-src="https://github.com/rstudio/hex-stickers/blob/main/PNG/vetiver.png?raw=true" class="quarto-figure quarto-figure-center" width="309"></p>
 </figure>
 </div>
 </div>
-</section><section class="slide level2"><h2>Vetiver</h2>
+</section>
+<section class="slide level2">
+<h2>Vetiver</h2>
 <p><img data-src="https://vetiver.rstudio.com/images/ml_ops_cycle.png" class="absolute" style="top: 70px; right: 300px; width: 1000px; "></p>
 <p><img data-src="https://github.com/rstudio/pointblank/raw/main/man/figures/logo.svg" class="absolute" style="top: 310px; right: 400px; width: 100px; "></p>
-<p><br><br><br><br><br><br><br><br><br><br><br></p>
+<p><br> <br> <br> <br> <br> <br> <br> <br> <br> <br> <br></p>
 <ul>
 <li>Open source R (and Python) package.</li>
-<li>Deploy and maintain machine learning models –&gt; <strong>MLOps</strong>
-</li>
+<li>Deploy and maintain machine learning models –&gt; <strong>MLOps</strong></li>
 <li>Provides tools to version, deploy, and monitor a trained model.</li>
-</ul></section><section class="slide level2"><h2>Introduction to Pins &amp; Plumber</h2>
+</ul>
+</section>
+<section class="slide level2">
+<h2>Introduction to Pins &amp; Plumber</h2>
 <p><img data-src="https://github.com/rstudio/hex-stickers/blob/main/PNG/pins.png?raw=true" class="absolute" style="top: 120px; right: 800px; width: 500px; "></p>
 <p><img data-src="https://github.com/rstudio/hex-stickers/blob/main/PNG/plumber.png?raw=true" class="absolute" style="top: 120px; right: 300px; width: 500px; "></p>
-</section><section class="slide level2"><h2>🧰 Pins</h2>
+</section>
+<section class="slide level2">
+<h2>🧰 Pins</h2>
 
 <img data-src="https://github.com/rstudio/hex-stickers/blob/main/PNG/pins.png?raw=true" class="quarto-figure quarto-figure-center r-stretch" width="120"><div>
 <ul>
 <li class="fragment">Open source R (and Python) package.</li>
 <li class="fragment">Publishes data, models, and other R objects, making it easy to share them across projects and with your colleagues.
 <ul>
-<li class="fragment">
-<i class="bi-sign-turn-right-fill " style="color: orange;" role="img" aria-hidden="true"></i> <strong>Interoperability –&gt;</strong> You can share an object built in R with Python users (and vice versa)!</li>
-</ul>
-</li>
+<li class="fragment"><i class="bi-sign-turn-right-fill " style="color: orange;" role="img" aria-hidden="true"></i> <strong>Interoperability –&gt;</strong> You can share an object built in R with Python users (and vice versa)!</li>
+</ul></li>
 <li class="fragment">For our workflow:
 <ul>
 <li class="fragment"><strong>How can we save our model so that others (or other content) can use it?</strong></li>
-</ul>
-</li>
+</ul></li>
 </ul>
 </div>
-</section><section class="slide level2"><h2>Activity</h2>
+</section>
+<section class="slide level2">
+<h2>Activity</h2>
 <div class="callout callout-note no-icon callout-titled callout-style-default">
 <div class="callout-body">
 <div class="callout-title">
@@ -650,25 +665,26 @@
 </div>
 </div>
 </div>
-</section><section class="slide level2"><h2>🧰 Plumber</h2>
+</section>
+<section class="slide level2">
+<h2>🧰 Plumber</h2>
 
 <img data-src="https://github.com/rstudio/hex-stickers/blob/main/PNG/plumber.png?raw=true" class="quarto-figure quarto-figure-center r-stretch" width="120"><div>
 <ul>
 <li class="fragment">Open source R package.</li>
 <li class="fragment">Create a web Application Programming Interface (<strong>API</strong>) using only R code!
 <ul>
-<li class="fragment">
-<i class="bi-sign-turn-right-fill " style="color: orange;" role="img" aria-hidden="true"></i> <strong>Interoperability –&gt;</strong> You can interact with a Plumber API using Python (or any other language/HTTP client).</li>
-</ul>
-</li>
+<li class="fragment"><i class="bi-sign-turn-right-fill " style="color: orange;" role="img" aria-hidden="true"></i> <strong>Interoperability –&gt;</strong> You can interact with a Plumber API using Python (or any other language/HTTP client).</li>
+</ul></li>
 <li class="fragment">For our workflow:
 <ul>
 <li class="fragment"><strong>How can we serve our model as an API?</strong></li>
-</ul>
-</li>
+</ul></li>
 </ul>
 </div>
-</section><section class="slide level2"><h2>Activity</h2>
+</section>
+<section class="slide level2">
+<h2>Activity</h2>
 <div class="callout callout-note no-icon callout-titled callout-style-default">
 <div class="callout-body">
 <div class="callout-title">
@@ -693,7 +709,9 @@
 </div>
 </div>
 </div>
-</section><section class="slide level2"><h2>Version and Monitor your models</h2>
+</section>
+<section class="slide level2">
+<h2>Version and Monitor your models</h2>
 <p><br></p>
 <div>
 <ul>
@@ -728,28 +746,28 @@
 </div>
 </div>
 </div>
-</section><section class="slide level2"><h2>Ferry Delay Prediction Model</h2>
+</section>
+<section class="slide level2">
+<h2>Ferry Delay Prediction Model</h2>
 <p>Training this model is relatively <em>fast</em></p>
 <ul>
-<li>
-<p>What if the model training is slow or the data is <strong>REALLY</strong> big?</p>
+<li><p>What if the model training is slow or the data is <strong>REALLY</strong> big?</p>
 <ul>
-<li>
-<p><i class="bi-sign-turn-right-fill " style="color: orange;" role="img" aria-hidden="true"></i> Workbench Jobs allows you to run R scripts in new sessions independent of your current RStudio Pro session</p>
+<li><p><i class="bi-sign-turn-right-fill " style="color: orange;" role="img" aria-hidden="true"></i> Workbench Jobs allows you to run R scripts in new sessions independent of your current RStudio Pro session</p>
 <div class="quarto-figure quarto-figure-center">
-<figure><p><img data-src="slide_resources/background_jobs.png" class="quarto-figure quarto-figure-center" width="344"></p>
+<figure>
+<p><img data-src="slide_resources/background_jobs.png" class="quarto-figure quarto-figure-center" width="344"></p>
 </figure>
-</div>
-</li>
-</ul>
-</li>
-<li>
-<p><i class="bi-sign-turn-right-fill " style="color: orange;" role="img" aria-hidden="true"></i> If you create a model, you should create a <strong>model card!</strong></p>
+</div></li>
+</ul></li>
+<li><p><i class="bi-sign-turn-right-fill " style="color: orange;" role="img" aria-hidden="true"></i> If you create a model, you should create a <strong>model card!</strong></p>
 <ul>
 <li>Check out a basic model card here!</li>
+</ul></li>
 </ul>
-</li>
-</ul></section><section class="slide level2" data-background-image="_extensions/positconfslides/assets/backgrounds/content-light.svg" data-background-size="contain"><h2></h2>
+</section>
+<section class="slide level2" data-background-image="_extensions/positconfslides/assets/backgrounds/content-light.svg" data-background-size="contain">
+<h2></h2>
 <div class="columns">
 <div class="column" style="width:100%;">
 <h2>Ferry Delay Prediction Model</h2>
@@ -763,11 +781,14 @@
 </div>
 </div>
 </div>
-</div>
-</div>
-</section><section class="slide level2"><h2>Example Prediction</h2>
+</div></div>
+</section>
+<section class="slide level2">
+<h2>Example Prediction</h2>
 
-<img data-src="slide_resources/example_prediction.png" class="quarto-figure quarto-figure-center r-stretch"></section><section class="slide level2"><h2>Review</h2>
+<img data-src="slide_resources/example_prediction.png" class="quarto-figure quarto-figure-center r-stretch"></section>
+<section class="slide level2">
+<h2>Review</h2>
 
 
 <img data-src="slide_resources/ds-workflows-r-2024.jpg" class="quarto-figure quarto-figure-center r-stretch"><div class="quarto-auto-generated-content">
@@ -776,10 +797,27 @@
 </div>
 </div>
 </section>
-</div>
+    </div>
   </div>
 
-  <script>window.backupDefine = window.define; window.define = undefined;</script><script src="../site_libs/revealjs/dist/reveal.js"></script><!-- reveal.js plugins --><script src="../site_libs/revealjs/plugin/quarto-line-highlight/line-highlight.js"></script><script src="../site_libs/revealjs/plugin/pdf-export/pdfexport.js"></script><script src="../site_libs/revealjs/plugin/reveal-menu/menu.js"></script><script src="../site_libs/revealjs/plugin/reveal-menu/quarto-menu.js"></script><script src="../site_libs/revealjs/plugin/reveal-chalkboard/plugin.js"></script><script src="../site_libs/revealjs/plugin/quarto-support/support.js"></script><script src="../site_libs/revealjs/plugin/notes/notes.js"></script><script src="../site_libs/revealjs/plugin/search/search.js"></script><script src="../site_libs/revealjs/plugin/zoom/zoom.js"></script><script src="../site_libs/revealjs/plugin/math/math.js"></script><script>window.define = window.backupDefine; window.backupDefine = undefined;</script><script>
+  <script>window.backupDefine = window.define; window.define = undefined;</script>
+  <script src="../site_libs/revealjs/dist/reveal.js"></script>
+  <!-- reveal.js plugins -->
+  <script src="../site_libs/revealjs/plugin/quarto-line-highlight/line-highlight.js"></script>
+  <script src="../site_libs/revealjs/plugin/pdf-export/pdfexport.js"></script>
+  <script src="../site_libs/revealjs/plugin/reveal-menu/menu.js"></script>
+  <script src="../site_libs/revealjs/plugin/reveal-menu/quarto-menu.js"></script>
+  <script src="../site_libs/revealjs/plugin/reveal-chalkboard/plugin.js"></script>
+  <script src="../site_libs/revealjs/plugin/quarto-support/support.js"></script>
+  
+
+  <script src="../site_libs/revealjs/plugin/notes/notes.js"></script>
+  <script src="../site_libs/revealjs/plugin/search/search.js"></script>
+  <script src="../site_libs/revealjs/plugin/zoom/zoom.js"></script>
+  <script src="../site_libs/revealjs/plugin/math/math.js"></script>
+  <script>window.define = window.backupDefine; window.backupDefine = undefined;</script>
+
+  <script>
 
       // Full list of configuration options available at:
       // https://revealjs.com/config/
@@ -970,7 +1008,9 @@
           RevealZoom
         ]
       });
-    </script><script>
+    </script>
+    
+    <script>
       // htmlwidgets need to know to resize themselves when slides are shown/hidden.
       // Fire the "slideenter" event (handled by htmlwidgets.js) when the current
       // slide changes (different for each slide format).
@@ -1005,7 +1045,9 @@
         }
 
       })();
-    </script><script id="quarto-html-after-body" type="application/javascript">
+    </script>
+
+    <script id="quarto-html-after-body" type="application/javascript">
     window.document.addEventListener("DOMContentLoaded", function (event) {
       const toggleBodyColorMode = (bsSheetEl) => {
         const mode = bsSheetEl.getAttribute("data-mode");
@@ -1192,6 +1234,6 @@
       }
     });
     </script>
-
+    
 
 </body></html>
