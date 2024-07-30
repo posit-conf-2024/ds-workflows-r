@@ -9,16 +9,16 @@
 <link href="../site_libs/quarto-html/quarto-html.min.css" rel="stylesheet" data-mode="light">
 <link href="../site_libs/quarto-html/quarto-syntax-highlighting.css" rel="stylesheet" id="quarto-text-highlighting-styles">
 <script src="../site_libs/quarto-contrib/posit_slides/posit-slides.js"></script>
-<link href="../site_libs/quarto-contrib/bootstrap-icons-1.9.1/all.css" rel="stylesheet"><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-<meta charset="utf-8">
-<meta name="generator" content="quarto-1.5.40">
-<title>Data Science Workflows with Posit Tools - R focus – data_download_and_databases</title>
-<meta name="apple-mobile-web-app-capable" content="yes">
-<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
-<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, minimal-ui">
-<link rel="stylesheet" href="../site_libs/revealjs/dist/reset.css">
-<link rel="stylesheet" href="../site_libs/revealjs/dist/reveal.css">
-<style>
+<link href="../site_libs/quarto-contrib/bootstrap-icons-1.9.1/all.css" rel="stylesheet"><meta charset="utf-8">
+  <meta name="generator" content="quarto-1.5.54">
+
+  <title>Data Science Workflows with Posit Tools - R focus – data_download_and_databases</title>
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, minimal-ui">
+  <link rel="stylesheet" href="../site_libs/revealjs/dist/reset.css">
+  <link rel="stylesheet" href="../site_libs/revealjs/dist/reveal.css">
+  <style>
     code{white-space: pre-wrap;}
     span.smallcaps{font-variant: small-caps;}
     div.columns{display: flex; gap: min(4vw, 1.5em);}
@@ -96,14 +96,14 @@
     code span.vs { color: #008000; } /* VerbatimString */
     code span.wa { color: #696969; font-style: italic; } /* Warning */
   </style>
-<link rel="stylesheet" href="../site_libs/revealjs/dist/theme/quarto.css">
-<link href="../site_libs/revealjs/plugin/quarto-line-highlight/line-highlight.css" rel="stylesheet">
-<link href="../site_libs/revealjs/plugin/reveal-menu/menu.css" rel="stylesheet">
-<link href="../site_libs/revealjs/plugin/reveal-menu/quarto-menu.css" rel="stylesheet">
-<link href="../site_libs/revealjs/plugin/reveal-chalkboard/font-awesome/css/all.css" rel="stylesheet">
-<link href="../site_libs/revealjs/plugin/reveal-chalkboard/style.css" rel="stylesheet">
-<link href="../site_libs/revealjs/plugin/quarto-support/footer.css" rel="stylesheet">
-<style type="text/css">
+  <link rel="stylesheet" href="../site_libs/revealjs/dist/theme/quarto.css">
+  <link href="../site_libs/revealjs/plugin/quarto-line-highlight/line-highlight.css" rel="stylesheet">
+  <link href="../site_libs/revealjs/plugin/reveal-menu/menu.css" rel="stylesheet">
+  <link href="../site_libs/revealjs/plugin/reveal-menu/quarto-menu.css" rel="stylesheet">
+  <link href="../site_libs/revealjs/plugin/reveal-chalkboard/font-awesome/css/all.css" rel="stylesheet">
+  <link href="../site_libs/revealjs/plugin/reveal-chalkboard/style.css" rel="stylesheet">
+  <link href="../site_libs/revealjs/plugin/quarto-support/footer.css" rel="stylesheet">
+  <style type="text/css">
 
   .callout {
     margin-top: 1em;
@@ -301,7 +301,7 @@
   }
 
   </style>
-<style type="text/css">
+  <style type="text/css">
     .reveal div.sourceCode {
       margin: 0;
       overflow: auto;
@@ -394,17 +394,19 @@
     <div class="slides">
 
 
-<section class="slide level2" data-background-image="_extensions/positconfslides/assets/backgrounds/title-slide-light.svg" data-background-size="contain"><h2></h2>
+<section class="slide level2" data-background-image="_extensions/positconfslides/assets/backgrounds/title-slide-light.svg" data-background-size="contain">
+<h2></h2>
 <div class="columns">
 <div class="column" style="width:100%;">
 <h2>Raw Data Retrieval and</h2>
 <h2>
 Working with Databases
 </h2>
-<p><img data-src="https://httr2.r-lib.org/logo.png" class="absolute" style="top: 200px; left: 50px; width: 260px; "><img data-src="slide_resources/db.png" class="absolute" style="top: 200px; left: 310px; width: 260px; "></p>
-</div>
-</div>
-</section><section class="slide level2" data-background-image="_extensions/positconfslides/assets/backgrounds/brackets-dark-teal.svg" data-background-size="contain"><h2></h2>
+<p><img data-src="https://httr2.r-lib.org/logo.png" class="absolute" style="top: 200px; left: 50px; width: 260px; "> <img data-src="slide_resources/db.png" class="absolute" style="top: 200px; left: 310px; width: 260px; "></p>
+</div></div>
+</section>
+<section class="slide level2" data-background-image="_extensions/positconfslides/assets/backgrounds/brackets-dark-teal.svg" data-background-size="contain">
+<h2></h2>
 <div class="columns has-dark-background">
 <div class="column" style="width:100%;">
 <br><h2 style="margin-top:10px;">Section Agenda</h2>
@@ -414,19 +416,22 @@ Working with Databases
 <li>Email alerting, part 1</li>
 <li>Automating the pipeline</li>
 </ul>
-</div>
-</div>
-</section><section class="slide level2" data-background-image="_extensions/positconfslides/assets/backgrounds/minimal.svg" data-background-size="contain"><h2></h2>
+</div></div>
+</section>
+<section class="slide level2" data-background-image="_extensions/positconfslides/assets/backgrounds/minimal.svg" data-background-size="contain">
+<h2></h2>
 <div class="columns">
 <div class="column" style="width:100%;">
 <h2>Project Overview</h2>
 <div class="quarto-figure quarto-figure-center">
-<figure><p><img data-src="slide_resources/ds-workflows-r-2024.jpg" class="quarto-figure quarto-figure-center"></p>
+<figure>
+<p><img data-src="slide_resources/ds-workflows-r-2024.jpg" class="quarto-figure quarto-figure-center"></p>
 </figure>
 </div>
-</div>
-</div>
-</section><section class="slide level2"><h2>Download raw data from an API endpoint</h2>
+</div></div>
+</section>
+<section class="slide level2">
+<h2>Download raw data from an API endpoint</h2>
 <p>Your first instinct for retrieving raw data may be to download the data as a csv file. <br><br></p>
 <div class="fragment">
 <p>💡 There’s a better way!</p>
@@ -434,14 +439,15 @@ Working with Databases
 <div>
 <ul>
 <li class="fragment">Many data sources offer an API endpoint for downloading data</li>
-<li class="fragment">
-<a href="https://httr2.r-lib.org">httr2</a> provides wrapper functions around <code>curl</code> requests for easier querying and handling of responses</li>
+<li class="fragment"><code>{httr2}</code> provides wrapper functions around <code>curl</code> requests for easier querying and handling of responses</li>
 </ul>
 </div>
 <div class="fragment">
-<p><i class="bi-sign-turn-right-fill " style="color: orange;" role="img" aria-hidden="true"></i> <a href="https://httr2.r-lib.org">httr2</a> is a ground-up rewrite of <a href="https://httr.r-lib.org/">httr</a> that is pipeable! It implements an explicit <code>request</code> object that solves common problems such as built-in rate-limiting, retries, OAuth, secure secrets, and more.</p>
+<p><i class="bi-sign-turn-right-fill " style="color: orange;" role="img" aria-hidden="true"></i> <code>{httr2}</code> is a ground-up rewrite of <code>{httr}</code> that is pipeable! It implements an explicit <code>request</code> object that solves common problems such as built-in rate-limiting, retries, OAuth, secure secrets, and more.</p>
 </div>
-</section><section class="slide level2"><h2>Example <code>httr2</code> request</h2>
+</section>
+<section class="slide level2">
+<h2>Example <code>httr2</code> request</h2>
 <p>Here’s how we will query the <code>vesselverbose</code> endpoint at</p>
 <p><code>https://www.wsdot.wa.gov/ferries/api/vessels/rest/vesselverbose?apiaccesscode={WSDOT_ACCESS_CODE}</code></p>
 <div class="cell">
@@ -463,7 +469,9 @@ Working with Databases
 <span id="cb1-16"><a></a>  jsonlite<span class="sc">::</span><span class="fu">fromJSON</span>() <span class="sc">|&gt;</span> </span>
 <span id="cb1-17"><a></a>  <span class="fu">as_tibble</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-</section><section class="slide level2"><h2></h2>
+</section>
+<section class="slide level2">
+<h2></h2>
 <div class="center">
 <h2>
 <br><strong>Activity Time!</strong>
@@ -477,58 +485,57 @@ Working with Databases
 <div class="callout-content">
 <p>👉 Activity objective: Download the <code>vesselverbose</code> data from the WSDOT API endpoint.</p>
 <ul>
-<li>Open the project <code>materials/01-raw-data-write/01-raw-data-write.Rproj</code>
-</li>
-<li>Open the file <code>01-raw-data-write.qmd</code>
-</li>
+<li>Open the project <code>materials/01-raw-data-write/01-raw-data-write.Rproj</code></li>
+<li>Open the file <code>01-raw-data-write.qmd</code></li>
 <li>🛑 We will work through <strong>Task 1 - Task 3</strong> only</li>
 </ul>
 </div>
 </div>
 </div>
-</section><section class="slide level2"><h2>Where should I put the data?</h2>
+</section>
+<section class="slide level2">
+<h2>Where should I put the data?</h2>
 <div class="fragment middle r-fit-text">
 <p>📣 Production data belongs in a database.</p>
 </div>
-</section><section class="slide level2"><h2>Database Connection Essentials</h2>
+</section>
+<section class="slide level2">
+<h2>Database Connection Essentials</h2>
 <div class="smaller">
 <div>
 <ul>
-<li class="fragment">Use <a href="https://dbi.r-dbi.org">DBI</a> to make a connection with <code><a href="https://dbi.r-dbi.org/reference/dbConnect.html">DBI::dbConnect()</a></code>
-</li>
-<li class="fragment">The first argument to <a href="https://dbi.r-dbi.org">DBI</a> is your DBI-compliant R package</li>
+<li class="fragment">Use <code>{DBI}</code> to make a connection with <code>DBI::dbConnect()</code></li>
+<li class="fragment">The first argument to <code>{DBI}</code> is your DBI-compliant R package</li>
 </ul>
 </div>
 <div class="columns">
 <div class="column fragment">
 <p><span class="positgreen"><strong>Best case:</strong></span> one of the DBI-compliant db-specific packages</p>
 <p><img data-src="slide_resources/con_sans_odbc.png" class="absolute" style="left: 30px; bottom: 180px; width: 47%; "></p>
-</div>
-<div class="column fragment">
-<p><span class="posityellow"><strong>Alternative:</strong></span> <code><a href="https://odbc.r-dbi.org/reference/dbConnect-OdbcDriver-method.html">odbc::odbc()</a></code> + an ODBC driver installed on your system <img data-src="slide_resources/con_w_odbc.png" class="absolute" style="bottom: 180px; right: 30px; width: 47%; "></p>
-</div>
-</div>
+</div><div class="column fragment">
+<p><span class="posityellow"><strong>Alternative:</strong></span> <code>odbc::odbc()</code> + an ODBC driver installed on your system <img data-src="slide_resources/con_w_odbc.png" class="absolute" style="bottom: 180px; right: 30px; width: 47%; "></p>
+</div></div>
 <div class="fragment absolute" style="bottom: 30px; ">
 <p>📣 When possible, use a database-specific R package (e.g., <code>RPostgres</code>, <code>RMariaDB</code>, <code>RSQLite</code>, <code>bigrquery</code>, etc.) instead of <code>odbc</code> + a driver. In many cases, they are more performant (especially in writing data) and may have more translations available for query types.</p>
 </div>
 </div>
-</section><section class="slide level2"><h2>Interacting with Databases</h2>
+</section>
+<section class="slide level2">
+<h2>Interacting with Databases</h2>
 <div>
 <ul>
 <li class="fragment"><p>What tables are in a database? <code>DBI::dbListTables(con)</code></p></li>
-<li class="fragment">
-<p>Use <code>dplyr</code> to interact with the database table in the same manner you would a local data frame</p>
-<div class="sourceCode" id="cb2"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">df</span> <span class="op">&lt;-</span> <span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/tbl.html">tbl</a></span><span class="op">(</span><span class="va">con</span>, <span class="st">"my_table"</span><span class="op">)</span></span>
-<span><span class="va">df</span> <span class="op">|&gt;</span> <span class="fu"><a href="https://rdrr.io/r/stats/filter.html">filter</a></span><span class="op">(</span><span class="va">...</span><span class="op">)</span> <span class="op">|&gt;</span> <span class="fu">mutate</span><span class="op">(</span><span class="va">...</span><span class="op">)</span> <span class="op">|&gt;</span> <span class="fu">group_by</span><span class="op">(</span><span class="va">...</span><span class="op">)</span> <span class="op">|&gt;</span> <span class="fu">summarise</span><span class="op">(</span><span class="va">...</span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-</li>
+<li class="fragment"><p>Use <code>dplyr</code> to interact with the database table in the same manner you would a local data frame</p>
+<div class="sourceCode" id="cb2"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb2-1"><a aria-hidden="true" tabindex="-1"></a>df <span class="ot">&lt;-</span> dplyr<span class="sc">::</span><span class="fu">tbl</span>(con, <span class="st">"my_table"</span>)</span>
+<span id="cb2-2"><a aria-hidden="true" tabindex="-1"></a>df <span class="sc">|&gt;</span> <span class="fu">filter</span>(...) <span class="sc">|&gt;</span> <span class="fu">mutate</span>(...) <span class="sc">|&gt;</span> <span class="fu">group_by</span>(...) <span class="sc">|&gt;</span> <span class="fu">summarise</span>(...)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div></li>
 <li class="fragment"><p>📣 Do as much work as possible in the database to save time and resources before bringing the table into local memory.</p></li>
-<li class="fragment">
-<p>Use <code><a href="https://dplyr.tidyverse.org/reference/compute.html">dplyr::collect()</a></code> to bring the table into memory. Try to use <code>collect</code> as late as possible in your queries / transformations</p>
-<div class="sourceCode" id="cb3"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a aria-hidden="true" tabindex="-1"></a>df <span class="sc">|&gt;</span> ... <span class="sc">|&gt;</span> <span class="fu">collect</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-</li>
+<li class="fragment"><p>Use <code>dplyr::collect()</code> to bring the table into memory. Try to use <code>collect</code> as late as possible in your queries / transformations</p>
+<div class="sourceCode" id="cb3"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a aria-hidden="true" tabindex="-1"></a>df <span class="sc">|&gt;</span> ... <span class="sc">|&gt;</span> <span class="fu">collect</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div></li>
 </ul>
 </div>
-</section><section class="slide level2" data-background-image="_extensions/positconfslides/assets/backgrounds/content-light.svg" data-background-size="contain"><h2></h2>
+</section>
+<section class="slide level2" data-background-image="_extensions/positconfslides/assets/backgrounds/content-light.svg" data-background-size="contain">
+<h2></h2>
 <div class="columns">
 <div class="column" style="width:100%;">
 <h2>More on databases</h2>
@@ -551,14 +558,14 @@ Working with Databases
 <li><a href="https://solutions.posit.co/connections/db/best-practices/managing-credentials/">Securing credentials</a></li>
 <li><a href="https://solutions.posit.co/connections/db/best-practices/portable-code/">Making scripts portable</a></li>
 </ul>
+</div></div>
 </div>
 </div>
 </div>
-</div>
-</div>
-</div>
-</div>
-</section><section class="slide level2"><h2></h2>
+</div></div>
+</section>
+<section class="slide level2">
+<h2></h2>
 <div class="center">
 <h2>
 <br><strong>Activity Time!</strong>
@@ -572,44 +579,48 @@ Working with Databases
 <div class="callout-content">
 <p>👉 Activity objective: Write the <code>vesselverbose</code> data to the database.</p>
 <ul>
-<li>Return to the file <code>01-raw-data-write.qmd</code>
-</li>
+<li>Return to the file <code>01-raw-data-write.qmd</code></li>
 <li>🛑 We will work through <strong>Task 4 - Task 5</strong> only</li>
 </ul>
 </div>
 </div>
 </div>
-</section><section class="slide level2"><h2>How do I automate this process?</h2>
+</section>
+<section class="slide level2">
+<h2>How do I automate this process?</h2>
 <div class="fragment">
 <p>🧰 Deploy and schedule your ETL and reports on Posit Connect <br></p>
 <div class="quarto-figure quarto-figure-center">
-<figure><p><img data-src="slide_resources/scheduling.png" class="quarto-figure quarto-figure-center" height="700"></p>
+<figure>
+<p><img data-src="slide_resources/scheduling.png" class="quarto-figure quarto-figure-center" height="700"></p>
 </figure>
 </div>
 </div>
-</section><section class="slide level2"><h2>Introduction to Emailing with Posit Connect</h2>
+</section>
+<section class="slide level2">
+<h2>Introduction to Emailing with Posit Connect</h2>
 <p>Posit Connect can send an email when a report or notebook renders</p>
 <div class="columns">
 <div class="column" style="width:25%;">
 <div class="fragment">
 <p><img data-src="slide_resources/email_option.png" style="padding-left: 25px;" height="700"></p>
 </div>
-</div>
-<div class="column fragment" style="width:18%;">
+</div><div class="column fragment" style="width:18%;">
 <p><span class="largest middle"><i class="bi-arrow-right " style="" role="img" aria-hidden="true"></i></span></p>
 </div><div class="column" style="width:50%;">
 <div class="fragment">
 <p><img data-src="slide_resources/html_email.png" style="padding-top: 50px;"></p>
 </div>
-</div>
-</div>
+</div></div>
 <div class="fragment absolute" style="background: #F5EF94; width: 600px; height: 400px; padding: 30px; box-shadow: 0 18px 18px -9px lightgray; margin-left: auto; margin-right: auto;top: 350px; right: 220px; ">
 <p><span class="larger">🚫</span></p>
 <p>🥱 This email is non-informative</p>
 <p>🔊 Creates noise in the inbox</p>
 <p>🙈 Does not compel anyone to look at it</p>
 </div>
-</section><section class="slide level2"><h2>Introduction to Emailing with <img data-src="slide_resources/quarto-logo-trademark.svg" style="vertical-align:middle" width="350"> and Connect</h2>
+</section>
+<section class="slide level2">
+<h2>Introduction to Emailing with <img data-src="slide_resources/quarto-logo-trademark.svg" style="vertical-align:middle" width="350"> and Connect</h2>
 <p>Posit Connect can send (or suppress) custom Quarto-generated emails when a report or notebook renders</p>
 <div class="columns">
 <div class="column" style="width:25%;">
@@ -622,9 +633,10 @@ Working with Databases
 <p><span class="largest middle">=</span></p>
 </div><div class="column" style="width:20%;">
 <p><span class="large middle center">🧰 <br>Customized emails</span></p>
-</div>
-</div>
-</section><section class="slide level2"><h2>A Basic Quarto Email</h2>
+</div></div>
+</section>
+<section class="slide level2">
+<h2>A Basic Quarto Email</h2>
 <div class="cell longest_code_block">
 <div class="sourceCode cell-code" id="cb4" data-code-line-numbers="|3|6-9|11-19|11,19|13|15-17"><pre class="sourceCode numberSource markdown longest_code_block number-lines code-with-copy"><code class="sourceCode markdown"><span id="cb4-1"><a></a><span class="co">---</span></span>
 <span id="cb4-2"><a></a><span class="an">title:</span><span class="co"> Something wonderful </span></span>
@@ -646,8 +658,9 @@ Working with Databases
 <span id="cb4-18"><a></a></span>
 <span id="cb4-19"><a></a>::::</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-</section><section class="slide level2"><h2>A Basic Quarto Email with <span class="posityellow">Conditional Send</span>
-</h2>
+</section>
+<section class="slide level2">
+<h2>A Basic Quarto Email with <span class="posityellow">Conditional Send</span></h2>
 <div class="cell longest_code_block">
 <div class="sourceCode cell-code" id="cb5" data-code-line-numbers="|11-13|15-29|17-21"><pre class="sourceCode numberSource markdown longest_code_block number-lines code-with-copy"><code class="sourceCode markdown"><span id="cb5-1"><a></a><span class="co">---</span></span>
 <span id="cb5-2"><a></a><span class="an">title:</span><span class="co"> Something wonderful </span></span>
@@ -679,7 +692,9 @@ Working with Databases
 <span id="cb5-28"><a></a></span>
 <span id="cb5-29"><a></a>::::</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-</section><section class="slide level2"><h2></h2>
+</section>
+<section class="slide level2">
+<h2></h2>
 <div class="center">
 <h2>
 <br><strong>Activity Time!</strong>
@@ -693,10 +708,8 @@ Working with Databases
 <div class="callout-content">
 <p>👉 Activity objective: deploy and schedule this work on Posit Connect so it runs automatically and sends an email only if there’s something amiss with the raw data.</p>
 <ul>
-<li>Return to the file <code>01-raw-data-write.qmd</code>
-</li>
-<li>🛑 We will work <strong>Task 6 to the end of the document</strong>
-</li>
+<li>Return to the file <code>01-raw-data-write.qmd</code></li>
+<li>🛑 We will work <strong>Task 6 to the end of the document</strong></li>
 </ul>
 </div>
 </div>
@@ -708,10 +721,27 @@ Working with Databases
 </div>
 </div>
 </section>
-</div>
+    </div>
   </div>
 
-  <script>window.backupDefine = window.define; window.define = undefined;</script><script src="../site_libs/revealjs/dist/reveal.js"></script><!-- reveal.js plugins --><script src="../site_libs/revealjs/plugin/quarto-line-highlight/line-highlight.js"></script><script src="../site_libs/revealjs/plugin/pdf-export/pdfexport.js"></script><script src="../site_libs/revealjs/plugin/reveal-menu/menu.js"></script><script src="../site_libs/revealjs/plugin/reveal-menu/quarto-menu.js"></script><script src="../site_libs/revealjs/plugin/reveal-chalkboard/plugin.js"></script><script src="../site_libs/revealjs/plugin/quarto-support/support.js"></script><script src="../site_libs/revealjs/plugin/notes/notes.js"></script><script src="../site_libs/revealjs/plugin/search/search.js"></script><script src="../site_libs/revealjs/plugin/zoom/zoom.js"></script><script src="../site_libs/revealjs/plugin/math/math.js"></script><script>window.define = window.backupDefine; window.backupDefine = undefined;</script><script>
+  <script>window.backupDefine = window.define; window.define = undefined;</script>
+  <script src="../site_libs/revealjs/dist/reveal.js"></script>
+  <!-- reveal.js plugins -->
+  <script src="../site_libs/revealjs/plugin/quarto-line-highlight/line-highlight.js"></script>
+  <script src="../site_libs/revealjs/plugin/pdf-export/pdfexport.js"></script>
+  <script src="../site_libs/revealjs/plugin/reveal-menu/menu.js"></script>
+  <script src="../site_libs/revealjs/plugin/reveal-menu/quarto-menu.js"></script>
+  <script src="../site_libs/revealjs/plugin/reveal-chalkboard/plugin.js"></script>
+  <script src="../site_libs/revealjs/plugin/quarto-support/support.js"></script>
+  
+
+  <script src="../site_libs/revealjs/plugin/notes/notes.js"></script>
+  <script src="../site_libs/revealjs/plugin/search/search.js"></script>
+  <script src="../site_libs/revealjs/plugin/zoom/zoom.js"></script>
+  <script src="../site_libs/revealjs/plugin/math/math.js"></script>
+  <script>window.define = window.backupDefine; window.backupDefine = undefined;</script>
+
+  <script>
 
       // Full list of configuration options available at:
       // https://revealjs.com/config/
@@ -902,7 +932,9 @@ Working with Databases
           RevealZoom
         ]
       });
-    </script><script>
+    </script>
+    
+    <script>
       // htmlwidgets need to know to resize themselves when slides are shown/hidden.
       // Fire the "slideenter" event (handled by htmlwidgets.js) when the current
       // slide changes (different for each slide format).
@@ -937,7 +969,9 @@ Working with Databases
         }
 
       })();
-    </script><script id="quarto-html-after-body" type="application/javascript">
+    </script>
+
+    <script id="quarto-html-after-body" type="application/javascript">
     window.document.addEventListener("DOMContentLoaded", function (event) {
       const toggleBodyColorMode = (bsSheetEl) => {
         const mode = bsSheetEl.getAttribute("data-mode");
@@ -1124,6 +1158,6 @@ Working with Databases
       }
     });
     </script>
-
+    
 
 </body></html>
