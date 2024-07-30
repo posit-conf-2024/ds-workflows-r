@@ -41,22 +41,6 @@ The goals of this activity are to:
 
 This will give you experience setting up a repeatable workflow for populating production data sources.
 
-## Setup
-
-```{r}
-#| label: setup
- 
-library(httr2)
-library(tidyverse)
-library(janitor)
-library(DBI)
-library(odbc)
-library(glue)
-library(usethis)
-library(ferryfairy)
-
-```
-
 ## Data sources
 
 We are using data sets from two main sources
@@ -101,6 +85,24 @@ WSDOT_ACCESS_CODE=PASTE_VALUE_HERE
 **Don't forget to restart your session to load your revised environment.**
 
 💡 Remember, the `.Renviron` file does not get deployed with this content, and you should not commit it to git. It is a local file that sets environment variables for your R session. You will be able to set this variable in the "Vars" pane on Connect when you deploy.
+
+Now let's set sail!
+
+## Load Packages
+
+```{r}
+#| label: setup
+ 
+library(httr2)
+library(tidyverse)
+library(janitor)
+library(DBI)
+library(odbc)
+library(glue)
+library(usethis)
+library(ferryfairy)
+
+```
 
 ## Task 2 - Download vessel verbose data
 
@@ -193,7 +195,6 @@ If you're working through this document in the Workshop, pause here.
 🔄 Task
 
 -   Use `dbWriteTable` to write `vesselinfo_raw` into the database
--   Use a time stamp to provide informational logging
 
 ```{r}
 #| label: database write
@@ -202,23 +203,10 @@ my_username <- "_____" #Fill in your username, workshop participants!
 
 my_df_name <- paste0("vesselinfo_raw_", my_username)
 
-
-# Insert your start time stamp
-start_time <- Sys.time()
-
 DBI::dbWriteTable(conn = con, # the connection
                   name = my_df_name, # the name of the table you will create in the DB
                   value = vesselinfo_raw,
                   overwrite = TRUE)
-
-
-# Insert your end time stamp
-end_time <- Sys.time()
-duration <- end_time - start_time
-
-# the {tictoc} package does time stamps nicely too, but I like how the method above uses a difftime and will automatically choose the most appropriate units to display
-
-print(glue("ℹ️ Info: Writing `{my_df_name}` to database took", round(duration[[1]], 2), units(duration), .sep = " "))
 ```
 
 ## Task 5 - Get and write the other data sets
@@ -239,7 +227,7 @@ Get the following additional data sets:
 
 We'll query 30 days looking back from today's date, and use the vessel names we retrieved from the Vessel Verbose endpoint.
 
-Rather than manually repeating the API call for each vessel though, we'll use a function we wrote into the `ferryfairy` package that iterates over the list of vessel names.
+Rather than manually repeating the API call for each vessel though, we'll use a function we wrote into the `ferryfairy` package that iterates the API call over the list of vessel names using the same technique as above with `httr2`. 
 
 ```{r}
 #| label: download raw vessel history
@@ -254,17 +242,18 @@ data_list <- map(vesselnames, get_vesselhistory, start_date, end_date)
 
 # Convert the list into a data frame and clean the column names
 vesselhistory_raw <- bind_rows(data_list) |> clean_names()
-
+vesselhistory_raw
 ```
 
 ### Terminal locations
 
-Again, to simplify things, we use a function in `ferryfairy` to retrieve latitude and longitudes for each terminal.
+Again, to simplify things, we use a function in `ferryfairy` to retrieve latitude and longitudes for each terminal. The function is a wrapper around `httr2`.
 
 ```{r}
 #| label: download terminal locations data
 
 terminallocations <- ferryfairy::get_terminalinfo()
+terminallocations
 ```
 
 ### Weather data
@@ -297,13 +286,13 @@ data_list <- map(terminallocations$terminal_name,
 
 # Convert the list into a data frame and clean the column names
 weather_terminal_history_raw <- bind_rows(data_list) 
-
+weather_terminal_history_raw
 
 ```
 
 ### Write the data to the database
 
-We'll use a helper function from `{ferryfairy}` for brevity.
+We'll use a helper function from `{ferryfairy}` for brevity. This is a wrapper around `dbWriteTable`.
 
 ```{r}
 #| label: write remaining data to database
@@ -325,36 +314,7 @@ dbDisconnect(con)
 If you're working through this document in the Workshop, pause here.
 :::
 
-## Task 6 - Add logging information to make our scheduled report informative
-
-🔄 Task
-
-Make your scheduled reports work harder for you! Include information that you'll find useful to refer back to. Logging can be as basic or elaborate as you need.
-
-Lets include:
-
--   A nicely formatted time stamp.
-
--   A summary the main actions taken in the report, such as how many rows of data were downloaded, how many rows of data were written to the database
-
-Hint: The `glue` package is helpful for combining text and variables. It's less work than stringing things together with `paste`. With `glue::glue()`, the syntax is `glue("Text with {<r expression or variable>}")`
-
-```{r}
-#| label: logging
-
-stamp <- format(as.POSIXct(Sys.time(),tz="US/Pacific"),'%A, %B %d, %Y %H:%M:%S')
-glue("Report run {stamp}")
-
-glue("Wrote the following to the database: 
-     
-     {nrow(vesselinfo_raw)} rows of raw vessel data
-     {nrow(vesselhistory_raw)} rows of raw vessel history
-     {nrow(terminallocations)} terminal location records
-     {nrow(weather_terminal_history_raw)} rows of weather data")
-
-```
-
-## Task 7 - Send an email alert if something is fishy 🐟
+## Task 6 - Send an email alert if something is fishy 🐟
 
 🔄 Task
 
@@ -419,6 +379,37 @@ glue("The following number of records were retrieved from the API sources:
 
 ```
 :::::
+
+## Task 7 - Add logging information to make our scheduled report informative
+
+🔄 Task
+
+Make your scheduled reports work harder for you! Include information that you'll find useful to refer back to. Logging can be as basic or elaborate as you need.
+
+Lets include:
+
+-   A nicely formatted time stamp.
+
+-   A summary the main actions taken in the report, such as how many rows of data were downloaded, how many rows of data were written to the database
+
+Hint: The `glue` package is helpful for combining text and variables. It's less work than stringing things together with `paste`. With `glue::glue()`, the syntax is `glue("Text with {<r expression or variable>}")`
+
+```{r}
+#| label: logging
+
+stamp <- format(as.POSIXct(Sys.time(),tz="US/Pacific"),'%A, %B %d, %Y %H:%M:%S')
+glue("Report run {stamp}")
+
+glue("Wrote the following to the database: 
+     
+     {nrow(vesselinfo_raw)} rows of raw vessel data
+     {nrow(vesselhistory_raw)} rows of raw vessel history
+     {nrow(terminallocations)} terminal location records
+     {nrow(weather_terminal_history_raw)} rows of weather data")
+
+```
+
+
 
 ## Task 8 - Publish and schedule on Posit Connect
 
