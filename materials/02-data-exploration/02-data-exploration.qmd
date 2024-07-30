@@ -68,16 +68,16 @@ con <- dbConnect(
 
 ### Read in data
 
-For the Workshop, we will conduct data exploration on a smaller subset of the production data rather than the full tables just for consideration of processing time. We will pull the "\*\_deckhand" versions of the same data frames we wrote in the previous exercise.
+Now we will use `dplyr` to define a data table from a database
 
 ```{r}
 #| label: read in raw data
 
-vesselinfo_raw <- dplyr::tbl(con, "vesselinfo_raw_deckhand")
+vesselinfo_raw <- dplyr::tbl(con, "vesselinfo_raw")
 
-vesselhistory_raw <- dplyr::tbl(con, "vesselhistory_raw_deckhand")
+vesselhistory_raw <- dplyr::tbl(con, "vesselhistory_raw")
 
-weather_terminal_history_raw <- dplyr::tbl(con, "weather_terminal_history_raw_deckhand")
+weather_terminal_history_raw <- dplyr::tbl(con, "weather_terminal_history_raw")
 
 ```
 

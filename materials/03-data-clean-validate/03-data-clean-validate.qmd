@@ -35,21 +35,6 @@ Our conditions will send an email based on the the following:
 
 ✏️ There will be placeholders (`____`) in the code cells below that you will need to fill in!
 
-## Setup
-
-```{r}
-#| label: setup
-
-library(DBI)
-library(odbc)
-library(pointblank)
-library(tidyverse)
-library(glue)
-library(gt)
-library(ferryfairy)
-
-```
-
 ## Task 1 - Define a "condition override" so we can manually trigger a condition and see the resulting email
 
 🔄 Task
@@ -103,6 +88,21 @@ Data not written to database but an email for condition {Sys.getenv('CONDITION_O
 ```
 
 ## Task 2 - Read in raw data
+## Setup
+
+```{r}
+#| label: setup
+
+library(DBI)
+library(odbc)
+library(pointblank)
+library(tidyverse)
+library(glue)
+library(gt)
+library(usethis)
+library(ferryfairy)
+
+```
 
 🔄 Task
 
@@ -134,14 +134,11 @@ Because we are in a Workshop setting, we will pull the data into local memory us
 ```{r}
 #| label: read in raw data
 
-vesselinfo_raw <- dplyr::tbl(con, 
-                             name = "vesselinfo_raw") |> collect()
+vesselinfo_raw <- dplyr::tbl(con, "vesselinfo_raw") |> collect()
 
-vesselhistory_raw <- dplyr::tbl(con, 
-                                name = "vesselhistory_raw") |> collect()
+vesselhistory_raw <- dplyr::tbl(con, "vesselhistory_raw") |> collect()
 
-weather_terminal_history_raw <- dplyr::tbl(con, 
-                                           name = "weather_terminal_history_raw") |> collect()
+weather_terminal_history_raw <- dplyr::tbl(con, "weather_terminal_history_raw") |> collect()
 
 ```
 
