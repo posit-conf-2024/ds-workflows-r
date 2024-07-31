@@ -29,7 +29,7 @@ con <- dbConnect(
   timeout     = 10
 )
 
-ferry_weather <- dplyr::tbl(con, DBI::Id(schema = "deckhand", name = df_name)) |> 
+ferry_weather <- dplyr::tbl(con, df_name) |> 
   collect() |> 
   mutate(arriving = str_to_title(str_replace_all(arriving, "_", " ")),
          departing = str_to_title(str_replace_all(departing, "_", " ")))
