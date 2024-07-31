@@ -73,7 +73,8 @@ We are using an environment variable to access the WSDOT API called **`WSDOT_ACC
 
 To save this environment variable in your local development environment, add it to your `.Renviron` file. To do this, run the following command in your R console:
 
-``` r
+```{r}
+#| eval: false
 usethis::edit_r_environ("project")
 ```
 
@@ -227,7 +228,7 @@ Get the following additional data sets:
 
 We'll query 30 days looking back from today's date, and use the vessel names we retrieved from the Vessel Verbose endpoint.
 
-Rather than manually repeating the API call for each vessel though, we'll use a function we wrote into the `ferryfairy` package that iterates the API call over the list of vessel names using the same technique as above with `httr2`. 
+Rather than manually repeating the API call for each vessel though, we'll use a function we wrote into the `ferryfairy` package that iterates the API call over the list of vessel names using the same technique as above with `httr2`.
 
 ```{r}
 #| label: download raw vessel history
@@ -409,13 +410,11 @@ glue("Wrote the following to the database:
 
 ```
 
-
-
 ## Task 8 - Publish and schedule on Posit Connect
 
 🔄 Task
 
--   Connect your account on Posit Connect to Workbench (Tools > Global Options > Publishing)
+-   Connect your account on Posit Connect to Workbench (Tools \> Global Options \> Publishing)
 -   Use push-button publishing to publish this document, with source code, to Connect
 -   Schedule it to run on a timescale that seems appropriate for the data update cycle
 
