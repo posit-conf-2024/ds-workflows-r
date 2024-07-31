@@ -25,7 +25,7 @@ Welcome to the first Activity! A few points relevant to this, and all other Acti
 2.  The intention is to run through the document from top to bottom, running each code chunk interactively rather than rendering the document, however, these are also "production" documents that can be deployed to generate our project's production assets
 3.  Run the chunk by either clicking the green Play Button in the chunk's top right corner, or use the cmd+enter keyboard shortcut to run the current line or selected text
 4.  We'll work through these activities mostly as a group, code-along style because our focus in this workshop is less about code development and more about around processes, tools, and learning concepts. We can best teach this if we do it together!
-5.  **Where's my output?** Are you a `Chunk Output Inline` kind of person? Sorry. For this activity, it's set by default to go the console because the HTML renderings from Pointblank get very squished otherwise. It might be like this for other activities too, so don't get surprised 😉
+5.  **Where's my output?** Are you a `Chunk Output Inline` kind of person? Sorry. For the Workshop, it's set by default to go the console because it requires less scrolling up/down to talk through things. If you hate it, you can change it. 😉
 
 ------------------------------------------------------------------------
 
@@ -415,11 +415,11 @@ glue("Wrote the following to the database:
 🔄 Task
 
 -   Connect your account on Posit Connect to Workbench (Tools \> Global Options \> Publishing)
--   Use push-button publishing to publish this document, with source code, to Connect
--   Schedule it to run on a timescale that seems appropriate for the data update cycle
+-   Use push-button publishing to publish this document, with source code, to Connect. Or publish using `rsconnect::deployApp(envVars = c("WSDOT_ACCESS_CODE"))`-   Schedule it to run on a timescale that seems appropriate for the data update cycle
 
 Note: Recall we specified our database connection details with environment variables. Typically when you publish content to Connect, you will also need to supply the environment variables using the "Vars" pane in Connect. For this workshop, these environment variables have already been stored on the Connect server for you so you won't need to do this step for this activity.
 
 We'll do this task together as a group.
 
 For reference, the Connect User Guide provides instructions for publishing: <https://docs.posit.co/connect/user/publishing/#publishing-general>
+

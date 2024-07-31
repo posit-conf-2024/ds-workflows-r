@@ -35,6 +35,20 @@ Our conditions will send an email based on the the following:
 
 ✏️ There will be placeholders (`____`) in the code cells below that you will need to fill in!
 
+## Prologue
+
+This notebook packs a lot. In addition to data cleaning and validation code, there are mechanics going on to:
+
+-   Run or suppress running of code chunks depending on condition
+    -   Look for logical statements in the Quarto chunk options. Examples of this are:\
+        `#| eval: false`\
+        `#| eval: !expr 'stop_alert != TRUE'`\
+        `#| eval: !expr 'condition == 1'`
+-   Implement an override so in development, testing, and in this Workshop, we can force a particular outcome
+    -   Look for logical statements that include `Sys.getenv("CONDITION_OVERRIDE")`
+
+These mechanics are here to make this a more robust report and enable our desired conditionality. Leave these elements as they are, and don't focus on these parts during the Workshop. You're welcome to tinker with them after our day is done.
+
 ## Task 1 - Define a "condition override" so we can manually trigger a condition and see the resulting email
 
 🔄 Task
@@ -58,7 +72,9 @@ Our conditions are:
 
 To set this environment variable locally during development, add it to your `.Renviron` file. To do this, run the following command in your R console:
 
-``` r
+```{r}
+#| eval: false
+
 usethis::edit_r_environ("project")
 ```
 
@@ -88,6 +104,7 @@ Data not written to database but an email for condition {Sys.getenv('CONDITION_O
 ```
 
 ## Task 2 - Read in raw data
+
 ## Setup
 
 ```{r}
@@ -162,10 +179,10 @@ df <- dplyr::tibble(
     fruits = fruit[1:6],
     date = seq(today()-2, today()+3, 1)
   )
-
+df
 ```
 
-### Validatate the sample data frame
+### Validate the sample data frame
 
 The first step in the `pointblank` workflow is to create an **agent.**
 
@@ -187,13 +204,13 @@ Now we define our **data validation functions**. A few have been started for you
 
 agent <- create_agent(df) |>
   col_vals_between(
-    columns = a, 1, 9,
+    columns = a, 
+    1, 9,
     na_pass = TRUE
   ) |> 
-  col_vals_lt(
-    columns = new_column, 12,
-    preconditions = ~ . %>% dplyr::mutate(new_column = a + b)
-  ) |> 
+  rows_distinct(
+    columns = b
+    ) |> 
   col_vals_in_set(
     columns = fruits, c("apple", "avocado", "blueberry", "mango", "plum", "tangerine")
   ) |> 
@@ -247,12 +264,10 @@ agent <- create_agent(df) |>
     na_pass = TRUE,
     actions = action_levels(warn_at = 0.2, stop_at = 0.3)
   ) |> 
-    col_vals_lt(
-  columns = new_column, 12,
-    preconditions = ~ . %>% dplyr::mutate(new_column = a + b),
-    label = "the sum of a+b must be than 12",
-    actions = action_levels(warn_at = 0.005)
-  ) |> 
+  rows_distinct(
+    columns = b,
+    actions = action_levels(warn_at = 1, notify_at = 2) 
+    ) |> 
   col_vals_in_set(
     columns = fruits, c("apple", "avocado", "blueberry", "mango", "plum", "tangerine"),
     label = "only serve my favorite fruits"
@@ -325,17 +340,31 @@ xlist
 
 ```
 
-The output is like a gold mine! The resulting list includes the pass / fail statistics (`$n_passed`, `$n_failed`, `$f_passed`, `$f_failed`) and what we are after -- the validations with warnings. Let's take a look.
+The output is like a gold mine! The resulting list contains all of the information used to create the agent table, in list form.
+
+Let's pull out the the pass / fail statistics (`$n_passed`, `$n_failed`, `$f_passed`, `$f_failed`) and which validations set a warning flag. Let's take a look.
 
 ```{r}
-#| label: Any warning flags set?
+#| label: Inspect the xlist
 #| eval: false
 
-xlist$____
+# First return the description of each validation step
+xlist$briefs
+
+# How many records and what fraction passed each validation step? The results correspond to their respective validation step number.
+xlist$n_passed
+xlist$f_passed
+
+# and failed? 
+xlist$n_failed
+xlist$f_failed
+
+# which validations resulted in a "Warning" flag set?
+xlist$warn
 
 ```
 
-Extracting these basic TRUE / FALSE values can be powerful for next steps. We'll see how we can send conditional emails in the next section of the workshop.
+Extracting this information can be powerful for selecting different conditional emails to send and providing relevant summary information in those emails.
 
 ## Task 4 - Validate raw production data schema
 
@@ -580,7 +609,7 @@ if(Sys.getenv("CONDITION_OVERRIDE") %in% c(2,3)){
 
 ```
 
-## Task 7 - Remove failed records from dataset
+## Task 7 - Remove failed records from data set
 
 🔄 Task
 
@@ -605,7 +634,7 @@ Write cleaned data to database
 #| label: write validated data to database
 #| eval: !expr 'stop_alert != TRUE & !Sys.getenv("CONDITION_OVERRIDE") %in% c(1:3)'
 
-my_username <- "_____" #Fill in your username, workshop participants!
+my_username <- "____" #Fill in your username, workshop participants!
 
 my_df_name <- paste0("modeldata_validated_", my_username)
 

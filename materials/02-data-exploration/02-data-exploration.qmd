@@ -90,7 +90,7 @@ Begin exploring the data. You will want to understand:
 -   What columns exist in the data?
 -   How do the data sets relate to one another?
 -   What is the type of each column (e.g. string, number, category, date)?
--   Which columns could be useful for the model.
+-   Which columns could be useful for the model?
 -   Is all of the data in scope?
 -   What steps will I need to perform to clean the data?
 
@@ -198,13 +198,7 @@ Let's explore the results. Can you identify:
 
 -   Where in the data frame are there missing values?
 
-::: {.callout-tip icon="false"}
-## Heads Up
-
-If you're working through this document in the Workshop, pause here.
-:::
-
-## Task 3 - Create a data dictionary
+## Bonus - Create a data dictionary
 
 🔄 Task
 
