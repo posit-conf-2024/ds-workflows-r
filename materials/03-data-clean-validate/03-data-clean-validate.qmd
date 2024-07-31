@@ -174,10 +174,10 @@ We will toy with a simple data frame in the Workshop, then see the validation st
 #| eval: false
 
 df <- dplyr::tibble(
-    a = c(5, 7, 6, 5, NA, 7),
-    b = c(6, 1, NA, 6,  0, 7),
-    fruits = fruit[1:6],
-    date = seq(today()-2, today()+3, 1)
+    a = c(5, 7, 6, 5, NA, 7, 9),
+    b = c(6, 1, NA, 6,  0, 7, -1),
+    fruits = fruit[1:7],
+    date = seq(today()-2, today()+4, 1)
   )
 df
 ```
@@ -221,7 +221,7 @@ agent <- create_agent(df) |>
   # verify that the date is before today
   ____ |> 
   # would you like to add more?
-  ____ |> 
+  ____ 
 
 
 agent
@@ -574,9 +574,9 @@ main_agent <- create_agent(vesselhistory_w_weather) |>
   col_vals_gte(columns = delay, -5,
                label = "Departed no more than 5 minutes early",
                actions = action_levels(warn_at = 0.01)) |>
-  # a departure more than 5 minutes early is likely bad data
-  col_vals_gte(columns = delay, -5,
-               label = "Departed no more than 5 minutes early",
+  # a departure more than 120 minutes late is likely bad data
+  col_vals_lte(columns = delay, 120,
+               label = "Departed no more than 120 minutes late",
                actions = action_levels(warn_at = 0.01)) |> 
   # weather code is valid
   col_vals_between(columns = weather_code, 0, 99, na_pass = TRUE,
@@ -620,7 +620,7 @@ Pointblank has identified all of the rows of `vesselhistory_w_weather` that pass
 #| eval: !expr 'stop_alert != TRUE'
 
 modeldata_validated <- get_sundered_data(main_agent, type = "pass")
-modeldata_fail_validation <- get_sundered_data(main_agent, type = "fail")
+modeldata_failed_validation <- get_sundered_data(main_agent, type = "fail")
 
 ```
 
@@ -638,22 +638,18 @@ my_username <- "____" #Fill in your username, workshop participants!
 
 my_df_name <- paste0("modeldata_validated_", my_username)
 
-# Insert start time stamp
-start_time <- Sys.time()
-
 DBI::dbWriteTable(conn = con, # the connection
                   name = my_df_name, # the name of the table you will create in the DB
                   value = modeldata_validated,
                   overwrite = TRUE)
 
-# Insert end time stamp
-end_time <- Sys.time()
-duration <- end_time - start_time
-
-
-print(glue::glue("ℹ️ Info: Writing {my_df_name} to database took ",  round(duration[[1]], 2),  units(duration)))
-
 ```
+
+::: {.callout-tip icon="false"}
+## Heads Up
+
+If you're working through this document in the Workshop, pause here.
+:::
 
 ## Task 9 - Send Conditional Email
 
@@ -954,7 +950,7 @@ warnings_table
 if (condition == 3){
 glue("Vessel history and weather data was validated and sundered.
 
-Records removed that failed validation: {nrow(modeldata_fail_validation)}
+Records removed that failed validation: {nrow(modeldata_failed_validation)}
 
 Records written to database: {nrow(modeldata_validated)}")
 
