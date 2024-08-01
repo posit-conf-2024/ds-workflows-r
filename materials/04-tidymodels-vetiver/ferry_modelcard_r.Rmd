@@ -4,9 +4,7 @@ date: '`r Sys.Date()`'
 output: 
   html_document
 params:
-    board: !r pins::board_connect(auth = "manual", 
-                       server = "https://pub.ferryland.posit.team", 
-                       key = Sys.getenv("CONNECT_API_KEY"))
+    board: !r pins::board_connect()
     name: ryjohnson09/ferry_model
     version: NULL
 ---

@@ -159,7 +159,8 @@ model_fit <- parsnip::fit(model_wflow, your-data)
 ::: {.callout-note icon="false"}
 ## Activity
 
-👉 Open the file `materials/04-tidymodels-vetiver/04-idymodels-vetiver.qmd`
+-   Open the project `materials/04-tidymodels-vetiver/04-tidymodels-vetiver.Rproj`
+-   Open the file `04-tidymodels-vetiver.qmd`
 
 **Complete Tasks 0 & 1 only!**
 :::
@@ -178,6 +179,8 @@ We have two questions:
 
 1.  How can we **save** our model so others can use it?
 2.  How can we **serve** our model so others can interact with it?
+
+How do you save/share models?
 
 ::: {.fragment .fade-up}
 ![](https://github.com/rstudio/hex-stickers/blob/main/PNG/vetiver.png?raw=true){fig-align="center" width="309"}
@@ -218,7 +221,8 @@ We have two questions:
 ::: {.callout-note icon="false"}
 ## Activity
 
-👉 Open the file `materials/04-tidymodels-vetiver/04-tidymodels-vetiver.qmd`
+-   Open the project `materials/04-tidymodels-vetiver/04-tidymodels-vetiver.Rproj`
+-   Open the file `04-tidymodels-vetiver.qmd`
 
 **Complete Task 2 only!**
 :::
@@ -246,9 +250,10 @@ Use `vetiver` to **pin** model to Posit Connect.
 ::: {.callout-note icon="false"}
 ## Activity
 
-👉 Open the file `materials/04-tidymodels-vetiver/04-tidymodels-vetiver.qmd`
+-   Open the project `materials/04-tidymodels-vetiver/04-tidymodels-vetiver.Rproj`
+-   Open the file `04-tidymodels-vetiver.qmd`
 
-**Complete Tasks 3 only!**
+**Complete Task 3 only!**
 :::
 
 ::: callout-important
@@ -271,7 +276,8 @@ Use `vetiver` to **serve** the pinned model as an **API** to Posit Connect.
 ::: {.callout-note icon="false"}
 ## Activity
 
-👉 Open the file `materials/04-tidymodels-vetiver/04-tidymodels-vetiver.qmd`
+-   Open the project `materials/04-tidymodels-vetiver/04-tidymodels-vetiver.Rproj`
+-   Open the file `04-tidymodels-vetiver.qmd`
 
 **Complete Task 4**
 :::
@@ -283,31 +289,34 @@ Use `vetiver` to version and monitor your ferry predict model.
 :::
 :::::
 
+## Summary - Pins/Plumber
+
+![](slide_resources/pins_plumber.jpg){fig-align="center"}
+
 ## Ferry Delay Prediction Model
 
 Training this model is relatively *fast*
 
 -   What if the model training is slow or the data is **REALLY** big?
 
-    -   {{< bi sign-turn-right-fill color=orange >}} Workbench Jobs allows you to run R scripts in new sessions independent of your current RStudio Pro session
+    -   {{< bi sign-turn-right-fill color=orange >}} Workbench Jobs allows you to run R/Python scripts in new sessions independent of your current RStudio Pro/VSCode session
 
         ![](slide_resources/background_jobs.png){fig-align="center" width="344"}
 
 -   {{< bi sign-turn-right-fill color=orange >}} If you create a model, you should create a **model card!**
 
-    -   Check out a basic model card here!
+    -   Check out a basic model card [here](https://pub.ferryland.posit.team/ferry_model_card_r/)!
 
-## Ferry Delay Prediction Model {.content-light}
+## Deploy to Posit Connect {.content-light}
 
 ::: {.callout-note icon="false"}
 ## Activity
 
-👉 Try interacting with your Ferry Delay Prediction Model API on Posit Connect
+-   Open the project `materials/04-tidymodels-vetiver/04-tidymodels-vetiver.Rproj`
+-   Open the file `04-tidymodels-vetiver.qmd`
+
+**Publish to Posit Connect using push button deployment!**
 :::
-
-## Example Prediction
-
-![](slide_resources/example_prediction.png){fig-align="center"}
 
 ## Review
 

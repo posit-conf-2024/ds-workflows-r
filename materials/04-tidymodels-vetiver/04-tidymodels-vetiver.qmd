@@ -25,26 +25,6 @@ The goals of this activity are to:
 6.  Use the pinned models to serve a plumber API hosted on Posit Connect.
 7.  Use the `vetiver` and `pins` package to version and monitor the performance of the models over time.
 
-## Setup
-
-```{r}
-#| label: setup
-
-library(tidyverse)
-library(pins)
-library(tidymodels)
-library(lubridate)
-library(skimr)
-library(vetiver)
-library(xgboost)
-library(plumber)
-library(rsconnect)
-library(odbc)
-library(DBI)
-library(usethis)
-
-```
-
 ## Task 0 - Create and Save a Posit Connect API Key
 
 Before starting this activity, we need to create and save a Posit Connect API key in our environment. This API key identifies you to Connect, allowing you to publish or interact with privileged content if you have the necessary permissions. **YOU SHOULD NEVER ADD YOUR API KEY TO YOUR SOURCE CODE!!!** An API key is like a password, and you should take the necessary steps to secure it. One of those methods is by adding it as an environment variable. You can do this by adding the variable/API key to your `.Renviron` file. This file is interpreted by R every time you start a new session. The `usethis` R packabe makes it super easy to add environment variables.
@@ -65,10 +45,11 @@ Once you run the above command, you should see a new file open up in RStudio. Th
 5.  Name it whatever you like. `Connect-API-Key` is a good option.
 6.  Copy the new API key. **DON'T LOSE IT!** If you do lose it, you can create another one.
 
-Navigate back to your `.Renviron` file and add the following line. It's always a good idea to add an additional blank line at the end of your `.Renviron` file.
+Navigate back to your `.Renviron` file and add the following line. It's always a good idea to add an additional blank line at the end of your `.Renviron` file. Let's also add the CONNECT_SERVER URL just for good measure!
 
 ```         
 CONNECT_API_KEY=paste-your-api-key-here
+CONNECT_SERVER=https://pub.ferryland.posit.team
 ```
 
 Now you can close the `.Renviron` file and restart your R session (Session–\>Restart R) so that the API key varialble get's added to our environment. To confirm it worked, try running the following code:
@@ -77,11 +58,31 @@ Now you can close the `.Renviron` file and restart your R session (Session–\>R
 
 # Check if CONNECT_API_KEY is added to environment
 Sys.getenv("CONNECT_API_KEY")
+
+# Check if CONNECT_SERVER is added to environment
+Sys.getenv("CONNECT_SERVER")
 ```
 
 You should see the API key in the console. If not, please raise your hand and we'll be around to help you out!
 
 ## Task 1 - Create a tidymodel
+
+```{r}
+#| label: setup
+
+library(tidyverse)
+library(pins)
+library(tidymodels)
+library(lubridate)
+library(skimr)
+library(vetiver)
+library(xgboost)
+library(plumber)
+library(rsconnect)
+library(odbc)
+library(DBI)
+library(usethis)
+```
 
 [Tidymodels](https://www.tidymodels.org/) is a collection of R packages for modeling and machine learning using [tidyverse](https://www.tidyverse.org/) principles. While this workshop is **not** a modeling workshop, to demonstrate the utility of the `vetiver`, we need to create a model.
 
@@ -285,7 +286,7 @@ We'll use `tidymodels` to evaluate how our model did using the testing dataset. 
 predictions_lr <- augment(ferry_fit_lr, test_data)
 
 # Evaluate the model
-metrics_lr <- predictions_lr %>%
+metrics_lr <- predictions_lr |> 
   metrics(truth = delay_status, estimate = .pred_class)
 
 metrics_lr
@@ -300,7 +301,7 @@ predictions_lr |>
 
 ## Task 2 - Pin Model to Posit Connect
 
-Now that we have a model, we'll want to save it to a location so that it can be easily shared with colleagues, other content, or your future self! The `pins` package is the workhouse behind this workflow. The `vetiver` package has some wrappers around the pinning functions that we'll use in this task.
+Now that we have a model, we'll want to save it to a location so that it can be easily shared with colleagues, other content, or your future self! The `pins` package is the workhorse behind this workflow. The `vetiver` package has some wrappers around the pinning functions that we'll use in this task.
 
 🔄 Tasks
 
@@ -316,7 +317,7 @@ Before we go any further, we need to convert our logistic regression model into 
 #| label: create-vetiver-model
 
 # Create Vetiver Model
-v_model <- vetiver_model(ferry_fit_lr, "ferry_model")
+v_model <- vetiver_model(ferry_fit_lr, "_______/ferry_model")
 
 ```
 
@@ -326,9 +327,7 @@ And now we can save it, or *pin it*, to Posit Connect! Remember to define your p
 #| label: pin-model
 
 # Register Posit Connect as board
-board <- board_connect(auth = "manual", 
-                       server = "https://pub.ferryland.posit.team", 
-                       key = Sys.getenv("CONNECT_API_KEY"))
+board <- board_connect()
 
 # Write Vetiver Model
 board |> vetiver_pin_write(v_model)
@@ -359,8 +358,8 @@ APIs are a great way for users, applications, or other systems to interact with 
 #| label: create-api
 
 # Create API from pinned model using vetiver
-#  Swap out "ryan" for your username on Connect.
-vetiver_deploy_rsconnect(board = board, name = "ryjohnson09/ferry_model")
+#  Swap out "____" for your username on Connect.
+vetiver_deploy_rsconnect(board = board, name = "_______/ferry_model")
 
 ```
 
@@ -375,7 +374,7 @@ Once it's deployed, navigate to the API on Posit Connect and give it a test run!
     "delay": 0,
     "wind_status": "windy",
     "gust_status": "calm",
-    "hour": "10"
+    "hour": "5"
   }
 ]
 ```
@@ -385,7 +384,7 @@ Once it's deployed, navigate to the API on Posit Connect and give it a test run!
 On Posit Connect, navigate to your newly created API, and copy the URL for the content below. You can find this URL by clicking the access tab --\> URL.
 
 ```{r}
-api_url <- "https://pub.ferryland.posit.team/ferry_api_r"
+api_url <- "_______"
 
 # Append "/predict" to the end of your api to create the endpoint
 endpoint <- vetiver_endpoint(paste0(api_url, "/predict"))
@@ -446,8 +445,11 @@ We only have 1 version of our model, but let's list it anyway by using the `pin_
 #| label: list-pin-versions
 
 # View versions of your model 
-#  Replace "ryan" with your username 
-pin_versions(board = board, name = "ryjohnson09/ferry_model")
+#  Replace "____" with your username 
+pin_versions(board = board, name = "_______/ferry_model")
+
+# We can also extract some metadata from the pin
+pin_meta(board = board, name = "_______/ferry_model")$description
 ```
 
 #### Create an Xgboost Model
@@ -478,7 +480,7 @@ ferry_fit_xgb <-
 predictions_xgb <- augment(ferry_fit_xgb, test_data)
 
 # Evaluate the model
-metrics_xgb <- predictions_xgb %>%
+metrics_xgb <- predictions_xgb |> 
   metrics(truth = delay_status, estimate = .pred_class)
 
 metrics_xgb
@@ -497,15 +499,17 @@ Now that we have created an xgboost model, let's convert it to a `vetiver` model
 #| label: pin-xgboost
 
 # Create Vetiver Model
-v_model_xgb <- vetiver_model(ferry_fit_xgb, "ferry_model")
+v_model_xgb <- vetiver_model(ferry_fit_xgb, "______/ferry_model")
 
 # Write Vetiver Model
 board |> 
   vetiver_pin_write(v_model_xgb)
 
 # View versions of your model 
-#  Replace "ryan" with your username 
-pin_versions(board = board, name = "ryjohnson09/ferry_model")
+#  Replace "_____" with your username 
+pin_versions(board = board, name = "_______/ferry_model")
+
+pin_meta(board = board, name = "________/ferry_model")$description
 
 ```
 
@@ -518,14 +522,34 @@ How do we know which model is performing better? Logistic regression or xgboost?
 ```{r}
 #| label: model-monitoring
 
+# First Model ##############################
+pin_version <- "___"
+
 # Pull in specific version of model
-v_model_monitor <- vetiver_pin_read(board, "ryjohnson09/ferry_model", version = "49")
+v_model_monitor <- vetiver_pin_read(board, "_______/ferry_model", version = pin_version)
 
 new_ferry_data_metrics <-
     augment(v_model_monitor, new_data = arrange(monitoring_data, date)) |> 
-    vetiver_compute_metrics(date, "week", delay_status, .pred_class)
+    vetiver_compute_metrics(date, "day", delay_status, .pred_class)
 
 vetiver_plot_metrics(new_ferry_data_metrics) +
-  scale_size(range = c(2, 4))
+  scale_size(range = c(2, 4)) +
+  ylim(0, 1) +
+  labs(title = pin_meta(board = board, "_______/ferry_model", version = pin_version)$description)
 
+
+# Second Model ##############################
+pin_version <- "___"
+
+# Pull in specific version of model
+v_model_monitor <- vetiver_pin_read(board, "_______/ferry_model", version = pin_version)
+
+new_ferry_data_metrics <-
+    augment(v_model_monitor, new_data = arrange(monitoring_data, date)) |> 
+    vetiver_compute_metrics(date, "day", delay_status, .pred_class)
+
+vetiver_plot_metrics(new_ferry_data_metrics) +
+  scale_size(range = c(2, 4)) +
+  ylim(0, 1) +
+  labs(title = pin_meta(board = board, "________/ferry_model", version = pin_version)$description)
 ```

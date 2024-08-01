@@ -10,9 +10,9 @@
 <link href="../site_libs/quarto-html/quarto-syntax-highlighting.css" rel="stylesheet" id="quarto-text-highlighting-styles">
 <script src="../site_libs/quarto-contrib/posit_slides/posit-slides.js"></script>
 <link href="../site_libs/quarto-contrib/bootstrap-icons-1.9.1/all.css" rel="stylesheet"><meta charset="utf-8">
-  <meta name="generator" content="quarto-1.5.54">
+  <meta name="generator" content="quarto-1.4.553">
 
-  <title>Data Science Workflows with Posit Tools - R focus – tidymodels_and_vetiver</title>
+  <title>Data Science Workflows with Posit Tools - R focus</title>
   <meta name="apple-mobile-web-app-capable" content="yes">
   <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, minimal-ui">
@@ -43,7 +43,7 @@
     }
     @media print {
     pre > code.sourceCode { white-space: pre-wrap; }
-    pre > code.sourceCode > span { display: inline-block; text-indent: -5em; padding-left: 5em; }
+    pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
     }
     pre.numberSource code
       { counter-reset: source-line 0; }
@@ -400,7 +400,8 @@
 <div class="column" style="width:100%;">
 <h2>Tidymodels and Vetiver</h2>
 <p><img data-src="https://github.com/rstudio/hex-stickers/blob/main/PNG/tidymodels.png?raw=true" class="absolute" style="top: 200px; left: 50px; width: 260px; "> <img data-src="https://github.com/rstudio/hex-stickers/blob/main/PNG/vetiver.png?raw=true" class="absolute" style="top: 200px; left: 310px; width: 260px; "></p>
-</div></div>
+</div>
+</div>
 </section>
 <section class="slide level2" data-background-image="_extensions/positconfslides/assets/backgrounds/brackets-dark-teal.svg" data-background-size="contain">
 <h2></h2>
@@ -419,7 +420,8 @@
 <li>Assignment - Deploy and monitor your tidymodel</li>
 </ul></li>
 </ul>
-</div></div>
+</div>
+</div>
 </section>
 <section class="slide level2">
 <h2><i class="bi-sign-turn-right-fill " style="color: orange;" role="img" aria-hidden="true"></i> Disclaimer</h2>
@@ -455,7 +457,8 @@
 <ul>
 <li>A <font color="#9A4665"> MODEL </font> that can <em>predict if a ferry will have a delayed departure</em></li>
 </ul>
-</div></div>
+</div>
+</div>
 </section>
 <section class="slide level2">
 <h2>Where are we going</h2>
@@ -470,7 +473,8 @@
 <p><img data-src="slide_resources/ferry-whales.png"> <span class="figcaption2"><a href="https://i.pinimg.com/originals/c9/8b/3a/c98b3a997df52b6c8ad681590557c6bc.jpg" class="uri">https://i.pinimg.com/originals/c9/8b/3a/c98b3a997df52b6c8ad681590557c6bc.jpg</a></span></p>
 </div><div class="column" style="width:50%;">
 <p><img data-src="slide_resources/route_map.png" height="600"></p>
-</div></div>
+</div>
+</div>
 </section>
 <section class="slide level2">
 <h2>Question and Answer</h2>
@@ -507,7 +511,8 @@
 <p><img data-src="https://github.com/rstudio/hex-stickers/blob/main/PNG/tidymodels.png?raw=true" class="absolute" style="top: 200px; right: 50px; width: 260px; "></p>
 <p><br></p>
 <p>✋ If you have used <code>tidymodels</code> before?</p>
-</div></div>
+</div>
+</div>
 </section>
 <section class="slide level2" data-background-image="_extensions/positconfslides/assets/backgrounds/content-light.svg" data-background-size="contain">
 <h2></h2>
@@ -527,7 +532,8 @@
 </ol>
 </div>
 <p><img data-src="https://github.com/rstudio/hex-stickers/blob/main/PNG/recipes.png?raw=true" class="absolute" style="top: 100px; right: 300px; width: 150px; "> <img data-src="https://github.com/rstudio/hex-stickers/blob/main/PNG/parsnip.png?raw=true" class="absolute" style="top: 100px; right: 450px; width: 150px; "> <img data-src="https://github.com/rstudio/hex-stickers/blob/main/PNG/workflows.png?raw=true" class="absolute" style="top: 100px; right: 150px; width: 150px; "></p>
-</div></div>
+</div>
+</div>
 </section>
 <section class="slide level2" data-background-image="_extensions/positconfslides/assets/backgrounds/content-light.svg" data-background-size="contain">
 <h2></h2>
@@ -551,7 +557,8 @@
 <span id="cb1-13"><a></a><span class="co"># Fit workflow to data using parsnip</span></span>
 <span id="cb1-14"><a></a>model_fit <span class="ot">&lt;-</span> parsnip<span class="sc">::</span><span class="fu">fit</span>(model_wflow, your<span class="sc">-</span>data)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-</div></div>
+</div>
+</div>
 </section>
 <section class="slide level2" data-background-image="_extensions/positconfslides/assets/backgrounds/content-light.svg" data-background-size="contain">
 <h2></h2>
@@ -570,7 +577,10 @@
 <p><strong>Activity</strong></p>
 </div>
 <div class="callout-content">
-<p>👉 Open the file <code>materials/04-tidymodels-vetiver/04-idymodels-vetiver.qmd</code></p>
+<ul>
+<li>Open the project <code>materials/04-tidymodels-vetiver/04-tidymodels-vetiver.Rproj</code></li>
+<li>Open the file <code>04-tidymodels-vetiver.qmd</code></li>
+</ul>
 <p><strong>Complete Tasks 0 &amp; 1 only!</strong></p>
 </div>
 </div>
@@ -588,7 +598,8 @@
 </div>
 </div>
 </div>
-</div></div>
+</div>
+</div>
 </section>
 <section class="slide level2">
 <h2>We have a model…now what 🤷 ?</h2>
@@ -598,6 +609,7 @@
 <li>How can we <strong>save</strong> our model so others can use it?</li>
 <li>How can we <strong>serve</strong> our model so others can interact with it?</li>
 </ol>
+<p>How do you save/share models?</p>
 <div class="fragment fade-up">
 <div class="quarto-figure quarto-figure-center">
 <figure>
@@ -647,7 +659,10 @@
 <p><strong>Activity</strong></p>
 </div>
 <div class="callout-content">
-<p>👉 Open the file <code>materials/04-tidymodels-vetiver/04-tidymodels-vetiver.qmd</code></p>
+<ul>
+<li>Open the project <code>materials/04-tidymodels-vetiver/04-tidymodels-vetiver.Rproj</code></li>
+<li>Open the file <code>04-tidymodels-vetiver.qmd</code></li>
+</ul>
 <p><strong>Complete Task 2 only!</strong></p>
 </div>
 </div>
@@ -691,8 +706,11 @@
 <p><strong>Activity</strong></p>
 </div>
 <div class="callout-content">
-<p>👉 Open the file <code>materials/04-tidymodels-vetiver/04-tidymodels-vetiver.qmd</code></p>
-<p><strong>Complete Tasks 3 only!</strong></p>
+<ul>
+<li>Open the project <code>materials/04-tidymodels-vetiver/04-tidymodels-vetiver.Rproj</code></li>
+<li>Open the file <code>04-tidymodels-vetiver.qmd</code></li>
+</ul>
+<p><strong>Complete Task 3 only!</strong></p>
 </div>
 </div>
 </div>
@@ -727,7 +745,10 @@
 <p><strong>Activity</strong></p>
 </div>
 <div class="callout-content">
-<p>👉 Open the file <code>materials/04-tidymodels-vetiver/04-tidymodels-vetiver.qmd</code></p>
+<ul>
+<li>Open the project <code>materials/04-tidymodels-vetiver/04-tidymodels-vetiver.Rproj</code></li>
+<li>Open the file <code>04-tidymodels-vetiver.qmd</code></li>
+</ul>
 <p><strong>Complete Task 4</strong></p>
 </div>
 </div>
@@ -748,12 +769,16 @@
 </div>
 </section>
 <section class="slide level2">
+<h2>Summary - Pins/Plumber</h2>
+
+<img data-src="slide_resources/pins_plumber.jpg" class="quarto-figure quarto-figure-center r-stretch"></section>
+<section class="slide level2">
 <h2>Ferry Delay Prediction Model</h2>
 <p>Training this model is relatively <em>fast</em></p>
 <ul>
 <li><p>What if the model training is slow or the data is <strong>REALLY</strong> big?</p>
 <ul>
-<li><p><i class="bi-sign-turn-right-fill " style="color: orange;" role="img" aria-hidden="true"></i> Workbench Jobs allows you to run R scripts in new sessions independent of your current RStudio Pro session</p>
+<li><p><i class="bi-sign-turn-right-fill " style="color: orange;" role="img" aria-hidden="true"></i> Workbench Jobs allows you to run R/Python scripts in new sessions independent of your current RStudio Pro/VSCode session</p>
 <div class="quarto-figure quarto-figure-center">
 <figure>
 <p><img data-src="slide_resources/background_jobs.png" class="quarto-figure quarto-figure-center" width="344"></p>
@@ -762,7 +787,7 @@
 </ul></li>
 <li><p><i class="bi-sign-turn-right-fill " style="color: orange;" role="img" aria-hidden="true"></i> If you create a model, you should create a <strong>model card!</strong></p>
 <ul>
-<li>Check out a basic model card here!</li>
+<li>Check out a basic model card <a href="https://pub.ferryland.posit.team/ferry_model_card_r/">here</a>!</li>
 </ul></li>
 </ul>
 </section>
@@ -770,23 +795,24 @@
 <h2></h2>
 <div class="columns">
 <div class="column" style="width:100%;">
-<h2>Ferry Delay Prediction Model</h2>
+<h2>Deploy to Posit Connect</h2>
 <div class="callout callout-note no-icon callout-titled callout-style-default">
 <div class="callout-body">
 <div class="callout-title">
 <p><strong>Activity</strong></p>
 </div>
 <div class="callout-content">
-<p>👉 Try interacting with your Ferry Delay Prediction Model API on Posit Connect</p>
+<ul>
+<li>Open the project <code>materials/04-tidymodels-vetiver/04-tidymodels-vetiver.Rproj</code></li>
+<li>Open the file <code>04-tidymodels-vetiver.qmd</code></li>
+</ul>
+<p><strong>Publish to Posit Connect using push button deployment!</strong></p>
 </div>
 </div>
 </div>
-</div></div>
+</div>
+</div>
 </section>
-<section class="slide level2">
-<h2>Example Prediction</h2>
-
-<img data-src="slide_resources/example_prediction.png" class="quarto-figure quarto-figure-center r-stretch"></section>
 <section class="slide level2">
 <h2>Review</h2>
 
@@ -1079,7 +1105,18 @@
         }
         return false;
       }
-      const onCopySuccess = function(e) {
+      const clipboard = new window.ClipboardJS('.code-copy-button', {
+        text: function(trigger) {
+          const codeEl = trigger.previousElementSibling.cloneNode(true);
+          for (const childEl of codeEl.children) {
+            if (isCodeAnnotation(childEl)) {
+              childEl.remove();
+            }
+          }
+          return codeEl.innerText;
+        }
+      });
+      clipboard.on('success', function(e) {
         // button target
         const button = e.trigger;
         // don't keep focus
@@ -1111,29 +1148,7 @@
         }, 1000);
         // clear code selection
         e.clearSelection();
-      }
-      const getTextToCopy = function(trigger) {
-          const codeEl = trigger.previousElementSibling.cloneNode(true);
-          for (const childEl of codeEl.children) {
-            if (isCodeAnnotation(childEl)) {
-              childEl.remove();
-            }
-          }
-          return codeEl.innerText;
-      }
-      const clipboard = new window.ClipboardJS('.code-copy-button:not([data-in-quarto-modal])', {
-        text: getTextToCopy
       });
-      clipboard.on('success', onCopySuccess);
-      if (window.document.getElementById('quarto-embedded-source-code-modal')) {
-        // For code content inside modals, clipBoardJS needs to be initialized with a container option
-        // TODO: Check when it could be a function (https://github.com/zenorocha/clipboard.js/issues/860)
-        const clipboardModal = new window.ClipboardJS('.code-copy-button[data-in-quarto-modal]', {
-          text: getTextToCopy,
-          container: window.document.getElementById('quarto-embedded-source-code-modal')
-        });
-        clipboardModal.on('success', onCopySuccess);
-      }
         var localhostRegex = new RegExp(/^(?:http|https):\/\/localhost\:?[0-9]*\//);
         var mailtoRegex = new RegExp(/^mailto:/);
           var filterRegex = new RegExp('/' + window.location.host + '/');
@@ -1141,7 +1156,7 @@
             return filterRegex.test(href) || localhostRegex.test(href) || mailtoRegex.test(href);
         }
         // Inspect non-navigation links and adorn them if external
-     	var links = window.document.querySelectorAll('a[href]:not(.nav-link):not(.navbar-brand):not(.toc-action):not(.sidebar-link):not(.sidebar-item-toggle):not(.pagination-link):not(.no-external):not([aria-hidden]):not(.dropdown-item):not(.quarto-navigation-tool):not(.about-link)');
+     	var links = window.document.querySelectorAll('a[href]:not(.nav-link):not(.navbar-brand):not(.toc-action):not(.sidebar-link):not(.sidebar-item-toggle):not(.pagination-link):not(.no-external):not([aria-hidden]):not(.dropdown-item):not(.quarto-navigation-tool)');
         for (var i=0; i<links.length; i++) {
           const link = links[i];
           if (!isInternal(link.href)) {
