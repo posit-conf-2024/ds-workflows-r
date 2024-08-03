@@ -24,7 +24,7 @@ Introduction
 
 -   Important locations:
 
-    -   **Bathrooms**: There are gender-neutral bathroom on levels 3, 4, 5, 6 & 7.
+    -   **Bathrooms**: There are gender-neutral bathroom on levels 3, 4, 5, 6 & 7
     -   **Meditation/prayer room**: 503 (available Mon & Tues 7am - 7pm, and Wed 7am - 5pm)
     -   **Mothers room**: 509 (same timings as above)
 
@@ -193,21 +193,33 @@ help(function_name_here)
 
 ![](slide_resources/wenatchee.png){.absolute bottom="200" right="-1200" width="1000"}
 
-## Washington State Ferry Depature Delays Project
+## Washington State Ferry System 
 
 <br> ⛴️ [WSF is the largest operating public ferry system in the US! 🤯]{.posityellow}
 
 🐋 [21 ferries across Puget Sound and the Salish Sea]{.posityellow}
 
 ::::: columns
-::: {.column width="50%"}
-![](slide_resources/ferry-whales.png) [<https://i.pinimg.com/originals/c9/8b/3a/c98b3a997df52b6c8ad681590557c6bc.jpg>]{.figcaption2}
+::: {.column width="15%"}
+![](slide_resources/vessel_classes.png){height="600"}
 :::
 
-::: {.column width="50%"}
+::: {.column width="60%"}
+![](slide_resources/ferry-whales.png){height="600"} [<https://i.pinimg.com/originals/c9/8b/3a/c98b3a997df52b6c8ad681590557c6bc.jpg>]{.figcaption2}
+:::
+
+::: {.column width="25%"}
 ![](slide_resources/route_map.png){height="600"}
 :::
+
 :::::
+
+## Meet the Ferries
+
+
+<iframe src="slide_resources/ferry_names.html" width=100% height=800></iframe>
+
+
 
 ## Washington State Ferry Depature Delays Project
 
@@ -222,6 +234,8 @@ Can we predict departure delay for a given route and date?
 
 Use the historical (validated) delay, location, and weather data to create a model that will predict the likelihood of delays!
 :::
+
+![](slide_resources/2-super.gif)
 
 ## Project Data {.content-light}
 
