@@ -9,6 +9,7 @@ and some of it is destined for a custom email message. The 'email' block
 customizes the subject and the body of the email message, while the
 rendered HTML contains only this paragraph.
 
+Render this document and see the report output in your Viewer window. But where's the email? Look locally in your working directory for `/email-preview/index.html` and open this file in your browser.
 
 :::: email
 
