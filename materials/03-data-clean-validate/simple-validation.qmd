@@ -24,6 +24,16 @@ html-table-processing: none
 -   Use the `pointblank` package to perform data validation on a sample data frame
 -   Define thresholds in data validation to be used for alerting
 
+## Setup
+
+```{r}
+#| label: setup
+
+library(pointblank)
+library(tidyverse)
+
+```
+
 ### Create a sample data frame for experimentation
 
 We will toy with a simple data frame in the Workshop, then see the validation steps for our project below. Note that the code chunks in this section are set to `eval: false` so they will not be executed when we deploy this document to Posit Connect.
