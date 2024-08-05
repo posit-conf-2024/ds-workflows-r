@@ -244,14 +244,9 @@ weather_df_integrity_agent <-
                   label = "Are the expected columns in the data set?") |> 
   # verify there are A LOT of rows of data to be sure import didn't mess up. 
   col_vals_gte(columns = n, 
-               value = (
-                 # an arbitrary high-ish number, depending on the environment
-                 if(Sys.getenv("DATABASE_SCHEMA") == "deckhand"){
-                   10L} else {
-                     10000L
-                   }), 
+               value = 10000L, # an arbitrary high-ish number
                preconditions = ~. %>% tally,
-               label = "Are there a lot of rows in the data?") |>
+               label = "Are there more than 10k rows in the data?") |>
   interrogate()
 weather_df_integrity_agent
 ```
