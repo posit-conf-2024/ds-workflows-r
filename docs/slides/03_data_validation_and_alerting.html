@@ -10,7 +10,7 @@
 <link href="../site_libs/quarto-html/quarto-syntax-highlighting.css" rel="stylesheet" id="quarto-text-highlighting-styles">
 <script src="../site_libs/quarto-contrib/posit_slides/posit-slides.js"></script>
 <link href="../site_libs/quarto-contrib/bootstrap-icons-1.9.1/all.css" rel="stylesheet"><meta charset="utf-8">
-  <meta name="generator" content="quarto-1.5.54">
+  <meta name="generator" content="quarto-1.5.40">
 
   <title>Data Science Workflows with Posit Tools - R focus – data_validation_and_alerting</title>
   <meta name="apple-mobile-web-app-capable" content="yes">
@@ -400,7 +400,8 @@
 <div class="column" style="width:100%;">
 <h2>Data Exploration, Validation and Alerting</h2>
 <p><img data-src="https://github.com/rstudio/pointblank/raw/main/man/figures/logo.svg" class="absolute" style="top: 200px; left: 50px; width: 260px; "> <img data-src="slide_resources/quarto-icon.svg" class="absolute" style="top: 200px; left: 310px; height: 300px; "></p>
-</div></div>
+</div>
+</div>
 </section>
 <section class="slide level2">
 <h2>Where are we</h2>
@@ -416,7 +417,8 @@
 <li>Data validation</li>
 <li>Emailing, part 2: Condition-based alerts</li>
 </ul>
-</div></div>
+</div>
+</div>
 </section>
 <section class="slide level2">
 <h2>What is this Data?</h2>
@@ -427,7 +429,8 @@
 <p><img data-src="https://github.com/rstudio/pointblank/raw/main/man/figures/logo.svg" style="padding-right: 15px;"></p>
 </div><div class="column" style="width:75%;">
 <p><br><code>pointblank</code> provides data quality assessment and metadata reporting for data frames and database tables. <a href="https://github.com/rstudio/pointblank" class="uri">https://github.com/rstudio/pointblank</a></p>
-</div></div>
+</div>
+</div>
 </div>
 <div class="fragment">
 <p>🧰 The <code>pointblank::scan_data()</code> function provides a HTML report of the input data to help you understand your data.</p>
@@ -546,11 +549,11 @@
 <p><strong>Activity</strong></p>
 </div>
 <div class="callout-content">
-<p>👉 Activity objective: Use <code>pointblank</code> to validate data, remove non-compliant records, and document the data.</p>
+<p>👉 Activity objective: Use <code>pointblank</code> to validate data, remove non-compliant records, and explore validation results.</p>
 <ul>
 <li>Open the project <code>materials/03-data-clean-validate/03-data-clean-validate.Rproj</code></li>
-<li>Open the file <code>03-data-clean-validate.qmd</code></li>
-<li>🛑 We will work through <strong>Task 1 - Task 8</strong> only</li>
+<li>Open the file <code>simple-validation.qmd</code></li>
+<li>🛑 We will work through the entire notebook together</li>
 </ul>
 </div>
 </div>
@@ -561,22 +564,20 @@
 <div class="fragment fade-in-then-out absolute" style="top: 130px; ">
 <div class="columns">
 <div class="column" style="width:40%;">
-<ul>
-<li>Create a <code>multiagent</code> to summarize repeated validations to monitor data quality over time.</li>
-</ul>
+<p><br>Create a <code>multiagent</code> to summarize repeated validations to monitor data quality over time.</p>
 </div><div class="column" style="width:50%;">
-<p><img data-src="slide_resources/multiagent.png"></p>
-</div></div>
+<p><img data-src="slide_resources/multi_agent_xform.png"></p>
+</div>
+</div>
 </div>
 <div class="fragment fade-in-then-out absolute" style="top: 130px; ">
 <div class="columns">
 <div class="column" style="width:40%;">
-<ul>
-<li>Use a YAML file to define validations which can be applied across projects and version controlled</li>
-</ul>
+<p><br>Use a YAML file to define validations which can be applied across projects and version controlled</p>
 </div><div class="column" style="width:50%;">
-<p><img data-src="slide_resources/data-dictionary.png"></p>
-</div></div>
+<p><img data-src="slide_resources/pb_yaml.png"></p>
+</div>
+</div>
 </div>
 <div class="fragment fade-in-then-out absolute" style="top: 130px; ">
 <h3>
@@ -586,8 +587,22 @@ Try the comprehensive <code>pointblank</code> test drive on Posit Cloud: <a href
 </section>
 <section class="slide level2">
 <h2>Conditional Emails, Part 2</h2>
-<p>Image of the conditions we want to send.</p>
+<p>Let’s put together the information from data validation to send conditional emails.</p>
+<div class="fragment">
+<p>What could go wrong?</p>
+</div>
+<div>
+<ol type="1">
+<li class="fragment">The columns and schema of the upstream raw data may change</li>
+<li class="fragment">More records may fail validation than we are expecting</li>
+<li class="fragment">Everything could be fine</li>
+</ol>
+</div>
 </section>
+<section class="slide level2">
+<h2>Conditional Emails, Part 2</h2>
+
+<img data-src="slide_resources/cond_email_overview.png" class="quarto-figure quarto-figure-center r-stretch"></section>
 <section class="slide level2">
 <h2>Creating Condition-Based Emails</h2>
 <div class="columns smaller">
@@ -650,25 +665,21 @@ Try the comprehensive <code>pointblank</code> test drive on Posit Cloud: <a href
 </div>
 </div>
 <div class="fragment fade-in-then-out absolute" data-fragment-index="3" style="top: 100px; width: 65%; ">
-<div class="cell longer_code_block">
-<div class="sourceCode cell-code" id="cb4"><pre class="sourceCode markdown longer_code_block code-with-copy"><code class="sourceCode markdown"><span id="cb4-1"><a aria-hidden="true" tabindex="-1"></a><span class="co">---</span></span>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb4"><pre class="sourceCode markdown code-with-copy"><code class="sourceCode markdown"><span id="cb4-1"><a aria-hidden="true" tabindex="-1"></a><span class="co">---</span></span>
 <span id="cb4-2"><a aria-hidden="true" tabindex="-1"></a><span class="an">title:</span><span class="co"> Something wonderful</span></span>
 <span id="cb4-3"><a aria-hidden="true" tabindex="-1"></a><span class="an">format:</span><span class="co"> email</span></span>
 <span id="cb4-4"><a aria-hidden="true" tabindex="-1"></a><span class="co">---</span></span>
 <span id="cb4-5"><a aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb4-6"><a aria-hidden="true" tabindex="-1"></a><span class="in">```{.r}</span></span>
-<span id="cb4-7"><a aria-hidden="true" tabindex="-1"></a><span class="in">variant &lt;- sample(1:2, 1)</span></span>
-<span id="cb4-8"><a aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
-<span id="cb4-9"><a aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb4-10"><a aria-hidden="true" tabindex="-1"></a><span class="in">```{.r}</span></span>
-<span id="cb4-11"><a aria-hidden="true" tabindex="-1"></a><span class="in">#| output: asis</span></span>
-<span id="cb4-12"><a aria-hidden="true" tabindex="-1"></a><span class="in">cat(</span></span>
-<span id="cb4-13"><a aria-hidden="true" tabindex="-1"></a><span class="in">  "---",</span></span>
-<span id="cb4-14"><a aria-hidden="true" tabindex="-1"></a><span class="in">  paste0("is_email_variant_",variant,": true"),</span></span>
-<span id="cb4-15"><a aria-hidden="true" tabindex="-1"></a><span class="in">  "---",</span></span>
-<span id="cb4-16"><a aria-hidden="true" tabindex="-1"></a><span class="in">  sep = "\n"</span></span>
-<span id="cb4-17"><a aria-hidden="true" tabindex="-1"></a><span class="in">)</span></span>
-<span id="cb4-18"><a aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb4-6"><a aria-hidden="true" tabindex="-1"></a>variant &lt;- sample(1:2, 1)</span>
+<span id="cb4-7"><a aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-8"><a aria-hidden="true" tabindex="-1"></a>#| output: asis</span>
+<span id="cb4-9"><a aria-hidden="true" tabindex="-1"></a>cat(</span>
+<span id="cb4-10"><a aria-hidden="true" tabindex="-1"></a>  "---",</span>
+<span id="cb4-11"><a aria-hidden="true" tabindex="-1"></a>  paste0("is_email_variant_",variant,": true"),</span>
+<span id="cb4-12"><a aria-hidden="true" tabindex="-1"></a>  "---",</span>
+<span id="cb4-13"><a aria-hidden="true" tabindex="-1"></a>  sep = "\n"</span>
+<span id="cb4-14"><a aria-hidden="true" tabindex="-1"></a>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <p>writes the YAML metadata in-place:</p>
 <div class="cell">
@@ -679,7 +690,8 @@ is_email_variant_1: true
 </div>
 </div>
 </div>
-</div></div>
+</div>
+</div>
 </section>
 <section class="slide level2">
 <h2></h2>
@@ -694,11 +706,13 @@ is_email_variant_1: true
 <p><strong>Activity</strong></p>
 </div>
 <div class="callout-content">
-<p>👉 Activity objective: Publish the data validation notebook to Posit Connect and preview the different conditional emails.</p>
+<p>👉 Activity objective: See the whole workflow of data validation and conditional emails put together.</p>
 <ul>
-<li>Return to the file <code>03-data-clean-validate.qmd</code> and publish to Connect</li>
-<li>Set the environment variable <code>CONDITION_OVERRIDE</code> in the Connect <code>Vars</code> pane</li>
-<li>Re-render and email the output to yourself</li>
+<li>Return to the project <code>materials/03-data-clean-validate/</code></li>
+<li>Open the file <code>03-data-clean-validate.qmd</code></li>
+<li>Set the environment variable <code>CONDITION_OVERRIDE</code> locally</li>
+<li>We will work through the entire notebook together</li>
+<li>Publish the report to Posit Connect and use the <code>CONDITION_OVERRIDE</code> to send yourself the different emails</li>
 </ul>
 </div>
 </div>
@@ -727,7 +741,7 @@ is_email_variant_1: true
 
 <div class="quarto-auto-generated-content">
 <div class="footer footer-default">
-<p>Back to <a href="https://posit-conf-2024.github.io/ds-workflows-r/">Data Science Workflows with Posit Tools - R Focus</a> website</p>
+<p>Click to go back to <a href="https://posit-conf-2024.github.io/ds-workflows-r/">Data Science Workflows with Posit Tools - R Focus website ↩︎</a></p>
 </div>
 </div>
 </section>
