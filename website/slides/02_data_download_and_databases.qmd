@@ -396,5 +396,8 @@ subject
 :::
 
 
+## Recap of Alerting, Part 1
+
+![](slide_resources/project_conditional_email_send.png){fig-align="center"}
 
 
