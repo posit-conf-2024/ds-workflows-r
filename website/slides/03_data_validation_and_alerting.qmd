@@ -3,15 +3,13 @@ execute:
   eval: false
 ---
 
-## Data Exploration, Validation and Alerting{.title-slide-light}
+## Data Exploration, Validation and Alerting {.title-slide-light}
 
 ![](https://github.com/rstudio/pointblank/raw/main/man/figures/logo.svg){.absolute top="200" left="50" width="260"} ![](slide_resources/quarto-icon.svg){.absolute top="200" left="310" height="300"}
 
 ## Where are we
 
-
 ![](slide_resources/ds-workflows-r-2024.jpg){fig-align="center"}
-
 
 ## Section Agenda {.brackets-light}
 
@@ -19,17 +17,12 @@ execute:
 -   Data validation
 -   Emailing, part 2: Condition-based alerts
 
-
 ## What is this Data?
-
 
 Our first introduction to `pointblank`
 
-
-
-:::{.fragment}
-
-::: columns
+:::::: fragment
+::::: columns
 ::: {.column width="15%"}
 ![](https://github.com/rstudio/pointblank/raw/main/man/figures/logo.svg){style="padding-right: 15px;"}
 :::
@@ -37,104 +30,84 @@ Our first introduction to `pointblank`
 ::: {.column width="75%"}
 <br>`pointblank` provides data quality assessment and metadata reporting for data frames and database tables. <https://github.com/rstudio/pointblank>
 :::
-:::
+:::::
+::::::
 
-:::
-
-:::{.fragment}
-🧰 The `pointblank::scan_data()` function provides a HTML report of the input data to help you understand your data. 
+::: fragment
+🧰 The `pointblank::scan_data()` function provides a HTML report of the input data to help you understand your data.
 :::
 
 ## Sample data scan
 
-```r
+``` r
 pointblank::scan_data(palmerpenguins::penguins)
 ```
+
 <br>
 
+<iframe src="slide_resources/scan_penguins.html" width="100%" height="650">
 
-<iframe src="slide_resources/scan_penguins.html" width=100% height="650"></iframe>
- 
+</iframe>
+
 ## 
 
-:::{.center}
-<h2> <br>**Activity Time!**</h2>
+::: center
+<h2><br>**Activity Time!**</h2>
 :::
 
-:::{.callout-note icon=false}
+::: {.callout-note icon="false"}
 ## Activity
+
 👉 Activity objective: exploring our data
 
-- Open the project `materials/02-data-exploration/02-data-exploration.Rproj`
-- Open the file `02-data-exploration.qmd`
-- We will work through all the tasks in the notebook
-
- 
+-   Open the project `materials/02-data-exploration/02-data-exploration.Rproj`
+-   Open the file `02-data-exploration.qmd`
+-   We will work through all the tasks in the notebook
 :::
-
 
 ## How can I ensure the data in my pipeline is quality data?
 
+<br> 🧰 `pointblank` for data validation <br>
 
-<br>
-🧰 `pointblank` for data validation 
-<br>
+![](https://github.com/rstudio/pointblank/raw/main/man/figures/logo.svg){fig-align="center" height="350"}
 
-![](https://github.com/rstudio/pointblank/raw/main/man/figures/logo.svg){fig-align="center" height=350}
-
-
-
-## The `pointblank` data quality workflow 
-
+## The `pointblank` data quality workflow
 
 ![](slide_resources/pb_flow_create_agent.png)
 
-## The `pointblank` data quality workflow  
-
+## The `pointblank` data quality workflow
 
 ![](slide_resources/pb_flow_create_agent_b.png)
 
-
-## The `pointblank` data quality workflow 
-
+## The `pointblank` data quality workflow
 
 ![](slide_resources/pb_flow_validation_plan.png)
 
-
-
-## The `pointblank` data quality workflow  
-
+## The `pointblank` data quality workflow
 
 ![](slide_resources/pb_flow_interrogate.png)
 
-
-## The `pointblank` data quality workflow  
-
+## The `pointblank` data quality workflow
 
 ![](slide_resources/pb_flow_post_interrogate.png)
 
-
-## The `pointblank` data quality workflow  
-
+## The `pointblank` data quality workflow
 
 ![](slide_resources/pb_flow_post_interrogate_b.png)
 
 ## Data validation example
 
-::::{.r-stack}
-
+::: r-stack
 ![](slide_resources/pb_validation_plan.png){.fragment .fade-in-then-out}
 
 ![](slide_resources/pb_validation_plan_b.png){.fragment .fade-in-then-out}
 
 ![](slide_resources/pb_validation_plan_c.png){.fragment .fade-in-then-out}
-
-::::
+:::
 
 ## Agent Interrogation
 
-::::{.r-stack}
-
+::: r-stack
 ![](slide_resources/pb_interrogation1.png){.fragment .fade-in-then-out}
 
 ![](slide_resources/pb_interrogation2.png){.fragment .fade-in-then-out}
@@ -152,140 +125,113 @@ pointblank::scan_data(palmerpenguins::penguins)
 ![](slide_resources/pb_interrogation6.png){.fragment .fade-in-then-out}
 
 ![](slide_resources/pb_interrogation7.png){.fragment .fade-in-then-out}
-
-::::
-
-
-
+:::
 
 ## Agent Validation Report
 
-::::{.r-stack}
-
+::: r-stack
 ![](slide_resources/pb_validation_result.png){.fragment .fade-in-then-out}
 
 ![](slide_resources/pb_validation_result_b.png){.fragment .fade-in-then-out}
 
 ![](slide_resources/pb_validation_result_c.png){.fragment .fade-in-then-out}
-
-
-::::
-
-
-
+:::
 
 ## Pointblank data validation report
 
-::::{.r-stack}
-
+::: r-stack
 ![](slide_resources/pb_validation_report.png){.fragment .fade-in-then-out}
 
-
 ![](slide_resources/pb_validation_report_b.png){.fragment .fade-in-then-out}
-
-::::
-
-
-
+:::
 
 ## 
 
-:::{.center}
-<h2> <br>**Activity Time!**</h2>
+::: center
+<h2><br>**Activity Time!**</h2>
 :::
 
-:::{.callout-note icon=false}
+::: {.callout-note icon="false"}
 ## Activity
-👉 Activity objective: Use `pointblank` to validate data, remove non-compliant records, and document the data.
 
-- Open the project `materials/03-data-clean-validate/03-data-clean-validate.Rproj`
-- Open the file `03-data-clean-validate.qmd`
-- 🛑 We will work through **Task 1 - Task 8** only
+👉 Activity objective: Use `pointblank` to validate data, remove non-compliant records, and explore validation results.
 
+-   Open the project `materials/03-data-clean-validate/03-data-clean-validate.Rproj`
+-   Open the file `simple-validation.qmd`
+-   🛑 We will work through the entire notebook together
 :::
-
 
 ## {{< bi sign-turn-right-fill color=orange >}} There's much more to `pointblank`
 
-
-
-:::::{.fragment .fade-in-then-out .absolute top=130}
-
-::::{.columns}
-
-:::{.column width=40%}
-- Create a `multiagent` to summarize repeated validations to monitor data quality over time.
-
+:::::: {.fragment .fade-in-then-out .absolute top="130"}
+::::: columns
+::: {.column width="40%"}
+<br>Create a `multiagent` to summarize repeated validations to monitor data quality over time.
 :::
 
-:::{.column width=50%}
-![](slide_resources/multiagent.png)
-
+::: {.column width="50%"}
+![](slide_resources/multi_agent_xform.png)
 :::
-
-::::
-
 :::::
+::::::
 
-:::::{.fragment .fade-in-then-out .absolute top=130}
-
-::::{.columns}
-
-:::{.column width=40%}
-- Use a YAML file to define validations which can be applied across projects and version controlled
-
+:::::: {.fragment .fade-in-then-out .absolute top="130"}
+::::: columns
+::: {.column width="40%"}
+<br>Use a YAML file to define validations which can be applied across projects and version controlled
 :::
 
-:::{.column width=50%}
-![](slide_resources/data-dictionary.png)
-
+::: {.column width="50%"}
+![](slide_resources/pb_yaml.png)
 :::
-
-::::
-
 :::::
+::::::
 
-:::::{.fragment .fade-in-then-out .absolute top=130}
-
-
+::: {.fragment .fade-in-then-out .absolute top="130"}
 <h3>Try the comprehensive `pointblank` test drive on Posit Cloud: <https://posit.cloud/project/3411822></h3>
+:::
 
-:::::
+## Conditional Emails, Part 2
 
+Let's put together the information from data validation to send conditional emails.
 
-## Conditional Emails, Part 2 
+:::{.fragment}
+What could go wrong?
+:::
 
-Image of the conditions we want to send. 
+:::{.incremental}
+1. The columns and schema of the upstream raw data may change
+2. More records may fail validation than we are expecting
+3. Everything could be fine
+
+:::
+
+## Conditional Emails, Part 2
+
+![](slide_resources/cond_email_overview.png){fig-align="center"}
 
 ## Creating Condition-Based Emails
 
-::::: {.columns .smaller}
-
-:::: {.column width="35%"}
-
-:::{.fragment .fade-in-then-out .absolute top=100 fragment-index=1 width="33%"}
-1. Quarto emails are defined by content divs
-
+::::::::::: {.columns .smaller}
+:::::: {.column width="35%"}
+::: {.fragment .fade-in-then-out .absolute top="100" fragment-index="1" width="33%"}
+1.  Quarto emails are defined by content divs
 :::
 
-:::{.fragment .fade-in-then-out .absolute top=100 fragment-index=2 width="33%"}
-1. [Quarto emails are defined by content divs]{.silver}
-2. Include conditional content divs with `.content-visible when-meta`
-
+::: {.fragment .fade-in-then-out .absolute top="100" fragment-index="2" width="33%"}
+1.  [Quarto emails are defined by content divs]{.silver}
+2.  Include conditional content divs with `.content-visible when-meta`
 :::
 
-:::{.fragment .fade-in-then-out .absolute top=100 fragment-index=3 width="33%"}
-1. [Quarto emails are defined by content divs]{.silver}
-2. [Include conditional content divs with `.content-visible when-meta`]{.silver}
-3. Set the metadata by injecting YAML into the rendering. Quarto will interpret YAML blocks _no matter where they appear in the document_ 
-
+::: {.fragment .fade-in-then-out .absolute top="100" fragment-index="3" width="33%"}
+1.  [Quarto emails are defined by content divs]{.silver}
+2.  [Include conditional content divs with `.content-visible when-meta`]{.silver}
+3.  Set the metadata by injecting YAML into the rendering. Quarto will interpret YAML blocks *no matter where they appear in the document*
 :::
+::::::
 
-::::
-
-:::: {.column}
-
-:::{.fragment .fade-in-then-out .absolute top=100 fragment-index=1 width="65%"}
+:::::: column
+::: {.fragment .fade-in-then-out .absolute top="100" fragment-index="1" width="65%"}
 ```{r}
 #| eval: false
 #| code-line-numbers: false
@@ -299,10 +245,9 @@ subject
 
 ::::
 ```
-
 :::
 
-:::{.fragment .fade-in-then-out .absolute top=100 fragment-index=2 width="65%"}
+::: {.fragment .fade-in-then-out .absolute top="100" fragment-index="2" width="65%"}
 ```{r}
 #| eval: false
 #| code-line-numbers: false
@@ -331,14 +276,10 @@ subject 2
 :::::
 
 ```
-
 :::
 
-:::{.fragment .fade-in-then-out .absolute top=100 fragment-index=3 width="65%"}
-
-````{markdown}
-#| class-source: longer_code_block
-#| classes: longer_code_block
+::: {.fragment .fade-in-then-out .absolute top="100" fragment-index="3" width="65%"}
+```{markdown}
 #| code-line-numbers: false
 
 ---
@@ -346,11 +287,8 @@ title: Something wonderful
 format: email
 ---
 
-```{.r}
 variant <- sample(1:2, 1)
-```
 
-```{.r}
 #| output: asis
 cat(
   "---",
@@ -358,11 +296,11 @@ cat(
   "---",
   sep = "\n"
 )
+
 ```
 
-````
-
 writes the YAML metadata in-place:
+
 ```{r}
 #| eval: true
 #| code-line-numbers: false
@@ -374,57 +312,42 @@ cat(
   sep = "\n"
 )
 ```
-
 :::
-
-::::
-
-:::::
+::::::
+:::::::::::
 
 ## 
 
-:::{.center}
-<h2> <br>**Activity Time!**</h2>
+::: center
+<h2><br>**Activity Time!**</h2>
 :::
 
-:::{.callout-note icon=false}
+::: {.callout-note icon="false"}
 ## Activity
-👉 Activity objective: Publish the data validation notebook to Posit Connect and preview the different conditional emails.
 
-- Return to the file `03-data-clean-validate.qmd` and publish to Connect
-- Set the environment variable `CONDITION_OVERRIDE` in the Connect `Vars` pane
-- Re-render and email the output to yourself
+👉 Activity objective: See the whole workflow of data validation and conditional emails put together.
 
-
-
+-   Return to the project `materials/03-data-clean-validate/`
+-   Open the file `03-data-clean-validate.qmd` 
+-   Set the environment variable `CONDITION_OVERRIDE` locally
+-   We will work through the entire notebook together 
+-   Publish the report to Posit Connect and use the `CONDITION_OVERRIDE` to send yourself the different emails
 :::
-
-
-
 
 ## Be aware...
 
-
 ⚠️ Common mistakes when creating emails
 
-- There is no interactive runtime for an email
-- Javascript-dependent content will generally not render when emailed because of how email clients process HTML
-
+-   There is no interactive runtime for an email
+-   Javascript-dependent content will generally not render when emailed because of how email clients process HTML
 
 ## 🧰 Best practices for embedding objects an email
 
-- `{ggplot2}` output can be included in the email
-- Create nicely formatted tables with the `{gt}` package. (Just remember, no interactivity!)
-- If you'd like to include a rendering of a widget (e.g., a dial or info box), use the `{webshot2}` package to take a capture of the widget and embed it as an image
-- If your email recipient wants more information or interactivity, direct them to a report or dashboard deployed to Connect
-
-
-
-
-
+-   `{ggplot2}` output can be included in the email
+-   Create nicely formatted tables with the `{gt}` package. (Just remember, no interactivity!)
+-   If you'd like to include a rendering of a widget (e.g., a dial or info box), use the `{webshot2}` package to take a capture of the widget and embed it as an image
+-   If your email recipient wants more information or interactivity, direct them to a report or dashboard deployed to Connect
 
 ## Other Alerting Approaches {.content2-light}
 
-{{< bi sign-turn-right-fill color=orange >}} Send alerts to a Slack channel or MS Teams, or via text message:
-<https://rviews.rstudio.com/2020/06/18/how-to-have-r-notify-you/>
-
+{{< bi sign-turn-right-fill color=orange >}} Send alerts to a Slack channel or MS Teams, or via text message: <https://rviews.rstudio.com/2020/06/18/how-to-have-r-notify-you/>

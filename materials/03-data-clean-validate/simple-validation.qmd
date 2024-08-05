@@ -1,0 +1,235 @@
+---
+title: "An Introduction to Data Validation with Pointblank"
+format:
+  email:
+    toc: true
+    toc-location: left
+    anchor-sections: true
+    code-fold: true
+    code-overflow: wrap
+    code-summary: "Show Code"
+    code-tools: true
+    code-link: true
+editor: visual
+editor_options: 
+  chunk_output_type: console
+  canonical: true
+html-table-processing: none
+---
+
+## Task - Introduction to data validation
+
+🔄 Task
+
+-   Use the `pointblank` package to perform data validation on a sample data frame
+-   Define thresholds in data validation to be used for alerting
+
+## Setup
+
+```{r}
+#| label: setup
+
+library(pointblank)
+library(tidyverse)
+
+```
+
+### Create a sample data frame for experimentation
+
+We will toy with a simple data frame in the Workshop, then see the validation steps for our project below. Note that the code chunks in this section are set to `eval: false` so they will not be executed when we deploy this document to Posit Connect.
+
+```{r}
+#| eval: false
+
+df <- dplyr::tibble(
+    a = c(5, 7, 6, 5, NA, 7, 9),
+    b = c(6, 1, NA, 6,  0, 7, -1),
+    fruits = fruit[1:7],
+    date = seq(today()-2, today()+4, 1)
+  )
+df
+```
+
+### Validate the sample data frame
+
+The first step in the `pointblank` workflow is to create an **agent.**
+
+```{r}
+#| label: create agent 
+#| eval: false
+
+agent <- pointblank::create_agent(____)
+agent
+```
+
+On its own, the agent is not informative. It's waiting for validations to be defined and an interrogation action to be performed.
+
+Now we define our **data validation functions**. A few have been started for you as examples. It's up to you to fill in the suggested validations or create your own. Refer to the package documentation for the validation function reference: <https://rstudio.github.io/pointblank/reference/index.html#validation-expectation-and-test-functions>
+
+```{r}
+#| label: define validations for df
+#| eval: false
+
+agent <- create_agent(df) |>
+  col_vals_between(
+    columns = a, 
+    1, 9,
+    na_pass = TRUE
+  ) |> 
+  rows_distinct(
+    columns = b
+    ) |> 
+  col_vals_in_set(
+    columns = fruits, c("apple", "avocado", "blueberry", "mango", "plum", "tangerine")
+  ) |> 
+  # Now add the following:
+  # verify the numeric columns do not have NA values 
+  # (hint: use `columns = c(a,b)` to apply the validation to multiple columns)
+  ____ |> 
+  # verify that the date is before today
+  ____ |> 
+  # would you like to add more?
+  ____ 
+
+
+agent
+
+```
+
+If we look at the output of `agent`, it shows our validation plan, but the action is yet to come when we **interrogate**.
+
+```{r}
+#| label: interrogate the df agent
+#| eval: false
+
+agent |> interrogate()
+
+```
+
+Explore the validation report. Can you:
+
+1.  Identify what fail percentage each validation had?
+2.  Identify how many rows failed each validation?
+3.  View the CSV extracts of failed data?
+
+Change the parameters of your validations to trigger more failures just to see the consequence.
+
+### Add Action Levels
+
+Iterate on your agent created above to add action levels. Action levels behave like tags. You can decide what threshold you want to put for `notify`, `warn`, and `stop`. At a minimum, the tag will provide a visual indicator of threshold exceedance in the validation table. You can also use these tags post-interrogation to take actions.
+
+The action levels can be set as an **integer**, representing the threshold number of failing units, or a **fraction**, representing the fraction of failing units.
+
+Use `actions = action_levels(warn_at = ____, stop_at = ____, notify_at = ____)` to add action levels to one, some, or all of your validations and rerun the interrogation to see the output. Some samples have been provided.
+
+```{r}
+#| label: validation of df with action levels
+#| eval: false
+
+agent <- create_agent(df) |>
+  col_vals_between(
+    columns = a, 1, 9,
+    na_pass = TRUE,
+    actions = action_levels(warn_at = 0.2, stop_at = 0.3)
+  ) |> 
+  rows_distinct(
+    columns = b,
+    actions = action_levels(warn_at = 1, notify_at = 2) 
+    ) |> 
+  col_vals_in_set(
+    columns = fruits, c("apple", "avocado", "blueberry", "mango", "plum", "tangerine"),
+    label = "only serve my favorite fruits"
+    # actions = ____
+  ) |> 
+  col_vals_not_null(
+    columns = c(a,b)
+    # actions = ____
+  ) |> 
+  col_vals_lt(
+    date, today()
+  ) |> 
+interrogate()
+
+
+agent
+
+```
+
+### Remove failing data from the data set
+
+Pointblank has identified all of the rows of `df` that passed and failed validation. Now remove those that failed so the data that is passed downstream is squeaky clean.
+
+Pointblank provides a number of [post-interrogation functions](https://rstudio.github.io/pointblank/reference/index.html#post-interrogation) to work with intel gathered from the validation. For this task, we will "sunder" the data using `pointblank::get_sundered_data()`.
+
+> **💡 sunder** /sun·der / ˈsən-dər / *verb* \| to split apart
+
+```{r}
+#| label: sunder data from sample validation
+#| eval: false
+
+# Passed data
+df_validated <- get_sundered_data(agent = ____,
+                                  type = "____")
+
+# Failed data
+df_failed_validation <- get_sundered_data(agent = ____,
+                                          type = "____")
+
+```
+
+### Post-interrogation logicals
+
+Pointblank interrogation provides multiple layers of information about our data. We can take advantage of this with logical TRUE / FALSE statements that drive downstream tasks or effects.
+
+-   Use `pointblank::all_passed()` to determine if all validation steps passed
+-   Use `pointblank::get_agent_x_list` to determine if any warnings were set
+
+```{r}
+#| label: All validations passed?
+#| eval: false
+
+# Did all validations pass?
+pointblank::____
+
+
+```
+
+A broad all passed / failed for the entire validation plan might not provide enough granularity for a downstream task. We can drill into more details about each step of the validation and the results using the agent "x_list".
+
+First we will see what the x_list contains.
+
+```{r}
+#| label: get agent x list
+#| eval: false
+
+xlist <- pointblank::get_agent_x_list(agent)
+
+xlist
+
+```
+
+The output is like a gold mine! The resulting list contains all of the information used to create the agent table, in list form.
+
+Let's pull out the the pass / fail statistics (`$n_passed`, `$n_failed`, `$f_passed`, `$f_failed`) and which validations set a warning flag. Let's take a look.
+
+```{r}
+#| label: Inspect the xlist
+#| eval: false
+
+# First return the description of each validation step
+xlist$briefs
+
+# How many records and what fraction passed each validation step? The results correspond to their respective validation step number.
+xlist$n_passed
+xlist$f_passed
+
+# and failed? 
+xlist$n_failed
+xlist$f_failed
+
+# which validations resulted in a "Warning" flag set?
+xlist$warn
+
+```
+
+Extracting this information can be powerful for selecting different conditional emails to send and providing relevant summary information in those emails.

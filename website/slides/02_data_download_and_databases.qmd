@@ -39,11 +39,16 @@ Your first instinct for retrieving raw data may be to download the data as a csv
 
 :::
 
+## Reading API Documentation
+<https://wsdot.wa.gov/traffic/api/>
+<iframe src="https://wsdot.wa.gov/traffic/api/" width=100% height =800></iframe>
+
 ## Example `httr2` request
 
 Here's how we will query the `vesselverbose` endpoint at
 
 `https://www.wsdot.wa.gov/ferries/api/vessels/rest/vesselverbose?apiaccesscode={WSDOT_ACCESS_CODE}`
+
 
 ```{r}
 #| eval: false
@@ -66,6 +71,7 @@ response_body <- response |>
   jsonlite::fromJSON() |> 
   as_tibble()
 ```
+
 ## 
 
 :::{.center}
@@ -78,7 +84,7 @@ response_body <- response |>
 
 - Open the project `materials/01-raw-data-write/01-raw-data-write.Rproj`
 - Open the file `01-raw-data-write.qmd`
-- 🛑 We will work through **Task 1 - Task 3** only 
+- 🛑 We will work through **Task 1 - Task 2** only 
 
 :::
 
@@ -174,7 +180,7 @@ Specific resources:
 👉 Activity objective: Write the `vesselverbose` data to the database.
 
 - Return to the file `01-raw-data-write.qmd`
-- 🛑 We will work through **Task 4 - Task 5** only 
+- 🛑 We will work through **Task 3 - Task 5** only 
 
 :::
 
@@ -185,17 +191,27 @@ Specific resources:
 🧰 Deploy and [schedule]{.positburg} your ETL and reports on Posit Connect
 <br>
 
+
+::: {.columns}
+::: {.column width=30%}
 ![](slide_resources/scheduling.png){height="700" fig-align="center"}
 
 :::
+::: {.column .fragment width=70%}
 
-## ... I want more {.content-light}
+<br>
 
-:::{.incremental}
-- Notify me after the report runs
-- Tell me something useful
-- Tell me something else depending on the outcome
+- Connect renders your notebook / runs your code
+- Render on demand or on a schedule
+- Can email the rendered report or notebook to you, collaborators, and/or viewers
 :::
+::: 
+
+
+
+:::
+
+
 
 ## Introduction to Emailing with Posit Connect
 
@@ -360,10 +376,19 @@ subject
 
 :::{.callout-note icon=false}
 
+## Activity, Part 1
+👉 Activity objective: Work with a simple Quarto email document and preview the email locally
 
+- Return to the project `01-raw-data-write.Rproj`
+- Open the file `simple-quarto-email/simple-quarto-email.qmd`
+- We will render this document and preview the email locally
 
-## Activity
-👉 Activity objective: deploy and schedule this work on Posit Connect so it runs automatically and sends an email only if there's something amiss with the raw data.
+:::
+
+:::{.callout-note icon=false}
+
+## Activity, Part 2
+👉 Activity objective: deploy and schedule our production notebook on Posit Connect so it runs automatically and sends an email if there's something amiss with the raw data.
 
 - Return to the file `01-raw-data-write.qmd`
 - 🛑 We will work **Task 6 to the end of the document**
@@ -371,6 +396,8 @@ subject
 :::
 
 
+## Recap of Alerting, Part 1
 
+![](slide_resources/project_conditional_email_send.png){fig-align="center"}
 
 
