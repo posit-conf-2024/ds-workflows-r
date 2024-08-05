@@ -720,7 +720,7 @@ if (condition == 2){
 
 print(glue("Vessel history and weather data was validated and sundered, however a warning was triggered due to one or more validation steps exceeding the threshold for allowed failures.
 
-Records removed that failed validation: {nrow(modeldata_fail_validation)}
+Records removed that failed validation: {nrow(modeldata_failed_validation)}
 
 Records written to database: {nrow(modeldata_validated)}
 
