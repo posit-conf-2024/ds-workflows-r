@@ -10,7 +10,7 @@
     "has_parameters": false
   },
   "quarto": {
-    "version": "1.5.54",
+    "version": "1.4.553",
     "engines": ["knitr"]
   },
   "packages": {
@@ -113,7 +113,7 @@
         "Maintainer": "Martin Maechler <mmaechler+Matrix@gmail.com>",
         "Repository": "CRAN",
         "Date/Publication": "2024-03-22 09:08:25 UTC",
-        "Built": "R 4.4.0; x86_64-pc-linux-gnu; 2024-05-25 01:45:54 UTC; unix"
+        "Built": "R 4.4.0; x86_64-pc-linux-gnu; 2024-05-06 22:16:36 UTC; unix"
       }
     },
     "R6": {
@@ -2335,7 +2335,7 @@
         "Maintainer": "Deepayan Sarkar <deepayan.sarkar@r-project.org>",
         "Repository": "CRAN",
         "Date/Publication": "2024-03-20 06:10:02 UTC",
-        "Built": "R 4.4.0; x86_64-pc-linux-gnu; 2024-05-25 01:45:45 UTC; unix"
+        "Built": "R 4.4.0; x86_64-pc-linux-gnu; 2024-05-06 22:16:26 UTC; unix"
       }
     },
     "lifecycle": {
@@ -2510,7 +2510,7 @@
         "Packaged": "2023-12-20 10:39:06 UTC; sw283",
         "Repository": "CRAN",
         "Date/Publication": "2023-12-21 00:30:02 UTC",
-        "Built": "R 4.4.0; x86_64-pc-linux-gnu; 2024-05-25 01:49:20 UTC; unix"
+        "Built": "R 4.4.0; x86_64-pc-linux-gnu; 2024-05-06 22:20:34 UTC; unix"
       }
     },
     "mime": {
@@ -4218,28 +4218,35 @@
       "description": {
         "Package": "withr",
         "Title": "Run Code 'With' Temporarily Modified Global State",
-        "Version": "3.0.0",
-        "Authors@R": "\n    c(person(given = \"Jim\",\n             family = \"Hester\",\n             role = \"aut\"),\n      person(given = \"Lionel\",\n             family = \"Henry\",\n             role = c(\"aut\", \"cre\"),\n             email = \"lionel@posit.co\"),\n      person(given = \"Kirill\",\n             family = \"Müller\",\n             role = \"aut\",\n             email = \"krlmlr+r@mailbox.org\"),\n      person(given = \"Kevin\",\n             family = \"Ushey\",\n             role = \"aut\",\n             email = \"kevinushey@gmail.com\"),\n      person(given = \"Hadley\",\n             family = \"Wickham\",\n             role = \"aut\",\n             email = \"hadley@posit.co\"),\n      person(given = \"Winston\",\n             family = \"Chang\",\n             role = \"aut\"),\n      person(given = \"Jennifer\",\n             family = \"Bryan\",\n             role = \"ctb\"),\n      person(given = \"Richard\",\n             family = \"Cotton\",\n             role = \"ctb\"),\n      person(given = \"Posit Software, PBC\",\n             role = c(\"cph\", \"fnd\")))",
-        "Description": "A set of functions to run code 'with' safely and\n    temporarily modified global state. Many of these functions were\n    originally a part of the 'devtools' package, this provides a simple\n    package with limited dependencies to provide access to these\n    functions.",
+        "Version": "3.0.1",
+        "Authors@R": "c(\n    person(\"Jim\", \"Hester\", role = \"aut\"),\n    person(\"Lionel\", \"Henry\", , \"lionel@posit.co\", role = c(\"aut\", \"cre\")),\n    person(\"Kirill\", \"Müller\", , \"krlmlr+r@mailbox.org\", role = \"aut\"),\n    person(\"Kevin\", \"Ushey\", , \"kevinushey@gmail.com\", role = \"aut\"),\n    person(\"Hadley\", \"Wickham\", , \"hadley@posit.co\", role = \"aut\"),\n    person(\"Winston\", \"Chang\", role = \"aut\"),\n    person(\"Jennifer\", \"Bryan\", role = \"ctb\"),\n    person(\"Richard\", \"Cotton\", role = \"ctb\"),\n    person(\"Posit Software, PBC\", role = c(\"cph\", \"fnd\"))\n  )",
+        "Description": "A set of functions to run code 'with' safely and temporarily\n    modified global state. Many of these functions were originally a part\n    of the 'devtools' package, this provides a simple package with limited\n    dependencies to provide access to these functions.",
         "License": "MIT + file LICENSE",
         "URL": "https://withr.r-lib.org, https://github.com/r-lib/withr#readme",
         "BugReports": "https://github.com/r-lib/withr/issues",
-        "Depends": "R (>= 3.5.0)",
-        "Imports": "graphics, grDevices,",
-        "Suggests": "callr, covr, DBI, knitr, lattice, methods, rlang, rmarkdown\n(>= 2.12), RSQLite, testthat (>= 3.0.0)",
+        "Depends": "R (>= 3.6.0)",
+        "Imports": "graphics, grDevices",
+        "Suggests": "callr, DBI, knitr, methods, rlang, rmarkdown (>= 2.12),\nRSQLite, testthat (>= 3.0.0)",
         "VignetteBuilder": "knitr",
-        "Encoding": "UTF-8",
-        "RoxygenNote": "7.3.0.9000",
-        "Collate": "'aaa.R' 'collate.R' 'connection.R' 'db.R' 'defer-exit.R'\n'standalone-defer.R' 'defer.R' 'wrap.R' 'local_.R' 'with_.R'\n'devices.R' 'dir.R' 'env.R' 'file.R' 'language.R' 'libpaths.R'\n'locale.R' 'makevars.R' 'namespace.R' 'options.R' 'par.R'\n'path.R' 'rng.R' 'seed.R' 'sink.R' 'tempfile.R' 'timezone.R'\n'torture.R' 'utils.R' 'with.R'",
-        "Config/testthat/edition": "3",
         "Config/Needs/website": "tidyverse/tidytemplate",
+        "Config/testthat/edition": "3",
+        "Encoding": "UTF-8",
+        "RoxygenNote": "7.3.2",
+        "Collate": "'aaa.R' 'collate.R' 'connection.R' 'db.R' 'defer-exit.R'\n'standalone-defer.R' 'defer.R' 'devices.R' 'local_.R' 'with_.R'\n'dir.R' 'env.R' 'file.R' 'language.R' 'libpaths.R' 'locale.R'\n'makevars.R' 'namespace.R' 'options.R' 'par.R' 'path.R' 'rng.R'\n'seed.R' 'wrap.R' 'sink.R' 'tempfile.R' 'timezone.R'\n'torture.R' 'utils.R' 'with.R'",
         "NeedsCompilation": "no",
-        "Packaged": "2024-01-16 10:22:29 UTC; lionel",
+        "Packaged": "2024-07-31 08:24:58 UTC; lionel",
         "Author": "Jim Hester [aut],\n  Lionel Henry [aut, cre],\n  Kirill Müller [aut],\n  Kevin Ushey [aut],\n  Hadley Wickham [aut],\n  Winston Chang [aut],\n  Jennifer Bryan [ctb],\n  Richard Cotton [ctb],\n  Posit Software, PBC [cph, fnd]",
         "Maintainer": "Lionel Henry <lionel@posit.co>",
         "Repository": "RSPM",
-        "Date/Publication": "2024-01-16 14:20:02 UTC",
-        "Built": "R 4.4.0; ; 2024-04-25 19:42:26 UTC; unix"
+        "Date/Publication": "2024-07-31 11:30:02 UTC",
+        "Built": "R 4.4.0; ; 2024-08-01 04:11:06 UTC; unix",
+        "RemoteType": "standard",
+        "RemotePkgRef": "withr",
+        "RemoteRef": "withr",
+        "RemoteRepos": "https://pkg.ferryland.posit.team/cran/__linux__/jammy/latest",
+        "RemoteReposName": "CRAN",
+        "RemotePkgPlatform": "source",
+        "RemoteSha": "3.0.1"
       }
     },
     "xfun": {
@@ -4374,7 +4381,7 @@
   },
   "files": {
     "03-data-clean-validate.qmd": {
-      "checksum": "7a4520eebbac0541857ec582be1e42bd"
+      "checksum": "e215b87ca64a1c09f14baf1f989190cb"
     }
   },
   "users": null

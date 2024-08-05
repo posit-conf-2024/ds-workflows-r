@@ -415,7 +415,7 @@ glue("Wrote the following to the database:
 🔄 Task
 
 -   Connect your account on Posit Connect to Workbench (Tools > Global Options > Publishing)
--   Use push-button publishing to publish this document, with source code, to Connect, but remember, _it is not good practice to bundle your `.Renviron` file with your deployment. Once the code is deployed to Connect, we will need to input our `WSDOT_API_KEY` in the Connect "Vars" pane. Or  we can publish the environment variable value directly using `rsconnect::deployApp(envVars = c("WSDOT_ACCESS_CODE"))`
+-   Use push-button publishing to publish this document, with source code, to Connect, but remember, _it is not good practice to bundle your `.Renviron` file with your deployment. Once the code is deployed to Connect, we will need to input our `WSDOT_API_KEY` in the Connect "Vars" pane. Or  we can publish the environment variable value directly using `rsconnect::deployApp(appFiles = c("01-raw-data-write.qmd", "mode_switch.png"), envVars = c("WSDOT_ACCESS_CODE"))`
 - Schedule it to run on a timescale that seems appropriate for the data update cycle
 
 Note: Recall we specified our database connection details with environment variables. Typically when you publish content to Connect, you will also need to supply the environment variables using the "Vars" pane in Connect. For this workshop, these environment variables have already been stored on the Connect server for you so you won't need to do this step for this activity.
