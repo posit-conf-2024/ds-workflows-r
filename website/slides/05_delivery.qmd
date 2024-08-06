@@ -372,7 +372,7 @@ Content returned from the Connect Server API will be scoped to the API key provi
 
 <https://pub.ferryland.posit.team/r/usage_monitoring/>
 
-
+[![](slide_resources/sample_usage_dashboard.png){fig-align="center" height="800"}](https://pub.ferryland.posit.team/r/usage_monitoring/)
 
 ## 
 

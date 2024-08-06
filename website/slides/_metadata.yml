@@ -1,5 +1,6 @@
 format:
   positconfslides-revealjs: 
+    link-external-newwindow: true
     chalkboard: true
     slide-number: c/t
     footer: "Click to go back to [Data Science Workflows with Posit Tools - R Focus website ↩](https://posit-conf-2024.github.io/ds-workflows-r/)"
