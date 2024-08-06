@@ -10,7 +10,7 @@
 <link href="../site_libs/quarto-html/quarto-syntax-highlighting.css" rel="stylesheet" id="quarto-text-highlighting-styles">
 <script src="../site_libs/quarto-contrib/posit_slides/posit-slides.js"></script>
 <link href="../site_libs/quarto-contrib/bootstrap-icons-1.9.1/all.css" rel="stylesheet"><meta charset="utf-8">
-  <meta name="generator" content="quarto-1.5.54">
+  <meta name="generator" content="quarto-1.5.40">
 
   <title>Data Science Workflows with Posit Tools - R focus – delivery</title>
   <meta name="apple-mobile-web-app-capable" content="yes">
@@ -399,8 +399,9 @@
 <div class="columns">
 <div class="column" style="width:100%;">
 <h2>Effective Delivery of Insights</h2>
-<p><img data-src="https://github.com/rstudio/hex-stickers/blob/main/PNG/shiny.png?raw=true" class="absolute" style="top: 170px; left: 180px; width: 260px; "> <img data-src="https://pkgs.rstudio.com/connectapi/reference/figures/logo.svg" class="absolute" style="top: 395px; left: 50px; width: 260px; "> <img data-src="https://rstudio.github.io/connectwidgets/reference/figures/logo.png" class="absolute" style="top: 395px; left: 310px; width: 260px; "></p>
-</div></div>
+<p><img data-src="https://github.com/rstudio/hex-stickers/blob/main/PNG/shiny.png?raw=true" class="absolute" style="top: 200px; left: 50px; width: 260px; "> <img data-src="https://pkgs.rstudio.com/connectapi/reference/figures/logo.svg" class="absolute" style="top: 200px; left: 310px; width: 260px; "></p>
+</div>
+</div>
 </section>
 <section class="slide level2">
 <h2>Review</h2>
@@ -415,9 +416,10 @@
 <ul>
 <li>Using Shiny to deliver interactive content</li>
 <li>Principles of Shiny in production</li>
-<li>Managing and monitoring production content</li>
+<li>Monitoring production content</li>
 </ul>
-</div></div>
+</div>
+</div>
 </section>
 <section class="slide level2">
 <h2>Let’s talk Shiny</h2>
@@ -434,7 +436,8 @@
 <p><img data-src="slide_resources/francesco-ZxNKxnR32Ng-unsplash.jpg"></p>
 <p><span class="smallest">Photo by <a href="https://unsplash.com/@detpho?utm_source=unsplash&amp;utm_medium=referral&amp;utm_content=creditCopyText">Francesco</a> on <a href="https://unsplash.com/photos/ZxNKxnR32Ng?utm_source=unsplash&amp;utm_medium=referral&amp;utm_content=creditCopyText">Unsplash</a></span></p>
 </div>
-</div></div>
+</div>
+</div>
 </section>
 <section class="slide level2">
 <h2>🧰 Shiny resources</h2>
@@ -484,7 +487,8 @@
 </ul></li>
 </ul>
 </div>
-</div><div class="column" style="width:50%;">
+</div>
+<div class="column" style="width:50%;">
 <div style="background: #F6F6F6; width: 600px; height: 400px; margin: 20px; padding: 20px; box-shadow: 0 18px 18px -9px lightgray; margin-left: auto; margin-right: auto;">
 <p>🧰 References:</p>
 <ul>
@@ -492,7 +496,8 @@
 <li><a href="https://mastering-shiny.org/performance.html">Mastering Shiny, Performance</a> chapter</li>
 </ul>
 </div>
-</div></div>
+</div>
+</div>
 </div>
 </section>
 <section class="slide level2">
@@ -635,7 +640,8 @@
 <p><strong>Load factor</strong> — Much like <em>min processes</em>, how early do you want to start a new process for that <strong>n + 1</strong> connection?</p>
 </div>
 </div>
-</div></div>
+</div>
+</div>
 </section>
 <section class="slide level2">
 <h2>Posit Connect</h2>
@@ -670,93 +676,13 @@
 </div>
 </div>
 </section>
-<section class="slide level2 brackets-dark">
+<section class="slide level2" data-background-image="_extensions/positconfslides/assets/backgrounds/brackets-green.svg" data-background-size="contain">
 <h2></h2>
-<div class="section-title-dark">
-<p>Managing Content</p>
-</div>
-</section>
-<section class="slide level2" data-background-image="_extensions/positconfslides/assets/backgrounds/brackets-light.svg" data-background-size="contain">
-<h2></h2>
-<div class="columns">
+<div class="columns has-dark-background">
 <div class="column" style="width:100%;">
-<br><h2 style="margin-top:10px;">Managing Content</h2>
-<div>
-<ul>
-<li class="fragment">How can I organize this content so stakeholders can find it?</li>
-<li class="fragment">How will I know if people are consuming my content?</li>
-</ul>
-</div>
-</div></div>
-</section>
-<section class="slide level2">
-<h2>How can I organize this content so stakeholders can find it?</h2>
-<ol type="1">
-<li><a href="https://docs.posit.co/connect/admin/content-management/index.html#tags">Tags in Connect</a></li>
-</ol>
-<div class="quarto-figure quarto-figure-center">
-<figure>
-<p><img data-src="slide_resources/tag_schema.png" class="quarto-figure quarto-figure-center" height="400"></p>
-</figure>
-</div>
-<ol start="2" type="1">
-<li>🧰 <a href="https://rstudio.github.io/connectwidgets/"><code>connectwidgets</code></a> for content curation <img data-src="https://rstudio.github.io/connectwidgets/reference/figures/logo.png" class="absolute" style="top: 650px; right: 420px; width: 220px; "></li>
-</ol>
-</section>
-<section class="slide level2">
-<h2>Connectwidgets flow</h2>
-<p>Incorporate into a stylized R Markdown or Quarto document or Shiny application.</p>
-<div class="sourceCode" id="cb1" data-code-line-numbers="1-5|7-14|16-27"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a></a><span class="co"># Establish a connection to the Connect Server</span></span>
-<span id="cb1-2"><a></a>client <span class="ot">&lt;-</span> <span class="fu">connect</span>(</span>
-<span id="cb1-3"><a></a>  <span class="at">server  =</span> <span class="fu">Sys.getenv</span>(<span class="st">"CONNECT_SERVER"</span>),</span>
-<span id="cb1-4"><a></a>  <span class="at">api_key =</span> <span class="fu">Sys.getenv</span>(<span class="st">"CONNECT_API_KEY"</span>)</span>
-<span id="cb1-5"><a></a>  )</span>
-<span id="cb1-6"><a></a></span>
-<span id="cb1-7"><a></a><span class="co"># Return a dataframe of content information to curate</span></span>
-<span id="cb1-8"><a></a>project_content <span class="ot">&lt;-</span> client <span class="sc">|&gt;</span> </span>
-<span id="cb1-9"><a></a>  <span class="fu">content</span>() <span class="sc">|&gt;</span> </span>
-<span id="cb1-10"><a></a>  <span class="co"># filter helpers:</span></span>
-<span id="cb1-11"><a></a>  <span class="fu">by_tag</span>() <span class="sc">|&gt;</span> </span>
-<span id="cb1-12"><a></a>  <span class="fu">by_owner</span>() <span class="sc">|&gt;</span> </span>
-<span id="cb1-13"><a></a>  <span class="co"># or use your own dplyr filter</span></span>
-<span id="cb1-14"><a></a>  dplyr<span class="sc">::</span><span class="fu">filter</span>()</span>
-<span id="cb1-15"><a></a>  </span>
-<span id="cb1-16"><a></a><span class="co"># Use widgets to lay out your content</span></span>
-<span id="cb1-17"><a></a><span class="do">### card</span></span>
-<span id="cb1-18"><a></a>project_content <span class="sc">|&gt;</span> </span>
-<span id="cb1-19"><a></a>  <span class="fu">rsc_card</span>()</span>
-<span id="cb1-20"><a></a></span>
-<span id="cb1-21"><a></a><span class="do">### grid</span></span>
-<span id="cb1-22"><a></a>project_content <span class="sc">|&gt;</span> </span>
-<span id="cb1-23"><a></a>  <span class="fu">rsc_grid</span>()</span>
-<span id="cb1-24"><a></a></span>
-<span id="cb1-25"><a></a><span class="do">### table</span></span>
-<span id="cb1-26"><a></a>project_content <span class="sc">%&gt;%</span></span>
-<span id="cb1-27"><a></a>  <span class="fu">rsc_table</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="callout callout-tip callout-titled callout-style-default">
-<div class="callout-body">
-<div class="callout-title">
-<div class="callout-icon-container">
-<i class="callout-icon"></i>
-</div>
-<p><strong>Tip</strong></p>
-</div>
-<div class="callout-content">
-<p>Content returned by <code>connectwidgets::content</code> will be scoped to the API key provided.</p>
-</div>
-</div>
-</div>
-</section>
-<section class="slide level2">
-<h2>Example</h2>
-<p><a href="https://colorado.posit.co/rsc/chicago-food-r/" class="uri">https://colorado.posit.co/rsc/chicago-food-r/</a></p>
-<div class="callout callout-note no-icon callout-titled callout-style-default">
-<div class="callout-body">
-<div class="callout-title">
-<p><strong>Activity</strong></p>
-</div>
-<div class="callout-content">
-<p>👉 Open the file <code>materials/activities/activity-08_Connectwidgets.qmd</code></p>
+<br><h2 style="margin-top:10px;"></h2>
+<div class="section-title-dark">
+<p>Monitoring Content</p>
 </div>
 </div>
 </div>
@@ -791,11 +717,15 @@
 <li>User and group management</li>
 <li>Job management</li>
 </ul>
-</div></div>
+</div>
+</div>
 <p><br> Full documentation: <a href="https://docs.posit.co/connect/api/" class="uri">https://docs.posit.co/connect/api/</a></p>
 </section>
-<section class="slide level2">
-<h2>Accessing the Connect Server API</h2>
+<section class="slide level2" data-background-image="_extensions/positconfslides/assets/backgrounds/brackets-light.svg" data-background-size="contain">
+<h2></h2>
+<div class="columns">
+<div class="column" style="width:100%;">
+<br><h2 style="margin-top:10px;">Accessing the Connect Server API</h2>
 <ul>
 <li>Posit SDKs provide wrappers around <code>curl</code> and HTTP requests for easier interaction:
 <ul>
@@ -803,25 +733,69 @@
 <li><a href=""><code>{posit-sdk}</code></a> python package</li>
 </ul></li>
 </ul>
-<p><img data-src="https://pkgs.rstudio.com/connectapi/reference/figures/logo.svg" class="absolute" style="top: 590px; left: 260px; width: 220px; "></p>
+<p><img data-src="https://pkgs.rstudio.com/connectapi/reference/figures/logo.svg" class="absolute" style="top: 340px; right: 260px; width: 290px; "></p>
+</div>
+</div>
 </section>
 <section class="slide level2">
-<h2>Example Content Usage Report</h2>
+<h2>Constructing a Content Usage Report</h2>
+<p>Incorporate into a stylized R Markdown, Quarto document or Shiny application.</p>
 <div class="columns">
-<div class="column" style="width:40%;">
-<p><a href="https://connect.conf23workflows.training.posit.co/chicago-food-r/content-usage/"><img data-src="slide_resources/usage-report.png" height="800"></a></p>
-</div><div class="column" style="width:60%;">
-<div class="sourceCode" id="cb2"><pre class="sourceCode numberSource r code-overflow-wrap number-lines code-with-copy"><code class="sourceCode r"><span id="cb2-1"><a></a>...</span>
-<span id="cb2-2"><a></a>con <span class="ot">&lt;-</span> connectapi<span class="sc">::</span><span class="fu">connect</span>()</span>
-<span id="cb2-3"><a></a></span>
-<span id="cb2-4"><a></a>app_usage <span class="ot">&lt;-</span> <span class="fu">get_usage_shiny</span>(</span>
-<span id="cb2-5"><a></a>  client,</span>
-<span id="cb2-6"><a></a>  <span class="at">from =</span> report_from,</span>
-<span id="cb2-7"><a></a>  <span class="at">limit =</span> <span class="cn">Inf</span>,</span>
-<span id="cb2-8"><a></a>  <span class="at">content_guid =</span> guid</span>
-<span id="cb2-9"><a></a>)</span>
-<span id="cb2-10"><a></a>...</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-</div></div>
+<div class="column smaller" style="width:35%;">
+<div class="smaller">
+<div class="sourceCode" id="cb1"><pre class="sourceCode numberSource r code-overflow-wrap number-lines code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a></a>...</span>
+<span id="cb1-2"><a></a>con <span class="ot">&lt;-</span> connectapi<span class="sc">::</span><span class="fu">connect</span>()</span>
+<span id="cb1-3"><a></a></span>
+<span id="cb1-4"><a></a>app_usage <span class="ot">&lt;-</span> <span class="fu">get_usage_shiny</span>(</span>
+<span id="cb1-5"><a></a>  client,</span>
+<span id="cb1-6"><a></a>  <span class="at">from =</span> report_from,</span>
+<span id="cb1-7"><a></a>  <span class="at">limit =</span> <span class="cn">Inf</span>,</span>
+<span id="cb1-8"><a></a>  <span class="at">content_guid =</span> guid</span>
+<span id="cb1-9"><a></a>)</span>
+<span id="cb1-10"><a></a>...</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+</div><div class="column smaller" style="width:65%;">
+<div class="smaller">
+<div class="sourceCode" id="cb2"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb2-1"><a></a><span class="sc">&gt;</span> usage</span>
+<span id="cb2-2"><a></a><span class="co"># A tibble: 14 × 6</span></span>
+<span id="cb2-3"><a></a>   content_guid      user_guid         started             ended               data_version</span>
+<span id="cb2-4"><a></a>   <span class="sc">&lt;</span>chr<span class="sc">&gt;</span>             <span class="er">&lt;</span>chr<span class="sc">&gt;</span>             <span class="er">&lt;</span>dttm<span class="sc">&gt;</span>              <span class="er">&lt;</span>dttm<span class="sc">&gt;</span>                     <span class="er">&lt;</span>int<span class="sc">&gt;</span></span>
+<span id="cb2-5"><a></a> <span class="dv">1</span> <span class="dv">0477855</span>b<span class="sc">-</span>caeb<span class="sc">-</span>... <span class="dv">1</span>ec56831<span class="dv">-7</span>a34<span class="sc">-</span>... <span class="dv">2024-03-19</span> <span class="dv">21</span><span class="sc">:</span><span class="dv">09</span><span class="sc">:</span><span class="dv">03</span> <span class="dv">2024-03-19</span> <span class="dv">21</span><span class="sc">:</span><span class="dv">10</span><span class="sc">:</span><span class="dv">05</span>            <span class="dv">1</span></span>
+<span id="cb2-6"><a></a> <span class="dv">2</span> <span class="dv">0477855</span>b<span class="sc">-</span>caeb<span class="sc">-</span>... <span class="dv">1</span>ec56831<span class="dv">-7</span>a34<span class="sc">-</span>... <span class="dv">2024-03-19</span> <span class="dv">21</span><span class="sc">:</span><span class="dv">39</span><span class="sc">:</span><span class="dv">07</span> <span class="dv">2024-03-19</span> <span class="dv">22</span><span class="sc">:</span><span class="dv">39</span><span class="sc">:</span><span class="dv">48</span>            <span class="dv">1</span></span>
+<span id="cb2-7"><a></a> <span class="dv">3</span> <span class="dv">0477855</span>b<span class="sc">-</span>caeb<span class="sc">-</span>... d59e7a7b<span class="dv">-9684</span><span class="sc">-</span>... <span class="dv">2024-03-20</span> <span class="dv">00</span><span class="sc">:</span><span class="dv">36</span><span class="sc">:</span><span class="dv">29</span> <span class="dv">2024-03-20</span> <span class="dv">00</span><span class="sc">:</span><span class="dv">37</span><span class="sc">:</span><span class="dv">10</span>            <span class="dv">1</span></span>
+<span id="cb2-8"><a></a> <span class="dv">4</span> <span class="dv">0477855</span>b<span class="sc">-</span>caeb<span class="sc">-</span>... <span class="dv">1</span>ec56831<span class="dv">-7</span>a34<span class="sc">-</span>... <span class="dv">2024-03-20</span> <span class="dv">13</span><span class="sc">:</span><span class="dv">50</span><span class="sc">:</span><span class="dv">55</span> <span class="dv">2024-03-20</span> <span class="dv">14</span><span class="sc">:</span><span class="dv">04</span><span class="sc">:</span><span class="dv">04</span>            <span class="dv">1</span></span>
+<span id="cb2-9"><a></a> <span class="dv">5</span> <span class="dv">0477855</span>b<span class="sc">-</span>caeb<span class="sc">-</span>... <span class="dv">1</span>ec56831<span class="dv">-7</span>a34<span class="sc">-</span>... <span class="dv">2024-03-20</span> <span class="dv">16</span><span class="sc">:</span><span class="dv">43</span><span class="sc">:</span><span class="dv">56</span> <span class="dv">2024-03-20</span> <span class="dv">16</span><span class="sc">:</span><span class="dv">44</span><span class="sc">:</span><span class="dv">12</span>            <span class="dv">1</span></span>
+<span id="cb2-10"><a></a> <span class="dv">6</span> <span class="dv">0477855</span>b<span class="sc">-</span>caeb<span class="sc">-</span>... d59e7a7b<span class="dv">-9684</span><span class="sc">-</span>... <span class="dv">2024-03-21</span> <span class="dv">10</span><span class="sc">:</span><span class="dv">52</span><span class="sc">:</span><span class="dv">14</span> <span class="dv">2024-03-21</span> <span class="dv">11</span><span class="sc">:</span><span class="dv">52</span><span class="sc">:</span><span class="dv">37</span>            <span class="dv">1</span></span>
+<span id="cb2-11"><a></a> <span class="dv">7</span> <span class="dv">0477855</span>b<span class="sc">-</span>caeb<span class="sc">-</span>... fc80bd89<span class="dv">-4488</span><span class="sc">-</span>... <span class="dv">2024-03-25</span> <span class="dv">19</span><span class="sc">:</span><span class="dv">16</span><span class="sc">:</span><span class="dv">45</span> <span class="dv">2024-03-25</span> <span class="dv">19</span><span class="sc">:</span><span class="dv">28</span><span class="sc">:</span><span class="dv">19</span>            <span class="dv">1</span></span>
+<span id="cb2-12"><a></a> <span class="dv">8</span> <span class="dv">0477855</span>b<span class="sc">-</span>caeb<span class="sc">-</span>... <span class="fl">989001e2</span><span class="dv">-66</span>df<span class="sc">-</span>... <span class="dv">2024-03-26</span> <span class="dv">19</span><span class="sc">:</span><span class="dv">48</span><span class="sc">:</span><span class="dv">37</span> <span class="dv">2024-03-26</span> <span class="dv">21</span><span class="sc">:</span><span class="dv">43</span><span class="sc">:</span><span class="dv">10</span>            <span class="dv">1</span></span>
+<span id="cb2-13"><a></a> <span class="dv">9</span> <span class="dv">0477855</span>b<span class="sc">-</span>caeb<span class="sc">-</span>... <span class="dv">5</span>c7cb633<span class="dv">-5959</span><span class="sc">-</span>... <span class="dv">2024-03-28</span> <span class="dv">17</span><span class="sc">:</span><span class="dv">13</span><span class="sc">:</span><span class="dv">03</span> <span class="dv">2024-03-28</span> <span class="dv">17</span><span class="sc">:</span><span class="dv">19</span><span class="sc">:</span><span class="dv">35</span>            <span class="dv">1</span></span>
+<span id="cb2-14"><a></a><span class="dv">10</span> <span class="dv">0477855</span>b<span class="sc">-</span>caeb<span class="sc">-</span>... fc80bd89<span class="dv">-4488</span><span class="sc">-</span>... <span class="dv">2024-03-28</span> <span class="dv">18</span><span class="sc">:</span><span class="dv">26</span><span class="sc">:</span><span class="dv">20</span> <span class="dv">2024-03-28</span> <span class="dv">18</span><span class="sc">:</span><span class="dv">34</span><span class="sc">:</span><span class="dv">40</span>            <span class="dv">1</span></span>
+<span id="cb2-15"><a></a><span class="dv">11</span> <span class="dv">0477855</span>b<span class="sc">-</span>caeb<span class="sc">-</span>... fc80bd89<span class="dv">-4488</span><span class="sc">-</span>... <span class="dv">2024-03-28</span> <span class="dv">20</span><span class="sc">:</span><span class="dv">53</span><span class="sc">:</span><span class="dv">50</span> <span class="dv">2024-03-28</span> <span class="dv">20</span><span class="sc">:</span><span class="dv">54</span><span class="sc">:</span><span class="dv">36</span>            <span class="dv">1</span></span>
+<span id="cb2-16"><a></a><span class="dv">12</span> <span class="dv">0477855</span>b<span class="sc">-</span>caeb<span class="sc">-</span>... cbee884e<span class="sc">-</span>f940<span class="sc">-</span>... <span class="dv">2024-03-29</span> <span class="dv">16</span><span class="sc">:</span><span class="dv">13</span><span class="sc">:</span><span class="dv">44</span> <span class="dv">2024-03-29</span> <span class="dv">16</span><span class="sc">:</span><span class="dv">14</span><span class="sc">:</span><span class="dv">15</span>            <span class="dv">1</span></span>
+<span id="cb2-17"><a></a><span class="dv">13</span> <span class="dv">0477855</span>b<span class="sc">-</span>caeb<span class="sc">-</span>... fc80bd89<span class="dv">-4488</span><span class="sc">-</span>... <span class="dv">2024-03-29</span> <span class="dv">18</span><span class="sc">:</span><span class="dv">16</span><span class="sc">:</span><span class="dv">10</span> <span class="dv">2024-03-29</span> <span class="dv">20</span><span class="sc">:</span><span class="dv">43</span><span class="sc">:</span><span class="dv">52</span>            <span class="dv">1</span></span>
+<span id="cb2-18"><a></a><span class="dv">14</span> <span class="dv">0477855</span>b<span class="sc">-</span>caeb<span class="sc">-</span>... <span class="dv">3</span>dc75833<span class="sc">-</span>f6c2<span class="sc">-</span>... <span class="dv">2024-04-11</span> <span class="dv">00</span><span class="sc">:</span><span class="dv">36</span><span class="sc">:</span><span class="dv">00</span> <span class="dv">2024-04-11</span> <span class="dv">00</span><span class="sc">:</span><span class="dv">36</span><span class="sc">:</span><span class="dv">59</span>            <span class="dv">1</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+</div>
+</div>
+<div title="Remember">
+<div class="callout callout-tip callout-titled callout-style-default">
+<div class="callout-body">
+<div class="callout-title">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<p><strong>Remember</strong></p>
+</div>
+<div class="callout-content">
+<p>Content returned from the Connect Server API will be scoped to the API key provided.</p>
+</div>
+</div>
+</div>
+</div>
+</section>
+<section class="slide level2">
+<h2>Who is Using our App?</h2>
+<p><a href="https://pub.ferryland.posit.team/r/usage_monitoring/" class="uri">https://pub.ferryland.posit.team/r/usage_monitoring/</a></p>
 </section>
 <section class="slide level2">
 <h2></h2>
@@ -849,7 +823,7 @@
 
 <div class="quarto-auto-generated-content">
 <div class="footer footer-default">
-<p>Back to <a href="https://posit-conf-2024.github.io/ds-workflows-r/">Data Science Workflows with Posit Tools - R Focus</a> website</p>
+<p>Click to go back to <a href="https://posit-conf-2024.github.io/ds-workflows-r/">Data Science Workflows with Posit Tools - R Focus website ↩︎</a></p>
 </div>
 </div>
 </section>
