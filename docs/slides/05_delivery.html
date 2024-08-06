@@ -10,9 +10,9 @@
 <link href="../site_libs/quarto-html/quarto-syntax-highlighting.css" rel="stylesheet" id="quarto-text-highlighting-styles">
 <script src="../site_libs/quarto-contrib/posit_slides/posit-slides.js"></script>
 <link href="../site_libs/quarto-contrib/bootstrap-icons-1.9.1/all.css" rel="stylesheet"><meta charset="utf-8">
-  <meta name="generator" content="quarto-1.5.40">
+  <meta name="generator" content="quarto-1.4.553">
 
-  <title>Data Science Workflows with Posit Tools - R focus – delivery</title>
+  <title>Data Science Workflows with Posit Tools - R focus</title>
   <meta name="apple-mobile-web-app-capable" content="yes">
   <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, minimal-ui">
@@ -43,7 +43,7 @@
     }
     @media print {
     pre > code.sourceCode { white-space: pre-wrap; }
-    pre > code.sourceCode > span { display: inline-block; text-indent: -5em; padding-left: 5em; }
+    pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
     }
     pre.numberSource code
       { counter-reset: source-line 0; }
@@ -519,8 +519,13 @@
 <p><strong>Activity</strong></p>
 </div>
 <div class="callout-content">
-<p>👉 Open the file <code>materials/05-shiny-app/simple_ferry_app/app.R</code></p>
-<p>Run the app and get a taste for how Shiny can generative reactive API queries.</p>
+<p>👉 Activity objective: explore the simply shiny app.</p>
+<ul>
+<li>Open the project <code>materials/05-shiny-app/05-shiny-app.Rproj</code></li>
+<li>Open the file <code>simple_ferry_app/app.R</code></li>
+<li>Click <code>Run App</code> and explore the shiny app.</li>
+</ul>
+<p>Get a taste for how shiny can be used to create <strong>reactive</strong> API queries!</p>
 </div>
 </div>
 </div>
@@ -531,7 +536,7 @@
 <p>Our Shiny application does a bit more:</p>
 <div>
 <ol type="1">
-<li class="fragment">Read in ferry weather data from database.</li>
+<li class="fragment">Read in the validated ferry-weather data from database.</li>
 <li class="fragment">Extract ferry station information from <code>ferryfairy</code> package.</li>
 <li class="fragment">Take in user inputs.</li>
 <li class="fragment">Make API queries.</li>
@@ -545,7 +550,7 @@
 <h2>Putting the Pieces Together</h2>
 <p>Our Shiny application does a bit more:</p>
 <ol type="1">
-<li>Read in ferry weather data from database.</li>
+<li>Read in the validated ferry-weather data from database.</li>
 <li>Extract ferry station information from <code>ferryfairy</code> package.</li>
 <li>Take in user inputs.</li>
 <li><strong>Make API queries.</strong></li>
@@ -553,32 +558,25 @@
 <li>Display a map.</li>
 <li>Show average delay times.</li>
 </ol>
+<div class="fragment">
+<p>📣 This Shiny application does not train a model! Move the <em>computationally heavy</em> stuff outside of your applications!</p>
+</div>
 </section>
 <section class="slide level2">
 <h2>Activity</h2>
 <div class="callout callout-note no-icon callout-titled callout-style-default">
 <div class="callout-body">
 <div class="callout-title">
-<p><strong>Activity</strong></p>
+<p><strong>Note</strong></p>
 </div>
 <div class="callout-content">
-<p>👉 Open the file `materials/05-shiny-app/ferry_delay_app/app.R</p>
-</div>
-</div>
-</div>
-<div class="callout callout-important callout-titled callout-style-default">
-<div class="callout-body">
-<div class="callout-title">
-<div class="callout-icon-container">
-<i class="callout-icon"></i>
-</div>
-<p><strong>Goals</strong></p>
-</div>
-<div class="callout-content">
-<ol type="1">
+<p>👉 Activity objective: explore the simply shiny app.</p>
+<ul>
+<li>Open the project <code>materials/05-shiny-app/05-shiny-app.Rproj</code></li>
+<li>Open the file <code>ferry_delay_app/app.R</code></li>
 <li>Supply your API URL to the Shiny App.</li>
 <li>Deploy to Posit Connect!</li>
-</ol>
+</ul>
 </div>
 </div>
 </div>
@@ -596,7 +594,7 @@
 <ol type="1">
 <li>Great for collaborative work.</li>
 <li>Connect automatically detects changes in repo and rebuilds content.</li>
-<li>📣 All production content should be deployed using Git Backed Deployment!</li>
+<li>📣 All production content should be deployed using git/CI-CD!</li>
 </ol>
 </div>
 <div class="fragment">
@@ -676,6 +674,11 @@
 </div>
 </div>
 </section>
+<section class="slide level2">
+<h2>A question for you…</h2>
+<p>What components of our workflow deployed to Posit Connect would benefit from setting <code>Min Processes</code> to &gt; 0?</p>
+
+<img data-src="slide_resources/ds-workflows-r-2024.jpg" class="quarto-figure quarto-figure-center r-stretch"></section>
 <section class="slide level2" data-background-image="_extensions/positconfslides/assets/backgrounds/brackets-green.svg" data-background-size="contain">
 <h2></h2>
 <div class="columns has-dark-background">
@@ -1071,7 +1074,18 @@
         }
         return false;
       }
-      const onCopySuccess = function(e) {
+      const clipboard = new window.ClipboardJS('.code-copy-button', {
+        text: function(trigger) {
+          const codeEl = trigger.previousElementSibling.cloneNode(true);
+          for (const childEl of codeEl.children) {
+            if (isCodeAnnotation(childEl)) {
+              childEl.remove();
+            }
+          }
+          return codeEl.innerText;
+        }
+      });
+      clipboard.on('success', function(e) {
         // button target
         const button = e.trigger;
         // don't keep focus
@@ -1103,29 +1117,7 @@
         }, 1000);
         // clear code selection
         e.clearSelection();
-      }
-      const getTextToCopy = function(trigger) {
-          const codeEl = trigger.previousElementSibling.cloneNode(true);
-          for (const childEl of codeEl.children) {
-            if (isCodeAnnotation(childEl)) {
-              childEl.remove();
-            }
-          }
-          return codeEl.innerText;
-      }
-      const clipboard = new window.ClipboardJS('.code-copy-button:not([data-in-quarto-modal])', {
-        text: getTextToCopy
       });
-      clipboard.on('success', onCopySuccess);
-      if (window.document.getElementById('quarto-embedded-source-code-modal')) {
-        // For code content inside modals, clipBoardJS needs to be initialized with a container option
-        // TODO: Check when it could be a function (https://github.com/zenorocha/clipboard.js/issues/860)
-        const clipboardModal = new window.ClipboardJS('.code-copy-button[data-in-quarto-modal]', {
-          text: getTextToCopy,
-          container: window.document.getElementById('quarto-embedded-source-code-modal')
-        });
-        clipboardModal.on('success', onCopySuccess);
-      }
         var localhostRegex = new RegExp(/^(?:http|https):\/\/localhost\:?[0-9]*\//);
         var mailtoRegex = new RegExp(/^mailto:/);
           var filterRegex = new RegExp('/' + window.location.host + '/');
@@ -1133,7 +1125,7 @@
             return filterRegex.test(href) || localhostRegex.test(href) || mailtoRegex.test(href);
         }
         // Inspect non-navigation links and adorn them if external
-     	var links = window.document.querySelectorAll('a[href]:not(.nav-link):not(.navbar-brand):not(.toc-action):not(.sidebar-link):not(.sidebar-item-toggle):not(.pagination-link):not(.no-external):not([aria-hidden]):not(.dropdown-item):not(.quarto-navigation-tool):not(.about-link)');
+     	var links = window.document.querySelectorAll('a[href]:not(.nav-link):not(.navbar-brand):not(.toc-action):not(.sidebar-link):not(.sidebar-item-toggle):not(.pagination-link):not(.no-external):not([aria-hidden]):not(.dropdown-item):not(.quarto-navigation-tool)');
         for (var i=0; i<links.length; i++) {
           const link = links[i];
           if (!isInternal(link.href)) {

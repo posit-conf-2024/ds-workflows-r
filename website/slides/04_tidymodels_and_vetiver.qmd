@@ -73,14 +73,20 @@ THIS IS NOT A MODELING WORKSHOP!
 🐋 [21 ferries across Puget Sound and the Salish Sea]{.posityellow}
 
 ::::: columns
-::: {.column width="50%"}
-![](slide_resources/ferry-whales.png) [<https://i.pinimg.com/originals/c9/8b/3a/c98b3a997df52b6c8ad681590557c6bc.jpg>]{.figcaption2}
+::: {.column width="15%"}
+![](slide_resources/vessel_classes.png){height="600"}
 :::
 
-::: {.column width="50%"}
+::: {.column width="60%"}
+![](slide_resources/ferry-whales.png){height="600" fig-align="center"} [<https://i.pinimg.com/originals/c9/8b/3a/c98b3a997df52b6c8ad681590557c6bc.jpg>]{.figcaption2}
+:::
+
+::: {.column width="25%"}
 ![](slide_resources/route_map.png){height="600"}
 :::
+
 :::::
+
 
 ## Question and Answer
 

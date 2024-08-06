@@ -112,9 +112,13 @@ Two sides to this coin:
 ::: {.callout-note icon="false"}
 ## Activity
 
-👉 Open the file `materials/05-shiny-app/simple_ferry_app/app.R`
+👉 Activity objective: explore the simply shiny app.
 
-Run the app and get a taste for how Shiny can generative reactive API queries.
+-   Open the project `materials/05-shiny-app/05-shiny-app.Rproj`
+-   Open the file `simple_ferry_app/app.R`
+-   Click `Run App` and explore the shiny app.
+
+Get a taste for how shiny can be used to create **reactive** API queries!
 :::
 ::::
 
@@ -123,7 +127,7 @@ Run the app and get a taste for how Shiny can generative reactive API queries.
 Our Shiny application does a bit more:
 
 ::: incremental
-1.  Read in ferry weather data from database.
+1.  Read in the validated ferry-weather data from database.
 2.  Extract ferry station information from `ferryfairy` package.
 3.  Take in user inputs.
 4.  Make API queries.
@@ -136,7 +140,7 @@ Our Shiny application does a bit more:
 
 Our Shiny application does a bit more:
 
-1.  Read in ferry weather data from database.
+1.  Read in the validated ferry-weather data from database.
 2.  Extract ferry station information from `ferryfairy` package.
 3.  Take in user inputs.
 4.  **Make API queries.**
@@ -144,19 +148,19 @@ Our Shiny application does a bit more:
 6.  Display a map.
 7.  Show average delay times.
 
+::: fragment
+📣 This Shiny application does not train a model! Move the *computationally heavy* stuff outside of your applications!
+:::
+
 ## Activity
 
 ::: {.callout-note icon="false"}
-## Activity
+👉 Activity objective: explore the simply shiny app.
 
-👉 Open the file \`materials/05-shiny-app/ferry_delay_app/app.R
-:::
-
-::: callout-important
-## Goals
-
-1.  Supply your API URL to the Shiny App.
-2.  Deploy to Posit Connect!
+-   Open the project `materials/05-shiny-app/05-shiny-app.Rproj`
+-   Open the file `ferry_delay_app/app.R`
+-   Supply your API URL to the Shiny App.
+-   Deploy to Posit Connect!
 :::
 
 ## Git-Backed Deployment
@@ -176,7 +180,7 @@ What if we deployed directly from the GitHub Repo?
 
 1.  Great for collaborative work.
 2.  Connect automatically detects changes in repo and rebuilds content.
-3.  📣 All production content should be deployed using Git Backed Deployment!
+3.  📣 All production content should be deployed using git/CI-CD!
 :::
 
 :::: fragment
@@ -250,6 +254,12 @@ The Shiny Restaurant Analogy
 ![](slide_resources/chef-4.jpg)
 :::
 :::::::
+
+## A question for you...
+
+What components of our workflow deployed to Posit Connect would benefit from setting `Min Processes` to > 0?
+
+![](slide_resources/ds-workflows-r-2024.jpg){fig-align="center"}
 
 ##  {.brackets-green}
 
