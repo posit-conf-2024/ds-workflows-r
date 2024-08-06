@@ -84,7 +84,7 @@ unique_visitors <- usage |> filter(!is.na(user_guid)) |>pull(user_guid) |> uniqu
 ## Row
 
 Usage of **`r content_info$title`**, for the period of
-**`r report_from`** to **`r as_of_date`**
+**`r as_date(report_from)`** to **`r as_date(as_of_date)`**
 
 ## Row
 
@@ -163,7 +163,7 @@ usage |>
     paste("Top", top_n, "content users")})  |>
   tab_stubhead(label = "username") |>
   cols_label(tot_usage = "total usage", first_visit ="first visit", last_visit="last visit") |>
-  tab_footnote(footnote=glue::glue("First and last usage in the period {report_from} to {as_of_date}"), locations=cells_column_labels(columns=c("first_visit", last_visit)) ) |>
+  tab_footnote(footnote=glue::glue("First and last usage in the period {as_date(report_from)} to {as_date(as_of_date)}"), locations=cells_column_labels(columns=c("first_visit", last_visit)) ) |>
   cols_nanoplot(
       columns = -c(tot_usage, first_visit, last_visit),
       new_col_name = "daily usage",
