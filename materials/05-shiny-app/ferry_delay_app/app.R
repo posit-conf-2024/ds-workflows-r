@@ -84,7 +84,7 @@ ui <- page_sidebar(
                     selectInput(
                       "hour",
                       "Select Closest Hour",
-                      choices = 0:23 |> as.character(),
+                      choices = c(0:9,11:23) |> as.character(),
                       selected = "0"
                     ),
                     
@@ -149,6 +149,15 @@ ui <- page_sidebar(
 
 # Define server logic ----
 server <- function(input, output, session) {
+  # Add some simple statements that emit to STDOUT for basic app logging
+  start_time <- Sys.time()
+  if (!is.null(session$user)) {
+    user <- session$user} else {user <- "unknown user"}
+  ## A random identifier so logs from same session can be aggregated
+  session_id <- round(runif(1, 100000, 10000000))
+  message("starting at: ", start_time, " on process: ", Sys.getpid(), " for user: ", user," with session_id: ", session_id)
+  
+  
   
   observeEvent(input$departing, {
       updateSelectInput(session, "arriving", 
@@ -183,6 +192,10 @@ server <- function(input, output, session) {
     
     endpoint <- vetiver_endpoint(paste0(api_url, "/predict"))
     
+    # add a STDOUT log to indicate start of API query
+    time1 <- Sys.time()
+    message("sending model API call: ", time1, " on process: ", Sys.getpid(), " for user: ", user, " with session_id: ", session_id)
+    
     # New ferry data point
     new_ferry_data <- tibble(
       departing = input$departing,
@@ -194,10 +207,17 @@ server <- function(input, output, session) {
       delay = 0
     )
     
-    predict(endpoint, 
+    
+    result <- predict(endpoint, 
             new_ferry_data, 
             httr::add_headers(Authorization = paste("Key", 
                                                     Sys.getenv("CONNECT_API_KEY"))))$.pred_class
+    # add a STDOUT log to indicate end of API query
+    time2 <- Sys.time()
+    message("received model API call: ", time2, " on process: ", Sys.getpid(), " for user: ", user, " with session_id: ", session_id)
+    message("it took ", difftime(time2,time1), " " , units(difftime(time2,time1)))
+    
+    result
   })
   
   delay_color <- reactive({
