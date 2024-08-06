@@ -257,68 +257,6 @@ The Shiny Restaurant Analogy
 Monitoring Content
 :::
 
-##  {.brackets-light}
-
-:::{.middle}
--   How will I know if people are consuming my content?
-:::
-
-## How can I organize this content so stakeholders can find it?
-
-1.  [Tags in Connect](https://docs.posit.co/connect/admin/content-management/index.html#tags)
-
-![](slide_resources/tag_schema.png){height="400" fig-align="center"}
-
-2.  🧰 [`connectwidgets`](https://rstudio.github.io/connectwidgets/) for content curation ![](https://rstudio.github.io/connectwidgets/reference/figures/logo.png){.absolute top="650" right="420" width="220"}
-
-## Connectwidgets flow
-
-Incorporate into a stylized R Markdown or Quarto document or Shiny application.
-
-``` {.r code-line-numbers="1-5|7-14|16-27"}
-# Establish a connection to the Connect Server
-client <- connect(
-  server  = Sys.getenv("CONNECT_SERVER"),
-  api_key = Sys.getenv("CONNECT_API_KEY")
-  )
-
-# Return a dataframe of content information to curate
-project_content <- client |> 
-  content() |> 
-  # filter helpers:
-  by_tag() |> 
-  by_owner() |> 
-  # or use your own dplyr filter
-  dplyr::filter()
-  
-# Use widgets to lay out your content
-### card
-project_content |> 
-  rsc_card()
-
-### grid
-project_content |> 
-  rsc_grid()
-
-### table
-project_content %>%
-  rsc_table()
-```
-
-::: callout-tip
-Content returned by `connectwidgets::content` will be scoped to the API key provided.
-:::
-
-## Example
-
-<https://colorado.posit.co/rsc/chicago-food-r/>
-
-::: {.callout-note icon="false"}
-## Activity
-
-👉 Open the file `materials/activities/activity-08_Connectwidgets.qmd`
-:::
-
 ## How will I know if people are consuming my content?
 
 ::: fragment
@@ -356,22 +294,22 @@ Content returned by `connectwidgets::content` will be scoped to the API key prov
 
 <br> Full documentation: <https://docs.posit.co/connect/api/>
 
-## Accessing the Connect Server API
+## Accessing the Connect Server API{.brackets-light}
 
 -   Posit SDKs provide wrappers around `curl` and HTTP requests for easier interaction:
     -   [`{connectapi}`](https://pkgs.rstudio.com/connectapi/) R package
     -   [`{posit-sdk}`]() python package
 
-![](https://pkgs.rstudio.com/connectapi/reference/figures/logo.svg){.absolute top="590" left="260" width="220"}
+![](https://pkgs.rstudio.com/connectapi/reference/figures/logo.svg){.absolute top="340" right="260" width="290"}
 
-## Example Content Usage Report
+## Constructing a Content Usage Report
+Incorporate into a stylized R Markdown, Quarto document or Shiny application.
 
 ::::: columns
-::: {.column width="40%"}
-[![](slide_resources/usage-report.png){height="800"}](https://connect.conf23workflows.training.posit.co/chicago-food-r/content-usage/)
-:::
 
-::: {.column width="60%"}
+::: {.column width="35%" .smaller}
+
+:::{.smaller}
 ``` {.r .code-overflow-wrap}
 ...
 con <- connectapi::connect()
@@ -385,7 +323,45 @@ app_usage <- get_usage_shiny(
 ...
 ```
 :::
+:::
+
+::: {.column width="65%" .smaller}
+
+:::{.smaller}
+
+```{.r}
+> usage
+# A tibble: 14 × 6
+   content_guid      user_guid         started             ended               data_version
+   <chr>             <chr>             <dttm>              <dttm>                     <int>
+ 1 0477855b-caeb-... 1ec56831-7a34-... 2024-03-19 21:09:03 2024-03-19 21:10:05            1
+ 2 0477855b-caeb-... 1ec56831-7a34-... 2024-03-19 21:39:07 2024-03-19 22:39:48            1
+ 3 0477855b-caeb-... d59e7a7b-9684-... 2024-03-20 00:36:29 2024-03-20 00:37:10            1
+ 4 0477855b-caeb-... 1ec56831-7a34-... 2024-03-20 13:50:55 2024-03-20 14:04:04            1
+ 5 0477855b-caeb-... 1ec56831-7a34-... 2024-03-20 16:43:56 2024-03-20 16:44:12            1
+ 6 0477855b-caeb-... d59e7a7b-9684-... 2024-03-21 10:52:14 2024-03-21 11:52:37            1
+ 7 0477855b-caeb-... fc80bd89-4488-... 2024-03-25 19:16:45 2024-03-25 19:28:19            1
+ 8 0477855b-caeb-... 989001e2-66df-... 2024-03-26 19:48:37 2024-03-26 21:43:10            1
+ 9 0477855b-caeb-... 5c7cb633-5959-... 2024-03-28 17:13:03 2024-03-28 17:19:35            1
+10 0477855b-caeb-... fc80bd89-4488-... 2024-03-28 18:26:20 2024-03-28 18:34:40            1
+11 0477855b-caeb-... fc80bd89-4488-... 2024-03-28 20:53:50 2024-03-28 20:54:36            1
+12 0477855b-caeb-... cbee884e-f940-... 2024-03-29 16:13:44 2024-03-29 16:14:15            1
+13 0477855b-caeb-... fc80bd89-4488-... 2024-03-29 18:16:10 2024-03-29 20:43:52            1
+14 0477855b-caeb-... 3dc75833-f6c2-... 2024-04-11 00:36:00 2024-04-11 00:36:59            1
+```
+:::
+:::
 :::::
+
+:::{.callout-tip title="Remember"}
+Content returned from the Connect Server API will be scoped to the API key provided.
+:::
+
+
+## Who is Using our App?
+
+<https://pub.ferryland.posit.team/r/usage_monitoring/>
+
 
 
 ## 
