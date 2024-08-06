@@ -196,7 +196,7 @@ pointblank::scan_data(palmerpenguins::penguins)
 Let's put together the information from data validation to send conditional emails.
 
 :::{.fragment}
-What could go wrong?
+**What might happen?**
 :::
 
 :::{.incremental}
@@ -315,6 +315,40 @@ cat(
 :::
 ::::::
 :::::::::::
+
+## A {{< bi sign-turn-right-fill color=orange >}} on managing environments
+
+<h4>Don't change your code to switch between development and production environments</h4>
+
+:::{.fragment}
+🧰 Update environment variables to change behavior 
+```{.r}
+if (Sys.getenv("TEST_MODE") == TRUE){
+  override_some_variable_for_testing <- TRUE} 
+```
+
+<br>
+🧰 Use `{config}` as another approach to manage environment
+
+::: {.columns}
+::: {.column}
+
+```{.yaml filename="config.yml"}
+default:
+  dataset: "data_development.csv"
+rsconnect:
+  dataset: "data.csv"
+```
+
+:::
+::: {.column}
+
+```{.r filename="my_file.qmd"}
+read_csv(config::get("dataset"))
+```
+:::
+::: 
+:::
 
 ## 
 
