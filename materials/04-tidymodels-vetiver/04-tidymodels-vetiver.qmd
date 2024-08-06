@@ -330,6 +330,7 @@ And now we can save it, or *pin it*, to Posit Connect! Remember to define your p
 board <- board_connect()
 
 # Write Vetiver Model
+
 board |> vetiver_pin_write(v_model)
 
 ```
@@ -359,7 +360,7 @@ APIs are a great way for users, applications, or other systems to interact with 
 
 # Create API from pinned model using vetiver
 #  Swap out "____" for your username on Connect.
-vetiver_deploy_rsconnect(board = board, name = "_______/ferry_model")
+vetiver_deploy_rsconnect(board = board, name = "______/ferry_model")
 
 ```
 
