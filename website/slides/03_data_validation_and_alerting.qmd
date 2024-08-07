@@ -157,7 +157,7 @@ pointblank::scan_data(palmerpenguins::penguins)
 👉 Activity objective: Use `pointblank` to validate data, remove non-compliant records, and explore validation results.
 
 -   Open the project `materials/03-data-clean-validate/03-data-clean-validate.Rproj`
--   Open the file `simple-validation.qmd`
+-   Open the file `_simple-validation.qmd`
 -   🛑 We will work through the entire notebook together
 :::
 

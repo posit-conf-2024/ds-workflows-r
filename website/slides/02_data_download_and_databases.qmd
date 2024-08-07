@@ -380,7 +380,7 @@ subject
 👉 Activity objective: Work with a simple Quarto email document and preview the email locally
 
 - Return to the project `01-raw-data-write.Rproj`
-- Open the file `simple-quarto-email/simple-quarto-email.qmd`
+- Open the file `simple-quarto-email/_simple-quarto-email.qmd`
 - We will render this document and preview the email locally
 
 :::
