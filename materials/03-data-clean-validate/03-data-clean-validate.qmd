@@ -603,12 +603,9 @@ The results of the data frame validation are shown below:
 ```{r}
 #| echo: false
 
-if (condition == "STOP") {
-  vesselhistory_df_integrity_agent
+vesselhistory_df_integrity_agent
 
-  weather_df_integrity_agent
-}
-
+weather_df_integrity_agent
 ```
 ::::
 
@@ -718,8 +715,7 @@ if (condition == "STOP") {
 }
 
 if (condition == "WARN") {
-
-print(glue("Vessel history and weather data was validated and sundered, however a warning was triggered due to one or more validation steps exceeding the threshold for allowed failures.
+  print(glue("Vessel history and weather data was validated and sundered, however a warning was triggered due to one or more validation steps exceeding the threshold for allowed failures.
 
 Records removed that failed validation: {nrow(modeldata_failed_validation)}
 
@@ -727,17 +723,15 @@ Records written to database: {nrow(modeldata_validated)}
 
 Warnings triggered for validation step(s) listed below:"))
 
-warnings_table
-
+  warnings_table
 }
 
 if (condition == "OK"){
-print(glue("Vessel history and weather data was validated and sundered.
+  print(glue("Vessel history and weather data was validated and sundered.
 
 Records removed that failed validation: {nrow(modeldata_failed_validation)}
 
 Records written to database: {nrow(modeldata_validated)}"))
-
 }
 
 
