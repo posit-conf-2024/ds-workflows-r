@@ -27,11 +27,11 @@ The goals of this activity are to:
 
 Our conditions will send an email based on the the following:
 
-1.  `condition <- 1`: the size and shape of the data is not as expected; something is wrong with the input data so the processing of data is stopped and no production data is updated
+1.  `condition <- "STOP"`: the size and shape of the data is not as expected; something is wrong with the input data so the processing of data is stopped and no production data is updated
 
-2.  `condition <- 2`: data validation complete but had warnings
+2.  `condition <- "WARN"`: data validation complete but had warnings
 
-3.  `condition <- 3`: no issues
+3.  `condition <- "OK"`: no issues
 
 ✏️ There will be placeholders (`____`) in the code cells below that you will need to fill in!
 
@@ -39,11 +39,6 @@ Our conditions will send an email based on the the following:
 
 This notebook packs a lot. In addition to data cleaning and validation code, there are mechanics going on to:
 
--   Run or suppress running of code chunks depending on condition
-    -   Look for logical statements in the Quarto chunk options. Examples of this are:\
-        `#| eval: false`\
-        `#| eval: !expr 'stop_alert != TRUE'`\
-        `#| eval: !expr 'condition == 1'`
 -   Implement an override so in development, testing, and in this Workshop, we can force a particular outcome
     -   Look for logical statements that include `Sys.getenv("CONDITION_OVERRIDE")`
 
@@ -62,11 +57,11 @@ The benefit of using an environment variable is that it can be set / modified in
 
 Our conditions are:
 
-1.  `condition <- 1`: the size and shape of the data is not as expected; something is wrong with the input data so the processing of data is stopped and no production data is updated
+1.  `condition <- "STOP"`: the size and shape of the data is not as expected; something is wrong with the input data so the processing of data is stopped and no production data is updated
 
-2.  `condition <- 2`: data validation complete but had warnings
+2.  `condition <- "WARN"`: data validation complete but had warnings
 
-3.  `condition <- 3`: no issues
+3.  `condition <- "OK"`: no issues
 
 ### Set environment variable locally
 
@@ -80,8 +75,8 @@ usethis::edit_r_environ("project")
 
 ``` {.bash filename=".Renviron"}
 # file: either ~/.Renviron or .Renviron in the project root
-# set condition to either 1, 2, or 3 to preview the conditional responses.
-CONDITION_OVERRIDE=1
+# set condition to either STOP, WARN, or OK to preview the conditional responses.
+CONDITION_OVERRIDE=STOP
 ```
 
 **Don't forget to restart your session to load your revised environment.**
@@ -96,8 +91,10 @@ This will appear in the rendered report if an override is place.
 #| label: identify test mode
 #| output: asis
 
+conditions <- c("STOP","WARN","OK")
+
 # set CONDITION_OVERRIDE={1|2|3} in `.Renviron` to preview the conditional responses.
-if(Sys.getenv("CONDITION_OVERRIDE") %in% c(1:3)) { 
+if(Sys.getenv("CONDITION_OVERRIDE") %in% conditions) { 
 glue::glue("<h2>❗❗ Report generated in test mode. 
 Data not written to database but an email for condition {Sys.getenv('CONDITION_OVERRIDE')} is sent  ❗❗</h2>\n") }
 
@@ -251,22 +248,22 @@ weather_df_integrity_agent <-
 weather_df_integrity_agent
 ```
 
-### Set `condition <- 1` or `stop_alert` if there are any issues
+### Set `condition <- "STOP"` or `stop_alert` if there are any issues
 
-Condition 1 will result in an alert email indicating there was a data integrity issue. `stop_alert` will prevent future code chunks from rendering, including preventing writes to the database
+Condition `"STOP"` will result in an alert email indicating there was a data integrity issue. `stop_alert` will prevent future code chunks from rendering, including preventing writes to the database
 
 ```{r}
 #| label: set condition or stop alert
 
-# condition<-1 will be set if CONDITION_OVERRIDE is set to 1, or if either data frame integrity validations failed. This specifies which email will be sent.
-if(any(Sys.getenv("CONDITION_OVERRIDE") == 1,
+# condition<-1 will be set if CONDITION_OVERRIDE is set to STOP, or if either data frame integrity validations failed. This specifies which email will be sent.
+if(any(Sys.getenv("CONDITION_OVERRIDE") == "STOP",
        !all_passed(vesselhistory_df_integrity_agent),
        !all_passed(weather_df_integrity_agent))){
-  condition <- 1
+  condition <- "STOP"
 }
 
 # set a boolean that will stop additional data processing if there are any data integrity issues
-stop_alert <- any((if(exists("condition")){condition == 1}), Sys.getenv("CONDITION_OVERRIDE") == 1)
+stop_alert <- any((if(exists("condition")){condition == "STOP"}), Sys.getenv("CONDITION_OVERRIDE") == "STOP")
 
 ```
 
@@ -281,8 +278,6 @@ As long as the raw data integrity validations passed, clean and transform the da
 -   bring terminal names into agreement across data frames
 -   calculate departure delay - create route-pairs for grouping related records
 -   join the weather data with the sailing history, which will become our training data.
-
-Notice that in the quarto code chunks, we have set `#| eval: !expr 'stop_alert != TRUE'` to prevent the code from running during rendering if there is a data integrity issue. This will save computation time by not bothering to render code chunks with questionable data.
 
 ### Clean data
 
@@ -309,7 +304,6 @@ This data will be what we use for the model. We'll join the weather data to the 
 
 ```{r}
 #| label: Join weather data to vesselhistory
-#| eval: !expr 'stop_alert != TRUE'
 
 if (stop_alert != TRUE) {
   vesselhistory_w_weather <- vesselhistory |> 
@@ -336,7 +330,6 @@ We will set "action levels" for each validation step in this agent. Exceeding th
 
 ```{r}
 #| label: Validate data to be used for the model
-#| eval: !expr 'stop_alert != TRUE'
 if (stop_alert != TRUE) {
   main_agent <- create_agent(vesselhistory_w_weather) |> 
     # all records are distinct
@@ -384,19 +377,19 @@ if (stop_alert != TRUE) {
 
 ### Set `condition` to determine which email to send
 
-Condition 2 will result in an alert email indicating that a concerning level of records failed validation, but downstream processing still proceeded. Condition 3 will result in an email indicating that all looks good
+Condition `"WARN"` will result in an alert email indicating that a concerning level of records failed validation, but downstream processing still proceeded. Condition `"OK"` will result in an email indicating that all looks good
 
 ```{r}
-#| label: set condition 2 or 3
+#| label: set condition WARN or OK
 
-# condition<-2 will be set if it is in override or if any warnings are set, otherwise condition<-3
+# condition<-WARN will be set if it is in override or if any warnings are set, otherwise condition<-OK
 
 if (stop_alert != TRUE) {
   if(Sys.getenv("CONDITION_OVERRIDE") %in% c(2,3)){
     condition <- Sys.getenv("CONDITION_OVERRIDE")
-  }else if(any(x_list$warn)){
-    condition <- 2
-  }else condition <- 3
+  } else if(any(x_list$warn)){
+    condition <- "WARN"
+  } else condition <- "OK"
 }
 ```
 
@@ -408,11 +401,11 @@ Pointblank has identified all of the rows of `vesselhistory_w_weather` that pass
 
 ```{r}
 #| label: sunder data
-#| eval: !expr 'stop_alert != TRUE'
 
-modeldata_validated <- get_sundered_data(main_agent, type = "pass")
-modeldata_failed_validation <- get_sundered_data(main_agent, type = "fail")
-
+if (stop_alert != TRUE) {
+  modeldata_validated <- get_sundered_data(main_agent, type = "pass")
+  modeldata_failed_validation <- get_sundered_data(main_agent, type = "fail")
+}
 ```
 
 ## Task 7 - Write cleaned and validated data to database
@@ -424,7 +417,7 @@ Write cleaned data to database
 ```{r}
 #| label: write validated data to database
 
-if (stop_alert != TRUE & !Sys.getenv("CONDITION_OVERRIDE") %in% c(1:3)) {
+if (stop_alert != TRUE & !Sys.getenv("CONDITION_OVERRIDE") %in% conditions) {
   my_username <- "____" #Fill in your username, workshop participants!
 
   my_df_name <- paste0("modeldata_validated_", my_username)
@@ -449,9 +442,9 @@ Below is how we generate the emails.
 
 We have three scenarios:
 
-1.  `condition <- 1`: the size and shape of the data is not as expected; something is wrong with the input data so the processing of data is stopped and no production data is updated
-2.  `condition <- 2`: data validation complete but had warnings
-3.  `condition <- 3`: no issues with validation
+1.  `condition <- STOP`: the size and shape of the data is not as expected; something is wrong with the input data so the processing of data is stopped and no production data is updated
+2.  `condition <- WARN`: data validation complete but had warnings
+3.  `condition <- OK`: no issues with validation
 
 We will use a feature of Quarto that allows yaml to be written at any point in the document. With this, we will define which conditional email should be sent as metadata. Then the subject and body of the email will be selected using Quarto's ability to include or exclude content based on a metadata value.
 
@@ -570,7 +563,7 @@ summary_table_basic <- modeldata_validated |>
 ### Define the email
 
 ::::::::: email
-:::: {.content-visible when-meta="use_condition_1_email"}
+:::: {.content-visible when-meta="use_condition_STOP_email"}
 ::: subject
 ⚠️️ Ferry Project: Data integrity issue
 :::
@@ -590,7 +583,7 @@ The results of the data frame validation are shown below:
 ```{r}
 #| echo: false
 
-if (condition == 1) {
+if (condition == "STOP") {
   vesselhistory_df_integrity_agent
 
   weather_df_integrity_agent
@@ -599,7 +592,7 @@ if (condition == 1) {
 ```
 ::::
 
-:::: {.content-visible when-meta="use_condition_2_email"}
+:::: {.content-visible when-meta="use_condition_WARN_email"}
 ::: subject
 ℹ️ Ferry Project: Data updated with warnings
 :::
@@ -616,7 +609,7 @@ The table below summarizes the validation step(s) that triggered warnings.
 #| label: get failing validations details
 #| echo: false
 
-if (condition == 2) {
+if (condition == "WARN") {
   step <- x_list$i[which(x_list$warn)]
   desc <- x_list$briefs[which(x_list$warn)]
   fails <- x_list$f_failed[which(x_list$warn)]
@@ -632,10 +625,9 @@ Review the associated extract files to see the records that failed validation.
 
 ```{r}
 #| label: get extracts
-#| eval: !expr 'condition == 2'
 #| echo: false
 
-if (condition == 2) {
+if (condition == "WARN") {
   failures <- purrr::map(step, ~{get_data_extracts(main_agent, .x)})
 
   purrr::walk2(failures, step, ~{write_csv(.x, file = glue("extracts_step_{.y}.csv"))})
@@ -649,7 +641,7 @@ if (condition == 2) {
 #| output: asis
 #| echo: false
 
-if (condition == 2) {
+if (condition == "WARN") {
   cat(
     "---",
     paste0("email-attachments: \n", filenames_yaml),
@@ -667,14 +659,14 @@ The table below summarizes the data written.
 #| label: data summary table
 #| echo: false
 
-if (condition == 2) {
+if (condition == "WARN") {
   summary_table_basic
 }
 
 ```
 ::::
 
-:::: {.content-visible when-meta="use_condition_3_email"}
+:::: {.content-visible when-meta="use_condition_OK_email"}
 ::: subject
 ✅ Ferry Project: Data updated
 :::
@@ -690,7 +682,7 @@ A summary of the data is shown below.
 #| echo: false
 
 
-if (condition === 3) {
+if (condition === "OK") {
   summary_table_basic 
 }
 
@@ -708,7 +700,7 @@ Report run `{r} today()`
 ```{r}
 #| echo: false
 
-if (stop_alert != TRUE & !Sys.getenv("CONDITION_OVERRIDE") %in% c(1:3)) {
+if (stop_alert != TRUE & !Sys.getenv("CONDITION_OVERRIDE") %in% conditions) {
   summary_table_full
 }
 ```
@@ -718,11 +710,11 @@ if (stop_alert != TRUE & !Sys.getenv("CONDITION_OVERRIDE") %in% c(1:3)) {
 #| echo: false
 #| output: asis
 
-if (condition == 1) {
+if (condition == "STOP") {
   print(glue("Data integrity validation failed. Data processing for the model training did not proceed. An email notification of the failure was sent."))
 }
 
-if (condition == 2) {
+if (condition == "WARN") {
 
 print(glue("Vessel history and weather data was validated and sundered, however a warning was triggered due to one or more validation steps exceeding the threshold for allowed failures.
 
@@ -736,7 +728,7 @@ warnings_table
 
 }
 
-if (condition == 3){
+if (condition == "OK"){
 print(glue("Vessel history and weather data was validated and sundered.
 
 Records removed that failed validation: {nrow(modeldata_failed_validation)}
