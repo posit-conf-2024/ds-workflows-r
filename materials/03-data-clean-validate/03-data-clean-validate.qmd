@@ -93,7 +93,7 @@ This will appear in the rendered report if an override is place.
 
 conditions <- c("STOP","WARN","OK")
 
-# set CONDITION_OVERRIDE={1|2|3} in `.Renviron` to preview the conditional responses.
+# set CONDITION_OVERRIDE={STOP|WARN|OK} in `.Renviron` to preview the conditional responses.
 if(Sys.getenv("CONDITION_OVERRIDE") %in% conditions) { 
 glue::glue("<h2>❗❗ Report generated in test mode. 
 Data not written to database but an email for condition {Sys.getenv('CONDITION_OVERRIDE')} is sent  ❗❗</h2>\n") }
@@ -108,7 +108,7 @@ Data not written to database but an email for condition {Sys.getenv('CONDITION_O
 #| label: setup
 
 library(DBI)
-library(odbc)
+library(RPostgres)
 library(pointblank)
 library(tidyverse)
 library(glue)
@@ -128,17 +128,12 @@ Retrieve the raw data from the database for cleaning and validating.
 #| label: make database connection
 
 # Run this code as-is
-con <- dbConnect(
-  odbc::odbc(),
-  Driver      = "postgresql",
-  Server      = Sys.getenv("DATABASE_HOST"),
-  Port        = "5432",
-  Database    = Sys.getenv("DATABASE_NAME_R"),
-  UID         = Sys.getenv("DATABASE_USER_R"),
-  PWD         = Sys.getenv("DATABASE_PASSWORD_R"),
-  timeout     = 10
-)
-
+con <- dbConnect(RPostgres::Postgres(), 
+                 host = Sys.getenv("DATABASE_HOST"), 
+                 port = "5432", 
+                 dbname = Sys.getenv("DATABASE_NAME_R"), 
+                 user = Sys.getenv("DATABASE_USER_R"), 
+                 password = Sys.getenv("DATABASE_PASSWORD_R"))
 ```
 
 ### Read in data
@@ -255,7 +250,7 @@ Condition `"STOP"` will result in an alert email indicating there was a data int
 ```{r}
 #| label: set condition or stop alert
 
-# condition<-1 will be set if CONDITION_OVERRIDE is set to STOP, or if either data frame integrity validations failed. This specifies which email will be sent.
+# condition<-"STOP" will be set if CONDITION_OVERRIDE is set to STOP, or if either data frame integrity validations failed. This specifies which email will be sent.
 if(any(Sys.getenv("CONDITION_OVERRIDE") == "STOP",
        !all_passed(vesselhistory_df_integrity_agent),
        !all_passed(weather_df_integrity_agent))){
@@ -287,7 +282,9 @@ Data cleaning steps are extraneous to the learning objectives of the Workshop. T
 #| label: Clean data sets
 
 if (stop_alert != TRUE) {
-  weather_terminal_history <- weather_terminal_history_raw |> clean_weather_terminal()
+  weather_terminal_history <- weather_terminal_history_raw |> clean_weather_terminal() |> 
+    # extra cleaning step
+    filter(!(is.na(precipitation) & is.na(weather_code) & is.na(cloud_cover_low) & is.na(wind_speed_10m) & is.na(wind_gusts_10m)))
   weather_terminal_history
 
   vesselinfo <- vesselinfo_raw |> clean_vesselinfo()
@@ -385,7 +382,7 @@ Condition `"WARN"` will result in an alert email indicating that a concerning le
 # condition<-WARN will be set if it is in override or if any warnings are set, otherwise condition<-OK
 
 if (stop_alert != TRUE) {
-  if(Sys.getenv("CONDITION_OVERRIDE") %in% c(2,3)){
+  if(Sys.getenv("CONDITION_OVERRIDE") %in% c("WARN","OK")){
     condition <- Sys.getenv("CONDITION_OVERRIDE")
   } else if(any(x_list$warn)){
     condition <- "WARN"
@@ -418,7 +415,7 @@ Write cleaned data to database
 #| label: write validated data to database
 
 if (stop_alert != TRUE & !Sys.getenv("CONDITION_OVERRIDE") %in% conditions) {
-  my_username <- "____" #Fill in your username, workshop participants!
+  my_username <- "______" #Fill in your username, workshop participants!
 
   my_df_name <- paste0("modeldata_validated_", my_username)
 
@@ -429,13 +426,12 @@ if (stop_alert != TRUE & !Sys.getenv("CONDITION_OVERRIDE") %in% conditions) {
 }
 ```
 
-
 ## Task 8 - Send Conditional Email
 
 🔄 Task
 
 -   Publish this report to Posit Connect
--   To preview the email for development or testing purposes, change the value of `CONDITION_OVERRIDE` in either the `.Renviron` file to 1, 2, or 3 in a local Workbench session, or by setting the environment variable in the `Vars` pane on Posit Connect
+-   To preview the email for development or testing purposes, change the value of `CONDITION_OVERRIDE` in either the `.Renviron` file to "STOP", "WARN", or "OK" in a local Workbench session, or by setting the environment variable in the `Vars` pane on Posit Connect
 -   💡 If testing locally, look in the folder `email-preview` to see the HTML email preview
 
 Below is how we generate the emails.
@@ -465,6 +461,8 @@ ferryfairy::write_metadata(metadata_key, TRUE)
 ```
 
 ### Make a summary table
+
+We will include this in our logging and some of the emails.
 
 ```{r}
 #| label: include a summary table
@@ -573,19 +571,18 @@ subject = list(
     text = I("Data updated with warnings")
   ),
   OK = list(
-    icon = I("✅")
+    icon = I("✅"),
     text = I("Data updated")
   )
 )
 ```
 
-::::::::: email
+::: email
 ::: subject
-`️{r} subject$condition$icon` Ferry Project: `{r} subject$condition$text`
+ `{r} subject[condition][[1]]$icon` Ferry Project: `{r} subject[condition][[1]]$text`
 :::
 
-:::: {.content-visible when-meta="use_condition_STOP_email"}
-
+::: {.content-visible when-meta="use_condition_STOP_email"}
 ## ⚠️ There was a data integrity issue with the project data on `{r} today()`
 
 The data integrity validations check that the raw vessel history and terminal weather data have the expected column names and schema, and a minimum number of rows are present.
@@ -605,10 +602,9 @@ vesselhistory_df_integrity_agent
 
 weather_df_integrity_agent
 ```
-::::
+:::
 
-:::: {.content-visible when-meta="use_condition_WARN_email"}
-
+::: {.content-visible when-meta="use_condition_WARN_email"}
 ## ℹ️ Ferry data validation complete for `{r} today()` with warnings
 
 The ferry data for modeling has been cleaned, validated, and written, but there were warnings set because the threshold for failure was exceeded.
@@ -647,22 +643,27 @@ if (condition == "WARN") {
 
   filenames_yaml <- glue(" - extracts_step_{step}.csv") |> str_c(collapse = "\n")
 
-  # ferryfairy::write_metadata should do the right thing here, right?
   ferryfairy::write_metadata("email-attachments", filenames_yaml)
 }
 ```
 
 ### Summary of data written
 
-The table below summarizes the data written.
-=
-::: {use-cell="summary-table-basic"}
+# The table below summarizes the data written.
+
+```{r}
+#| echo: false
+
+
+if (condition == "WARN") {
+  summary_table_basic 
+}
+
+
+```
 :::
 
-::::
-
-:::: {.content-visible when-meta="use_condition_OK_email"}
-
+::: {.content-visible when-meta="use_condition_OK_email"}
 ## ⛴️ Ferry data validation complete for `{r} today()`
 
 The ferry data for modeling has been cleaned, validated, andwritten to the database.
@@ -674,31 +675,25 @@ A summary of the data is shown below.
 #| echo: false
 
 
-if (condition === "OK") {
+if (condition == "OK") {
   summary_table_basic 
 }
 
 
 ```
-::::
-:::::::::
+:::
+:::
 
 ## Logging information
 
-Report run `{r} today()`
+**Report run** `{r} today()`
 
-### Summary of data
+**Condition set:** `{r} condition`
 
-```{r}
-#| echo: false
-
-if (stop_alert != TRUE & !Sys.getenv("CONDITION_OVERRIDE") %in% conditions) {
-  summary_table_full
-}
-```
+**Summary of results:**
 
 ```{r}
-#| label: logging
+#| label: logging summary
 #| echo: false
 #| output: asis
 
@@ -729,3 +724,18 @@ Records written to database: {nrow(modeldata_validated)}"))
 
 
 ```
+
+```{r}
+#| echo: false
+
+if (stop_alert != TRUE) {
+  
+  summary_table_full
+}
+```
+
+## Preview of email sent:
+
+<iframe src="email-preview/index.html" width="100%" height="500">
+
+</iframe>
