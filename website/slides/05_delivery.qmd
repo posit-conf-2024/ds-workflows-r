@@ -335,7 +335,7 @@ Content returned from the Connect Server API will be scoped to the API key provi
 
 -   Browse the [Connect Cookbook](https://docs.posit.co/connect/cookbook)
 -   Open the project `materials/06-usage-monitoring/06-usage-monitoring.Rproj`
--   Open the file `simple-sdk-example.qmd`
+-   Open the file `_simple-sdk-example.qmd`
 -   We'll work through this file together
 :::
 
