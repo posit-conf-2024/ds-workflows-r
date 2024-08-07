@@ -90,5 +90,593 @@
     "title": "Data Science Workflows with Posit Tools - R focus",
     "section": "Reuse and licensing",
     "text": "Reuse and licensing\n\n This work is licensed under a Creative Commons Attribution 4.0 International License."
+  },
+  {
+    "objectID": "slides/05_delivery.html#review",
+    "href": "slides/05_delivery.html#review",
+    "title": "Data Science Workflows with Posit Tools - R focus",
+    "section": "Review",
+    "text": "Review",
+    "crumbs": [
+      "Resources",
+      "Slides",
+      "05 - Delivering Insights Effectively"
+    ]
+  },
+  {
+    "objectID": "slides/05_delivery.html#section-agenda",
+    "href": "slides/05_delivery.html#section-agenda",
+    "title": "Data Science Workflows with Posit Tools - R focus",
+    "section": "Section Agenda",
+    "text": "Section Agenda\n\n\nUsing Shiny to deliver interactive content\nPrinciples of Shiny in production\nMonitoring production content",
+    "crumbs": [
+      "Resources",
+      "Slides",
+      "05 - Delivering Insights Effectively"
+    ]
+  },
+  {
+    "objectID": "slides/05_delivery.html#lets-talk-shiny",
+    "href": "slides/05_delivery.html#lets-talk-shiny",
+    "title": "Data Science Workflows with Posit Tools - R focus",
+    "section": "Let’s talk Shiny",
+    "text": "Let’s talk Shiny\n \n\n\n\nWhether you’re here  in your Shiny journey:\n Photo by Andriyko Podilnyk on Unsplash\n\n\n\n Or here:\n\nPhoto by Francesco on Unsplash",
+    "crumbs": [
+      "Resources",
+      "Slides",
+      "05 - Delivering Insights Effectively"
+    ]
+  },
+  {
+    "objectID": "slides/05_delivery.html#shiny-resources",
+    "href": "slides/05_delivery.html#shiny-resources",
+    "title": "Data Science Workflows with Posit Tools - R focus",
+    "section": "🧰 Shiny resources",
+    "text": "🧰 Shiny resources\n\nGet started with Shiny (R or Python!) https://shiny.posit.co/getstarted\nGallery of examples https://shiny.posit.co/r/gallery/\nThe authoritative reference, Mastering Shiny https://mastering-shiny.org\nHelper packages\n\nbslib - add themes, components, and layouts with ease\nthematic - extends your Shiny theme to plots\n\nshinyuieditor - a visual tool to help create the UI portion of your Shiny app",
+    "crumbs": [
+      "Resources",
+      "Slides",
+      "05 - Delivering Insights Effectively"
+    ]
+  },
+  {
+    "objectID": "slides/05_delivery.html#shiny-in-production",
+    "href": "slides/05_delivery.html#shiny-in-production",
+    "title": "Data Science Workflows with Posit Tools - R focus",
+    "section": "Shiny in production",
+    "text": "Shiny in production\n “But my app runs great on my laptop…” \n\nTwo sides to this coin:\n\nOptimize your app\nTune your runtime settings",
+    "crumbs": [
+      "Resources",
+      "Slides",
+      "05 - Delivering Insights Effectively"
+    ]
+  },
+  {
+    "objectID": "slides/05_delivery.html#shiny-in-production-optimize-your-app",
+    "href": "slides/05_delivery.html#shiny-in-production-optimize-your-app",
+    "title": "Data Science Workflows with Posit Tools - R focus",
+    "section": "Shiny in production — Optimize your app",
+    "text": "Shiny in production — Optimize your app\n\n📣 Design principle: Make your app a lightweight presentation layer \n\n\n\n Performance workflow:\n\n\nAdd logging to app, either basic message statements or use log4r package\nuse shinyloadtest to simulate app performance under load\nuse profvis to profile your app to identify bottlenecks\nOptimize app (in order of value-add):\n\nMove work upstream out of Shiny\nMake code faster\nUse caching\nUse async\n\n\n\n\n\n\n🧰 References:\n\nJoe Cheng’s Shiny in Production talk at 2019 rstudio::conf\nMastering Shiny, Performance chapter",
+    "crumbs": [
+      "Resources",
+      "Slides",
+      "05 - Delivering Insights Effectively"
+    ]
+  },
+  {
+    "objectID": "slides/05_delivery.html#what-does-our-ferry-delay-app-need-to-do",
+    "href": "slides/05_delivery.html#what-does-our-ferry-delay-app-need-to-do",
+    "title": "Data Science Workflows with Posit Tools - R focus",
+    "section": "What does our Ferry Delay App need to do?",
+    "text": "What does our Ferry Delay App need to do?\n\n\nMake requests to our API\n\n\n\n\nReceive and display API response\n\n\n\n\n\n\n\n\n\nActivity\n\n\n\n👉 Activity objective: explore the simply shiny app.\n\nOpen the project materials/05-shiny-app/05-shiny-app.Rproj\nOpen the file simple_ferry_app/app.R\nClick Run App and explore the shiny app.\n\nGet a taste for how shiny can be used to create reactive API queries!",
+    "crumbs": [
+      "Resources",
+      "Slides",
+      "05 - Delivering Insights Effectively"
+    ]
+  },
+  {
+    "objectID": "slides/05_delivery.html#putting-the-pieces-together",
+    "href": "slides/05_delivery.html#putting-the-pieces-together",
+    "title": "Data Science Workflows with Posit Tools - R focus",
+    "section": "Putting the Pieces Together",
+    "text": "Putting the Pieces Together\nOur Shiny application does a bit more:\n\n\nRead in the validated ferry-weather data from database.\nExtract ferry station information from ferryfairy package.\nTake in user inputs.\nMake API queries.\nDisplay API response.\nDisplay a map.\nShow average delay times.",
+    "crumbs": [
+      "Resources",
+      "Slides",
+      "05 - Delivering Insights Effectively"
+    ]
+  },
+  {
+    "objectID": "slides/05_delivery.html#putting-the-pieces-together-1",
+    "href": "slides/05_delivery.html#putting-the-pieces-together-1",
+    "title": "Data Science Workflows with Posit Tools - R focus",
+    "section": "Putting the Pieces Together",
+    "text": "Putting the Pieces Together\nOur Shiny application does a bit more:\n\nRead in the validated ferry-weather data from database.\nExtract ferry station information from ferryfairy package.\nTake in user inputs.\nMake API queries.\nDisplay API response.\nDisplay a map.\nShow average delay times.\n\n\n📣 This Shiny application does not train a model! Move the computationally heavy stuff outside of your applications!",
+    "crumbs": [
+      "Resources",
+      "Slides",
+      "05 - Delivering Insights Effectively"
+    ]
+  },
+  {
+    "objectID": "slides/05_delivery.html#activity-1",
+    "href": "slides/05_delivery.html#activity-1",
+    "title": "Data Science Workflows with Posit Tools - R focus",
+    "section": "Activity",
+    "text": "Activity\n\n\n\n\n\n\nNote\n\n\n\n👉 Activity objective: explore the simply shiny app.\n\nOpen the project materials/05-shiny-app/05-shiny-app.Rproj\nOpen the file ferry_delay_app/app.R\nSupply your API URL to the Shiny App.\nDeploy to Posit Connect!",
+    "crumbs": [
+      "Resources",
+      "Slides",
+      "05 - Delivering Insights Effectively"
+    ]
+  },
+  {
+    "objectID": "slides/05_delivery.html#git-backed-deployment",
+    "href": "slides/05_delivery.html#git-backed-deployment",
+    "title": "Data Science Workflows with Posit Tools - R focus",
+    "section": "Git-Backed Deployment",
+    "text": "Git-Backed Deployment\n🤔 What happens when you need to make a change to the Shiny Application?\n\n\nWhat if we deployed directly from the GitHub Repo?\n\n\n\nAdvantages:\n\nGreat for collaborative work.\nConnect automatically detects changes in repo and rebuilds content.\n📣 All production content should be deployed using git/CI-CD!\n\n\n\n\n\n\n\n\n\nShow and Tell\n\n\n\nLet’s show you how to deploy a Shiny App (our simple Ferry app) to Posit Connect using Git Backed Deployment.",
+    "crumbs": [
+      "Resources",
+      "Slides",
+      "05 - Delivering Insights Effectively"
+    ]
+  },
+  {
+    "objectID": "slides/05_delivery.html#shiny-on-connect",
+    "href": "slides/05_delivery.html#shiny-on-connect",
+    "title": "Data Science Workflows with Posit Tools - R focus",
+    "section": "Shiny on Connect",
+    "text": "Shiny on Connect\nRuntime settings\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\nMin processes — Keep a process running on the server at all times?\nMax processes — Put a bound on the number of processes spawned?\nConnections per process — A connection = a browser tab. How many connections will share the same process? Call this n\nLoad factor — Much like min processes, how early do you want to start a new process for that n + 1 connection?",
+    "crumbs": [
+      "Resources",
+      "Slides",
+      "05 - Delivering Insights Effectively"
+    ]
+  },
+  {
+    "objectID": "slides/05_delivery.html#posit-connect",
+    "href": "slides/05_delivery.html#posit-connect",
+    "title": "Data Science Workflows with Posit Tools - R focus",
+    "section": "Posit Connect",
+    "text": "Posit Connect\nThe Shiny Restaurant Analogy\nLet’s say you are the manager of a restaurant, and you need to determine two things:\n\nHow many chefs should I hire?\nHow many customers can I accommodate at once?\n\n\n\nChef == process\nCustomer == connection",
+    "crumbs": [
+      "Resources",
+      "Slides",
+      "05 - Delivering Insights Effectively"
+    ]
+  },
+  {
+    "objectID": "slides/05_delivery.html#posit-connect-1",
+    "href": "slides/05_delivery.html#posit-connect-1",
+    "title": "Data Science Workflows with Posit Tools - R focus",
+    "section": "Posit Connect",
+    "text": "Posit Connect\nThe Shiny Restaurant Analogy",
+    "crumbs": [
+      "Resources",
+      "Slides",
+      "05 - Delivering Insights Effectively"
+    ]
+  },
+  {
+    "objectID": "slides/05_delivery.html#a-question-for-you",
+    "href": "slides/05_delivery.html#a-question-for-you",
+    "title": "Data Science Workflows with Posit Tools - R focus",
+    "section": "A question for you…",
+    "text": "A question for you…\nWhat components of our workflow deployed to Posit Connect would benefit from setting Min Processes to &gt; 0?",
+    "crumbs": [
+      "Resources",
+      "Slides",
+      "05 - Delivering Insights Effectively"
+    ]
+  },
+  {
+    "objectID": "slides/05_delivery.html#section",
+    "href": "slides/05_delivery.html#section",
+    "title": "Data Science Workflows with Posit Tools - R focus",
+    "section": "",
+    "text": "Monitoring Content",
+    "crumbs": [
+      "Resources",
+      "Slides",
+      "05 - Delivering Insights Effectively"
+    ]
+  },
+  {
+    "objectID": "slides/05_delivery.html#how-will-i-know-if-people-are-consuming-my-content",
+    "href": "slides/05_delivery.html#how-will-i-know-if-people-are-consuming-my-content",
+    "title": "Data Science Workflows with Posit Tools - R focus",
+    "section": "How will I know if people are consuming my content?",
+    "text": "How will I know if people are consuming my content?\n\n\n🧰 Posit Connect Server API",
+    "crumbs": [
+      "Resources",
+      "Slides",
+      "05 - Delivering Insights Effectively"
+    ]
+  },
+  {
+    "objectID": "slides/05_delivery.html#posit-connect-server-api-endpoints",
+    "href": "slides/05_delivery.html#posit-connect-server-api-endpoints",
+    "title": "Data Science Workflows with Posit Tools - R focus",
+    "section": "Posit Connect Server API endpoints",
+    "text": "Posit Connect Server API endpoints\nMost endpoints require an API Key, and results will be scoped to the permissions of the key. \n\n\nHelpful to publishers:\n\nList/Update content\nGet content details\nSet environment variables\nChange permissions\nManage content tags\nManage content custom URL\n✨ Content usage ✨\n\n\nHelpful to admins:\n\n👈 all that\nAudit logs\nUser and group management\nJob management\n\n\n\n Full documentation: https://docs.posit.co/connect/api/",
+    "crumbs": [
+      "Resources",
+      "Slides",
+      "05 - Delivering Insights Effectively"
+    ]
+  },
+  {
+    "objectID": "slides/05_delivery.html#accessing-the-connect-server-api",
+    "href": "slides/05_delivery.html#accessing-the-connect-server-api",
+    "title": "Data Science Workflows with Posit Tools - R focus",
+    "section": "Accessing the Connect Server API",
+    "text": "Accessing the Connect Server API\n\nPosit SDKs provide wrappers around curl and HTTP requests for easier interaction:\n\n{connectapi} R package\n{posit-sdk} python package\n\n\n\n\n\n\n\n\n\n\n\nRemember\n\n\n\nContent returned from the Connect Server API will be scoped to the API key provided.",
+    "crumbs": [
+      "Resources",
+      "Slides",
+      "05 - Delivering Insights Effectively"
+    ]
+  },
+  {
+    "objectID": "slides/05_delivery.html#section-1",
+    "href": "slides/05_delivery.html#section-1",
+    "title": "Data Science Workflows with Posit Tools - R focus",
+    "section": "",
+    "text": "Activity Time!\n\n\n\n\n\n\n\n\nActivity\n\n\n\n👉 Activity objective: Explore the Posit SDK {connectapi} via the Connect Cookbook\n\nBrowse the Connect Cookbook\nOpen the project materials/06-usage-monitoring/06-usage-monitoring.Rproj\nOpen the file simple-sdk-example.qmd\nWe’ll work through this file together",
+    "crumbs": [
+      "Resources",
+      "Slides",
+      "05 - Delivering Insights Effectively"
+    ]
+  },
+  {
+    "objectID": "slides/05_delivery.html#who-is-using-our-app",
+    "href": "slides/05_delivery.html#who-is-using-our-app",
+    "title": "Data Science Workflows with Posit Tools - R focus",
+    "section": "Who is Using our App?",
+    "text": "Who is Using our App?\nhttps://pub.ferryland.posit.team/r/usage_monitoring/",
+    "crumbs": [
+      "Resources",
+      "Slides",
+      "05 - Delivering Insights Effectively"
+    ]
+  },
+  {
+    "objectID": "slides/05_delivery.html#section-2",
+    "href": "slides/05_delivery.html#section-2",
+    "title": "Data Science Workflows with Posit Tools - R focus",
+    "section": "",
+    "text": "Optional Activity\n\n\n\n\n\n\n\n\nActivity\n\n\n\n👉 Activity objective: Deploy a ready-made usage dashboard, provided from the Connect Cookbook\n\nReturn to the project materials/06-usage-monitoring/06-usage-monitoring.Rproj\nOpen the file 06-usage-monitoring.qmd\nDeploy this file to Connect",
+    "crumbs": [
+      "Resources",
+      "Slides",
+      "05 - Delivering Insights Effectively"
+    ]
+  },
+  {
+    "objectID": "slides/05_delivery.html#how-can-i-know-what-people-are-doing-in-my-content",
+    "href": "slides/05_delivery.html#how-can-i-know-what-people-are-doing-in-my-content",
+    "title": "Data Science Workflows with Posit Tools - R focus",
+    "section": "How can I know what people are doing in my content?",
+    "text": "How can I know what people are doing in my content?\n\n👉 As we just saw, Connect aggregates higher-level content access information\n Add tracking or logging to the content itself for user interaction information\n\n\nIdeas and resources:\n\n\nAdd logging to your app for benchmarking, performance tracking, debugging, and/or tracking actions\n\noutput to STDOUT/STDERR and see in the Connect app logs (example in our Ferry Delay App)\nuse a structured logging package like {log4r} and export to a log aggregator\n\nAdd Google Analytics: https://shiny.posit.co/r/articles/build/google-analytics/\nMonitor User Behavior in Shiny Apps with Hotjar: https://www.r-bloggers.com/2022/06/r-shiny-hotjar-how-to-monitor-user-behavior-in-r-shiny-apps/\nArticle summarizing tools for tracking https://www.appsilon.com/post/monitoring-r-shiny-user-adoption",
+    "crumbs": [
+      "Resources",
+      "Slides",
+      "05 - Delivering Insights Effectively"
+    ]
+  },
+  {
+    "objectID": "slides/03_data_validation_and_alerting.html#where-are-we",
+    "href": "slides/03_data_validation_and_alerting.html#where-are-we",
+    "title": "Data Science Workflows with Posit Tools - R focus",
+    "section": "Where are we",
+    "text": "Where are we",
+    "crumbs": [
+      "Resources",
+      "Slides",
+      "03 - Data Validation and Alerting"
+    ]
+  },
+  {
+    "objectID": "slides/03_data_validation_and_alerting.html#section-agenda",
+    "href": "slides/03_data_validation_and_alerting.html#section-agenda",
+    "title": "Data Science Workflows with Posit Tools - R focus",
+    "section": "Section Agenda",
+    "text": "Section Agenda\n\nAd-hoc data exploration\nData validation\nEmailing, part 2: Condition-based alerts",
+    "crumbs": [
+      "Resources",
+      "Slides",
+      "03 - Data Validation and Alerting"
+    ]
+  },
+  {
+    "objectID": "slides/03_data_validation_and_alerting.html#what-is-this-data",
+    "href": "slides/03_data_validation_and_alerting.html#what-is-this-data",
+    "title": "Data Science Workflows with Posit Tools - R focus",
+    "section": "What is this Data?",
+    "text": "What is this Data?\nOur first introduction to pointblank\n\n\n\n\n\npointblank provides data quality assessment and metadata reporting for data frames and database tables. https://github.com/rstudio/pointblank\n\n\n\n\n🧰 The pointblank::scan_data() function provides a HTML report of the input data to help you understand your data.",
+    "crumbs": [
+      "Resources",
+      "Slides",
+      "03 - Data Validation and Alerting"
+    ]
+  },
+  {
+    "objectID": "slides/03_data_validation_and_alerting.html#sample-data-scan",
+    "href": "slides/03_data_validation_and_alerting.html#sample-data-scan",
+    "title": "Data Science Workflows with Posit Tools - R focus",
+    "section": "Sample data scan",
+    "text": "Sample data scan\npointblank::scan_data(palmerpenguins::penguins)",
+    "crumbs": [
+      "Resources",
+      "Slides",
+      "03 - Data Validation and Alerting"
+    ]
+  },
+  {
+    "objectID": "slides/03_data_validation_and_alerting.html#section",
+    "href": "slides/03_data_validation_and_alerting.html#section",
+    "title": "Data Science Workflows with Posit Tools - R focus",
+    "section": "",
+    "text": "Activity Time!\n\n\n\n\n\n\n\n\nActivity\n\n\n\n👉 Activity objective: exploring our data\n\nOpen the project materials/02-data-exploration/02-data-exploration.Rproj\nOpen the file 02-data-exploration.qmd\nWe will work through all the tasks in the notebook",
+    "crumbs": [
+      "Resources",
+      "Slides",
+      "03 - Data Validation and Alerting"
+    ]
+  },
+  {
+    "objectID": "slides/03_data_validation_and_alerting.html#how-can-i-ensure-the-data-in-my-pipeline-is-quality-data",
+    "href": "slides/03_data_validation_and_alerting.html#how-can-i-ensure-the-data-in-my-pipeline-is-quality-data",
+    "title": "Data Science Workflows with Posit Tools - R focus",
+    "section": "How can I ensure the data in my pipeline is quality data?",
+    "text": "How can I ensure the data in my pipeline is quality data?\n 🧰 pointblank for data validation",
+    "crumbs": [
+      "Resources",
+      "Slides",
+      "03 - Data Validation and Alerting"
+    ]
+  },
+  {
+    "objectID": "slides/03_data_validation_and_alerting.html#the-pointblank-data-quality-workflow",
+    "href": "slides/03_data_validation_and_alerting.html#the-pointblank-data-quality-workflow",
+    "title": "Data Science Workflows with Posit Tools - R focus",
+    "section": "The pointblank data quality workflow",
+    "text": "The pointblank data quality workflow",
+    "crumbs": [
+      "Resources",
+      "Slides",
+      "03 - Data Validation and Alerting"
+    ]
+  },
+  {
+    "objectID": "slides/03_data_validation_and_alerting.html#the-pointblank-data-quality-workflow-1",
+    "href": "slides/03_data_validation_and_alerting.html#the-pointblank-data-quality-workflow-1",
+    "title": "Data Science Workflows with Posit Tools - R focus",
+    "section": "The pointblank data quality workflow",
+    "text": "The pointblank data quality workflow",
+    "crumbs": [
+      "Resources",
+      "Slides",
+      "03 - Data Validation and Alerting"
+    ]
+  },
+  {
+    "objectID": "slides/03_data_validation_and_alerting.html#the-pointblank-data-quality-workflow-2",
+    "href": "slides/03_data_validation_and_alerting.html#the-pointblank-data-quality-workflow-2",
+    "title": "Data Science Workflows with Posit Tools - R focus",
+    "section": "The pointblank data quality workflow",
+    "text": "The pointblank data quality workflow",
+    "crumbs": [
+      "Resources",
+      "Slides",
+      "03 - Data Validation and Alerting"
+    ]
+  },
+  {
+    "objectID": "slides/03_data_validation_and_alerting.html#the-pointblank-data-quality-workflow-3",
+    "href": "slides/03_data_validation_and_alerting.html#the-pointblank-data-quality-workflow-3",
+    "title": "Data Science Workflows with Posit Tools - R focus",
+    "section": "The pointblank data quality workflow",
+    "text": "The pointblank data quality workflow",
+    "crumbs": [
+      "Resources",
+      "Slides",
+      "03 - Data Validation and Alerting"
+    ]
+  },
+  {
+    "objectID": "slides/03_data_validation_and_alerting.html#the-pointblank-data-quality-workflow-4",
+    "href": "slides/03_data_validation_and_alerting.html#the-pointblank-data-quality-workflow-4",
+    "title": "Data Science Workflows with Posit Tools - R focus",
+    "section": "The pointblank data quality workflow",
+    "text": "The pointblank data quality workflow",
+    "crumbs": [
+      "Resources",
+      "Slides",
+      "03 - Data Validation and Alerting"
+    ]
+  },
+  {
+    "objectID": "slides/03_data_validation_and_alerting.html#the-pointblank-data-quality-workflow-5",
+    "href": "slides/03_data_validation_and_alerting.html#the-pointblank-data-quality-workflow-5",
+    "title": "Data Science Workflows with Posit Tools - R focus",
+    "section": "The pointblank data quality workflow",
+    "text": "The pointblank data quality workflow",
+    "crumbs": [
+      "Resources",
+      "Slides",
+      "03 - Data Validation and Alerting"
+    ]
+  },
+  {
+    "objectID": "slides/03_data_validation_and_alerting.html#data-validation-example",
+    "href": "slides/03_data_validation_and_alerting.html#data-validation-example",
+    "title": "Data Science Workflows with Posit Tools - R focus",
+    "section": "Data validation example",
+    "text": "Data validation example",
+    "crumbs": [
+      "Resources",
+      "Slides",
+      "03 - Data Validation and Alerting"
+    ]
+  },
+  {
+    "objectID": "slides/03_data_validation_and_alerting.html#agent-interrogation",
+    "href": "slides/03_data_validation_and_alerting.html#agent-interrogation",
+    "title": "Data Science Workflows with Posit Tools - R focus",
+    "section": "Agent Interrogation",
+    "text": "Agent Interrogation",
+    "crumbs": [
+      "Resources",
+      "Slides",
+      "03 - Data Validation and Alerting"
+    ]
+  },
+  {
+    "objectID": "slides/03_data_validation_and_alerting.html#agent-validation-report",
+    "href": "slides/03_data_validation_and_alerting.html#agent-validation-report",
+    "title": "Data Science Workflows with Posit Tools - R focus",
+    "section": "Agent Validation Report",
+    "text": "Agent Validation Report",
+    "crumbs": [
+      "Resources",
+      "Slides",
+      "03 - Data Validation and Alerting"
+    ]
+  },
+  {
+    "objectID": "slides/03_data_validation_and_alerting.html#pointblank-data-validation-report",
+    "href": "slides/03_data_validation_and_alerting.html#pointblank-data-validation-report",
+    "title": "Data Science Workflows with Posit Tools - R focus",
+    "section": "Pointblank data validation report",
+    "text": "Pointblank data validation report",
+    "crumbs": [
+      "Resources",
+      "Slides",
+      "03 - Data Validation and Alerting"
+    ]
+  },
+  {
+    "objectID": "slides/03_data_validation_and_alerting.html#section-1",
+    "href": "slides/03_data_validation_and_alerting.html#section-1",
+    "title": "Data Science Workflows with Posit Tools - R focus",
+    "section": "",
+    "text": "Activity Time!\n\n\n\n\n\n\n\n\nActivity\n\n\n\n👉 Activity objective: Use pointblank to validate data, remove non-compliant records, and explore validation results.\n\nOpen the project materials/03-data-clean-validate/03-data-clean-validate.Rproj\nOpen the file simple-validation.qmd\n🛑 We will work through the entire notebook together",
+    "crumbs": [
+      "Resources",
+      "Slides",
+      "03 - Data Validation and Alerting"
+    ]
+  },
+  {
+    "objectID": "slides/03_data_validation_and_alerting.html#theres-much-more-to-pointblank",
+    "href": "slides/03_data_validation_and_alerting.html#theres-much-more-to-pointblank",
+    "title": "Data Science Workflows with Posit Tools - R focus",
+    "section": " There’s much more to pointblank",
+    "text": "There’s much more to pointblank\n\n\n\nCreate a multiagent to summarize repeated validations to monitor data quality over time.\n\n\n\n\n\n\n\n\nUse a YAML file to define validations which can be applied across projects and version controlled\n\n\n\n\n\n\n\nTry the comprehensive pointblank test drive on Posit Cloud: https://posit.cloud/project/3411822",
+    "crumbs": [
+      "Resources",
+      "Slides",
+      "03 - Data Validation and Alerting"
+    ]
+  },
+  {
+    "objectID": "slides/03_data_validation_and_alerting.html#conditional-emails-part-2",
+    "href": "slides/03_data_validation_and_alerting.html#conditional-emails-part-2",
+    "title": "Data Science Workflows with Posit Tools - R focus",
+    "section": "Conditional Emails, Part 2",
+    "text": "Conditional Emails, Part 2\nLet’s put together the information from data validation to send conditional emails.\n\nWhat might happen?\n\n\n\nThe columns and schema of the upstream raw data may change\nMore records may fail validation than we are expecting\nEverything could be fine",
+    "crumbs": [
+      "Resources",
+      "Slides",
+      "03 - Data Validation and Alerting"
+    ]
+  },
+  {
+    "objectID": "slides/03_data_validation_and_alerting.html#conditional-emails-part-2-1",
+    "href": "slides/03_data_validation_and_alerting.html#conditional-emails-part-2-1",
+    "title": "Data Science Workflows with Posit Tools - R focus",
+    "section": "Conditional Emails, Part 2",
+    "text": "Conditional Emails, Part 2",
+    "crumbs": [
+      "Resources",
+      "Slides",
+      "03 - Data Validation and Alerting"
+    ]
+  },
+  {
+    "objectID": "slides/03_data_validation_and_alerting.html#creating-condition-based-emails",
+    "href": "slides/03_data_validation_and_alerting.html#creating-condition-based-emails",
+    "title": "Data Science Workflows with Posit Tools - R focus",
+    "section": "Creating Condition-Based Emails",
+    "text": "Creating Condition-Based Emails\n\n\n\n\nQuarto emails are defined by content divs\n\n\n\n\nQuarto emails are defined by content divs\nInclude conditional content divs with .content-visible when-meta\n\n\n\n\nQuarto emails are defined by content divs\nInclude conditional content divs with .content-visible when-meta\nSet the metadata by injecting YAML into the rendering. Quarto will interpret YAML blocks no matter where they appear in the document\n\n\n\n\n\n:::: {email}\n\nThis email was sent from Quarto! \n\n::: {subject}\nsubject\n:::\n\n::::\n\n\n\n\n::::: {email}\n\nThis email was sent using condition `r variant`\n\n:::: {.content-visible when-meta=\"is_email_variant_1\"}\nrest of email body 1\n\n::: {subject}\nsubject 1\n:::\n::::\n\n:::: {.content-visible when-meta=\"is_email_variant_2\"}\nrest email body 2 \n\n::: {subject}\nsubject 2\n:::\n::::\n\n:::::\n\n\n\n\n---\ntitle: Something wonderful\nformat: email\n---\n\nvariant &lt;- sample(1:2, 1)\n\n#| output: asis\ncat(\n  \"---\",\n  paste0(\"is_email_variant_\",variant,\": true\"),\n  \"---\",\n  sep = \"\\n\"\n)\n\nwrites the YAML metadata in-place:\n\n\n---\nis_email_variant_1: true\n---",
+    "crumbs": [
+      "Resources",
+      "Slides",
+      "03 - Data Validation and Alerting"
+    ]
+  },
+  {
+    "objectID": "slides/03_data_validation_and_alerting.html#a-on-managing-environments",
+    "href": "slides/03_data_validation_and_alerting.html#a-on-managing-environments",
+    "title": "Data Science Workflows with Posit Tools - R focus",
+    "section": "A  on managing environments",
+    "text": "A  on managing environments\n\nDon’t change your code to switch between development and production environments\n\n\n🧰 Update environment variables to change behavior\nif (Sys.getenv(\"TEST_MODE\") == TRUE){\n  override_some_variable_for_testing &lt;- TRUE} \n 🧰 Use {config} as another approach to manage environment\n\n\n\n\nconfig.yml\n\ndefault:\n  dataset: \"data_development.csv\"\nrsconnect:\n  dataset: \"data.csv\"\n\n\n\n\nmy_file.qmd\n\nread_csv(config::get(\"dataset\"))",
+    "crumbs": [
+      "Resources",
+      "Slides",
+      "03 - Data Validation and Alerting"
+    ]
+  },
+  {
+    "objectID": "slides/03_data_validation_and_alerting.html#section-2",
+    "href": "slides/03_data_validation_and_alerting.html#section-2",
+    "title": "Data Science Workflows with Posit Tools - R focus",
+    "section": "",
+    "text": "Activity Time!\n\n\n\n\n\n\n\n\nActivity\n\n\n\n👉 Activity objective: See the whole workflow of data validation and conditional emails put together.\n\nReturn to the project materials/03-data-clean-validate/\nOpen the file 03-data-clean-validate.qmd\nSet the environment variable CONDITION_OVERRIDE locally\nWe will work through the entire notebook together\nPublish the report to Posit Connect and use the CONDITION_OVERRIDE to send yourself the different emails",
+    "crumbs": [
+      "Resources",
+      "Slides",
+      "03 - Data Validation and Alerting"
+    ]
+  },
+  {
+    "objectID": "slides/03_data_validation_and_alerting.html#be-aware",
+    "href": "slides/03_data_validation_and_alerting.html#be-aware",
+    "title": "Data Science Workflows with Posit Tools - R focus",
+    "section": "Be aware…",
+    "text": "Be aware…\n⚠️ Common mistakes when creating emails\n\nThere is no interactive runtime for an email\nJavascript-dependent content will generally not render when emailed because of how email clients process HTML",
+    "crumbs": [
+      "Resources",
+      "Slides",
+      "03 - Data Validation and Alerting"
+    ]
+  },
+  {
+    "objectID": "slides/03_data_validation_and_alerting.html#best-practices-for-embedding-objects-an-email",
+    "href": "slides/03_data_validation_and_alerting.html#best-practices-for-embedding-objects-an-email",
+    "title": "Data Science Workflows with Posit Tools - R focus",
+    "section": "🧰 Best practices for embedding objects an email",
+    "text": "🧰 Best practices for embedding objects an email\n\n{ggplot2} output can be included in the email\nCreate nicely formatted tables with the {gt} package. (Just remember, no interactivity!)\nIf you’d like to include a rendering of a widget (e.g., a dial or info box), use the {webshot2} package to take a capture of the widget and embed it as an image\nIf your email recipient wants more information or interactivity, direct them to a report or dashboard deployed to Connect",
+    "crumbs": [
+      "Resources",
+      "Slides",
+      "03 - Data Validation and Alerting"
+    ]
+  },
+  {
+    "objectID": "slides/03_data_validation_and_alerting.html#other-alerting-approaches",
+    "href": "slides/03_data_validation_and_alerting.html#other-alerting-approaches",
+    "title": "Data Science Workflows with Posit Tools - R focus",
+    "section": "Other Alerting Approaches",
+    "text": "Other Alerting Approaches\n Send alerts to a Slack channel or MS Teams, or via text message: https://rviews.rstudio.com/2020/06/18/how-to-have-r-notify-you/",
+    "crumbs": [
+      "Resources",
+      "Slides",
+      "03 - Data Validation and Alerting"
+    ]
   }
 ]
