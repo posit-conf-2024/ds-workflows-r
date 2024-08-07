@@ -737,11 +737,11 @@ warnings_table
 }
 
 if (condition == 3){
-glue("Vessel history and weather data was validated and sundered.
+print(glue("Vessel history and weather data was validated and sundered.
 
 Records removed that failed validation: {nrow(modeldata_failed_validation)}
 
-Records written to database: {nrow(modeldata_validated)}")
+Records written to database: {nrow(modeldata_validated)}"))
 
 }
 
