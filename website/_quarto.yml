@@ -65,6 +65,7 @@ format:
       - sandstone
     linkcolor: "#419599"
     toc: true
+    link-external-newwindow: true
     
 fig-format: svg   
 
