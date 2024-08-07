@@ -312,67 +312,15 @@ Monitoring Content
 
 ![](https://pkgs.rstudio.com/connectapi/reference/figures/logo.svg){.absolute top="340" right="260" width="290"}
 
-## Constructing a Content Usage Report
-Incorporate into a stylized R Markdown, Quarto document or Shiny application.
-
-::::: columns
-
-::: {.column width="35%" .smaller}
-
-:::{.smaller}
-``` {.r .code-overflow-wrap}
-...
-con <- connectapi::connect()
-
-app_usage <- get_usage_shiny(
-  client,
-  from = report_from,
-  limit = Inf,
-  content_guid = guid
-)
-...
-```
-:::
-:::
-
-::: {.column width="65%" .smaller}
-
-:::{.smaller}
-
-```{.r}
-> usage
-# A tibble: 14 × 6
-   content_guid      user_guid         started             ended               data_version
-   <chr>             <chr>             <dttm>              <dttm>                     <int>
- 1 0477855b-caeb-... 1ec56831-7a34-... 2024-03-19 21:09:03 2024-03-19 21:10:05            1
- 2 0477855b-caeb-... 1ec56831-7a34-... 2024-03-19 21:39:07 2024-03-19 22:39:48            1
- 3 0477855b-caeb-... d59e7a7b-9684-... 2024-03-20 00:36:29 2024-03-20 00:37:10            1
- 4 0477855b-caeb-... 1ec56831-7a34-... 2024-03-20 13:50:55 2024-03-20 14:04:04            1
- 5 0477855b-caeb-... 1ec56831-7a34-... 2024-03-20 16:43:56 2024-03-20 16:44:12            1
- 6 0477855b-caeb-... d59e7a7b-9684-... 2024-03-21 10:52:14 2024-03-21 11:52:37            1
- 7 0477855b-caeb-... fc80bd89-4488-... 2024-03-25 19:16:45 2024-03-25 19:28:19            1
- 8 0477855b-caeb-... 989001e2-66df-... 2024-03-26 19:48:37 2024-03-26 21:43:10            1
- 9 0477855b-caeb-... 5c7cb633-5959-... 2024-03-28 17:13:03 2024-03-28 17:19:35            1
-10 0477855b-caeb-... fc80bd89-4488-... 2024-03-28 18:26:20 2024-03-28 18:34:40            1
-11 0477855b-caeb-... fc80bd89-4488-... 2024-03-28 20:53:50 2024-03-28 20:54:36            1
-12 0477855b-caeb-... cbee884e-f940-... 2024-03-29 16:13:44 2024-03-29 16:14:15            1
-13 0477855b-caeb-... fc80bd89-4488-... 2024-03-29 18:16:10 2024-03-29 20:43:52            1
-14 0477855b-caeb-... 3dc75833-f6c2-... 2024-04-11 00:36:00 2024-04-11 00:36:59            1
-```
-:::
-:::
-:::::
-
+:::::: {.columns}
+::: {.column}
 :::{.callout-tip title="Remember"}
 Content returned from the Connect Server API will be scoped to the API key provided.
 :::
-
-
-## Who is Using our App?
-
-<https://pub.ferryland.posit.team/r/usage_monitoring/>
-
-[![](slide_resources/sample_usage_dashboard.png){fig-align="center" height="800"}](https://pub.ferryland.posit.team/r/usage_monitoring/)
+:::
+::: {.column}
+:::
+::: 
 
 ## 
 
@@ -387,6 +335,51 @@ Content returned from the Connect Server API will be scoped to the API key provi
 
 -   Browse the [Connect Cookbook](https://docs.posit.co/connect/cookbook)
 -   Open the project `materials/06-usage-monitoring/06-usage-monitoring.Rproj`
+-   Open the file `simple-sdk-example.qmd`
+-   We'll work through this file together
+:::
+
+
+
+## Who is Using our App?
+
+<https://pub.ferryland.posit.team/r/usage_monitoring/>
+
+[![](slide_resources/sample_usage_dashboard.png){fig-align="center" height="750"}](https://pub.ferryland.posit.team/r/usage_monitoring/)
+
+## 
+
+::: center
+<h2><br>**Optional Activity**</h2>
+:::
+
+::: {.callout-note icon="false"}
+## Activity
+
+👉 Activity objective: Deploy a ready-made usage dashboard, provided from the Connect Cookbook
+
+-   Return to the project `materials/06-usage-monitoring/06-usage-monitoring.Rproj`
 -   Open the file `06-usage-monitoring.qmd`
 -   Deploy this file to Connect 
+:::
+
+## How can I know what people are doing in my content?
+
+- 👉 As we just saw, Connect aggregates higher-level content access information
+- {{< bi sign-turn-right-fill color=orange >}} Add tracking or logging to the content itself for user interaction information
+
+:::{.fragment}
+
+Ideas and resources:
+
+:::{.smaller}
+
+- Add logging to your app for benchmarking, performance tracking, debugging, and/or tracking actions
+  - output to STDOUT/STDERR and see in the Connect app logs (example in our [Ferry Delay App](https://github.com/posit-conf-2024/ds-workflows-r/blob/main/materials/05-shiny-app/ferry_delay_app/app.R))
+  - use a structured logging package like `{log4r}` and export to a log aggregator
+- Add Google Analytics: <https://shiny.posit.co/r/articles/build/google-analytics/>
+- Monitor User Behavior in Shiny Apps with Hotjar: <https://www.r-bloggers.com/2022/06/r-shiny-hotjar-how-to-monitor-user-behavior-in-r-shiny-apps/>
+- Article summarizing tools for tracking <https://www.appsilon.com/post/monitoring-r-shiny-user-adoption>
+:::
+
 :::

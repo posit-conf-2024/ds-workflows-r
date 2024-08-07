@@ -11,7 +11,7 @@
 <script src="../site_libs/quarto-contrib/posit_slides/posit-slides.js"></script>
 <link href="../site_libs/quarto-contrib/fontawesome6-0.1.0/all.css" rel="stylesheet">
 <link href="../site_libs/quarto-contrib/fontawesome6-0.1.0/latex-fontsize.css" rel="stylesheet"><meta charset="utf-8">
-  <meta name="generator" content="quarto-1.5.54">
+  <meta name="generator" content="quarto-1.5.40">
 
   <title>Data Science Workflows with Posit Tools - R focus – managing_environments</title>
   <meta name="apple-mobile-web-app-capable" content="yes">
@@ -401,7 +401,8 @@
 <div class="column" style="width:100%;">
 <h2>Managing Environments</h2>
 <p><img data-src="https://rstudio.github.io/renv/logo.svg" class="absolute" style="top: 200px; left: 50px; width: 260px; "> <img data-src="slide_resources/devtestprod.png" class="absolute" style="top: 300px; left: 310px; width: 260px; "></p>
-</div></div>
+</div>
+</div>
 </section>
 <section class="slide level2">
 <h2>Where we are</h2>
@@ -581,7 +582,8 @@
 <li><p>Automatically update production with a git merge</p></li>
 <li><p>Stakeholders keep the same stable URL throughout</p></li>
 </ul>
-</div></div>
+</div>
+</div>
 </section>
 <section class="slide level2">
 <h2>Dev-Test-Prod Methods <span class="positgreen">// CI/CD Deployment</span></h2>
@@ -605,7 +607,8 @@
 <li>Jenkins</li>
 </ul></li>
 </ul>
-</div></div>
+</div>
+</div>
 </section>
 <section class="slide level2">
 <h2>More Resources</h2>
@@ -644,7 +647,7 @@ That’s a wrap!<br> 🤪 🥴 🫨 😵
 
 <div class="quarto-auto-generated-content">
 <div class="footer footer-default">
-<p>Back to <a href="https://posit-conf-2024.github.io/ds-workflows-r/">Data Science Workflows with Posit Tools - R Focus</a> website</p>
+<p>Click to go back to <a href="https://posit-conf-2024.github.io/ds-workflows-r/">Data Science Workflows with Posit Tools - R Focus website ↩︎</a></p>
 </div>
 </div>
 <div id="3ade8a4a-fb1d-4a6c-8409-ac45482d5fc9" class="hidden">
@@ -966,6 +969,11 @@ That’s a wrap!<br> 🤪 🥴 🫨 😵
             if (link.dataset.originalHref !== undefined) {
               link.href = link.dataset.originalHref;
             }
+              // target, if specified
+              link.setAttribute("target", "_blank");
+              if (link.getAttribute("rel") === null) {
+                link.setAttribute("rel", "noopener");
+              }
           }
         }
       function tippyHover(el, contentFn, onTriggerFn, onUntriggerFn) {

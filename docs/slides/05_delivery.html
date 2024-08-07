@@ -10,9 +10,9 @@
 <link href="../site_libs/quarto-html/quarto-syntax-highlighting.css" rel="stylesheet" id="quarto-text-highlighting-styles">
 <script src="../site_libs/quarto-contrib/posit_slides/posit-slides.js"></script>
 <link href="../site_libs/quarto-contrib/bootstrap-icons-1.9.1/all.css" rel="stylesheet"><meta charset="utf-8">
-  <meta name="generator" content="quarto-1.4.553">
+  <meta name="generator" content="quarto-1.5.40">
 
-  <title>Data Science Workflows with Posit Tools - R focus</title>
+  <title>Data Science Workflows with Posit Tools - R focus – delivery</title>
   <meta name="apple-mobile-web-app-capable" content="yes">
   <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, minimal-ui">
@@ -30,71 +30,6 @@
       margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
       vertical-align: middle;
     }
-    /* CSS for syntax highlighting */
-    pre > code.sourceCode { white-space: pre; position: relative; }
-    pre > code.sourceCode > span { line-height: 1.25; }
-    pre > code.sourceCode > span:empty { height: 1.2em; }
-    .sourceCode { overflow: visible; }
-    code.sourceCode > span { color: inherit; text-decoration: inherit; }
-    div.sourceCode { margin: 1em 0; }
-    pre.sourceCode { margin: 0; }
-    @media screen {
-    div.sourceCode { overflow: auto; }
-    }
-    @media print {
-    pre > code.sourceCode { white-space: pre-wrap; }
-    pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
-    }
-    pre.numberSource code
-      { counter-reset: source-line 0; }
-    pre.numberSource code > span
-      { position: relative; left: -4em; counter-increment: source-line; }
-    pre.numberSource code > span > a:first-child::before
-      { content: counter(source-line);
-        position: relative; left: -1em; text-align: right; vertical-align: baseline;
-        border: none; display: inline-block;
-        -webkit-touch-callout: none; -webkit-user-select: none;
-        -khtml-user-select: none; -moz-user-select: none;
-        -ms-user-select: none; user-select: none;
-        padding: 0 4px; width: 4em;
-        color: #767676;
-      }
-    pre.numberSource { margin-left: 3em; border-left: 1px solid #767676;  padding-left: 4px; }
-    div.sourceCode
-      { color: #545454; background-color: #fefefe; }
-    @media screen {
-    pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
-    }
-    code span { color: #545454; } /* Normal */
-    code span.al { color: #7928a1; } /* Alert */
-    code span.an { color: #696969; } /* Annotation */
-    code span.at { color: #a55a00; } /* Attribute */
-    code span.bn { color: #7928a1; } /* BaseN */
-    code span.bu { } /* BuiltIn */
-    code span.cf { color: #d91e18; } /* ControlFlow */
-    code span.ch { color: #008000; } /* Char */
-    code span.cn { color: #d91e18; } /* Constant */
-    code span.co { color: #696969; } /* Comment */
-    code span.cv { color: #696969; font-style: italic; } /* CommentVar */
-    code span.do { color: #696969; font-style: italic; } /* Documentation */
-    code span.dt { color: #7928a1; } /* DataType */
-    code span.dv { color: #7928a1; } /* DecVal */
-    code span.er { color: #7928a1; } /* Error */
-    code span.ex { } /* Extension */
-    code span.fl { color: #a55a00; } /* Float */
-    code span.fu { color: #06287e; } /* Function */
-    code span.im { } /* Import */
-    code span.in { color: #696969; } /* Information */
-    code span.kw { color: #d91e18; } /* Keyword */
-    code span.op { color: #00769e; } /* Operator */
-    code span.ot { color: #d91e18; } /* Other */
-    code span.pp { color: #7928a1; } /* Preprocessor */
-    code span.sc { color: #00769e; } /* SpecialChar */
-    code span.ss { color: #008000; } /* SpecialString */
-    code span.st { color: #008000; } /* String */
-    code span.va { color: #a55a00; } /* Variable */
-    code span.vs { color: #008000; } /* VerbatimString */
-    code span.wa { color: #696969; font-style: italic; } /* Warning */
   </style>
   <link rel="stylesheet" href="../site_libs/revealjs/dist/theme/quarto.css">
   <link href="../site_libs/revealjs/plugin/quarto-line-highlight/line-highlight.css" rel="stylesheet">
@@ -737,49 +672,8 @@
 </ul></li>
 </ul>
 <p><img data-src="https://pkgs.rstudio.com/connectapi/reference/figures/logo.svg" class="absolute" style="top: 340px; right: 260px; width: 290px; "></p>
-</div>
-</div>
-</section>
-<section class="slide level2">
-<h2>Constructing a Content Usage Report</h2>
-<p>Incorporate into a stylized R Markdown, Quarto document or Shiny application.</p>
 <div class="columns">
-<div class="column smaller" style="width:35%;">
-<div class="smaller">
-<div class="sourceCode" id="cb1"><pre class="sourceCode numberSource r code-overflow-wrap number-lines code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a></a>...</span>
-<span id="cb1-2"><a></a>con <span class="ot">&lt;-</span> connectapi<span class="sc">::</span><span class="fu">connect</span>()</span>
-<span id="cb1-3"><a></a></span>
-<span id="cb1-4"><a></a>app_usage <span class="ot">&lt;-</span> <span class="fu">get_usage_shiny</span>(</span>
-<span id="cb1-5"><a></a>  client,</span>
-<span id="cb1-6"><a></a>  <span class="at">from =</span> report_from,</span>
-<span id="cb1-7"><a></a>  <span class="at">limit =</span> <span class="cn">Inf</span>,</span>
-<span id="cb1-8"><a></a>  <span class="at">content_guid =</span> guid</span>
-<span id="cb1-9"><a></a>)</span>
-<span id="cb1-10"><a></a>...</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-</div>
-</div><div class="column smaller" style="width:65%;">
-<div class="smaller">
-<div class="sourceCode" id="cb2"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb2-1"><a></a><span class="sc">&gt;</span> usage</span>
-<span id="cb2-2"><a></a><span class="co"># A tibble: 14 × 6</span></span>
-<span id="cb2-3"><a></a>   content_guid      user_guid         started             ended               data_version</span>
-<span id="cb2-4"><a></a>   <span class="sc">&lt;</span>chr<span class="sc">&gt;</span>             <span class="er">&lt;</span>chr<span class="sc">&gt;</span>             <span class="er">&lt;</span>dttm<span class="sc">&gt;</span>              <span class="er">&lt;</span>dttm<span class="sc">&gt;</span>                     <span class="er">&lt;</span>int<span class="sc">&gt;</span></span>
-<span id="cb2-5"><a></a> <span class="dv">1</span> <span class="dv">0477855</span>b<span class="sc">-</span>caeb<span class="sc">-</span>... <span class="dv">1</span>ec56831<span class="dv">-7</span>a34<span class="sc">-</span>... <span class="dv">2024-03-19</span> <span class="dv">21</span><span class="sc">:</span><span class="dv">09</span><span class="sc">:</span><span class="dv">03</span> <span class="dv">2024-03-19</span> <span class="dv">21</span><span class="sc">:</span><span class="dv">10</span><span class="sc">:</span><span class="dv">05</span>            <span class="dv">1</span></span>
-<span id="cb2-6"><a></a> <span class="dv">2</span> <span class="dv">0477855</span>b<span class="sc">-</span>caeb<span class="sc">-</span>... <span class="dv">1</span>ec56831<span class="dv">-7</span>a34<span class="sc">-</span>... <span class="dv">2024-03-19</span> <span class="dv">21</span><span class="sc">:</span><span class="dv">39</span><span class="sc">:</span><span class="dv">07</span> <span class="dv">2024-03-19</span> <span class="dv">22</span><span class="sc">:</span><span class="dv">39</span><span class="sc">:</span><span class="dv">48</span>            <span class="dv">1</span></span>
-<span id="cb2-7"><a></a> <span class="dv">3</span> <span class="dv">0477855</span>b<span class="sc">-</span>caeb<span class="sc">-</span>... d59e7a7b<span class="dv">-9684</span><span class="sc">-</span>... <span class="dv">2024-03-20</span> <span class="dv">00</span><span class="sc">:</span><span class="dv">36</span><span class="sc">:</span><span class="dv">29</span> <span class="dv">2024-03-20</span> <span class="dv">00</span><span class="sc">:</span><span class="dv">37</span><span class="sc">:</span><span class="dv">10</span>            <span class="dv">1</span></span>
-<span id="cb2-8"><a></a> <span class="dv">4</span> <span class="dv">0477855</span>b<span class="sc">-</span>caeb<span class="sc">-</span>... <span class="dv">1</span>ec56831<span class="dv">-7</span>a34<span class="sc">-</span>... <span class="dv">2024-03-20</span> <span class="dv">13</span><span class="sc">:</span><span class="dv">50</span><span class="sc">:</span><span class="dv">55</span> <span class="dv">2024-03-20</span> <span class="dv">14</span><span class="sc">:</span><span class="dv">04</span><span class="sc">:</span><span class="dv">04</span>            <span class="dv">1</span></span>
-<span id="cb2-9"><a></a> <span class="dv">5</span> <span class="dv">0477855</span>b<span class="sc">-</span>caeb<span class="sc">-</span>... <span class="dv">1</span>ec56831<span class="dv">-7</span>a34<span class="sc">-</span>... <span class="dv">2024-03-20</span> <span class="dv">16</span><span class="sc">:</span><span class="dv">43</span><span class="sc">:</span><span class="dv">56</span> <span class="dv">2024-03-20</span> <span class="dv">16</span><span class="sc">:</span><span class="dv">44</span><span class="sc">:</span><span class="dv">12</span>            <span class="dv">1</span></span>
-<span id="cb2-10"><a></a> <span class="dv">6</span> <span class="dv">0477855</span>b<span class="sc">-</span>caeb<span class="sc">-</span>... d59e7a7b<span class="dv">-9684</span><span class="sc">-</span>... <span class="dv">2024-03-21</span> <span class="dv">10</span><span class="sc">:</span><span class="dv">52</span><span class="sc">:</span><span class="dv">14</span> <span class="dv">2024-03-21</span> <span class="dv">11</span><span class="sc">:</span><span class="dv">52</span><span class="sc">:</span><span class="dv">37</span>            <span class="dv">1</span></span>
-<span id="cb2-11"><a></a> <span class="dv">7</span> <span class="dv">0477855</span>b<span class="sc">-</span>caeb<span class="sc">-</span>... fc80bd89<span class="dv">-4488</span><span class="sc">-</span>... <span class="dv">2024-03-25</span> <span class="dv">19</span><span class="sc">:</span><span class="dv">16</span><span class="sc">:</span><span class="dv">45</span> <span class="dv">2024-03-25</span> <span class="dv">19</span><span class="sc">:</span><span class="dv">28</span><span class="sc">:</span><span class="dv">19</span>            <span class="dv">1</span></span>
-<span id="cb2-12"><a></a> <span class="dv">8</span> <span class="dv">0477855</span>b<span class="sc">-</span>caeb<span class="sc">-</span>... <span class="fl">989001e2</span><span class="dv">-66</span>df<span class="sc">-</span>... <span class="dv">2024-03-26</span> <span class="dv">19</span><span class="sc">:</span><span class="dv">48</span><span class="sc">:</span><span class="dv">37</span> <span class="dv">2024-03-26</span> <span class="dv">21</span><span class="sc">:</span><span class="dv">43</span><span class="sc">:</span><span class="dv">10</span>            <span class="dv">1</span></span>
-<span id="cb2-13"><a></a> <span class="dv">9</span> <span class="dv">0477855</span>b<span class="sc">-</span>caeb<span class="sc">-</span>... <span class="dv">5</span>c7cb633<span class="dv">-5959</span><span class="sc">-</span>... <span class="dv">2024-03-28</span> <span class="dv">17</span><span class="sc">:</span><span class="dv">13</span><span class="sc">:</span><span class="dv">03</span> <span class="dv">2024-03-28</span> <span class="dv">17</span><span class="sc">:</span><span class="dv">19</span><span class="sc">:</span><span class="dv">35</span>            <span class="dv">1</span></span>
-<span id="cb2-14"><a></a><span class="dv">10</span> <span class="dv">0477855</span>b<span class="sc">-</span>caeb<span class="sc">-</span>... fc80bd89<span class="dv">-4488</span><span class="sc">-</span>... <span class="dv">2024-03-28</span> <span class="dv">18</span><span class="sc">:</span><span class="dv">26</span><span class="sc">:</span><span class="dv">20</span> <span class="dv">2024-03-28</span> <span class="dv">18</span><span class="sc">:</span><span class="dv">34</span><span class="sc">:</span><span class="dv">40</span>            <span class="dv">1</span></span>
-<span id="cb2-15"><a></a><span class="dv">11</span> <span class="dv">0477855</span>b<span class="sc">-</span>caeb<span class="sc">-</span>... fc80bd89<span class="dv">-4488</span><span class="sc">-</span>... <span class="dv">2024-03-28</span> <span class="dv">20</span><span class="sc">:</span><span class="dv">53</span><span class="sc">:</span><span class="dv">50</span> <span class="dv">2024-03-28</span> <span class="dv">20</span><span class="sc">:</span><span class="dv">54</span><span class="sc">:</span><span class="dv">36</span>            <span class="dv">1</span></span>
-<span id="cb2-16"><a></a><span class="dv">12</span> <span class="dv">0477855</span>b<span class="sc">-</span>caeb<span class="sc">-</span>... cbee884e<span class="sc">-</span>f940<span class="sc">-</span>... <span class="dv">2024-03-29</span> <span class="dv">16</span><span class="sc">:</span><span class="dv">13</span><span class="sc">:</span><span class="dv">44</span> <span class="dv">2024-03-29</span> <span class="dv">16</span><span class="sc">:</span><span class="dv">14</span><span class="sc">:</span><span class="dv">15</span>            <span class="dv">1</span></span>
-<span id="cb2-17"><a></a><span class="dv">13</span> <span class="dv">0477855</span>b<span class="sc">-</span>caeb<span class="sc">-</span>... fc80bd89<span class="dv">-4488</span><span class="sc">-</span>... <span class="dv">2024-03-29</span> <span class="dv">18</span><span class="sc">:</span><span class="dv">16</span><span class="sc">:</span><span class="dv">10</span> <span class="dv">2024-03-29</span> <span class="dv">20</span><span class="sc">:</span><span class="dv">43</span><span class="sc">:</span><span class="dv">52</span>            <span class="dv">1</span></span>
-<span id="cb2-18"><a></a><span class="dv">14</span> <span class="dv">0477855</span>b<span class="sc">-</span>caeb<span class="sc">-</span>... <span class="dv">3</span>dc75833<span class="sc">-</span>f6c2<span class="sc">-</span>... <span class="dv">2024-04-11</span> <span class="dv">00</span><span class="sc">:</span><span class="dv">36</span><span class="sc">:</span><span class="dv">00</span> <span class="dv">2024-04-11</span> <span class="dv">00</span><span class="sc">:</span><span class="dv">36</span><span class="sc">:</span><span class="dv">59</span>            <span class="dv">1</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-</div>
-</div>
-</div>
+<div class="column">
 <div title="Remember">
 <div class="callout callout-tip callout-titled callout-style-default">
 <div class="callout-body">
@@ -795,10 +689,12 @@
 </div>
 </div>
 </div>
-</section>
-<section class="slide level2">
-<h2>Who is Using our App?</h2>
-<p><a href="https://pub.ferryland.posit.team/r/usage_monitoring/" class="uri">https://pub.ferryland.posit.team/r/usage_monitoring/</a></p>
+</div><div class="column">
+
+</div>
+</div>
+</div>
+</div>
 </section>
 <section class="slide level2">
 <h2></h2>
@@ -817,10 +713,64 @@
 <ul>
 <li>Browse the <a href="https://docs.posit.co/connect/cookbook">Connect Cookbook</a></li>
 <li>Open the project <code>materials/06-usage-monitoring/06-usage-monitoring.Rproj</code></li>
+<li>Open the file <code>simple-sdk-example.qmd</code></li>
+<li>We’ll work through this file together</li>
+</ul>
+</div>
+</div>
+</div>
+</section>
+<section class="slide level2">
+<h2>Who is Using our App?</h2>
+<p><a href="https://pub.ferryland.posit.team/r/usage_monitoring/" class="uri">https://pub.ferryland.posit.team/r/usage_monitoring/</a></p>
+<div class="quarto-figure quarto-figure-center">
+<figure>
+<p><a href="https://pub.ferryland.posit.team/r/usage_monitoring/"><img data-src="slide_resources/sample_usage_dashboard.png" class="quarto-figure quarto-figure-center" height="750"></a></p>
+</figure>
+</div>
+</section>
+<section class="slide level2">
+<h2></h2>
+<div class="center">
+<h2>
+<br><strong>Optional Activity</strong>
+</h2>
+</div>
+<div class="callout callout-note no-icon callout-titled callout-style-default">
+<div class="callout-body">
+<div class="callout-title">
+<p><strong>Activity</strong></p>
+</div>
+<div class="callout-content">
+<p>👉 Activity objective: Deploy a ready-made usage dashboard, provided from the Connect Cookbook</p>
+<ul>
+<li>Return to the project <code>materials/06-usage-monitoring/06-usage-monitoring.Rproj</code></li>
 <li>Open the file <code>06-usage-monitoring.qmd</code></li>
 <li>Deploy this file to Connect</li>
 </ul>
 </div>
+</div>
+</div>
+</section>
+<section class="slide level2">
+<h2>How can I know what people are doing in my content?</h2>
+<ul>
+<li>👉 As we just saw, Connect aggregates higher-level content access information</li>
+<li><i class="bi-sign-turn-right-fill " style="color: orange;" role="img" aria-hidden="true"></i> Add tracking or logging to the content itself for user interaction information</li>
+</ul>
+<div class="fragment">
+<p>Ideas and resources:</p>
+<div class="smaller">
+<ul>
+<li>Add logging to your app for benchmarking, performance tracking, debugging, and/or tracking actions
+<ul>
+<li>output to STDOUT/STDERR and see in the Connect app logs (example in our <a href="https://github.com/posit-conf-2024/ds-workflows-r/blob/main/materials/05-shiny-app/ferry_delay_app/app.R">Ferry Delay App</a>)</li>
+<li>use a structured logging package like <code>{log4r}</code> and export to a log aggregator</li>
+</ul></li>
+<li>Add Google Analytics: <a href="https://shiny.posit.co/r/articles/build/google-analytics/" class="uri">https://shiny.posit.co/r/articles/build/google-analytics/</a></li>
+<li>Monitor User Behavior in Shiny Apps with Hotjar: <a href="https://www.r-bloggers.com/2022/06/r-shiny-hotjar-how-to-monitor-user-behavior-in-r-shiny-apps/" class="uri">https://www.r-bloggers.com/2022/06/r-shiny-hotjar-how-to-monitor-user-behavior-in-r-shiny-apps/</a></li>
+<li>Article summarizing tools for tracking <a href="https://www.appsilon.com/post/monitoring-r-shiny-user-adoption" class="uri">https://www.appsilon.com/post/monitoring-r-shiny-user-adoption</a></li>
+</ul>
 </div>
 </div>
 
@@ -1074,18 +1024,7 @@
         }
         return false;
       }
-      const clipboard = new window.ClipboardJS('.code-copy-button', {
-        text: function(trigger) {
-          const codeEl = trigger.previousElementSibling.cloneNode(true);
-          for (const childEl of codeEl.children) {
-            if (isCodeAnnotation(childEl)) {
-              childEl.remove();
-            }
-          }
-          return codeEl.innerText;
-        }
-      });
-      clipboard.on('success', function(e) {
+      const onCopySuccess = function(e) {
         // button target
         const button = e.trigger;
         // don't keep focus
@@ -1117,7 +1056,29 @@
         }, 1000);
         // clear code selection
         e.clearSelection();
+      }
+      const getTextToCopy = function(trigger) {
+          const codeEl = trigger.previousElementSibling.cloneNode(true);
+          for (const childEl of codeEl.children) {
+            if (isCodeAnnotation(childEl)) {
+              childEl.remove();
+            }
+          }
+          return codeEl.innerText;
+      }
+      const clipboard = new window.ClipboardJS('.code-copy-button:not([data-in-quarto-modal])', {
+        text: getTextToCopy
       });
+      clipboard.on('success', onCopySuccess);
+      if (window.document.getElementById('quarto-embedded-source-code-modal')) {
+        // For code content inside modals, clipBoardJS needs to be initialized with a container option
+        // TODO: Check when it could be a function (https://github.com/zenorocha/clipboard.js/issues/860)
+        const clipboardModal = new window.ClipboardJS('.code-copy-button[data-in-quarto-modal]', {
+          text: getTextToCopy,
+          container: window.document.getElementById('quarto-embedded-source-code-modal')
+        });
+        clipboardModal.on('success', onCopySuccess);
+      }
         var localhostRegex = new RegExp(/^(?:http|https):\/\/localhost\:?[0-9]*\//);
         var mailtoRegex = new RegExp(/^mailto:/);
           var filterRegex = new RegExp('/' + window.location.host + '/');
@@ -1125,7 +1086,7 @@
             return filterRegex.test(href) || localhostRegex.test(href) || mailtoRegex.test(href);
         }
         // Inspect non-navigation links and adorn them if external
-     	var links = window.document.querySelectorAll('a[href]:not(.nav-link):not(.navbar-brand):not(.toc-action):not(.sidebar-link):not(.sidebar-item-toggle):not(.pagination-link):not(.no-external):not([aria-hidden]):not(.dropdown-item):not(.quarto-navigation-tool)');
+     	var links = window.document.querySelectorAll('a[href]:not(.nav-link):not(.navbar-brand):not(.toc-action):not(.sidebar-link):not(.sidebar-item-toggle):not(.pagination-link):not(.no-external):not([aria-hidden]):not(.dropdown-item):not(.quarto-navigation-tool):not(.about-link)');
         for (var i=0; i<links.length; i++) {
           const link = links[i];
           if (!isInternal(link.href)) {
@@ -1134,6 +1095,11 @@
             if (link.dataset.originalHref !== undefined) {
               link.href = link.dataset.originalHref;
             }
+              // target, if specified
+              link.setAttribute("target", "_blank");
+              if (link.getAttribute("rel") === null) {
+                link.setAttribute("rel", "noopener");
+              }
           }
         }
       function tippyHover(el, contentFn, onTriggerFn, onUntriggerFn) {

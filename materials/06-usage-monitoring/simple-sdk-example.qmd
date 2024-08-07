@@ -1,0 +1,124 @@
+---
+title: Using `{connectapi}` 
+editor: visual
+editor_options: 
+  chunk_output_type: console
+  canonical: true
+---
+
+## Goals
+
+The goals of this activity are to:
+
+Use the `{connectapi}` package to:
+
+-   Retrieve historical content usage data
+-   Add your neighbor as a viewer to your content item  
+
+## Setup
+
+```{r}
+#| label: setup
+
+library(connectapi)
+library(tidyverse)
+
+```
+
+## Task 1 - Retrieving data on historical content views
+
+🔄 Task
+
+First let's see what content YOU have published to Connect. 
+
+```{r}
+#| label: get my content information
+
+# Make a connection to the Connect server
+client <- connect()
+
+# Determine your unique "user_guid" to filter content that you own
+my_user_guid <- client$GET("/v1/user")$guid
+
+# Retrieve all content that you own 
+content_df <- get_content(client, owner_guid = my_user_guid)
+
+# Let's look at it
+content_df 
+
+# Or a narrower data frame with columns of interest
+content_df |> 
+    select(guid, name, title, content_url, dashboard_url)
+```
+
+We'll get usage information for a content item of interest. As a suggestion, how about choosing your model API because it has gotten some use. 
+
+Important Note - In the Workshop, your API key is scoped as a "Publisher" so the results below will be limited to content that you own. You will not be able to pull usage data for content that you do not own.
+
+```{r}
+#| label: get the content guid for the model API
+ 
+content_guid <- content_df |> 
+    filter(str_detect(name, "ferry_model")) |> 
+    pull(guid)
+
+```
+
+```{r}
+#| label: get usage data for the content item
+
+# At the moment, there are two different endpoints for usage data, depending on if the content is Shiny (R/Python) or not. We'll determine which endpoint to use based on the `app_mode` field in the content information. If you are using the guid for your API, the type will be "api" (aka "non-shiny")
+
+type <- content_df |> 
+    filter(guid == content_guid) |> 
+    pull(app_mode)
+
+# Query appropriate telemetry endpoint for usage data
+if (type == "shiny" || type == "python-shiny") {
+  usage <- get_usage_shiny(client,
+    content_guid = content_guid,
+    limit = Inf
+  ) 
+} else {
+  usage <- get_usage_static(client,
+    content_guid = content_guid,
+    limit = Inf
+  ) 
+}
+
+usage
+
+```
+
+
+## Task 2 - Add your neighbor as a viewer to your content
+
+# For the specified content item add the desired user
+content <- content_item(client, content_guid)
+content_add_user(content, user_guid, role = access_type)
+
+🔄 Task
+
+Now let's use the API to add someone as a viewer to your content item.
+
+```{r}
+#| label: get user information
+
+# Get user details
+# Notice that with your "Publisher" API key, some of the user information is not visible to you 
+all_users <- get_users(client, limit = Inf) |> select(username, first_name, last_name, guid)
+
+my_neighbor_username <- "________"
+
+user_guid <- all_users |> 
+    filter(username == my_neighbor_username) |> 
+    pull(guid)
+
+access_type <- "viewer"
+
+# Add your neighbor as a viewer to the content item
+content <- content_item(client, content_guid)
+content_add_user(content, user_guid, role = access_type)
+```
+
+Go to your content URL and verify the results!
