@@ -562,11 +562,31 @@ summary_table_basic <- modeldata_validated |>
 
 ### Define the email
 
+```{r}
+subject = list(
+  STOP = list(
+    icon = I("⚠️"),
+    text = I("Data integrity issue")
+  ),
+  WARN = list(
+    icon = I("ℹ️"),
+    text = I("Data updated with warnings")
+  ),
+  OK = list(
+    icon = I("✅")
+    text = I("Data updated")
+  )
+)
+```
+
+::::::::: email
+::: subject
+`️{r} subject$condition$icon` Ferry Project: `{r} subject$condition$text`
+:::
+:::
+
 ::::::::: email
 :::: {.content-visible when-meta="use_condition_STOP_email"}
-::: subject
-⚠️️ Ferry Project: Data integrity issue
-:::
 
 ## ⚠️ There was a data integrity issue with the project data on `{r} today()`
 
@@ -593,9 +613,6 @@ if (condition == "STOP") {
 ::::
 
 :::: {.content-visible when-meta="use_condition_WARN_email"}
-::: subject
-ℹ️ Ferry Project: Data updated with warnings
-:::
 
 ## ℹ️ Ferry data validation complete for `{r} today()` with warnings
 
@@ -624,7 +641,8 @@ if (condition == "WARN") {
 Review the associated extract files to see the records that failed validation.
 
 ```{r}
-#| label: get extracts
+#| label: get extracts and attach to email
+#| output: asis
 #| echo: false
 
 if (condition == "WARN") {
@@ -633,21 +651,9 @@ if (condition == "WARN") {
   purrr::walk2(failures, step, ~{write_csv(.x, file = glue("extracts_step_{.y}.csv"))})
 
   filenames_yaml <- glue(" - extracts_step_{step}.csv") |> str_c(collapse = "\n")
-}
-```
 
-```{r}
-#| label: add email attachment metadata
-#| output: asis
-#| echo: false
-
-if (condition == "WARN") {
-  cat(
-    "---",
-    paste0("email-attachments: \n", filenames_yaml),
-    "---",
-    sep = "\n"
-  )
+  # ferryfairy::write_metadata should do the right thing here, right?
+  ferryfairy::write_metadata("email-attachments", filenames_yaml)
 }
 ```
 
@@ -667,9 +673,6 @@ if (condition == "WARN") {
 ::::
 
 :::: {.content-visible when-meta="use_condition_OK_email"}
-::: subject
-✅ Ferry Project: Data updated
-:::
 
 ## ⛴️ Ferry data validation complete for `{r} today()`
 
