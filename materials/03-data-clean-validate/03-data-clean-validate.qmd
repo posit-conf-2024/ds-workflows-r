@@ -583,9 +583,7 @@ subject = list(
 ::: subject
 `️{r} subject$condition$icon` Ferry Project: `{r} subject$condition$text`
 :::
-:::
 
-::::::::: email
 :::: {.content-visible when-meta="use_condition_STOP_email"}
 
 ## ⚠️ There was a data integrity issue with the project data on `{r} today()`
@@ -657,16 +655,10 @@ if (condition == "WARN") {
 ### Summary of data written
 
 The table below summarizes the data written.
+=
+::: {use-cell="summary-table-basic"}
+:::
 
-```{r}
-#| label: data summary table
-#| echo: false
-
-if (condition == "WARN") {
-  summary_table_basic
-}
-
-```
 ::::
 
 :::: {.content-visible when-meta="use_condition_OK_email"}
