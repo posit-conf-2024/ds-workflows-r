@@ -290,17 +290,17 @@ Data cleaning steps are extraneous to the learning objectives of the Workshop. T
 
 ```{r}
 #| label: Clean data sets
-#| eval: !expr 'stop_alert != TRUE'
 
-weather_terminal_history <- weather_terminal_history_raw |> clean_weather_terminal()
-weather_terminal_history
+if (stop_alert != TRUE) {
+  weather_terminal_history <- weather_terminal_history_raw |> clean_weather_terminal()
+  weather_terminal_history
 
-vesselinfo <- vesselinfo_raw |> clean_vesselinfo()
-vesselinfo
+  vesselinfo <- vesselinfo_raw |> clean_vesselinfo()
+  vesselinfo
 
-vesselhistory <- vesselhistory_raw |> clean_vesselhistory()
-vesselhistory
-
+  vesselhistory <- vesselhistory_raw |> clean_vesselhistory()
+  vesselhistory
+}
 ```
 
 ### Join weather data with vessel history
@@ -311,13 +311,15 @@ This data will be what we use for the model. We'll join the weather data to the 
 #| label: Join weather data to vesselhistory
 #| eval: !expr 'stop_alert != TRUE'
 
-vesselhistory_w_weather <- vesselhistory |> 
-  # round the scheduled departure to the closest hour to align with weather data
-  mutate(closest_hour = round_date(scheduled_depart, "hour")) |> 
-  # join the weather data to the vessel history data based on terminal and time
-  left_join(weather_terminal_history, by = c("departing" = "terminal", "closest_hour" = "time")) 
+if (stop_alert != TRUE) {
+  vesselhistory_w_weather <- vesselhistory |> 
+    # round the scheduled departure to the closest hour to align with weather data
+    mutate(closest_hour = round_date(scheduled_depart, "hour")) |> 
+    # join the weather data to the vessel history data based on terminal and time
+    left_join(weather_terminal_history, by = c("departing" = "terminal", "closest_hour" = "time")) 
 
-vesselhistory_w_weather
+  vesselhistory_w_weather
+}
 ```
 
 ## Task 5 - Validate the model data
@@ -335,48 +337,49 @@ We will set "action levels" for each validation step in this agent. Exceeding th
 ```{r}
 #| label: Validate data to be used for the model
 #| eval: !expr 'stop_alert != TRUE'
+if (stop_alert != TRUE) {
+  main_agent <- create_agent(vesselhistory_w_weather) |> 
+    # all records are distinct
+    rows_distinct() |> 
+    # sailing date is prior to today
+    col_vals_lte(columns = date, today(),
+                label = "Sailing date prior to today",
+                actions = action_levels(warn_at = 0.01)) |> 
+    # vessel_name is one known from vesseldata
+    col_vals_in_set(columns =  vessel, 
+                    set = vesselinfo$vessel_name, 
+                    label = "Vessel name is known",
+                    actions = action_levels(warn_at = 0.01)) |>
+    # a departure and arrival must be specified
+    col_vals_not_null(columns = c(departing, arriving),
+                      actions = action_levels(warn_at = 0.05)) |> 
+    # departing and arriving terminals are known
+    col_vals_in_set(columns = c(departing, arriving), 
+                    set = c(unique(weather_terminal_history$terminal),NA),
+                    label = "Terminal name is known",
+                    actions = action_levels(warn_at = 0.1)) |> 
+    # calculated delay is not null
+    col_vals_not_null(columns = delay) |> 
+    # a departure more than 5 minutes early is likely bad data
+    col_vals_gte(columns = delay, -5,
+                label = "Departed no more than 5 minutes early",
+                actions = action_levels(warn_at = 0.01)) |>
+    # a departure more than 120 minutes late is likely bad data
+    col_vals_lte(columns = delay, 120,
+                label = "Departed no more than 120 minutes late",
+                actions = action_levels(warn_at = 0.01)) |> 
+    # weather code is valid
+    col_vals_between(columns = weather_code, 0, 99, na_pass = TRUE,
+                    actions = action_levels(warn_at = 0.01)) |> 
+    # cloud_cover_low is valid
+    col_vals_between(columns = cloud_cover_low, 0, 100, na_pass = TRUE,
+                    actions = action_levels(warn_at = 0.01)) |> 
+    interrogate()
 
-main_agent <- create_agent(vesselhistory_w_weather) |> 
-  # all records are distinct
-  rows_distinct() |> 
-  # sailing date is prior to today
-  col_vals_lte(columns = date, today(),
-               label = "Sailing date prior to today",
-               actions = action_levels(warn_at = 0.01)) |> 
-  # vessel_name is one known from vesseldata
-  col_vals_in_set(columns =  vessel, 
-                  set = vesselinfo$vessel_name, 
-                  label = "Vessel name is known",
-                  actions = action_levels(warn_at = 0.01)) |>
-  # a departure and arrival must be specified
-  col_vals_not_null(columns = c(departing, arriving),
-                    actions = action_levels(warn_at = 0.05)) |> 
-  # departing and arriving terminals are known
-  col_vals_in_set(columns = c(departing, arriving), 
-                  set = c(unique(weather_terminal_history$terminal),NA),
-                  label = "Terminal name is known",
-                  actions = action_levels(warn_at = 0.1)) |> 
-  # calculated delay is not null
-  col_vals_not_null(columns = delay) |> 
-  # a departure more than 5 minutes early is likely bad data
-  col_vals_gte(columns = delay, -5,
-               label = "Departed no more than 5 minutes early",
-               actions = action_levels(warn_at = 0.01)) |>
-  # a departure more than 120 minutes late is likely bad data
-  col_vals_lte(columns = delay, 120,
-               label = "Departed no more than 120 minutes late",
-               actions = action_levels(warn_at = 0.01)) |> 
-  # weather code is valid
-  col_vals_between(columns = weather_code, 0, 99, na_pass = TRUE,
-                   actions = action_levels(warn_at = 0.01)) |> 
-  # cloud_cover_low is valid
-  col_vals_between(columns = cloud_cover_low, 0, 100, na_pass = TRUE,
-                   actions = action_levels(warn_at = 0.01)) |> 
-  interrogate()
+  main_agent
 
-main_agent
-
-x_list <- get_agent_x_list(main_agent)
+  x_list <- get_agent_x_list(main_agent)
+}
 ```
 
 ### Set `condition` to determine which email to send
@@ -385,16 +388,16 @@ Condition 2 will result in an alert email indicating that a concerning level of 
 
 ```{r}
 #| label: set condition 2 or 3
-#| eval: !expr 'stop_alert != TRUE'
 
 # condition<-2 will be set if it is in override or if any warnings are set, otherwise condition<-3
 
-if(Sys.getenv("CONDITION_OVERRIDE") %in% c(2,3)){
-  condition <- Sys.getenv("CONDITION_OVERRIDE")
-}else if(any(x_list$warn)){
-  condition <- 2
-}else condition <- 3
-
+if (stop_alert != TRUE) {
+  if(Sys.getenv("CONDITION_OVERRIDE") %in% c(2,3)){
+    condition <- Sys.getenv("CONDITION_OVERRIDE")
+  }else if(any(x_list$warn)){
+    condition <- 2
+  }else condition <- 3
+}
 ```
 
 ## Task 6 - Remove failed records from data set
@@ -420,17 +423,17 @@ Write cleaned data to database
 
 ```{r}
 #| label: write validated data to database
-#| eval: !expr 'stop_alert != TRUE & !Sys.getenv("CONDITION_OVERRIDE") %in% c(1:3)'
 
-my_username <- "____" #Fill in your username, workshop participants!
+if (stop_alert != TRUE & !Sys.getenv("CONDITION_OVERRIDE") %in% c(1:3)) {
+  my_username <- "____" #Fill in your username, workshop participants!
 
-my_df_name <- paste0("modeldata_validated_", my_username)
+  my_df_name <- paste0("modeldata_validated_", my_username)
 
-DBI::dbWriteTable(conn = con, # the connection
-                  name = my_df_name, # the name of the table you will create in the DB
-                  value = modeldata_validated,
-                  overwrite = TRUE)
-
+  DBI::dbWriteTable(conn = con, # the connection
+                    name = my_df_name, # the name of the table you will create in the DB
+                    value = modeldata_validated,
+                    overwrite = TRUE)
+}
 ```
 
 
@@ -473,8 +476,8 @@ ferryfairy::write_metadata(metadata_key, TRUE)
 ```{r}
 #| label: include a summary table
 #| echo: false
-#| eval: !expr 'stop_alert != TRUE'
 
+if (stop_alert != TRUE) {
 summary_table_basic <- modeldata_validated |> 
   filter(route_id %in% c(1:5)) |>
   select(route, vessel,date, delay, route_id) |>
@@ -561,6 +564,7 @@ summary_table_basic <- modeldata_validated |>
     fn = function(x) " ") |> 
   opt_vertical_padding(scale = 0.2) |> 
   opt_horizontal_padding(scale = 1.5)
+}
 ```
 
 ### Define the email
@@ -585,11 +589,12 @@ The results of the data frame validation are shown below:
 
 ```{r}
 #| echo: false
-#| eval: !expr 'condition == 1'
 
-vesselhistory_df_integrity_agent
+if (condition == 1) {
+  vesselhistory_df_integrity_agent
 
-weather_df_integrity_agent
+  weather_df_integrity_agent
+}
 
 ```
 ::::
@@ -609,17 +614,18 @@ The table below summarizes the validation step(s) that triggered warnings.
 
 ```{r}
 #| label: get failing validations details
-#| eval: !expr 'condition == 2'
 #| echo: false
 
-step <- x_list$i[which(x_list$warn)]
-desc <- x_list$briefs[which(x_list$warn)]
-fails <- x_list$f_failed[which(x_list$warn)]
-threshold <- purrr::map(step, ~{x_list$validation_set$actions[[.x]]$warn_fraction}) |> unlist()
+if (condition == 2) {
+  step <- x_list$i[which(x_list$warn)]
+  desc <- x_list$briefs[which(x_list$warn)]
+  fails <- x_list$f_failed[which(x_list$warn)]
+  threshold <- purrr::map(step, ~{x_list$validation_set$actions[[.x]]$warn_fraction}) |> unlist()
 
-warnings_table <- data.frame(step, desc,threshold,fails) |> gt() |> cols_label(step="Validation Step",desc="Description",fails="Fraction Failed", threshold="Threshold") |> fmt_number(columns = c(fails, threshold),decimal = 2)
+  warnings_table <- data.frame(step, desc,threshold,fails) |> gt() |> cols_label(step="Validation Step",desc="Description",fails="Fraction Failed", threshold="Threshold") |> fmt_number(columns = c(fails, threshold),decimal = 2)
 
-warnings_table |> as_raw_html() 
+  warnings_table |> as_raw_html() 
+}
 ```
 
 Review the associated extract files to see the records that failed validation.
@@ -629,29 +635,28 @@ Review the associated extract files to see the records that failed validation.
 #| eval: !expr 'condition == 2'
 #| echo: false
 
+if (condition == 2) {
+  failures <- purrr::map(step, ~{get_data_extracts(main_agent, .x)})
 
-failures <- purrr::map(step, ~{get_data_extracts(main_agent, .x)})
+  purrr::walk2(failures, step, ~{write_csv(.x, file = glue("extracts_step_{.y}.csv"))})
 
-purrr::walk2(failures, step, ~{write_csv(.x, file = glue("extracts_step_{.y}.csv"))})
-
-filenames_yaml <- glue(" - extracts_step_{step}.csv") |> str_c(collapse = "\n")
-
+  filenames_yaml <- glue(" - extracts_step_{step}.csv") |> str_c(collapse = "\n")
+}
 ```
 
 ```{r}
 #| label: add email attachment metadata
-#| eval: !expr 'condition == 2'
 #| output: asis
 #| echo: false
 
-cat(
-  "---",
-  paste0("email-attachments: \n", filenames_yaml),
-  "---",
-  sep = "\n"
-)
-
-
+if (condition == 2) {
+  cat(
+    "---",
+    paste0("email-attachments: \n", filenames_yaml),
+    "---",
+    sep = "\n"
+  )
+}
 ```
 
 ### Summary of data written
@@ -660,10 +665,11 @@ The table below summarizes the data written.
 
 ```{r}
 #| label: data summary table
-#| eval: !expr 'condition == 2'
 #| echo: false
 
-summary_table_basic
+if (condition == 2) {
+  summary_table_basic
+}
 
 ```
 ::::
@@ -681,11 +687,12 @@ A summary of the data is shown below.
 
 ```{r}
 #| label: summary of data
-#| eval: !expr 'condition == 3'
 #| echo: false
 
 
-summary_table_basic 
+if (condition === 3) {
+  summary_table_basic 
+}
 
 
 ```
@@ -700,9 +707,10 @@ Report run `{r} today()`
 
 ```{r}
 #| echo: false
-#| eval: !expr 'stop_alert != TRUE & !Sys.getenv("CONDITION_OVERRIDE") %in% c(1:3)'
 
-summary_table_full
+if (stop_alert != TRUE & !Sys.getenv("CONDITION_OVERRIDE") %in% c(1:3)) {
+  summary_table_full
+}
 ```
 
 ```{r}
@@ -710,13 +718,11 @@ summary_table_full
 #| echo: false
 #| output: asis
 
-
-
-if (condition == 1){
-print(glue("Data integrity validation failed. Data processing for the model training did not proceed. An email notification of the failure was sent."))
+if (condition == 1) {
+  print(glue("Data integrity validation failed. Data processing for the model training did not proceed. An email notification of the failure was sent."))
 }
 
-if (condition == 2){
+if (condition == 2) {
 
 print(glue("Vessel history and weather data was validated and sundered, however a warning was triggered due to one or more validation steps exceeding the threshold for allowed failures.
 
