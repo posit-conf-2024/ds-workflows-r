@@ -119,6 +119,25 @@
       ],
       "Hash": "45f0398006e83a5b10b72a90663d8d8c"
     },
+    "RPostgres": {
+      "Package": "RPostgres",
+      "Version": "1.4.7",
+      "Source": "Repository",
+      "Repository": "CRAN",
+      "Requirements": [
+        "DBI",
+        "R",
+        "bit64",
+        "blob",
+        "cpp11",
+        "hms",
+        "lubridate",
+        "methods",
+        "plogr",
+        "withr"
+      ],
+      "Hash": "beb7e18bf3f9e096f716a52a77ec793c"
+    },
     "Rcpp": {
       "Package": "Rcpp",
       "Version": "1.0.13",
@@ -1976,6 +1995,13 @@
         "withr"
       ],
       "Hash": "2ec30ffbeec83da57655b850cf2d3e0e"
+    },
+    "plogr": {
+      "Package": "plogr",
+      "Version": "0.2.0",
+      "Source": "Repository",
+      "Repository": "CRAN",
+      "Hash": "09eb987710984fc2905c7129c7d85e65"
     },
     "plotly": {
       "Package": "plotly",
