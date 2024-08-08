@@ -27,11 +27,11 @@ The goals of this activity are to:
 
 Our conditions will send an email based on the the following:
 
-1.  `condition <- 1`: the size and shape of the data is not as expected; something is wrong with the input data so the processing of data is stopped and no production data is updated
+1.  `condition <- "STOP"`: the size and shape of the data is not as expected; something is wrong with the input data so the processing of data is stopped and no production data is updated
 
-2.  `condition <- 2`: data validation complete but had warnings
+2.  `condition <- "WARN"`: data validation complete but had warnings
 
-3.  `condition <- 3`: no issues
+3.  `condition <- "OK"`: no issues
 
 ✏️ There will be placeholders (`____`) in the code cells below that you will need to fill in!
 
@@ -39,11 +39,6 @@ Our conditions will send an email based on the the following:
 
 This notebook packs a lot. In addition to data cleaning and validation code, there are mechanics going on to:
 
--   Run or suppress running of code chunks depending on condition
-    -   Look for logical statements in the Quarto chunk options. Examples of this are:\
-        `#| eval: false`\
-        `#| eval: !expr 'stop_alert != TRUE'`\
-        `#| eval: !expr 'condition == 1'`
 -   Implement an override so in development, testing, and in this Workshop, we can force a particular outcome
     -   Look for logical statements that include `Sys.getenv("CONDITION_OVERRIDE")`
 
@@ -62,11 +57,11 @@ The benefit of using an environment variable is that it can be set / modified in
 
 Our conditions are:
 
-1.  `condition <- 1`: the size and shape of the data is not as expected; something is wrong with the input data so the processing of data is stopped and no production data is updated
+1.  `condition <- "STOP"`: the size and shape of the data is not as expected; something is wrong with the input data so the processing of data is stopped and no production data is updated
 
-2.  `condition <- 2`: data validation complete but had warnings
+2.  `condition <- "WARN"`: data validation complete but had warnings
 
-3.  `condition <- 3`: no issues
+3.  `condition <- "OK"`: no issues
 
 ### Set environment variable locally
 
@@ -80,8 +75,8 @@ usethis::edit_r_environ("project")
 
 ``` {.bash filename=".Renviron"}
 # file: either ~/.Renviron or .Renviron in the project root
-# set condition to either 1, 2, or 3 to preview the conditional responses.
-CONDITION_OVERRIDE=1
+# set condition to either STOP, WARN, or OK to preview the conditional responses.
+CONDITION_OVERRIDE=STOP
 ```
 
 **Don't forget to restart your session to load your revised environment.**
@@ -96,8 +91,10 @@ This will appear in the rendered report if an override is place.
 #| label: identify test mode
 #| output: asis
 
-# set CONDITION_OVERRIDE={1|2|3} in `.Renviron` to preview the conditional responses.
-if(Sys.getenv("CONDITION_OVERRIDE") %in% c(1:3)) { 
+conditions <- c("STOP","WARN","OK")
+
+# set CONDITION_OVERRIDE={STOP|WARN|OK} in `.Renviron` to preview the conditional responses.
+if(Sys.getenv("CONDITION_OVERRIDE") %in% conditions) { 
 glue::glue("<h2>❗❗ Report generated in test mode. 
 Data not written to database but an email for condition {Sys.getenv('CONDITION_OVERRIDE')} is sent  ❗❗</h2>\n") }
 
@@ -111,7 +108,7 @@ Data not written to database but an email for condition {Sys.getenv('CONDITION_O
 #| label: setup
 
 library(DBI)
-library(odbc)
+library(RPostgres)
 library(pointblank)
 library(tidyverse)
 library(glue)
@@ -131,17 +128,12 @@ Retrieve the raw data from the database for cleaning and validating.
 #| label: make database connection
 
 # Run this code as-is
-con <- dbConnect(
-  odbc::odbc(),
-  Driver      = "postgresql",
-  Server      = Sys.getenv("DATABASE_HOST"),
-  Port        = "5432",
-  Database    = Sys.getenv("DATABASE_NAME_R"),
-  UID         = Sys.getenv("DATABASE_USER_R"),
-  PWD         = Sys.getenv("DATABASE_PASSWORD_R"),
-  timeout     = 10
-)
-
+con <- dbConnect(RPostgres::Postgres(), 
+                 host = Sys.getenv("DATABASE_HOST"), 
+                 port = "5432", 
+                 dbname = Sys.getenv("DATABASE_NAME_R"), 
+                 user = Sys.getenv("DATABASE_USER_R"), 
+                 password = Sys.getenv("DATABASE_PASSWORD_R"))
 ```
 
 ### Read in data
@@ -251,22 +243,22 @@ weather_df_integrity_agent <-
 weather_df_integrity_agent
 ```
 
-### Set `condition <- 1` or `stop_alert` if there are any issues
+### Set `condition <- "STOP"` or `stop_alert` if there are any issues
 
-Condition 1 will result in an alert email indicating there was a data integrity issue. `stop_alert` will prevent future code chunks from rendering, including preventing writes to the database
+Condition `"STOP"` will result in an alert email indicating there was a data integrity issue. `stop_alert` will prevent future code chunks from rendering, including preventing writes to the database
 
 ```{r}
 #| label: set condition or stop alert
 
-# condition<-1 will be set if CONDITION_OVERRIDE is set to 1, or if either data frame integrity validations failed. This specifies which email will be sent.
-if(any(Sys.getenv("CONDITION_OVERRIDE") == 1,
+# condition<-"STOP" will be set if CONDITION_OVERRIDE is set to STOP, or if either data frame integrity validations failed. This specifies which email will be sent.
+if(any(Sys.getenv("CONDITION_OVERRIDE") == "STOP",
        !all_passed(vesselhistory_df_integrity_agent),
        !all_passed(weather_df_integrity_agent))){
-  condition <- 1
+  condition <- "STOP"
 }
 
 # set a boolean that will stop additional data processing if there are any data integrity issues
-stop_alert <- any((if(exists("condition")){condition == 1}), Sys.getenv("CONDITION_OVERRIDE") == 1)
+stop_alert <- any((if(exists("condition")){condition == "STOP"}), Sys.getenv("CONDITION_OVERRIDE") == "STOP")
 
 ```
 
@@ -282,25 +274,25 @@ As long as the raw data integrity validations passed, clean and transform the da
 -   calculate departure delay - create route-pairs for grouping related records
 -   join the weather data with the sailing history, which will become our training data.
 
-Notice that in the quarto code chunks, we have set `#| eval: !expr 'stop_alert != TRUE'` to prevent the code from running during rendering if there is a data integrity issue. This will save computation time by not bothering to render code chunks with questionable data.
-
 ### Clean data
 
 Data cleaning steps are extraneous to the learning objectives of the Workshop. To simply this document, cleaning steps have been wrapped in a function in the `ferryfairy` package. .
 
 ```{r}
 #| label: Clean data sets
-#| eval: !expr 'stop_alert != TRUE'
 
-weather_terminal_history <- weather_terminal_history_raw |> clean_weather_terminal()
-weather_terminal_history
+if (stop_alert != TRUE) {
+  weather_terminal_history <- weather_terminal_history_raw |> clean_weather_terminal() |> 
+    # extra cleaning step
+    filter(!(is.na(precipitation) & is.na(weather_code) & is.na(cloud_cover_low) & is.na(wind_speed_10m) & is.na(wind_gusts_10m)))
+  weather_terminal_history
 
-vesselinfo <- vesselinfo_raw |> clean_vesselinfo()
-vesselinfo
+  vesselinfo <- vesselinfo_raw |> clean_vesselinfo()
+  vesselinfo
 
-vesselhistory <- vesselhistory_raw |> clean_vesselhistory()
-vesselhistory
-
+  vesselhistory <- vesselhistory_raw |> clean_vesselhistory()
+  vesselhistory
+}
 ```
 
 ### Join weather data with vessel history
@@ -309,15 +301,16 @@ This data will be what we use for the model. We'll join the weather data to the 
 
 ```{r}
 #| label: Join weather data to vesselhistory
-#| eval: !expr 'stop_alert != TRUE'
 
-vesselhistory_w_weather <- vesselhistory |> 
-  # round the scheduled departure to the closest hour to align with weather data
-  mutate(closest_hour = round_date(scheduled_depart, "hour")) |> 
-  # join the weather data to the vessel history data based on terminal and time
-  left_join(weather_terminal_history, by = c("departing" = "terminal", "closest_hour" = "time")) 
+if (stop_alert != TRUE) {
+  vesselhistory_w_weather <- vesselhistory |> 
+    # round the scheduled departure to the closest hour to align with weather data
+    mutate(closest_hour = round_date(scheduled_depart, "hour")) |> 
+    # join the weather data to the vessel history data based on terminal and time
+    left_join(weather_terminal_history, by = c("departing" = "terminal", "closest_hour" = "time")) 
 
-vesselhistory_w_weather
+  vesselhistory_w_weather
+}
 ```
 
 ## Task 5 - Validate the model data
@@ -334,67 +327,67 @@ We will set "action levels" for each validation step in this agent. Exceeding th
 
 ```{r}
 #| label: Validate data to be used for the model
-#| eval: !expr 'stop_alert != TRUE'
+if (stop_alert != TRUE) {
+  main_agent <- create_agent(vesselhistory_w_weather) |> 
+    # all records are distinct
+    rows_distinct() |> 
+    # sailing date is prior to today
+    col_vals_lte(columns = date, today(),
+                label = "Sailing date prior to today",
+                actions = action_levels(warn_at = 0.01)) |> 
+    # vessel_name is one known from vesseldata
+    col_vals_in_set(columns =  vessel, 
+                    set = vesselinfo$vessel_name, 
+                    label = "Vessel name is known",
+                    actions = action_levels(warn_at = 0.01)) |>
+    # a departure and arrival must be specified
+    col_vals_not_null(columns = c(departing, arriving),
+                      actions = action_levels(warn_at = 0.05)) |> 
+    # departing and arriving terminals are known
+    col_vals_in_set(columns = c(departing, arriving), 
+                    set = c(unique(weather_terminal_history$terminal),NA),
+                    label = "Terminal name is known",
+                    actions = action_levels(warn_at = 0.1)) |> 
+    # calculated delay is not null
+    col_vals_not_null(columns = delay) |> 
+    # a departure more than 5 minutes early is likely bad data
+    col_vals_gte(columns = delay, -5,
+                label = "Departed no more than 5 minutes early",
+                actions = action_levels(warn_at = 0.01)) |>
+    # a departure more than 120 minutes late is likely bad data
+    col_vals_lte(columns = delay, 120,
+                label = "Departed no more than 120 minutes late",
+                actions = action_levels(warn_at = 0.01)) |> 
+    # weather code is valid
+    col_vals_between(columns = weather_code, 0, 99, na_pass = TRUE,
+                    actions = action_levels(warn_at = 0.01)) |> 
+    # cloud_cover_low is valid
+    col_vals_between(columns = cloud_cover_low, 0, 100, na_pass = TRUE,
+                    actions = action_levels(warn_at = 0.01)) |> 
+    interrogate()
 
-main_agent <- create_agent(vesselhistory_w_weather) |> 
-  # all records are distinct
-  rows_distinct() |> 
-  # sailing date is prior to today
-  col_vals_lte(columns = date, today(),
-               label = "Sailing date prior to today",
-               actions = action_levels(warn_at = 0.01)) |> 
-  # vessel_name is one known from vesseldata
-  col_vals_in_set(columns =  vessel, 
-                  set = vesselinfo$vessel_name, 
-                  label = "Vessel name is known",
-                  actions = action_levels(warn_at = 0.01)) |>
-  # a departure and arrival must be specified
-  col_vals_not_null(columns = c(departing, arriving),
-                    actions = action_levels(warn_at = 0.05)) |> 
-  # departing and arriving terminals are known
-  col_vals_in_set(columns = c(departing, arriving), 
-                  set = c(unique(weather_terminal_history$terminal),NA),
-                  label = "Terminal name is known",
-                  actions = action_levels(warn_at = 0.1)) |> 
-  # calculated delay is not null
-  col_vals_not_null(columns = delay) |> 
-  # a departure more than 5 minutes early is likely bad data
-  col_vals_gte(columns = delay, -5,
-               label = "Departed no more than 5 minutes early",
-               actions = action_levels(warn_at = 0.01)) |>
-  # a departure more than 120 minutes late is likely bad data
-  col_vals_lte(columns = delay, 120,
-               label = "Departed no more than 120 minutes late",
-               actions = action_levels(warn_at = 0.01)) |> 
-  # weather code is valid
-  col_vals_between(columns = weather_code, 0, 99, na_pass = TRUE,
-                   actions = action_levels(warn_at = 0.01)) |> 
-  # cloud_cover_low is valid
-  col_vals_between(columns = cloud_cover_low, 0, 100, na_pass = TRUE,
-                   actions = action_levels(warn_at = 0.01)) |> 
-  interrogate()
+  main_agent
 
-main_agent
-
-x_list <- get_agent_x_list(main_agent)
+  x_list <- get_agent_x_list(main_agent)
+}
 ```
 
 ### Set `condition` to determine which email to send
 
-Condition 2 will result in an alert email indicating that a concerning level of records failed validation, but downstream processing still proceeded. Condition 3 will result in an email indicating that all looks good
+Condition `"WARN"` will result in an alert email indicating that a concerning level of records failed validation, but downstream processing still proceeded. Condition `"OK"` will result in an email indicating that all looks good
 
 ```{r}
-#| label: set condition 2 or 3
-#| eval: !expr 'stop_alert != TRUE'
+#| label: set condition WARN or OK
 
-# condition<-2 will be set if it is in override or if any warnings are set, otherwise condition<-3
+# condition<-WARN will be set if it is in override or if any warnings are set, otherwise condition<-OK
 
-if(Sys.getenv("CONDITION_OVERRIDE") %in% c(2,3)){
-  condition <- Sys.getenv("CONDITION_OVERRIDE")
-}else if(any(x_list$warn)){
-  condition <- 2
-}else condition <- 3
-
+if (stop_alert != TRUE) {
+  if(Sys.getenv("CONDITION_OVERRIDE") %in% c("WARN","OK")){
+    condition <- Sys.getenv("CONDITION_OVERRIDE")
+  } else if(any(x_list$warn)){
+    condition <- "WARN"
+  } else condition <- "OK"
+}
 ```
 
 ## Task 6 - Remove failed records from data set
@@ -405,11 +398,11 @@ Pointblank has identified all of the rows of `vesselhistory_w_weather` that pass
 
 ```{r}
 #| label: sunder data
-#| eval: !expr 'stop_alert != TRUE'
 
-modeldata_validated <- get_sundered_data(main_agent, type = "pass")
-modeldata_failed_validation <- get_sundered_data(main_agent, type = "fail")
-
+if (stop_alert != TRUE) {
+  modeldata_validated <- get_sundered_data(main_agent, type = "pass")
+  modeldata_failed_validation <- get_sundered_data(main_agent, type = "fail")
+}
 ```
 
 ## Task 7 - Write cleaned and validated data to database
@@ -420,35 +413,34 @@ Write cleaned data to database
 
 ```{r}
 #| label: write validated data to database
-#| eval: !expr 'stop_alert != TRUE & !Sys.getenv("CONDITION_OVERRIDE") %in% c(1:3)'
 
-my_username <- "____" #Fill in your username, workshop participants!
+if (stop_alert != TRUE & !Sys.getenv("CONDITION_OVERRIDE") %in% conditions) {
+  my_username <- "______" #Fill in your username, workshop participants!
 
-my_df_name <- paste0("modeldata_validated_", my_username)
+  my_df_name <- paste0("modeldata_validated_", my_username)
 
-DBI::dbWriteTable(conn = con, # the connection
-                  name = my_df_name, # the name of the table you will create in the DB
-                  value = modeldata_validated,
-                  overwrite = TRUE)
-
+  DBI::dbWriteTable(conn = con, # the connection
+                    name = my_df_name, # the name of the table you will create in the DB
+                    value = modeldata_validated,
+                    overwrite = TRUE)
+}
 ```
-
 
 ## Task 8 - Send Conditional Email
 
 🔄 Task
 
 -   Publish this report to Posit Connect
--   To preview the email for development or testing purposes, change the value of `CONDITION_OVERRIDE` in either the `.Renviron` file to 1, 2, or 3 in a local Workbench session, or by setting the environment variable in the `Vars` pane on Posit Connect
+-   To preview the email for development or testing purposes, change the value of `CONDITION_OVERRIDE` in either the `.Renviron` file to "STOP", "WARN", or "OK" in a local Workbench session, or by setting the environment variable in the `Vars` pane on Posit Connect
 -   💡 If testing locally, look in the folder `email-preview` to see the HTML email preview
 
 Below is how we generate the emails.
 
 We have three scenarios:
 
-1.  `condition <- 1`: the size and shape of the data is not as expected; something is wrong with the input data so the processing of data is stopped and no production data is updated
-2.  `condition <- 2`: data validation complete but had warnings
-3.  `condition <- 3`: no issues with validation
+1.  `condition <- STOP`: the size and shape of the data is not as expected; something is wrong with the input data so the processing of data is stopped and no production data is updated
+2.  `condition <- WARN`: data validation complete but had warnings
+3.  `condition <- OK`: no issues with validation
 
 We will use a feature of Quarto that allows yaml to be written at any point in the document. With this, we will define which conditional email should be sent as metadata. Then the subject and body of the email will be selected using Quarto's ability to include or exclude content based on a metadata value.
 
@@ -470,11 +462,13 @@ ferryfairy::write_metadata(metadata_key, TRUE)
 
 ### Make a summary table
 
+We will include this in our logging and some of the emails.
+
 ```{r}
 #| label: include a summary table
 #| echo: false
-#| eval: !expr 'stop_alert != TRUE'
 
+if (stop_alert != TRUE) {
 summary_table_basic <- modeldata_validated |> 
   filter(route_id %in% c(1:5)) |>
   select(route, vessel,date, delay, route_id) |>
@@ -561,16 +555,34 @@ summary_table_basic <- modeldata_validated |>
     fn = function(x) " ") |> 
   opt_vertical_padding(scale = 0.2) |> 
   opt_horizontal_padding(scale = 1.5)
+}
 ```
 
 ### Define the email
 
-::::::::: email
-:::: {.content-visible when-meta="use_condition_1_email"}
+```{r}
+subject = list(
+  STOP = list(
+    icon = I("⚠️"),
+    text = I("Data integrity issue")
+  ),
+  WARN = list(
+    icon = I("ℹ️"),
+    text = I("Data updated with warnings")
+  ),
+  OK = list(
+    icon = I("✅"),
+    text = I("Data updated")
+  )
+)
+```
+
+::: email
 ::: subject
-⚠️️ Ferry Project: Data integrity issue
+ `{r} subject[condition][[1]]$icon` Ferry Project: `{r} subject[condition][[1]]$text`
 :::
 
+::: {.content-visible when-meta="use_condition_STOP_email"}
 ## ⚠️ There was a data integrity issue with the project data on `{r} today()`
 
 The data integrity validations check that the raw vessel history and terminal weather data have the expected column names and schema, and a minimum number of rows are present.
@@ -585,20 +597,14 @@ The results of the data frame validation are shown below:
 
 ```{r}
 #| echo: false
-#| eval: !expr 'condition == 1'
 
 vesselhistory_df_integrity_agent
 
 weather_df_integrity_agent
-
 ```
-::::
-
-:::: {.content-visible when-meta="use_condition_2_email"}
-::: subject
-ℹ️ Ferry Project: Data updated with warnings
 :::
 
+::: {.content-visible when-meta="use_condition_WARN_email"}
 ## ℹ️ Ferry data validation complete for `{r} today()` with warnings
 
 The ferry data for modeling has been cleaned, validated, and written, but there were warnings set because the threshold for failure was exceeded.
@@ -609,70 +615,55 @@ The table below summarizes the validation step(s) that triggered warnings.
 
 ```{r}
 #| label: get failing validations details
-#| eval: !expr 'condition == 2'
 #| echo: false
 
-step <- x_list$i[which(x_list$warn)]
-desc <- x_list$briefs[which(x_list$warn)]
-fails <- x_list$f_failed[which(x_list$warn)]
-threshold <- purrr::map(step, ~{x_list$validation_set$actions[[.x]]$warn_fraction}) |> unlist()
+if (condition == "WARN") {
+  step <- x_list$i[which(x_list$warn)]
+  desc <- x_list$briefs[which(x_list$warn)]
+  fails <- x_list$f_failed[which(x_list$warn)]
+  threshold <- purrr::map(step, ~{x_list$validation_set$actions[[.x]]$warn_fraction}) |> unlist()
 
-warnings_table <- data.frame(step, desc,threshold,fails) |> gt() |> cols_label(step="Validation Step",desc="Description",fails="Fraction Failed", threshold="Threshold") |> fmt_number(columns = c(fails, threshold),decimal = 2)
+  warnings_table <- data.frame(step, desc,threshold,fails) |> gt() |> cols_label(step="Validation Step",desc="Description",fails="Fraction Failed", threshold="Threshold") |> fmt_number(columns = c(fails, threshold),decimal = 2)
 
-warnings_table |> as_raw_html() 
+  warnings_table |> as_raw_html() 
+}
 ```
 
 Review the associated extract files to see the records that failed validation.
 
 ```{r}
-#| label: get extracts
-#| eval: !expr 'condition == 2'
-#| echo: false
-
-
-failures <- purrr::map(step, ~{get_data_extracts(main_agent, .x)})
-
-purrr::walk2(failures, step, ~{write_csv(.x, file = glue("extracts_step_{.y}.csv"))})
-
-filenames_yaml <- glue(" - extracts_step_{step}.csv") |> str_c(collapse = "\n")
-
-```
-
-```{r}
-#| label: add email attachment metadata
-#| eval: !expr 'condition == 2'
+#| label: get extracts and attach to email
 #| output: asis
 #| echo: false
 
-cat(
-  "---",
-  paste0("email-attachments: \n", filenames_yaml),
-  "---",
-  sep = "\n"
-)
+if (condition == "WARN") {
+  failures <- purrr::map(step, ~{get_data_extracts(main_agent, .x)})
 
+  purrr::walk2(failures, step, ~{write_csv(.x, file = glue("extracts_step_{.y}.csv"))})
 
+  filenames_yaml <- glue(" - extracts_step_{step}.csv") |> str_c(collapse = "\n")
+
+  ferryfairy::write_metadata("email-attachments", filenames_yaml)
+}
 ```
 
 ### Summary of data written
 
-The table below summarizes the data written.
+# The table below summarizes the data written.
 
 ```{r}
-#| label: data summary table
-#| eval: !expr 'condition == 2'
 #| echo: false
 
-summary_table_basic
+
+if (condition == "WARN") {
+  summary_table_basic 
+}
+
 
 ```
-::::
-
-:::: {.content-visible when-meta="use_condition_3_email"}
-::: subject
-✅ Ferry Project: Data updated
 :::
 
+::: {.content-visible when-meta="use_condition_OK_email"}
 ## ⛴️ Ferry data validation complete for `{r} today()`
 
 The ferry data for modeling has been cleaned, validated, andwritten to the database.
@@ -681,44 +672,37 @@ A summary of the data is shown below.
 
 ```{r}
 #| label: summary of data
-#| eval: !expr 'condition == 3'
 #| echo: false
 
 
-summary_table_basic 
+if (condition == "OK") {
+  summary_table_basic 
+}
 
 
 ```
-::::
-:::::::::
+:::
+:::
 
 ## Logging information
 
-Report run `{r} today()`
+**Report run** `{r} today()`
 
-### Summary of data
+**Condition set:** `{r} condition`
 
-```{r}
-#| echo: false
-#| eval: !expr 'stop_alert != TRUE & !Sys.getenv("CONDITION_OVERRIDE") %in% c(1:3)'
-
-summary_table_full
-```
+**Summary of results:**
 
 ```{r}
-#| label: logging
+#| label: logging summary
 #| echo: false
 #| output: asis
 
-
-
-if (condition == 1){
-print(glue("Data integrity validation failed. Data processing for the model training did not proceed. An email notification of the failure was sent."))
+if (condition == "STOP") {
+  print(glue("Data integrity validation failed. Data processing for the model training did not proceed. An email notification of the failure was sent."))
 }
 
-if (condition == 2){
-
-print(glue("Vessel history and weather data was validated and sundered, however a warning was triggered due to one or more validation steps exceeding the threshold for allowed failures.
+if (condition == "WARN") {
+  print(glue("Vessel history and weather data was validated and sundered, however a warning was triggered due to one or more validation steps exceeding the threshold for allowed failures.
 
 Records removed that failed validation: {nrow(modeldata_failed_validation)}
 
@@ -726,19 +710,32 @@ Records written to database: {nrow(modeldata_validated)}
 
 Warnings triggered for validation step(s) listed below:"))
 
-warnings_table
-
+  warnings_table
 }
 
-if (condition == 3){
-glue("Vessel history and weather data was validated and sundered.
+if (condition == "OK"){
+  print(glue("Vessel history and weather data was validated and sundered.
 
 Records removed that failed validation: {nrow(modeldata_failed_validation)}
 
-Records written to database: {nrow(modeldata_validated)}")
-
+Records written to database: {nrow(modeldata_validated)}"))
 }
 
 
 
 ```
+
+```{r}
+#| echo: false
+
+if (stop_alert != TRUE) {
+  
+  summary_table_full
+}
+```
+
+## Preview of email sent:
+
+<iframe src="email-preview/index.html" width="100%" height="500">
+
+</iframe>
