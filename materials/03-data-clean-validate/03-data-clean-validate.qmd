@@ -35,15 +35,6 @@ Our conditions will send an email based on the the following:
 
 ✏️ There will be placeholders (`____`) in the code cells below that you will need to fill in!
 
-## Prologue
-
-This notebook packs a lot. In addition to data cleaning and validation code, there are mechanics going on to:
-
--   Implement an override so in development, testing, and in this Workshop, we can force a particular outcome
-    -   Look for logical statements that include `Sys.getenv("CONDITION_OVERRIDE")`
-
-These mechanics are here to make this a more robust report and enable our desired conditionality. Leave these elements as they are, and don't focus on these parts during the Workshop. You're welcome to tinker with them after our day is done.
-
 ## Task 1 - Define a "condition override" so we can manually trigger a condition and see the resulting email
 
 🔄 Task
@@ -415,6 +406,7 @@ Write cleaned data to database
 #| label: write validated data to database
 
 if (stop_alert != TRUE & !Sys.getenv("CONDITION_OVERRIDE") %in% conditions) {
+
   my_username <- "______" #Fill in your username, workshop participants!
 
   my_df_name <- paste0("modeldata_validated_", my_username)
