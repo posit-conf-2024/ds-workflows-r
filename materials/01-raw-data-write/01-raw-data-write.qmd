@@ -414,12 +414,19 @@ glue("Wrote the following to the database:
 
 🔄 Task
 
--   Connect your account on Posit Connect to Workbench (Tools > Global Options > Publishing)
--   Use push-button publishing to publish this document, with source code, to Connect, but remember, _it is not good practice to bundle your `.Renviron` file with your deployment. Once the code is deployed to Connect, we will need to input our `WSDOT_API_KEY` in the Connect "Vars" pane. Or  we can publish the environment variable value directly using `rsconnect::deployApp(appFiles = c("01-raw-data-write.qmd", "mode_switch.png"), envVars = c("WSDOT_ACCESS_CODE"))`
-- Schedule it to run on a timescale that seems appropriate for the data update cycle
+-   Connect your account on Posit Connect to Workbench (Tools \> Global Options \> Publishing) if you have not already done so
 
-Note: Recall we specified our database connection details with environment variables. Typically when you publish content to Connect, you will also need to supply the environment variables using the "Vars" pane in Connect. For this workshop, these environment variables have already been stored on the Connect server for you so you won't need to do this step for this activity.
+-   Use push-button publishing to publish this document, with source code, to Connect
 
-We'll do this task together as a group.
+-   ❗Oh no! Did your deployment fail?
+
+-   🤔 Remember, our code uses environment variables
+
+    -   We are nice administrators and set up the database environment variables on the Connect server for all users
+    -   You need to supply your `WSDOT_ACCESS_CODE` to Connect in the "Vars" pane
+
+-   💀 Remember, *it is not good practice* to bundle your `.Renviron` file with your deployment
+
+-   Tip: you can also deploy your code and environment variables all in one step. From the console, try `rsconnect::deployApp(appFiles = c("01-raw-data-write.qmd", "mode_switch.png"), envVars = c("WSDOT_ACCESS_CODE"))`
 
 For reference, the Connect User Guide provides instructions for publishing: <https://docs.posit.co/connect/user/publishing/#publishing-general>
