@@ -94,8 +94,6 @@ usage
 ## Task 2 - Add your neighbor as a viewer to your content
 
 # For the specified content item add the desired user
-content <- content_item(client, content_guid)
-content_add_user(content, user_guid, role = access_type)
 
 🔄 Task
 
