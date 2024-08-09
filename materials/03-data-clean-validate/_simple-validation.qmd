@@ -43,7 +43,7 @@ We will toy with a simple data frame in the Workshop, then see the validation st
 
 df <- dplyr::tibble(
     a = c(5, 7, 6, 5, NA, 7, 9),
-    b = c(6, 1, NA, 6,  0, 7, -1),
+    b = c(6, 1, NA, NA,  0, 7, -1),
     fruits = fruit[1:7],
     date = seq(today()-2, today()+4, 1)
   )
@@ -84,12 +84,12 @@ agent <- create_agent(df) |>
   ) |> 
   # Now add the following:
   # verify the numeric columns do not have NA values 
-  # (hint: use `columns = c(a,b)` to apply the validation to multiple columns)
+  # (hint: use `col_vals_not_null()` and `columns = c(a,b)` to apply the validation to multiple columns)
   ____ |> 
   # verify that the date is before today
-  ____ |> 
-  # would you like to add more?
+  # hint: use `col_vals_lt()` 
   ____ 
+   
 
 
 agent
