@@ -5,7 +5,7 @@ format:
     toc: true
     toc-location: left
     anchor-sections: true
-    code-fold: true
+    code-fold: show
     code-overflow: wrap
     code-summary: "Show Code"
     code-tools: true
@@ -21,19 +21,21 @@ html-table-processing: none
 
 The goals of this activity are to:
 
--   use a environment variable to toggle state for development and testing
--   perform data cleaning and validation to prepare data for our model
--   define thresholds for alerting in data validation and send condition-based email alerts based on those thresholds
+-   allow for an environment variable to toggle state for development and testing
+-   publish this document to Connect and see the resulting data validations and conditional emails
 
-Our conditions will send an email based on the the following:
+## Overview
 
-1.  `condition <- "STOP"`: the size and shape of the data is not as expected; something is wrong with the input data so the processing of data is stopped and no production data is updated
+This notebook:
 
-2.  `condition <- "WARN"`: data validation complete but had warnings
+-   performs data cleaning and validation to prepare the data for our model
+-   defines thresholds for alerting in data validation
+-   sends condition-based email alerts based on the following:
+    -   `condition <- "STOP"`: the size and shape of the data is not as expected; something is wrong with the input data so the processing of data is stopped and no production data is updated
+    -   `condition <- "WARN"`: data validation complete but had warnings
+    -   `condition <- "OK"`: no issues
 
-3.  `condition <- "OK"`: no issues
-
-✏️ There will be placeholders (`____`) in the code cells below that you will need to fill in!
+Rather than working through code cell-by-cell as in other Workshop activities, we will complete Task 1 and then publish this to Connect and review the results.
 
 ## Task 1 - Define a "condition override" so we can manually trigger a condition and see the resulting email
 
@@ -73,6 +75,16 @@ CONDITION_OVERRIDE=STOP
 **Don't forget to restart your session to load your revised environment.**
 
 💡 Remember, the `.Renviron` file does not get deployed with this content, and you should not commit it to git. It is a local file that sets environment variables for your R session. You will be able to set this variable in the "Vars" pane on Connect when you deploy the report if you want to implement an override.
+
+🛑 WORKSHOP participants! We are going to stop here and deploy this. Because we want to include our environment variable, let's deploy from the R console and provide the environment variable initially rather than adding it from the Connect UI. 
+
+```{r}
+#| eval: false
+
+# run this in your R console
+rsconnect::deployApp(appFiles = "03-data-clean-validate.qmd", envVars = "CONDITION_OVERRIDE")
+
+``` 
 
 ### Print a notification if an override is in place
 
@@ -407,9 +419,9 @@ Write cleaned data to database
 
 if (stop_alert != TRUE & !Sys.getenv("CONDITION_OVERRIDE") %in% conditions) {
 
-  my_username <- "______" #Fill in your username, workshop participants!
+  suffix <- round(runif(1, 1,100)) # we're writing a dummy data table in the Workshop but the production project would write to a table with a unique name
 
-  my_df_name <- paste0("modeldata_validated_", my_username)
+  my_df_name <- paste0("modeldata_validated_", suffix)
 
   DBI::dbWriteTable(conn = con, # the connection
                     name = my_df_name, # the name of the table you will create in the DB
@@ -569,9 +581,9 @@ subject = list(
 )
 ```
 
-::: email
+::::::: email
 ::: subject
- `{r} subject[condition][[1]]$icon` Ferry Project: `{r} subject[condition][[1]]$text`
+`{r} subject[condition][[1]]$icon` Ferry Project: `{r} subject[condition][[1]]$text`
 :::
 
 ::: {.content-visible when-meta="use_condition_STOP_email"}
@@ -674,7 +686,7 @@ if (condition == "OK") {
 
 ```
 :::
-:::
+:::::::
 
 ## Logging information
 

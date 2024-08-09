@@ -3,6 +3,15 @@ format:
   html
 ---
 
+-----
+
+🗓️ August 12, 2024  
+⏰     9:00 am - 5:00 pm  
+🏨           ROOM 505 | Queets  
+✍️    [pos.it/conf](http://pos.it/conf)
+
+-----
+
 ## Welcome
 
 These are the materials for a one-day workshop on <b>Building Data Science Workflows in R Using Posit Tools</b> on Monday, 12 August 2024 at [posit::conf 2024](http://pos.it/conf)!

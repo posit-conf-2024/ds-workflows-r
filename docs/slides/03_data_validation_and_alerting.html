@@ -694,38 +694,6 @@ is_email_variant_1: true
 </div>
 </section>
 <section class="slide level2">
-<h2>A <i class="bi-sign-turn-right-fill " style="color: orange;" role="img" aria-hidden="true"></i> on managing environments</h2>
-<h4>
-Don’t change your code to switch between development and production environments
-</h4>
-<div class="fragment">
-<p>🧰 Update environment variables to change behavior</p>
-<div class="sourceCode" id="cb6"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb6-1"><a></a><span class="cf">if</span> (<span class="fu">Sys.getenv</span>(<span class="st">"TEST_MODE"</span>) <span class="sc">==</span> <span class="cn">TRUE</span>){</span>
-<span id="cb6-2"><a></a>  override_some_variable_for_testing <span class="ot">&lt;-</span> <span class="cn">TRUE</span>} </span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<p><br> 🧰 Use <code>{config}</code> as another approach to manage environment</p>
-<div class="columns">
-<div class="column">
-<div class="code-with-filename">
-<div class="code-with-filename-file">
-<pre><strong>config.yml</strong></pre>
-</div>
-<div class="sourceCode" id="cb7" data-filename="config.yml"><pre class="sourceCode numberSource yaml number-lines code-with-copy"><code class="sourceCode yaml"><span id="cb7-1"><a></a><span class="fu">default</span><span class="kw">:</span></span>
-<span id="cb7-2"><a></a><span class="at">  </span><span class="fu">dataset</span><span class="kw">:</span><span class="at"> </span><span class="st">"data_development.csv"</span></span>
-<span id="cb7-3"><a></a><span class="fu">rsconnect</span><span class="kw">:</span></span>
-<span id="cb7-4"><a></a><span class="at">  </span><span class="fu">dataset</span><span class="kw">:</span><span class="at"> </span><span class="st">"data.csv"</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-</div>
-</div><div class="column">
-<div class="code-with-filename">
-<div class="code-with-filename-file">
-<pre><strong>my_file.qmd</strong></pre>
-</div>
-<div class="sourceCode" id="cb8" data-filename="my_file.qmd"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb8-1"><a></a><span class="fu">read_csv</span>(config<span class="sc">::</span><span class="fu">get</span>(<span class="st">"dataset"</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-</div>
-</div>
-</div>
-</div>
-</section>
-<section class="slide level2">
 <h2></h2>
 <div class="center">
 <h2>
