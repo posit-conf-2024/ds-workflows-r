@@ -26,14 +26,14 @@
     "href": "index.html",
     "title": "Data Science Workflows with Posit Tools - R focus",
     "section": "",
-    "text": "These are the materials for a one-day workshop on Building Data Science Workflows in R Using Posit Tools on Monday, 12 August 2024 at posit::conf 2024!\nIn this R-focused workshop, we will discuss ways to improve your data science workflows. During the course, we will review packages for data validation, alerting, modeling, and more. We’ll use Posit’s open source and professional tools to string all the pieces together for an efficient workflow. We’ll discuss environments, managing deployed content, working with databases, and interoperability across data products."
+    "text": "🗓️ August 12, 2024\n⏰ 9:00 am - 5:00 pm\n🏨 ROOM 505 | Queets\n✍️ pos.it/conf"
   },
   {
     "objectID": "index.html#welcome",
     "href": "index.html#welcome",
     "title": "Data Science Workflows with Posit Tools - R focus",
-    "section": "",
-    "text": "These are the materials for a one-day workshop on Building Data Science Workflows in R Using Posit Tools on Monday, 12 August 2024 at posit::conf 2024!\nIn this R-focused workshop, we will discuss ways to improve your data science workflows. During the course, we will review packages for data validation, alerting, modeling, and more. We’ll use Posit’s open source and professional tools to string all the pieces together for an efficient workflow. We’ll discuss environments, managing deployed content, working with databases, and interoperability across data products."
+    "section": "Welcome",
+    "text": "Welcome\nThese are the materials for a one-day workshop on Building Data Science Workflows in R Using Posit Tools on Monday, 12 August 2024 at posit::conf 2024!\nIn this R-focused workshop, we will discuss ways to improve your data science workflows. During the course, we will review packages for data validation, alerting, modeling, and more. We’ll use Posit’s open source and professional tools to string all the pieces together for an efficient workflow. We’ll discuss environments, managing deployed content, working with databases, and interoperability across data products."
   },
   {
     "objectID": "index.html#prework",
