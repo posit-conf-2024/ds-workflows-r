@@ -790,6 +790,10 @@ Go to the Discussion now and respond to the question!
 <h2>Your Tools</h2>
 
 <img data-src="slide_resources/PST-overview.jpg" class="quarto-figure quarto-figure-center r-stretch"></section>
+<section class="slide level2">
+<h2>Your Tools</h2>
+
+<img data-src="slide_resources/PST-overview-ferry-proj.jpg" class="quarto-figure quarto-figure-center r-stretch"></section>
 <section class="slide level2" data-background-image="_extensions/positconfslides/assets/backgrounds/content-light.svg" data-background-size="contain">
 <h2></h2>
 <div class="columns">
@@ -869,14 +873,27 @@ Go to the Discussion now and respond to the question!
 
 <img data-src="slide_resources/workbench_rstudio_home.png" class="r-stretch"></section>
 <section class="slide level2">
-<h2>Project Navigation</h2>
-<ul>
-<li><p>📁 <code>materials</code> : Contains the project files that we/you will work through during the workshop.</p>
-<ul>
-<li>💡 Within each directory, there is a <code>.Rproj</code> file. Open the folder’s project file to work on that portion of the materials.</li>
-</ul></li>
-<li><p>📁 <code>website</code> : Source material for the workshop website and slides. Hosted at <a href="https://posit-conf-2024.github.io/ds-workflows-r" class="uri">https://posit-conf-2024.github.io/ds-workflows-r</a></p></li>
-</ul>
+<h2>Project and Activity Navigation</h2>
+<p>We will work exclusively within the 📁 <code>materials</code> directory and associated subfolders.</p>
+<div class="smaller">
+<pre><code>.
+└── materials
+    ├── 01-raw-data-write
+    │&nbsp;&nbsp; ├── ...
+    │&nbsp;&nbsp; ├── 01-raw-data-write.Rproj
+    │&nbsp;&nbsp; └── 01-raw-data-write.qmd
+    ├── 02-data-exploration
+    │&nbsp;&nbsp; ├── ...
+    │&nbsp;&nbsp; ├── 02-data-exploration.Rproj
+    │&nbsp;&nbsp; └── 02-data-exploration.qmd
+    └── ...
+        └── ...</code></pre>
+</div>
+<p>💡 Within each directory, there is a <code>.Rproj</code> file.</p>
+<ol type="1">
+<li>For an activity, open the respective <code>.Rproj</code> in the <strong>activity folder</strong></li>
+<li><code>renv::restore()</code> for each activity</li>
+</ol>
 </section>
 <section class="slide level2" data-background-image="_extensions/positconfslides/assets/backgrounds/content-light.svg" data-background-size="contain">
 <h2></h2>

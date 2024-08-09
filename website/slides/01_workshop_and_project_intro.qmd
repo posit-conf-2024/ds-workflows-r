@@ -296,6 +296,10 @@ Get Your Environment Set Up
 
 ![](slide_resources/PST-overview.jpg){fig-align="center"}
 
+## Your Tools
+
+![](slide_resources/PST-overview-ferry-proj.jpg){fig-align="center"}
+
 ## Access Your Tools {.content-light}
 
 [Visit 🧚 <https://ferryland.posit.team> 🧚 to access:]{.large}
@@ -372,13 +376,33 @@ You do **NOT** need to re-authenticate with GitHub!
 
 ![](slide_resources/workbench_rstudio_home.png)
 
-## Project Navigation
+## Project and Activity Navigation
 
--   📁 `materials` : Contains the project files that we/you will work through during the workshop.
+We will work exclusively within the 📁 `materials` directory and associated subfolders.
 
-    -   💡 Within each directory, there is a `.Rproj` file. Open the folder's project file to work on that portion of the materials.
+:::{.smaller}
 
--   📁 `website` : Source material for the workshop website and slides. Hosted at <https://posit-conf-2024.github.io/ds-workflows-r>
+```
+.
+└── materials
+    ├── 01-raw-data-write
+    │   ├── ...
+    │   ├── 01-raw-data-write.Rproj
+    │   └── 01-raw-data-write.qmd
+    ├── 02-data-exploration
+    │   ├── ...
+    │   ├── 02-data-exploration.Rproj
+    │   └── 02-data-exploration.qmd
+    └── ...
+        └── ...
+```
+:::
+
+ 💡 Within each directory, there is a `.Rproj` file. 
+    
+1.  For an activity, open the respective `.Rproj` in the **activity folder**
+2. `renv::restore()` for each activity
+
 
 ## Saving your work 💾 {.content-light}
 
