@@ -277,16 +277,20 @@ subject 2
 :::
 
 ::: {.fragment .fade-in-then-out .absolute top="100" fragment-index="3" width="65%"}
-```{markdown}
+````{markdown}
 #| code-line-numbers: false
+#| output: asis
 
 ---
 title: Something wonderful
 format: email
 ---
 
+```{r}
 variant <- sample(1:2, 1)
+```
 
+```{r}
 #| output: asis
 cat(
   "---",
@@ -294,8 +298,9 @@ cat(
   "---",
   sep = "\n"
 )
-
 ```
+
+````
 
 writes the YAML metadata in-place:
 

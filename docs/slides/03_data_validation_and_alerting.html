@@ -661,22 +661,24 @@ Try the comprehensive <code>pointblank</code> test drive on Posit Cloud: <a href
 </div>
 </div>
 <div class="fragment fade-in-then-out absolute" data-fragment-index="3" style="top: 100px; width: 65%; ">
-<div class="cell">
 <div class="sourceCode cell-code" id="cb4"><pre class="sourceCode markdown code-with-copy"><code class="sourceCode markdown"><span id="cb4-1"><a aria-hidden="true" tabindex="-1"></a><span class="co">---</span></span>
 <span id="cb4-2"><a aria-hidden="true" tabindex="-1"></a><span class="an">title:</span><span class="co"> Something wonderful</span></span>
 <span id="cb4-3"><a aria-hidden="true" tabindex="-1"></a><span class="an">format:</span><span class="co"> email</span></span>
 <span id="cb4-4"><a aria-hidden="true" tabindex="-1"></a><span class="co">---</span></span>
 <span id="cb4-5"><a aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb4-6"><a aria-hidden="true" tabindex="-1"></a>variant &lt;- sample(1:2, 1)</span>
-<span id="cb4-7"><a aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb4-8"><a aria-hidden="true" tabindex="-1"></a>#| output: asis</span>
-<span id="cb4-9"><a aria-hidden="true" tabindex="-1"></a>cat(</span>
-<span id="cb4-10"><a aria-hidden="true" tabindex="-1"></a>  "---",</span>
-<span id="cb4-11"><a aria-hidden="true" tabindex="-1"></a>  paste0("is_email_variant_",variant,": true"),</span>
-<span id="cb4-12"><a aria-hidden="true" tabindex="-1"></a>  "---",</span>
-<span id="cb4-13"><a aria-hidden="true" tabindex="-1"></a>  sep = "\n"</span>
-<span id="cb4-14"><a aria-hidden="true" tabindex="-1"></a>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-</div>
+<span id="cb4-6"><a aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
+<span id="cb4-7"><a aria-hidden="true" tabindex="-1"></a><span class="in">variant &lt;- sample(1:2, 1)</span></span>
+<span id="cb4-8"><a aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb4-9"><a aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-10"><a aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
+<span id="cb4-11"><a aria-hidden="true" tabindex="-1"></a><span class="in">#| output: asis</span></span>
+<span id="cb4-12"><a aria-hidden="true" tabindex="-1"></a><span class="in">cat(</span></span>
+<span id="cb4-13"><a aria-hidden="true" tabindex="-1"></a><span class="in">  "---",</span></span>
+<span id="cb4-14"><a aria-hidden="true" tabindex="-1"></a><span class="in">  paste0("is_email_variant_",variant,": true"),</span></span>
+<span id="cb4-15"><a aria-hidden="true" tabindex="-1"></a><span class="in">  "---",</span></span>
+<span id="cb4-16"><a aria-hidden="true" tabindex="-1"></a><span class="in">  sep = "\n"</span></span>
+<span id="cb4-17"><a aria-hidden="true" tabindex="-1"></a><span class="in">)</span></span>
+<span id="cb4-18"><a aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <p>writes the YAML metadata in-place:</p>
 <div class="cell">
 <div class="cell-output cell-output-stdout">
