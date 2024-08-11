@@ -212,7 +212,7 @@ Specific resources:
 ![](slide_resources/scheduling.png){height="700" fig-align="center"}
 
 :::
-::: {.column .fragment width=70%}
+::: {.column width=70%}
 
 <br>
 
