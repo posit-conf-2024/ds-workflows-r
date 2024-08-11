@@ -95,14 +95,14 @@ https://posit.co/code-of-conduct/
 
 ::::::: {.columns .center}
 :::: {.column width="50%"}
-::: {style="background: #FB629A; width: 400px; height: 400px; margin: 50px; box-shadow: 0 18px 18px -9px lightgray; margin-left: auto; margin-right: auto;"}
+::: {style="background: #FB629A; width: 400px; height: 400px; margin: 50px; box-shadow: 10px 25px 25px -9px darkgray; margin-left: auto; margin-right: auto;rotate: 7deg;"}
 :::
 
 "I'm lost / need help"
 ::::
 
 :::: {.column width="50%"}
-::: {style="background: #83D2F3; width: 400px; height: 400px; margin: 50px; box-shadow: 0 18px 18px -9px lightgray; margin-left: auto; margin-right: auto;"}
+::: {style="background: #83D2F3; width: 400px; height: 400px; margin: 50px; box-shadow: 0 25px 25px -9px darkgray; margin-left: auto; margin-right: auto; rotate: -10deg;"}
 :::
 
 "I'm done and ready to move along"
@@ -144,13 +144,13 @@ We will use an [**end-to-end real-world project**]{.positgreen} to demonstrate w
 <br>
 
 :::: fragment
-::: {.absolute style="background: #cca2b2; width: 400px; height: 300px; padding: 40px; box-shadow: 0 18px 18px -9px lightgray; margin-left: auto; margin-right: auto;" top="300" left="800"}
+::: {.absolute style="rotate: -8deg; background: #cca2b2; width: 400px; height: 300px; padding: 40px; box-shadow: 0 18px 18px -9px lightgray; margin-left: auto; margin-right: auto;" top="300" left="800"}
 <h3>You are always welcome to raise your hand! 🙋</h3>
 :::
 ::::
 
 :::: fragment
-::: {.absolute style="background: #A6CFD5; width: 400px; height: 300px; padding: 40px; box-shadow: 0 18px 18px -9px lightgray; margin-left: auto; margin-right: auto;" top="340" left="840"}
+::: {.absolute style="rotate: 2deg; background: #A6CFD5; width: 400px; height: 300px; padding: 40px; box-shadow: 0 18px 18px -9px lightgray; margin-left: auto; margin-right: auto;" top="340" left="800"}
 <h3>Go to the Discussion now and respond to the question!</h3>
 :::
 ::::
