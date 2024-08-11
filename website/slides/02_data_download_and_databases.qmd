@@ -281,7 +281,7 @@ Posit Connect can send an email when a report or notebook renders
 
 ## Introduction to Emailing with ![](slide_resources/quarto-logo-trademark.svg){width=350 style="vertical-align:middle"} and Connect
 
-Posit Connect can send (or suppress) custom Quarto-generated emails when a report or notebook renders
+Create richly-formatted emails as part of your Quarto notebook
 
 
 :::{.columns}
@@ -415,4 +415,8 @@ subject
 
 ![](slide_resources/project_conditional_email_send.png){fig-align="center"}
 
+## {.brackets-green}
 
+:::{.section-title-dark}
+_what's next?_
+:::
