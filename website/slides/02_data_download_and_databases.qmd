@@ -97,10 +97,25 @@ response_body <- response |>
 ## Database Connection Essentials
 
 ::::{.smaller}
-:::{.incremental}
-- Use `{DBI}` to make a connection with `DBI::dbConnect()`
-- The first argument to `{DBI}` is your DBI-compliant R package
+
+::: {.columns}
+::: {.column width=25%}
+
+**2 parts to a database connection:**
+
 :::
+
+::: {.column width=75%}
+1. A driver (on your system or as part of a R package)
+2. A means to interact with the driver (e.g., `{DBI}` package)
+:::
+::: 
+
+
+
+
+
+
 
 ::: {.columns}
 ::: {.column .fragment}

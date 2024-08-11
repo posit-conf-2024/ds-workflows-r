@@ -509,11 +509,15 @@ Databases, and Automation
 <section class="slide level2">
 <h2>Database Connection Essentials</h2>
 <div class="smaller">
-<div>
-<ul>
-<li class="fragment">Use <code>{DBI}</code> to make a connection with <code>DBI::dbConnect()</code></li>
-<li class="fragment">The first argument to <code>{DBI}</code> is your DBI-compliant R package</li>
-</ul>
+<div class="columns">
+<div class="column" style="width:25%;">
+<p><strong>2 parts to a database connection:</strong></p>
+</div><div class="column" style="width:75%;">
+<ol type="1">
+<li>A driver (on your system or as part of a R package)</li>
+<li>A means to interact with the driver (e.g., <code>{DBI}</code> package)</li>
+</ol>
+</div>
 </div>
 <div class="columns">
 <div class="column fragment">
