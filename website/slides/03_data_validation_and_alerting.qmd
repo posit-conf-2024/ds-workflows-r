@@ -328,7 +328,7 @@ cat(
 -   Return to the project `materials/03-data-clean-validate/`
 -   Open the file `03-data-clean-validate.qmd` 
 -   Set the environment variable `CONDITION_OVERRIDE` locally
--   We will work through the entire notebook together 
+-   🛑 We will work through **Task 1** only  
 -   Publish the report to Posit Connect and use the `CONDITION_OVERRIDE` to send yourself the different emails
 :::
 
