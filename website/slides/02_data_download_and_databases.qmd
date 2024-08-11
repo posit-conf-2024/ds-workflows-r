@@ -415,8 +415,6 @@ subject
 
 ![](slide_resources/project_conditional_email_send.png){fig-align="center"}
 
-## {.brackets-green}
+## Where are we
 
-:::{.section-title-dark}
-_what's next?_
-:::
+![](slide_resources/ds-workflows-r-2024.jpg){fig-align="center"}

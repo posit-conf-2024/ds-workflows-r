@@ -7,9 +7,7 @@ execute:
 
 ![](https://github.com/rstudio/pointblank/raw/main/man/figures/logo.svg){.absolute top="200" left="50" width="260"} ![](slide_resources/quarto-icon.svg){.absolute top="200" left="310" height="300"}
 
-## Where are we
 
-![](slide_resources/ds-workflows-r-2024.jpg){fig-align="center"}
 
 ## Section Agenda {.brackets-light}
 
