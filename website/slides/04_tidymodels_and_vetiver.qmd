@@ -313,16 +313,6 @@ Training this model is relatively *fast*
 
     -   Check out a basic model card [here](https://pub.ferryland.posit.team/ferry_model_card_r/)!
 
-## Deploy to Posit Connect {.content-light}
-
-::: {.callout-note icon="false"}
-## Activity
-
--   Open the project `materials/04-tidymodels-vetiver/04-tidymodels-vetiver.Rproj`
--   Open the file `04-tidymodels-vetiver.qmd`
-
-**Publish to Posit Connect using push button deployment!**
-:::
 
 ## Review
 
