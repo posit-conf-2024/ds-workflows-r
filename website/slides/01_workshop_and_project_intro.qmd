@@ -95,7 +95,7 @@ https://posit.co/code-of-conduct/
 
 ::::::: {.columns .center}
 :::: {.column width="50%"}
-::: {style="background: #FB629A; width: 400px; height: 400px; margin: 50px; box-shadow: 10px 25px 25px -9px darkgray; margin-left: auto; margin-right: auto;rotate: 7deg;"}
+::: {style="background: #F79A37; width: 400px; height: 400px; margin: 50px; box-shadow: 10px 25px 25px -9px darkgray; margin-left: auto; margin-right: auto;rotate: 7deg;"}
 :::
 
 "I'm lost / need help"
